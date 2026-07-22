@@ -1,0 +1,36 @@
+model: openai-codex
+label: "OpenAI Codex (CLI/IDE 코딩 에이전트)"
+output_language: follow-target   # 태스크 프롬프트는 대상 코드베이스의 언어 관례를 따름
+
+slots:
+  required:
+    - id: task_goal
+      ask: "Codex가 무엇을 바꾸거나 만들어야 하나요?"
+  optional:
+    - id: mode
+      default: "구현"
+      note: "구현 / 리뷰 / 디버깅 / 리서치 — 붙일 블록이 달라짐"
+    - id: context_refs
+      default: "요청에서 추론"
+      note: "관련 파일 경로, 에러 로그, 문서 — 경로:줄번호 형식 권장"
+    - id: constraints
+      default: "AGENTS.md에 위임"
+      note: "지켜야 할 아키텍처·관례·금지 사항"
+    - id: done_when
+      default: "테스트/빌드 통과 + 요청 동작 확인"
+      note: "완료 기준 — 명시할수록 결과가 예측 가능"
+    - id: reasoning_effort
+      default: "medium"
+      note: "명확한 소작업 low / 복잡한 변경·디버깅 medium~high / 장기 에이전트 작업 xhigh"
+
+cards:
+  - id: task-prompt-4-elements
+    when: "항상 로드 (태스크 프롬프트의 기본 골격)"
+  - id: agents-md
+    when: "AGENTS.md 작성·개선 요청이거나, 프롬프트에 반복 규칙이 들어가려 할 때"
+  - id: xml-block-contracts
+    when: "프로그램적 호출(codex exec, 플러그인 경유)이나 정밀한 출력 계약이 필요할 때"
+  - id: verification-and-review
+    when: "구현·디버깅 태스크(검증 루프) 또는 코드 리뷰 요청일 때"
+  - id: workflow-antipatterns
+    when: "항상 로드 (마무리 점검용 안티패턴 체크리스트)"

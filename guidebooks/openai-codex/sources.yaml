@@ -1,0 +1,12 @@
+model: openai-codex
+sources:
+  - url: https://learn.chatgpt.com/guides/best-practices
+    covers: [task-prompt-4-elements, agents-md, verification-and-review, workflow-antipatterns]
+    fetched: "2026-07-22"
+    note: "developers.openai.com/codex/learn/best-practices 에서 리다이렉트"
+  - url: https://developers.openai.com/cookbook/examples/gpt-5/codex_prompting_guide
+    covers: [task-prompt-4-elements, xml-block-contracts, verification-and-review]
+    fetched: "2026-07-22"
+  - url: local:~/.claude/plugins/marketplaces/openai-codex/plugins/codex/skills/gpt-5-4-prompting/SKILL.md
+    covers: [xml-block-contracts, workflow-antipatterns]
+    note: "references/ 하위에 prompt-blocks, recipes, antipatterns 상세 파일 있음"

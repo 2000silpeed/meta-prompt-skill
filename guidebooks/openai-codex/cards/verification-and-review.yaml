@@ -1,0 +1,18 @@
+id: verification-and-review
+model: openai-codex
+topic: "검증 루프와 코드 리뷰 요청"
+verification: verified   # 2026-07-22 공식 가이드 대조
+rules:
+  - "변경만 요청하지 말고 검증을 함께 지시한다: '테스트 작성/업데이트', '린트·타입체크 실행', '최종 동작 확인', '디프에서 버그·회귀 패턴 검토'."
+  - "리뷰 요청은 우선순위를 명시한다: '버그, 리스크, 동작 회귀, 누락된 테스트를 우선 식별하라. 발견 사항은 파일:줄 참조와 함께 심각도 순으로.'"
+  - "로컬 git 변경 리뷰는 내장 /review(또는 adversarial-review) 명령이 이미 리뷰 계약을 담고 있으므로 그것을 쓴다. 커스텀 기준은 code_review.md로 만들어 AGENTS.md에서 참조."
+  - "느린/아쉬운 응답엔 메타프롬프팅: '이만한 응답에 더 빨리 도달하려면 내 지시를 어떻게 고치면 되는가?'를 물어 지시 개선안을 받는다."
+  - "장기 실행 작업은 1~2문장 진행 보고(preamble)를 요구하고, 다중 턴이 길어지면 compaction을 활용한다."
+template: |
+  {태스크}
+  After implementing: run {테스트/린트/타입체크 명령}, fix failures,
+  verify {최종 동작}, then review your diff for bugs and regressions
+  before finishing.
+pitfalls:
+  - "검증 지시 없는 구현 요청 — '컴파일되면 완료'로 끝난다"
+  - "리뷰 기준 없이 '리뷰해줘' — 스타일 지적만 쏟아진다"

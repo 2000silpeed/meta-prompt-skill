@@ -36,7 +36,8 @@ Claude Code(또는 Gemini CLI)에서 자연어로 부르면 자동 발동됩니�
 
 | ID | 커버리지 | 유형 |
 |---|---|---|
-| `openai-gpt-5` | GPT-5 / 5.1 / 5.5 Sol / 5.5 Terra / Codex | 텍스트 LLM |
+| `openai-gpt-5` | GPT-5 / 5.1 / 5.5 Sol / 5.5 Terra | 텍스트 LLM |
+| `openai-codex` | Codex CLI/IDE (태스크 프롬프트, AGENTS.md) | 코딩 에이전트 |
 | `anthropic-claude` | Opus / Sonnet / Haiku / Fable 5 | 텍스트 LLM |
 | `google-gemini` | Gemini 3.6 Flash / 3.5 Flash / 3.0 Pro | 텍스트 LLM |
 | `google-nano-banana` | 나노바나나2 (Gemini 3.1 Flash Image) / Pro / Lite | 이미지 생성 |

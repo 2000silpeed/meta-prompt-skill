@@ -8,9 +8,17 @@ models:
     label: "OpenAI GPT-5.x / GPT-5.5 (GPT-5 / 5.1 / 5.5 Sol / 5.5 Terra / Codex)"
     type: text-llm
     provider: OpenAI
-    aliases: [gpt, gpt-5, gpt5, gpt-5.1, gpt-5.4, gpt-5.5, gpt-5.5-sol, sol, gpt-5.5-terra, terra, codex, chatgpt, openai]
+    aliases: [gpt, gpt-5, gpt5, gpt-5.1, gpt-5.4, gpt-5.5, gpt-5.5-sol, sol, gpt-5.5-terra, terra, chatgpt, openai]
     last_verified: "2026-07-22"
     verification: verified
+
+  - id: openai-codex
+    label: "OpenAI Codex (CLI/IDE 코딩 에이전트 — 태스크 프롬프트/AGENTS.md)"
+    type: coding-agent
+    provider: OpenAI
+    aliases: [codex, codex-cli, 코덱스, agents-md, agents.md]
+    last_verified: "2026-07-22"
+    verification: verified   # 공식 가이드 2건 + 로컬 플러그인 스킬 대조 완료
 
   - id: anthropic-claude
     label: "Anthropic Claude (Opus / Sonnet / Haiku / Fable / Fable 5)"

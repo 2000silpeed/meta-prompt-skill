@@ -1,0 +1,19 @@
+id: editing-and-references
+model: google-nano-banana
+topic: "이미지 편집·참조 합성·멀티턴 수정"
+verification: verified   # 2026-07-22 공식 가이드 대조
+rules:
+  - "편집은 텍스트가 마스크다(semantic masking): 'Remove the man from the photo'처럼 대상만 지목하고, 유지할 요소를 명시한다 ('keep the background and lighting unchanged')."
+  - "편집 모드는 원본의 스타일·조명·시점을 자동으로 일치시킨다 — 새로 지정하지 말고 유지 여부만 말할 것."
+  - "참조 이미지는 최대 14개. 각 참조의 역할을 관계 지시로 명시: 'Using the attached napkin sketch as the structure and the attached fabric sample as the texture, transform this into a high-fidelity 3D armchair render.'"
+  - "스타일 전이: 스타일 원본 이미지를 첨부하고 'apply the artistic style of the second image to the first' 형식."
+  - "연쇄 수정은 멀티턴으로: API에서는 previous_interaction_id로 직전 결과에 이어서 지시 ('Update the text to Spanish')."
+  - "Flash Lite 변형은 다중 참조·멀티턴 순차 편집에 최적화돼 있지 않음 — 편집 작업엔 3.1 Flash 이상."
+template: |
+  # 편집
+  {지시: add/remove/replace 대상}. Keep {유지할 요소} unchanged.
+  # 다중 참조 합성
+  Using {ref A} as {role}, and {ref B} as {role}, {transform 지시}. {새 장면}.
+pitfalls:
+  - "참조를 첨부하고 역할을 안 주는 것 — 모델이 임의 해석한다"
+  - "편집인데 전체 장면을 다시 서술하는 것 — 바꿀 것과 지킬 것만"

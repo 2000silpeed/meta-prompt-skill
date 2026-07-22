@@ -1,0 +1,24 @@
+id: instruction-precision
+model: openai-gpt-5
+topic: "지시 정밀성 — GPT-5는 지시를 문자 그대로, 수술적으로 따른다"
+verification: verified
+rules:
+  - "GPT-5는 모호하거나 상충하는 지시에 취약하다. 모순된 규칙 두 개가 있으면 조화시키려다 추론 토큰을 낭비하고 품질이 떨어진다. 변환 시 요청 안의 모순을 먼저 제거할 것."
+  - "지시는 스펙처럼 쓴다: 역할 → 목표 → 절차 → 제약 → 출력 형식 순의 명시적 구조."
+  - "우선순위 충돌이 예상되면 명시적 우선순위를 준다 (예: '규칙 A와 B가 충돌하면 A를 따른다')."
+  - "암묵적 기대를 모두 명문화한다. '좋은 요약'이 아니라 '3문장, 수치 포함, 원문에 없는 주장 금지'처럼."
+  - "부정 지시보다 긍정 지시가 잘 작동한다. '~하지 마라' 목록 대신 '~하라'로 재서술."
+template: |
+  # Role
+  You are {role}.
+  # Objective
+  {task_goal}
+  # Instructions
+  {numbered_steps_or_rules}
+  # Constraints
+  {constraints — 충돌 없는 목록, 우선순위 명시}
+  # Output format
+  {output_format}
+pitfalls:
+  - "system prompt와 user prompt에 서로 다른 톤/형식 지시를 두는 것 — 반드시 한쪽으로 통일"
+  - "예시와 지시가 어긋나는 것 — GPT-5는 예시보다 지시를 따르려다 흔들린다"

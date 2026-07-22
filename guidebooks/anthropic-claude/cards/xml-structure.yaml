@@ -1,0 +1,21 @@
+id: xml-structure
+model: anthropic-claude
+topic: "XML 태그 구조화와 롱 컨텍스트 배치"
+verification: knowledge-based
+rules:
+  - "지시·문서·예시·출력형식을 XML 태그로 구분한다: <instructions>, <document>, <example>, <output_format>. Claude는 태그 경계를 잘 존중한다."
+  - "긴 문서(수만 토큰)는 프롬프트 상단에, 질문/지시는 하단에 배치한다. 문서가 여럿이면 <documents><document index=\"1\"><source>...</source><document_contents>...</document_contents></document></documents> 구조."
+  - "긴 문서 기반 작업은 '먼저 관련 인용을 <quotes> 태그로 추출한 뒤 답하라'를 넣으면 근거 접지가 좋아진다."
+  - "태그 이름은 일관되게, 중첩은 얕게. 프롬프트 내 참조는 태그 이름으로 ('<contract>의 3조를 검토')."
+template: |
+  <documents>
+  {입력 문서들 — 상단 배치}
+  </documents>
+
+  <instructions>
+  {task_goal과 지침}
+  </instructions>
+
+  먼저 관련 근거를 <quotes>로 추출한 뒤, <answer>에 결론을 작성하라.
+pitfalls:
+  - "질문을 문서 앞에 두는 것 — 롱 컨텍스트에서 응답 품질이 눈에 띄게 떨어진다"

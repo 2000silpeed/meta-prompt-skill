@@ -1,0 +1,19 @@
+id: structured-output
+model: google-gemini
+topic: "구조화 출력 — responseSchema 우선"
+verification: verified
+rules:
+  - "기계가 파싱할 JSON은 프롬프트 지시가 아니라 responseSchema(+ responseMimeType: application/json)로 강제한다."
+  - "스키마 없이 프롬프트로만 할 경우: 정확한 JSON 예시를 1개 제공하고 '이 구조 외 텍스트 금지'를 명시."
+  - "필드 설명을 스키마의 description에 넣는다 — 프롬프트 본문보다 필드 정의 옆이 효과적."
+  - "enum으로 제한 가능한 필드는 enum으로 잠근다 (분류 태스크의 라벨 등)."
+template: |
+  # 프롬프트 본문
+  {task_goal}
+  결과는 지정된 스키마의 JSON으로만 출력하라.
+
+  # API 설정 권고
+  responseMimeType: application/json
+  responseSchema: {필드별 type/description/enum 정의}
+pitfalls:
+  - "프롬프트로만 JSON을 강제하고 마크다운 코드펜스가 섞여 나오는 것 — 스키마 기능을 쓸 것"

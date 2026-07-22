@@ -1,0 +1,18 @@
+id: at-reference-system
+model: bytedance-seedance-2
+topic: "@ 참조 시스템 — 자산별 역할 지정 (Seedance 프롬프트의 핵심)"
+verification: knowledge-based
+rules:
+  - "입력 제한: 이미지 ≤9(각 30MB), 영상 ≤3(각 50MB, 합산 2~15초), 오디오 ≤3(각 15MB, 합산 ≤15초), 총 파일 ≤12."
+  - "실사 인물 얼굴이 담긴 이미지/영상은 업로드 차단됨 — 프롬프트 설계 시 배제."
+  - "모든 업로드 자산은 @Image1, @Video1, @Audio1 형식으로 참조하고, 각각의 역할을 반드시 명시한다."
+  - "역할 문법: 'as the first/last frame', '@Image1's character as the subject', 'reference @Video1's camera movement', 'BGM references @Audio1', 'scene references @Image3', 'wearing the outfit from @Image2' 등."
+  - "'reference @Video1'처럼 무엇을 참조할지 없는 지정은 금지 — camera/action/effects/rhythm/voice 중 명시."
+  - "여러 참조는 한 프롬프트에 조합 가능하되, 업로드한 모든 자산에 역할이 있어야 한다."
+template: |
+  @Image1's character as the subject, scene references @Image2,
+  reference @Video1's camera movement and action choreography,
+  BGM references @Audio1. {이후 본문}
+pitfalls:
+  - "자산을 올려놓고 프롬프트에서 언급하지 않는 것 — 모델이 임의로 사용하거나 무시한다"
+  - "참조 영상 사용 시 생성 비용이 다소 증가함을 사용자에게 고지"

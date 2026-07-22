@@ -1,0 +1,84 @@
+---
+name: meta-prompt
+description: 타깃 AI 모델(GPT/Codex, Claude, Gemini, Seedance, Higgsfield 등)별 프롬프트 가이드북에 맞춰 사용자의 요청을 최적화된 프롬프트로 변환·생성한다. 트리거 — "○○용 프롬프트 만들어줘", "프롬프트 최적화해줘", "이 요청을 ○○ 프롬프트로 바꿔줘", "프롬프트 잘 써줘", "meta-prompt". 서브커맨드 — "/meta-prompt refresh <model>"(가이드북 갱신), "/meta-prompt add <model>"(새 모델 추가). 단순 문장 윤문이나 한글 자연화는 humanize-korean 소관.
+---
+
+# meta-prompt: 모델별 가이드북 기반 프롬프트 변환기
+
+가이드북 루트: `/Users/sungwoon/ai-projects/meta-prompt-skill/guidebooks/`
+(이하 `$GB`. 설계 배경: 같은 레포의 `PLAN.md`)
+
+## 핵심 원칙
+
+- **토큰 절약 — 3단 점진 로딩을 엄수한다.** ①`$GB/registry.yaml`(항상) → ②해당 모델의 `index.yaml`(변환 시) → ③index의 `when` 조건에 맞는 카드 파일만 선별 로드. 모델 디렉토리 전체를 읽지 않는다.
+- **가이드북에 없는 지식으로 임의 변환하지 않는다.** 카드가 다루지 않는 영역은 일반 프롬프트 원칙으로 채우되, 그 사실을 산출물 해설에 명시한다.
+
+## 변환 플로우
+
+### 1. 타깃 모델 감지 (사다리 순서대로)
+
+0. **환경 자체 감지**: 요청이 "지금 이 세션"용이면 현재 Claude 모델이 타깃. 세션에 연결된 실행 도구(Higgsfield MCP, codex 등)가 요청 내용과 맞으면 그 모델을 후보로.
+1. **사용자 명시**: 모델명이 있으면 registry의 `aliases`로 매칭.
+2. **맥락 추론**: 요청 성격으로 추론하되(영상 → media 타입 모델 등), 추론했음을 반드시 명시: "○○ 모델 기준으로 변환합니다. 다른 모델이면 알려주세요."
+3. **질문**: 모호하면 registry의 모델 목록을 AskUserQuestion으로 제시.
+
+### 2. 가이드북 로드 + 신선도 확인
+
+- `$GB/registry.yaml`에서 모델 확인. `last_verified`가 `staleness_days`(30일)를 넘었으면 **경고만** 한다: "이 가이드북은 N일 전 검증본입니다. `/meta-prompt refresh <model>`로 갱신할 수 있습니다." 차단하지 않는다.
+- `verification: knowledge-based`면 "공식 가이드 대조 전 초안" 상태임을 함께 표기.
+- `$GB/<model-id>/index.yaml`을 읽고, `when` 조건이 요청에 해당하는 카드만 로드.
+
+### 3. 슬롯 확인 → 컨텍스트 보강
+
+- index의 `slots.required` 중 사용자 요청에서 채울 수 없는 것만 모아 **AskUserQuestion 1라운드**로 질문 (요청에서 추론 가능하면 묻지 않는다).
+- `slots.optional`은 `default`로 채우고, 채운 가정을 산출물에 명시한다.
+
+### 4. 변환
+
+로드한 카드의 rules/template/pitfalls에 따라 사용자 요청을 프롬프트로 재작성한다.
+
+- 언어는 index의 `output_language`를 따른다 (`english-prompt`: 프롬프트 영어 + 해설 한국어 / `follow-target`: 프롬프트의 용도 언어).
+- 카드의 pitfalls를 체크리스트로 최종 점검한다.
+
+### 5. 산출
+
+```
+[변환된 프롬프트 — 코드블록]
+
+**적용 규칙**: 사용한 카드와 핵심 결정 2~3줄
+**가정**: optional 슬롯을 기본값으로 채운 목록 (없으면 생략)
+```
+
+API 파라미터 권고가 있는 카드(reasoning_effort, temperature, responseSchema 등)면 프롬프트 아래 별도로 표기.
+
+### 6. 실행 제안 (전달 기본 + 확인 후 실행)
+
+세션에 타깃 모델의 실행 경로가 있을 때만 제안한다:
+
+- Higgsfield MCP 도구 (generate_image/video 등) → **크레딧 소모를 명시**하고 실행 여부 질문
+- codex CLI → 비용 고지 후 질문
+- 현재 Claude 세션이 타깃 → "이 프롬프트로 바로 진행할까요?"
+
+과금이 걸린 실행은 사용자가 확인한 경우에만. 실행 경로가 없으면 프롬프트 전달로 종료.
+
+## 서브커맨드
+
+### `/meta-prompt refresh <model>`
+
+1. `$GB/<model-id>/sources.yaml`의 URL을 WebFetch로 수집 (`local:` 접두 소스는 Read).
+2. 기존 카드와 대조해 **변경된 카드만** 수정. 새 주제가 생겼으면 카드 추가를 제안.
+3. registry의 `last_verified`를 오늘로, `verification: verified`로 갱신.
+4. 변경 요약을 보고 (변경 없음이면 "변경 없음, 검증일만 갱신").
+
+### `/meta-prompt add <model>`
+
+1. 사용자에게 공식 프롬프팅 가이드 URL을 확인 (모르면 WebSearch로 후보 제시).
+2. `$GB/<model-id>/` 생성: `sources.yaml` → 수집 → 카드 증류(주제당 1카드, 간결하게) → `index.yaml`(카드 `when` + 슬롯 정의).
+3. registry에 모델 등록 (aliases 포함).
+4. 카드 초안을 사용자 검토받고 확정.
+
+## 하지 않는 것
+
+- 카드 없이 장문의 일반론 프롬프트 강의를 하지 않는다.
+- 요청받지 않은 모델로의 동시 변환을 하지 않는다 (요청 시에만 비교 제공).
+- refresh를 자동으로 실행하지 않는다 (경고까지만).

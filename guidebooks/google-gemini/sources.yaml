@@ -1,0 +1,10 @@
+model: google-gemini
+sources:
+  - url: https://ai.google.dev/gemini-api/docs/prompting-strategies
+    covers: [structure-pctf, iteration-parameters, structured-output]
+  - url: https://cloud.google.com/vertex-ai/generative-ai/docs/learn/prompts/introduction-prompt-design
+    covers: [structure-pctf]
+  - url: https://ai.google.dev/gemini-api/docs/long-context
+    covers: [long-context-multimodal]
+  - url: https://ai.google.dev/gemini-api/docs/structured-output
+    covers: [structured-output]

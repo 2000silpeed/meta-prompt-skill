@@ -1,0 +1,16 @@
+id: consistency-references
+model: higgsfield
+topic: "캐릭터·스타일 일관성과 참조 자산"
+verification: knowledge-based
+rules:
+  - "시리즈물(여러 컷/샷)은 캐릭터 참조 자산(character/reference element)을 먼저 만들고 모든 샷에서 같은 참조를 지정한다."
+  - "참조 없이 텍스트만으로 일관성을 유지하려면 캐릭터 시트형 서술을 고정 문구로 재사용: 이름+외모 핵심 5요소(얼굴형, 헤어, 의상, 체형, 시그니처 소품)를 모든 프롬프트에 동일하게."
+  - "스타일 일관성은 마스터 스타일 문구를 하나 정해 전 샷에 동일 적용 (드라마 스토리보드의 master style inheritance 패턴)."
+  - "로컬 미디어를 참조로 쓰려면 업로드 절차(media_upload)가 선행돼야 함을 사용자에게 고지."
+template: |
+  # 캐릭터 고정 문구 (모든 샷에 동일 삽입)
+  {NAME}: {face}, {hair}, {outfit}, {build}, {signature prop}.
+  # 마스터 스타일 (모든 샷에 동일 삽입)
+  Style: {master style phrase}.
+pitfalls:
+  - "샷마다 캐릭터 서술을 조금씩 바꾸는 것 — 다른 인물이 나온다"

@@ -1,0 +1,17 @@
+id: thinking-and-cot
+model: anthropic-claude
+topic: "사고 유도 — extended thinking과 chain-of-thought"
+verification: knowledge-based
+rules:
+  - "다단계 추론 작업은 extended thinking을 켜는 것이 프롬프트 CoT보다 우선. 프롬프트에는 '무엇을 고려해서 생각할지'(고려 요소)를 준다."
+  - "thinking 미사용 환경에서는 '답하기 전에 <thinking> 태그 안에서 단계별로 분석하라'를 명시하고, 최종 출력과 분리한다."
+  - "고려 순서를 지정하면 품질이 오른다: '먼저 A를 평가하고, 다음 B와 비교한 뒤, 결론을 내라.'"
+  - "툴 사용 사이 반성(interleaved thinking)이 가능한 환경이면 '각 툴 결과를 받은 뒤 계획을 재평가하라'를 넣는다."
+template: |
+  답하기 전에 다음을 순서대로 검토하라:
+  1. {고려 요소 A}
+  2. {고려 요소 B}
+  3. {상충 시 우선순위}
+  검토는 <thinking>에, 최종 답은 <answer>에 작성하라.
+pitfalls:
+  - "'생각해봐'라고만 하는 것 — 무엇을 기준으로 생각할지 없으면 효과가 적다"

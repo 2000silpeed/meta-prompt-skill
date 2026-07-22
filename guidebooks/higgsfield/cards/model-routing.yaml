@@ -1,0 +1,15 @@
+id: model-routing
+model: higgsfield
+topic: "모델·툴 라우팅 — 생성 전에 올바른 경로부터"
+verification: knowledge-based
+rules:
+  - "Higgsfield는 단일 모델이 아니라 멀티모델 플랫폼. 어떤 생성 모델을 쓸지 모호하면 models_explore(action:'recommend')에 목표를 넘겨 추천받는 흐름을 프롬프트에 선행시킨다."
+  - "기존 자산의 '편집'은 재생성이 아니라 전용 툴로: upscale_image/video(해상도), outpaint_image(확장), reframe(비율 변경), remove_background(배경 제거), motion_control(모션 전이). 프롬프트 변환 전에 요청이 생성인지 편집인지 먼저 분류."
+  - "서사형 영상(내레이션 설명영상, 광고, UGC, 팟캐스트 등)은 단발 프롬프트가 아니라 workflow 카탈로그(get_workflow_instructions) 경유가 정답."
+  - "게임 제작은 get_game_creation_instructions 선행."
+routing_table:
+  generate: "generate_image / generate_video / generate_audio / generate_3d"
+  edit: "upscale / outpaint / reframe / remove_background / motion_control"
+  narrative_video: "get_workflow_instructions → 해당 워크플로우"
+pitfalls:
+  - "업스케일이면 될 것을 재생성 프롬프트로 만드는 것 — 비용 낭비 + 원본 유실"

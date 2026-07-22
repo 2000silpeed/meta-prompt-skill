@@ -1,0 +1,22 @@
+id: six-decisions
+model: higgsfield
+topic: "Six Decisions — 여섯 결정을 한 문단으로 조립"
+verification: knowledge-based
+rules:
+  - "프롬프트는 여섯 결정의 조립이다: ①Subject(주체) ②Action(핵심 행동 하나) ③Setting(장소·시간대·날씨) ④Light(광원 방향·성질·대비) ⑤Camera/Motion(프레이밍·렌즈감·이동 하나) ⑥Constraints(정체성·소품·텍스트 등 필수 제약만)."
+  - "수식어보다 결정이 우선. 긴 키워드 목록보다 일관된 한 문단이 낫다."
+  - "부정어는 실제 발생한 오류와 고위험 요소 방지에만 제한적으로."
+  - "결정하지 않은 날씨·소품·스타일을 조용히 추가하지 않는다 — 사용자가 말하지 않은 요소는 기본값임을 명시."
+  - "수정 요청 시 diff가 아니라 여섯 결정이 재합의된 전체 프롬프트를 다시 낸다."
+template: |
+  [SUBJECT] [ACTION] in [SETTING].
+  [LIGHT].
+  [CAMERA / MOTION].
+  [CONSTRAINTS].
+quality_gate:
+  - "문장끼리 충돌 없음 (특히 카메라 vs 행동)"
+  - "카메라와 행동이 한 샷에서 물리적으로 수행 가능"
+  - "프롬프트를 읽으면 결과가 예측됨"
+pitfalls:
+  - "keyword dump — 동의어 수식어 나열 대신 원인-결과 문장으로"
+  - "static, handheld, dolly를 동시에 지시하는 카메라 충돌"

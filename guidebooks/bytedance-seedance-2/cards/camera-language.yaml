@@ -1,0 +1,16 @@
+id: camera-language
+model: bytedance-seedance-2
+topic: "카메라 언어 — 정확한 용어로 지시"
+verification: knowledge-based
+rules:
+  - "기본 무빙: push in / pull back / pan left·right / tilt up·down / track·follow shot / orbit / one-take(oner)."
+  - "고급 기법: Hitchcock zoom(dolly zoom), fisheye, low/high angle, bird's eye, first-person POV, whip pan, crane shot."
+  - "샷 사이즈: extreme close-up / close-up / medium close-up / medium shot / full shot / wide·establishing shot."
+  - "한 구간에 카메라 지시는 하나만 — static과 orbit을 같은 구간에 쓰는 식의 충돌 금지."
+  - "참조 영상의 카메라를 따올 땐 'completely reference @Video1's camera movement'로 명시."
+example: |
+  Close-up on her face — she takes a deep breath. Slow push in,
+  then Hitchcock zoom at the moment of realization. Follow shot
+  as she walks out; wide establishing shot of the city at the end.
+pitfalls:
+  - "'멋진 카메라 워크' 같은 모호한 지시 — 반드시 위 용어로 번역해서 넣을 것"

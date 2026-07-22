@@ -1,0 +1,17 @@
+id: image-video-prompt
+model: higgsfield
+topic: "이미지/영상 프롬프트 작성 디테일"
+verification: knowledge-based
+rules:
+  - "이미지: Six Decisions 중 Action을 '포즈/순간'으로 치환. 렌즈감(35mm, 85mm portrait, macro)과 조명(golden hour, rim light, soft window light) 어휘가 품질을 좌우."
+  - "영상: 지속시간 내 수행 가능한 단일 행동 + 단일 카메라 무빙. 복잡한 서사는 샷을 나눠 각각 생성."
+  - "스타일은 참조 가능한 구체어로: 'A24 indie film look', 'Kodak Portra 400', 'Studio Ghibli' 등. '예쁘게' 류 금지."
+  - "텍스트가 프레임에 필요하면 정확한 문자열과 위치를 Constraints에 명시."
+  - "대사/립싱크가 필요한 영상은 speak/talking 계열 기능 여부를 먼저 확인하고 대사를 따옴표로 제공."
+template: |
+  {SUBJECT with concrete visual detail} {ACTION/pose} in {SETTING}.
+  {LIGHT — direction, quality, contrast}.
+  {CAMERA — shot size, lens feel, single motion}.
+  Style: {concrete reference style}. {CONSTRAINTS}.
+pitfalls:
+  - "한 영상 프롬프트에 3개 이상의 장면 전환을 넣는 것 — 샷 분할로 해결"

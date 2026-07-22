@@ -1,0 +1,16 @@
+id: photography-direction
+model: google-nano-banana
+topic: "크리에이티브 디렉터 프롬프팅 — 조명·렌즈·그레이딩"
+verification: verified   # 2026-07-22 공식 가이드 대조
+rules:
+  - "조명을 설계한다: 'three-point softbox setup'(제품), 'chiaroscuro high-contrast shadows'(드라마), 'golden hour backlight'(따뜻함)."
+  - "카메라·렌즈·초점 공식: [Hardware] + [Lens type] + [Focus/DoF]. 예: 'shot on a GoPro', 'wide-angle lens', 'low-angle shot with shallow depth of field (f/1.8)', 'macro lens'."
+  - "색 그레이딩·필름 스톡으로 무드를 고정: '1980s color film, slightly grainy', 'cinematic color grading with muted teal tones'."
+  - "제품 목업은 조명 + 카메라 각도를 상세히: 'three-point softbox setup, slightly elevated 45-degree shot'."
+  - "미니멀 구도는 배치와 여백을 명시: 'positioned in the bottom-right, vast empty off-white canvas'."
+  - "스타일화 일러스트는 아트 스타일+시각 특성 명명: 'kawaii-style sticker, bold clean outlines, simple cel-shading'."
+template: |
+  {Subject/product}. {Lighting setup}. {Camera hardware/angle} with
+  {lens, DoF}. {Color grading / film stock}.
+pitfalls:
+  - "'고퀄리티로', '예쁘게' 류의 비사진적 수식어 — 조명·렌즈·그레이딩 용어로 번역할 것"

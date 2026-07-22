@@ -1,0 +1,33 @@
+model: openai-gpt-5
+label: "OpenAI GPT-5.x"
+output_language: follow-target   # 프롬프트 언어는 타깃 용도를 따름 (해설은 한국어)
+
+slots:
+  required:
+    - id: task_goal
+      ask: "이 프롬프트로 모델이 정확히 무엇을 해내야 하나요?"
+  optional:
+    - id: deployment
+      default: "단발 대화형 호출"
+      note: "시스템 프롬프트용 / 에이전트 루프용 / 단발 호출용 구분"
+    - id: input_description
+      default: "사용자 요청에서 추론"
+      note: "모델이 받게 될 입력 데이터의 형태"
+    - id: output_format
+      default: "자유 산문"
+      note: "JSON, 마크다운, 코드 등 요구 형식"
+    - id: constraints
+      default: "없음"
+      note: "금지 사항, 길이 제한, 톤"
+
+cards:
+  - id: instruction-precision
+    when: "항상 로드 (모든 GPT-5.x 변환의 기본)"
+  - id: agentic-eagerness
+    when: "에이전트 루프, 툴 호출, 자율 작업용 프롬프트일 때"
+  - id: tool-preambles-planning
+    when: "툴을 쓰는 장시간 작업에서 진행 상황 보고·계획 수립이 필요할 때"
+  - id: output-verbosity-format
+    when: "출력 길이·형식(JSON/마크다운/코드) 제어가 중요할 때"
+  - id: coding-agent
+    when: "코딩 작업용 프롬프트(Codex 포함)일 때"

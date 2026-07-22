@@ -1,0 +1,26 @@
+model: google-gemini
+label: "Google Gemini"
+output_language: follow-target
+
+slots:
+  required:
+    - id: task_goal
+      ask: "이 프롬프트로 모델이 정확히 무엇을 해내야 하나요?"
+  optional:
+    - id: input_description
+      default: "사용자 요청에서 추론"
+      note: "멀티모달 입력(이미지/영상/PDF) 여부가 중요"
+    - id: output_format
+      default: "자유 산문"
+    - id: audience_tone
+      default: "일반"
+
+cards:
+  - id: structure-pctf
+    when: "항상 로드 (모든 Gemini 변환의 기본)"
+  - id: long-context-multimodal
+    when: "긴 문서(수십만 토큰) 또는 이미지/영상/오디오/PDF 입력이 있을 때"
+  - id: structured-output
+    when: "JSON 등 기계가 파싱할 출력이 필요할 때"
+  - id: iteration-parameters
+    when: "결과가 불안정하거나 파라미터 튜닝 여지가 있을 때"

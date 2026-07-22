@@ -1,0 +1,33 @@
+model: higgsfield
+label: "Higgsfield (이미지/영상 생성 플랫폼)"
+output_language: english-prompt   # 프롬프트는 영어, 해설은 한국어
+
+slots:
+  required:
+    - id: deliverable
+      ask: "이미지인가요, 영상인가요? (또는 3D/오디오)"
+    - id: subject
+      ask: "프레임의 주체는 누구/무엇인가요?"
+  optional:
+    - id: setting
+      default: "subject에서 추론"
+      note: "장소, 시간대, 날씨"
+    - id: light
+      default: "장면 무드에 맞게 결정"
+    - id: camera_motion
+      default: "정적 구도(이미지) / 내용에 맞는 단일 무빙(영상)"
+    - id: style_mood
+      default: "cinematic"
+    - id: references
+      default: "없음"
+      note: "캐릭터/스타일 참조 자산 보유 여부"
+
+cards:
+  - id: six-decisions
+    when: "항상 로드 (프롬프트 조립의 기본 프레임)"
+  - id: model-routing
+    when: "항상 로드 (생성이 아니라 편집이면 전용 툴로 보내야 하므로)"
+  - id: image-video-prompt
+    when: "이미지 또는 영상 생성 프롬프트를 실제로 작성할 때"
+  - id: consistency-references
+    when: "캐릭터/스타일 일관성이 필요하거나 참조 자산이 있을 때"

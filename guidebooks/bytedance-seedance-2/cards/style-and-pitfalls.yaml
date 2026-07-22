@@ -1,0 +1,17 @@
+id: style-and-pitfalls
+model: bytedance-seedance-2
+topic: "스타일 수식어와 마무리 점검"
+verification: knowledge-based
+rules:
+  - "비주얼: 'cinematic quality, film grain, shallow depth of field', '2.35:1 widescreen, 24fps', 'ink wash painting / anime / photorealistic', 'high saturation neon, cool-warm contrast'."
+  - "무드: 'tense and suspenseful', 'warm and healing', 'epic and grand', 'documentary tone'."
+  - "오디오: 'BGM: grand and majestic', 'sound effects: footsteps, crowd noise', 'beat-synced transitions'. 오디오 지시를 생략하지 말 것 — 품질 체감이 크게 달라진다."
+final_checklist:
+  - "총 파일 ≤12, 실사 얼굴 없음"
+  - "모든 @자산에 구체적 역할 지정"
+  - "구간별 카메라 지시 충돌 없음"
+  - "프롬프트 복잡도가 선택한 생성 길이에 맞음"
+  - "오디오 방향 포함"
+pitfalls:
+  - "동일 의미 수식어 중복(keyword dump) — 원인-결과가 있는 문장으로 연결"
+  - "오디오 지시 생략"

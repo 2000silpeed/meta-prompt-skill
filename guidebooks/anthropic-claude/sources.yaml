@@ -1,0 +1,10 @@
+model: anthropic-claude
+sources:
+  - url: https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/overview
+    covers: [explicit-instructions, multishot-examples, thinking-and-cot]
+  - url: https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/claude-4-best-practices
+    covers: [explicit-instructions, system-role-tools]
+  - url: https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/use-xml-tags
+    covers: [xml-structure]
+  - url: https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/long-context-tips
+    covers: [xml-structure]

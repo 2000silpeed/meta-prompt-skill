@@ -1,0 +1,23 @@
+id: structure-pctf
+model: google-gemini
+topic: "PCTF 구조 — Persona, Context, Task, Format"
+verification: verified
+rules:
+  - "Gemini 프롬프트는 Persona(역할) / Context(배경·입력) / Task(할 일) / Format(출력 형식) 네 요소를 명시적으로 갖출 때 안정적이다."
+  - "Task는 동사로 시작하는 명확한 명령으로: 'Summarize...', 'Classify...', '분석하라'."
+  - "제약은 부정형 대신 긍정형으로: '전문용어를 쓰지 마라'보다 '중학생이 이해할 수 있는 어휘로'."
+  - "few-shot 예시를 넣을 땐 입력/출력 라벨 형식을 일관되게 (Input:/Output: 또는 XML). Gemini는 예시의 패턴을 강하게 따른다."
+  - "완성 유도 방식(문장 앞부분을 주고 잇게 하기)도 잘 작동한다 — 분류·변환 태스크에서 유용."
+template: |
+  {Persona: 당신은 …이다}
+
+  Context:
+  {배경 정보, 입력 데이터}
+
+  Task:
+  {동사로 시작하는 명확한 지시}
+
+  Format:
+  {출력 구조, 길이, 어조}
+pitfalls:
+  - "역할·배경·지시·형식이 한 문단에 섞인 프롬프트 — Gemini는 구조가 흐리면 지시 일부를 놓친다"

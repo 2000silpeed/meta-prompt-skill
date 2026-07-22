@@ -1,0 +1,8 @@
+model: bytedance-seedance-2
+sources:
+  - url: https://github.com/dexhunter/seedance2-skill
+    covers: [at-reference-system, prompt-structure-timing, camera-language, capability-patterns, style-and-pitfalls]
+    note: "로컬 사본: ~/.claude/skills/seedance-prompt-en/SKILL.md (카드 증류의 1차 원본)"
+  - url: https://jimeng.jianying.com
+    covers: [at-reference-system]
+    note: "즉몽 공식 — 입력 제한·해상도 스펙 변경 여부를 refresh 시 확인"

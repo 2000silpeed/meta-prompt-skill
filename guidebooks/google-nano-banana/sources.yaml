@@ -1,0 +1,8 @@
+model: google-nano-banana
+sources:
+  - url: https://cloud.google.com/blog/products/ai-machine-learning/ultimate-prompting-guide-for-nano-banana
+    covers: [prompt-structure, editing-and-references, text-rendering, photography-direction, grounding-and-specs]
+    fetched: "2026-07-22"
+  - url: https://ai.google.dev/gemini-api/docs/interactions/image-generation
+    covers: [editing-and-references, text-rendering, grounding-and-specs]
+    fetched: "2026-07-22"

@@ -1,0 +1,24 @@
+id: prompt-structure
+model: google-nano-banana
+topic: "프롬프트 조립 공식과 서술 원칙"
+verification: verified   # 2026-07-22 공식 가이드 대조
+rules:
+  - "기본 공식: [Subject] + [Action] + [Location/context] + [Composition] + [Style]. 참조 이미지가 있으면 [Reference images] + [Relationship instruction] + [New scenario]."
+  - "키워드 나열이 아니라 서사적 장면 묘사로 쓴다. Gemini 3 계열은 추론 모델이라 문장 맥락을 깊게 이해한다."
+  - "부정문 금지 — 긍정 표현으로 치환: 'no cars' 대신 'empty street'."
+  - "강한 동사로 시작한다 (Create, Transform, Render, Generate)."
+  - "구체성이 품질을 좌우: 'a woman in a red dress'가 아니라 'a young woman in a red dress running through a park'처럼 피사체·행동·맥락을 명시."
+  - "재질을 명명한다: 'suit jacket' 대신 'navy blue tweed', 'armor' 대신 'ornate elven plate armor, etched with silver leaf patterns'."
+  - "한 번에 완성하려 하지 말고 대화식 후속 프롬프트로 반복 개선한다 (멀티턴 편집 지원)."
+template: |
+  {Strong verb} {Subject with material/detail} {Action} in {Location/context}.
+  {Composition — shot size, framing}. {Style — medium, film stock, mood}.
+example: |
+  A striking fashion model wearing a tailored brown dress, sleek boots,
+  and holding a structured handbag. Posing with a confident, statuesque
+  stance, slightly turned. A seamless, deep cherry red studio backdrop.
+  Medium-full shot, center-framed. Fashion magazine style editorial,
+  shot on medium-format analog film, pronounced grain, cinematic lighting.
+pitfalls:
+  - "'no ~', 'without ~' 부정 지시 — 원하는 상태를 긍정문으로"
+  - "쉼표로 끊긴 키워드 덤프 — 문장으로 연결할 것"

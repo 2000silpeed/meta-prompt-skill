@@ -1,0 +1,38 @@
+model: google-nano-banana
+label: "Google Nano Banana (Gemini 3.x Image)"
+output_language: english-prompt   # 프롬프트는 영어, 해설은 한국어. 프레임 내 텍스트는 원하는 언어 그대로
+
+slots:
+  required:
+    - id: image_goal
+      ask: "어떤 이미지인가요? (피사체 + 용도: 광고, 포스터, 목업, 스티커, 만화 등)"
+  optional:
+    - id: mode
+      default: "신규 생성"
+      note: "신규 생성 / 기존 이미지 편집 / 다중 참조 합성 — 편집이면 editing 카드 필수"
+    - id: aspect_resolution
+      default: "1:1, 1K"
+      note: "비율 1:1~21:9(+1:4, 4:1, 1:8, 8:1), 해상도 0.5K~4K"
+    - id: style
+      default: "photorealistic"
+    - id: text_in_image
+      default: "없음"
+      note: "프레임 내 텍스트가 있으면 text-rendering 카드 필수"
+    - id: references
+      default: "없음"
+      note: "참조 이미지 최대 14개"
+    - id: model_variant
+      default: "gemini-3.1-flash-image"
+      note: "품질 최우선이면 gemini-3-pro-image, 속도/비용이면 flash-lite"
+
+cards:
+  - id: prompt-structure
+    when: "항상 로드 (조립 공식과 서술 원칙)"
+  - id: editing-and-references
+    when: "기존 이미지 편집, 참조 이미지 합성, 멀티턴 수정일 때"
+  - id: text-rendering
+    when: "프레임 안에 텍스트(로고, 문구, 인포그래픽)가 필요할 때"
+  - id: photography-direction
+    when: "포토리얼/제품샷/시네마틱 등 사진적 완성도가 중요할 때"
+  - id: grounding-and-specs
+    when: "실시간 정보 반영이 필요하거나 모델 변형·해상도·비율 선택이 쟁점일 때"

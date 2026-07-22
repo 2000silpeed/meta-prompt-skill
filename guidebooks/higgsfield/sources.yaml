@@ -1,0 +1,11 @@
+model: higgsfield
+sources:
+  - url: https://higgsfield.ai
+    covers: [model-routing, image-video-prompt]
+    note: "공식 문서 — refresh 시 모델 라인업·워크플로우 카탈로그 변경 확인"
+  - url: local:/Users/sungwoon/ai-projects/higgsfield_ai_filmmaking_skillset/03-prompt-assembly/SKILL.md
+    covers: [six-decisions]
+    note: "로컬 필름메이킹 스킬셋 — Six Decisions 프레임 원본"
+  - url: local:claude.ai-higgsfield-mcp-instructions
+    covers: [model-routing]
+    note: "Claude 세션의 힉스필드 MCP 지침 (models_explore, 전용 편집 툴, workflow 카탈로그)"

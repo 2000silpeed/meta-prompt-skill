@@ -1,0 +1,17 @@
+id: iteration-parameters
+model: google-gemini
+topic: "반복 개선과 파라미터"
+verification: knowledge-based
+rules:
+  - "결과가 불안정하면 표현을 바꿔 재시도: 동의어 교체, 유사 태스크로 재프레이밍(분류→완성 유도), 순서 변경이 유효한 개선 수단."
+  - "결정적 작업(분류, 추출)은 temperature 0 부근, 창의 작업은 0.7 이상을 권고. 프롬프트와 파라미터를 함께 제시할 것."
+  - "fallback 응답이 반복되면 temperature를 올려본다."
+  - "프롬프트가 길어질수록 지시 반복이 유효하다: 핵심 제약을 시작과 끝에 한 번씩."
+template: |
+  {프롬프트 본문}
+
+  # 권고 파라미터
+  temperature: {태스크 성격에 따라}
+  topP: 기본값 유지
+pitfalls:
+  - "프롬프트만 고치고 파라미터를 방치 — 불안정성의 절반은 샘플링 설정 문제"

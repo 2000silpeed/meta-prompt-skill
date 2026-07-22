@@ -1,0 +1,33 @@
+model: bytedance-seedance-2
+label: "Jimeng Seedance 2.0"
+output_language: english-prompt   # 프롬프트는 영어, 해설은 한국어
+
+slots:
+  required:
+    - id: video_goal
+      ask: "어떤 영상인가요? (장르/용도: 광고, 드라마, MV, 교육 등 + 핵심 내용 한 줄)"
+  optional:
+    - id: assets
+      default: "없음 (순수 텍스트 생성)"
+      note: "보유한 참조 이미지/영상/오디오 목록 — @ 시스템 설계에 필수"
+    - id: duration
+      default: "5~10초"
+      note: "4~15초. 10초 이상이면 시간 분할 프롬프트 적용"
+    - id: camera
+      default: "내용에 맞게 카드에서 선택"
+    - id: style_mood
+      default: "cinematic"
+    - id: audio
+      default: "자동 생성 BGM/효과음에 방향만 지시"
+
+cards:
+  - id: at-reference-system
+    when: "항상 로드 (참조 자산이 없어도 입력 제한·구조 확인용)"
+  - id: prompt-structure-timing
+    when: "항상 로드 (프롬프트 조립 공식)"
+  - id: camera-language
+    when: "카메라 워크 지정이 필요할 때 (대부분의 경우)"
+  - id: capability-patterns
+    when: "영상 연장, 편집, 비트매칭, 대사, 캐릭터 일관성 등 특수 기능을 쓸 때"
+  - id: style-and-pitfalls
+    when: "항상 로드 (마무리 점검용 — 스타일 수식어와 흔한 실수)"

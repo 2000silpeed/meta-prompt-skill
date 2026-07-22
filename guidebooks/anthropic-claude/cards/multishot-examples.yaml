@@ -1,0 +1,22 @@
+id: multishot-examples
+model: anthropic-claude
+topic: "멀티샷 예시 — 형식과 스타일은 예시로 가르친다"
+verification: knowledge-based
+rules:
+  - "형식·스타일·판단 기준의 일관성이 중요하면 3~5개의 다양한 예시를 <example> 태그로 제공한다."
+  - "예시는 지시와 완전히 일치해야 한다. 예시가 지시와 어긋나면 Claude는 예시 쪽으로 끌려간다."
+  - "엣지 케이스를 예시에 포함한다 (빈 입력, 애매한 입력에 대한 올바른 처리)."
+  - "예시가 하나뿐이면 과적합 위험 — 그 예시의 우연한 특징(길이, 소재)까지 모방한다."
+template: |
+  <examples>
+  <example>
+  입력: {대표 케이스}
+  출력: {정확히 원하는 형태}
+  </example>
+  <example>
+  입력: {엣지 케이스}
+  출력: {올바른 처리}
+  </example>
+  </examples>
+pitfalls:
+  - "예시 없이 복잡한 출력 형식을 산문으로만 설명하는 것 — 예시 1개가 설명 10줄보다 낫다"

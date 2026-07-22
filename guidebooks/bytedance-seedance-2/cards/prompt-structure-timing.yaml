@@ -1,0 +1,20 @@
+id: prompt-structure-timing
+model: bytedance-seedance-2
+topic: "프롬프트 조립 공식과 시간 분할"
+verification: knowledge-based
+rules:
+  - "기본 공식: [주체/캐릭터 설정] + [장면/환경] + [행동/모션] + [카메라 워크] + [타이밍 분할] + [전환/효과] + [오디오/사운드] + [스타일/무드]."
+  - "10초 이상 영상은 시간 분할 필수: '0–3s: …', '3–6s: …' 형식으로 구간별 장면·카메라·행동 지시."
+  - "구간당 하나의 핵심 행동만 — 4~5초에 여러 장면을 욱여넣으면 물리적으로 불가능한 결과가 나온다."
+  - "출력 스펙: 길이 4~15초(사용자 선택), 480p~720p, 효과음/BGM 자동 생성."
+  - "생성 길이 설정과 프롬프트의 시간 분할 총합을 일치시킨다."
+template: |
+  {subject & character setup}. {scene/environment}.
+  0–{t1}s: {opening — scene, camera, action}
+  {t1}–{t2}s: {development}
+  {t2}–{t3}s: {climax or key action}
+  {t3}–{t4}s: {resolution, ending shot, text/branding}
+  Sound: {BGM direction, sound effects}.
+  Style: {visual style, mood}.
+pitfalls:
+  - "시간 분할 없이 15초를 한 문단으로 쓰는 것 — 중반 이후 프롬프트 통제력이 급격히 떨어진다"

@@ -2,6 +2,8 @@
 
 타깃 AI 모델의 공식 프롬프팅 가이드북에 맞춰 자연어 요청을 최적화된 프롬프트로 변환하는 에이전트 스킬.
 
+> **EN** — meta-prompt is an agent skill that transforms natural-language requests into prompts optimized for a target AI model, using per-model guidebooks distilled from official prompting guides (GPT-5.x, Codex, Claude, Gemini, Nano Banana, Seedance, Higgsfield). Guidebooks carry freshness metadata (`last_verified`, 30-day staleness warnings) and a `refresh` pipeline that re-verifies official sources — think Context7, but for prompting knowledge. Docs are Korean-first for now; the mechanism itself is language-agnostic.
+
 ## 사용법
 
 Claude Code(또는 Gemini CLI)에서 자연어로 부르면 자동 발동됩니다:
@@ -51,11 +53,12 @@ Claude Code(또는 Gemini CLI)에서 자연어로 부르면 자동 발동됩니�
 
 ## 설치
 
-가이드북 데이터는 이 레포에 있고, 스킬 정의만 각 에이전트에 심링크합니다:
+레포 자체가 스킬 디렉토리입니다 — 클론 후 심링크 하나면 끝:
 
 ```bash
-ln -s "$PWD/skill/meta-prompt" ~/.claude/skills/meta-prompt          # Claude Code
-ln -s "$PWD/skill/meta-prompt" ~/.gemini/config/skills/meta-prompt   # Gemini CLI
+git clone https://github.com/2000silpeed/meta-prompt-skill.git
+ln -s "$PWD/meta-prompt-skill" ~/.claude/skills/meta-prompt          # Claude Code
+ln -s "$PWD/meta-prompt-skill" ~/.gemini/config/skills/meta-prompt   # Gemini CLI
 ```
 
 ## 구조
@@ -67,8 +70,8 @@ guidebooks/
     sources.yaml       # 공식 가이드 URL (refresh의 입력)
     index.yaml         # 카드 목록·로드 조건·슬롯 정의
     cards/*.yaml       # 주제별 문법 카드 (선별 로드)
-skill/meta-prompt/SKILL.md   # 스킬 본체 (변환 플로우)
-PLAN.md                      # 설계 결정 기록
+SKILL.md               # 스킬 본체 (변환 플로우, 레포 루트 = 스킬 디렉토리)
+PLAN.md                # 설계 결정 기록
 ```
 
 설계 배경과 결정 근거는 [PLAN.md](PLAN.md) 참고.

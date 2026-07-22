@@ -5,8 +5,8 @@ description: 타깃 AI 모델(GPT/Codex, Claude, Gemini, Seedance, Higgsfield �
 
 # meta-prompt: 모델별 가이드북 기반 프롬프트 변환기
 
-가이드북 루트: `/Users/sungwoon/ai-projects/meta-prompt-skill/guidebooks/`
-(이하 `$GB`. 설계 배경: 같은 레포의 `PLAN.md`)
+가이드북 루트: 이 스킬의 베이스 디렉토리(이 SKILL.md가 있는 곳)의 `guidebooks/`
+(이하 `$GB`. 설계 배경: 같은 디렉토리의 `PLAN.md`)
 
 ## 핵심 원칙
 

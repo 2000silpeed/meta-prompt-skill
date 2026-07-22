@@ -38,9 +38,9 @@
 ## 디렉토리 구조
 
 ```
-meta-prompt-skill/
+meta-prompt-skill/                 # 레포 루트 = 스킬 디렉토리 (통째로 심링크)
+  SKILL.md                         # ~/.claude/skills/ 및 ~/.gemini/config/skills/ 로 심링크
   PLAN.md
-  skill/meta-prompt/SKILL.md      # ~/.claude/skills/ 및 ~/.gemini/config/skills/ 로 심링크
   guidebooks/
     registry.yaml                  # 모델 목록+별칭+갱신일 (항상 로드, 극소)
     <model-id>/

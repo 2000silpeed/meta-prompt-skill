@@ -1,0 +1,9 @@
+model: _generic
+# 특정 모델 전용이 아닌 범용 프롬프트 프레임워크. 레지스트리 미등록 모델의 폴백.
+sources:
+  - url: https://www.tech.gov.sg/media/technews/how-to-write-effective-prompts-co-star-framework
+    covers: [universal-structure]
+    note: "CO-STAR 프레임워크 원출처 (Singapore GovTech)"
+  - url: https://github.com/ckelsoe/prompt-architect
+    covers: [universal-structure, clarity-and-specificity]
+    note: "범용 프레임워크 모음(RTF/RISEN 등)과 5차원 진단의 참고 구현"

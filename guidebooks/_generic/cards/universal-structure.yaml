@@ -1,0 +1,18 @@
+id: universal-structure
+model: _generic
+topic: "범용 조립 공식 — CO-STAR 기본, 작업 성격별 경량 변형"
+verification: knowledge-based
+rules:
+  - "기본 골격은 CO-STAR: Context(배경) / Objective(목표) / Style(문체) / Tone(어조) / Audience(독자) / Response format(출력 형식). 모델 불문 안정적으로 작동하는 최소 공통 구조다."
+  - "단순 작업엔 RTF로 경량화: Role(역할) + Task(할 일) + Format(형식)."
+  - "다단계 작업엔 RISEN: Role + Instructions + Steps(순서) + End goal(완료 기준) + Narrowing(범위 제한)."
+  - "공통 원칙: 구체적 역할 부여, 목표는 하나로, 출력 형식 명시, 가능하면 예시 1개, 제약은 긍정형으로."
+  - "완료 기준(무엇이 되면 성공인지)을 반드시 포함 — 프레임워크 불문 가장 자주 빠지는 요소."
+template: |
+  # Context: {배경, 입력 데이터, 용도}
+  # Objective: {단일 목표}
+  # Style/Tone: {문체·어조}
+  # Audience: {독자}
+  # Response: {출력 형식, 길이, 완료 기준}
+pitfalls:
+  - "전용 가이드북이 아니므로 모델 고유 기능(파라미터, 특수 문법)은 반영 못 함 — 산출물에 이 한계를 명시하고 add를 권할 것"

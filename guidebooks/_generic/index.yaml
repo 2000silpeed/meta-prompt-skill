@@ -1,0 +1,22 @@
+model: _generic
+label: "범용 폴백 (레지스트리 미등록 모델용)"
+output_language: follow-target
+
+slots:
+  required:
+    - id: task_goal
+      ask: "이 프롬프트로 모델이 정확히 무엇을 해내야 하나요?"
+  optional:
+    - id: target_model_note
+      default: "미등록 모델"
+      note: "어떤 모델용인지 — 변환 후 add를 권할 때 사용"
+    - id: output_format
+      default: "자유 산문"
+    - id: audience_tone
+      default: "일반"
+
+cards:
+  - id: universal-structure
+    when: "항상 로드 (범용 조립 공식)"
+  - id: clarity-and-specificity
+    when: "항상 로드 (진단·보강 규칙)"

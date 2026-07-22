@@ -1,6 +1,6 @@
 ---
 name: meta-prompt
-description: 타깃 AI 모델(GPT/Codex, Claude, Gemini, Seedance, Higgsfield 등)별 프롬프트 가이드북에 맞춰 사용자의 요청을 최적화된 프롬프트로 변환·생성한다. 트리거 — "○○용 프롬프트 만들어줘", "프롬프트 최적화해줘", "이 요청을 ○○ 프롬프트로 바꿔줘", "프롬프트 잘 써줘", "meta-prompt". 서브커맨드 — "/meta-prompt refresh <model>"(가이드북 갱신), "/meta-prompt add <model>"(새 모델 추가). 단순 문장 윤문이나 한글 자연화는 humanize-korean 소관.
+description: 타깃 AI 모델(GPT/Codex, Claude, Gemini, Seedance, Higgsfield 등)별 프롬프트 가이드북에 맞춰 사용자의 요청을 최적화된 프롬프트로 변환·생성한다. 트리거 — "○○용 프롬프트 만들어줘", "프롬프트 최적화해줘", "이 요청을 ○○ 프롬프트로 바꿔줘", "프롬프트 잘 써줘", "meta-prompt". 서브커맨드 — "/meta-prompt refresh <model>"(가이드북 갱신), "/meta-prompt add <model>"(새 모델 추가), "/meta-prompt eval <요청>"(원본 vs 변환본 A/B 비교). 단순 문장 윤문이나 한글 자연화는 humanize-korean 소관.
 ---
 
 # meta-prompt: 모델별 가이드북 기반 프롬프트 변환기
@@ -21,6 +21,7 @@ description: 타깃 AI 모델(GPT/Codex, Claude, Gemini, Seedance, Higgsfield �
 1. **사용자 명시**: 모델명이 있으면 registry의 `aliases`로 매칭.
 2. **맥락 추론**: 요청 성격으로 추론하되(영상 → media 타입 모델 등), 추론했음을 반드시 명시: "○○ 모델 기준으로 변환합니다. 다른 모델이면 알려주세요."
 3. **질문**: 모호하면 registry의 모델 목록을 AskUserQuestion으로 제시.
+4. **폴백**: 레지스트리에 없는 모델이 명시됐으면 `$GB/_generic`으로 변환하되, 전용 가이드북이 없어 모델 고유 문법은 반영 못 했음을 밝히고 `/meta-prompt add <model>`을 권한다.
 
 ### 2. 가이드북 로드 + 신선도 확인
 
@@ -33,9 +34,11 @@ description: 타깃 AI 모델(GPT/Codex, Claude, Gemini, Seedance, Higgsfield �
 - index의 `slots.required` 중 사용자 요청에서 채울 수 없는 것만 모아 **AskUserQuestion 1라운드**로 질문 (요청에서 추론 가능하면 묻지 않는다).
 - `slots.optional`은 `default`로 채우고, 채운 가정을 산출물에 명시한다.
 
-### 4. 변환
+### 4. 진단 → 변환
 
-로드한 카드의 rules/template/pitfalls에 따라 사용자 요청을 프롬프트로 재작성한다.
+변환 전에 원 요청을 3차원으로 각 한 줄씩 진단한다 — **명확성**(단일 해석인가) / **구체성**(기준이 측정 가능한가) / **맥락**(배경·용도가 있는가). 낮게 진단된 차원은 변환에서 반드시 보강하고, 무엇을 보강했는지 해설에 연결한다.
+
+이후 로드한 카드의 rules/template/pitfalls에 따라 사용자 요청을 프롬프트로 재작성한다.
 
 - 언어는 index의 `output_language`를 따른다 (`english-prompt`: 프롬프트 영어 + 해설 한국어 / `follow-target`: 프롬프트의 용도 언어).
 - 카드의 pitfalls를 체크리스트로 최종 점검한다.
@@ -45,6 +48,7 @@ description: 타깃 AI 모델(GPT/Codex, Claude, Gemini, Seedance, Higgsfield �
 ```
 [변환된 프롬프트 — 코드블록]
 
+**진단**: 원 요청의 3차원 진단과 보강 포인트 (원 요청이 이미 충실하면 생략)
 **적용 규칙**: 사용한 카드와 핵심 결정 2~3줄
 **가정**: optional 슬롯을 기본값으로 채운 목록 (없으면 생략)
 ```
@@ -69,6 +73,15 @@ API 파라미터 권고가 있는 카드(reasoning_effort, temperature, response
 2. 기존 카드와 대조해 **변경된 카드만** 수정. 새 주제가 생겼으면 카드 추가를 제안.
 3. registry의 `last_verified`를 오늘로, `verification: verified`로 갱신.
 4. 변경 요약을 보고 (변경 없음이면 "변경 없음, 검증일만 갱신").
+
+### `/meta-prompt eval [<model>] <요청>`
+
+변환이 실제로 나은지 A/B로 증명한다.
+
+1. 요청을 변환 플로우로 처리해 **원본 프롬프트**와 **변환본 프롬프트**를 준비.
+2. 타깃 모델의 실행 경로가 세션에 있어야 한다 — 없으면 eval 불가를 고지하고 두 프롬프트만 전달. 과금이 걸리면 2회 실행 비용을 명시하고 확인받는다.
+3. 두 프롬프트를 동일 조건으로 실행하고 결과를 나란히 제시. 과업 충족·형식 준수·완성도 기준으로 비교 평가한다.
+4. 변환본이 우세하지 않으면 그 사실을 정직하게 보고하고, 원인이 된 카드의 개선점을 기록한다 (가이드북 피드백 루프).
 
 ### `/meta-prompt add <model>`
 

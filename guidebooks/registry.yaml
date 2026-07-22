@@ -2,6 +2,7 @@
 version: 1
 updated: "2026-07-22"
 staleness_days: 30   # last_verified가 이보다 오래되면 사용 시 경고 (차단 아님)
+fallback: _generic   # 미등록 모델 요청 시 사용할 범용 가이드북 디렉토리
 
 models:
   - id: openai-gpt-5

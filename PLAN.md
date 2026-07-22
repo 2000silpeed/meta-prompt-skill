@@ -57,3 +57,19 @@ meta-prompt-skill/
 
 주의: v1 카드는 모델 지식 기반 초안(`verification: knowledge-based`)으로 작성됨.
 첫 `/meta-prompt refresh <model>` 실행이 공식 가이드 대조 검증을 수행한다.
+
+## v1.1 개선 (2026-07-22, 생태계 비교분석 반영)
+
+유사 스킬(prompt-optimizer, prompt-architect, getsentry prompt-optimizer 등) 조사 결과
+모델별 가이드북·신선도 파이프라인·미디어 커버는 유일했고, 아래 3가지를 역수입:
+
+1. **범용 폴백** — `guidebooks/_generic/` (CO-STAR/RTF/RISEN). 레지스트리 미등록 모델
+   요청 시 즉시 변환 후 `add` 권고. registry에 `fallback: _generic` 필드 추가.
+2. **변환 전 진단** — 원 요청을 명확성·구체성·맥락 3차원으로 진단하고 낮은 차원을
+   변환에서 보강, 산출물에 진단 표기. (prompt-architect의 5차원 채점에서 착안, 3으로 압축)
+3. **`/meta-prompt eval`** — 원본 vs 변환본을 동일 조건 실행해 A/B 비교. 변환본이
+   우세하지 않으면 정직 보고 + 해당 카드 개선점 기록(가이드북 피드백 루프).
+   (getsentry의 eval-first 접근에서 착안)
+
+보류: 훅 기반 auto 모드(철학 상이 — 모델별 변환이 아닌 전 프롬프트 정제),
+마켓플레이스 등재(외부 공개는 별도 결정).

@@ -1,84 +1,74 @@
-# 🚀 Meta-Prompt Skill & NEXUS Analytics Dashboard
+# meta-prompt
 
-AI 모델별 최적화 프롬프트 변환기 스킬(`meta-prompt-skill`)과 인터랙티브 데이터 시각화 대시보드 웹 애플리케이션 프로젝트입니다.
+타깃 AI 모델의 공식 프롬프팅 가이드북에 맞춰 자연어 요청을 최적화된 프롬프트로 변환하는 에이전트 스킬.
 
----
+## 사용법
 
-## 📌 주요 구성 요소
+Claude Code(또는 Gemini CLI)에서 자연어로 부르면 자동 발동됩니다:
 
-### 1. `/meta-prompt` — 타깃 AI 모델별 프롬프트 변환기 (Agent Skill)
-
-사용자의 자연어 요청을 타깃 AI 모델(GPT-5.5, Claude Fable 5, Gemini 3.6 Flash, Nano Banana 2 등)의 공식 프롬프팅 가이드북에 맞춰 **최적화된 프롬프트**로 즉시 변환합니다.
-
-#### 💡 핵심 설계 원칙
-- **토큰 절약 3단 점진 로딩**: `registry.yaml` → 타깃 모델 `index.yaml` → 조건(`when`)에 맞는 카드만 선별 로드
-- **엄격한 공식 가이드 대조**: 지식 덤프를 지양하고 verified / knowledge-based 검증 가이드에 기반하여 작성
-- **다양한 타깃 지원**:
-  - **OpenAI**: GPT-5, GPT-5.1, GPT-5.5 (Sol / Terra), Codex
-  - **Anthropic**: Claude 3.5/3.7 (Opus / Sonnet / Haiku / Fable 5)
-  - **Google**: Gemini 3.6 Flash, Gemini 3.5 Flash, Gemini 3.0 Pro
-  - **Media & Image**: Google Nano Banana 2 (Gemini Image), Jimeng Seedance 2.0, Higgsfield
-
-#### 🛠 서브 커맨드
-```bash
-# 특정 모델 가이드북 최신화 (공식 문서 재수집 및 카드 대조)
-/meta-prompt refresh <model-id>
-
-# 신규 AI 모델 가이드북 추가
-/meta-prompt add <model-id>
+```
+시댄스로 카페 신제품 15초 광고 영상 프롬프트 만들어줘
+나노바나나2로 종이 공예 스타일 고양이 이미지 프롬프트 뽑아줘
+이 요청을 GPT-5.5용 프롬프트로 최적화해줘
 ```
 
----
+명시 호출은 `/meta-prompt <요청>`.
 
-### 2. NEXUS Analytics Dashboard — 데이터 시각화 대시보드 웹앱
+### 동작 흐름
 
-프롬프팅을 통해 구축된 프리미엄 다크모드 기반의 인터랙티브 데이터 시각화 대시보드입니다.
+1. **모델 감지** — 명시된 모델명 → 별칭 매칭. 없으면 세션 환경·맥락으로 추론하고, 모호하면 목록에서 고르게 질문
+2. **가이드북 로드** — 레지스트리 → 모델 index → 요청에 해당하는 문법 카드만 선별 로드 (토큰 절약 3단 로딩)
+3. **컨텍스트 보강** — 카드가 정의한 필수 슬롯이 비었을 때만 한 번에 묶어 질문, 나머지는 기본값 + 가정 명시
+4. **변환** — 카드의 규칙·템플릿·함정 체크리스트로 프롬프트 재작성 (미디어 모델은 영어 프롬프트 + 한국어 해설)
+5. **전달 / 실행** — 프롬프트 전달이 기본. 세션에 실행 경로(Higgsfield MCP, codex 등)가 있으면 비용 고지 후 확인받고 실행
 
-#### ✨ 주요 기능
-- **KPI 지표 카운터**: ARR 매출액, MAU 활성 사용자, 결제 CVR, 평균 체류 시간 (동적 뱃지 및 증감율)
-- **인터랙티브 차트 (Chart.js)**:
-  - 매출 추이 & 유저 성장 라인 차트 (지표 전환 토글)
-  - 제품 라인업 점유율 도넛 차트
-  - 글로벌 권역별 목표 달성도 바 차트
-- **실시간 필터링 & 인터랙션**:
-  - `7D` / `30D` / `90D` / `YTD` 기간 필터
-  - 카테고리별 드롭다운 필터 및 데이터 실시간 무작위 재생성 (Toast 알림)
-  - 고객사 거래 내역 검색 및 실시간 결과 필터링
-- **테마 지원**: 다크 모드 / 라이트 모드 실시간 스위처
+## 서브커맨드
 
----
-
-## 📂 프로젝트 구조
-
-```text
-meta-prompt-skill/
-├── index.html                   # NEXUS Analytics 대시보드 웹앱
-├── PLAN.md                      # 프로젝트 설계 및 구조 문서
-├── README.md                    # 프로젝트 안내 문서
-└── guidebooks/                  # 모델별 가이드북 데이터베이스
-    ├── registry.yaml            # 중앙 모델 레지스트리
-    ├── anthropic-claude/        # Claude 3.5 / Fable 5 가이드북 & 카드
-    ├── google-gemini/           # Gemini 3.6 Flash / Pro 가이드북 & 카드
-    ├── google-nano-banana/      # Nano Banana 2 이미지 가이드북 & 카드
-    ├── openai-gpt-5/            # GPT-5.5 Sol/Terra/Codex 가이드북 & 카드
-    ├── bytedance-seedance-2/    # Seedance 2.0 비디오 가이드북
-    └── higgsfield/              # Higgsfield 미디어 가이드북
+```
+/meta-prompt refresh <model>   # 공식 가이드 재수집 → 변경된 카드만 갱신
+/meta-prompt add <model>       # 새 모델 가이드북 생성 (소스 수집 → 카드 증류 → 등록)
 ```
 
----
+- **새 모델이 나오면**: 기존 패밀리의 새 버전이면 `refresh`, 완전히 새로운 모델이면 `add`
+- 가이드북 검증일이 30일을 넘으면 사용 시 자동으로 갱신 경고가 뜹니다 (차단 없음)
 
-## 💻 실행 방법
+## 지원 모델 (v1)
 
-### 로컬 웹 서버 실행 (대시보드 확인)
+| ID | 커버리지 | 유형 |
+|---|---|---|
+| `openai-gpt-5` | GPT-5 / 5.1 / 5.5 Sol / 5.5 Terra / Codex | 텍스트 LLM |
+| `anthropic-claude` | Opus / Sonnet / Haiku / Fable 5 | 텍스트 LLM |
+| `google-gemini` | Gemini 3.6 Flash / 3.5 Flash / 3.0 Pro | 텍스트 LLM |
+| `google-nano-banana` | 나노바나나2 (Gemini 3.1 Flash Image) / Pro / Lite | 이미지 생성 |
+| `bytedance-seedance-2` | Jimeng Seedance 2.0 | 영상 생성 |
+| `higgsfield` | Higgsfield 플랫폼 (Cinema Studio 등) | 미디어 플랫폼 |
+
+한국어 별칭도 인식합니다 (예: "시댄스", "나노바나나2").
+
+## 설치
+
+가이드북 데이터는 이 레포에 있고, 스킬 정의만 각 에이전트에 심링크합니다:
 
 ```bash
-# Python 내장 HTTP 서버로 실행
-python3 -m http.server 8080
+ln -s "$PWD/skill/meta-prompt" ~/.claude/skills/meta-prompt          # Claude Code
+ln -s "$PWD/skill/meta-prompt" ~/.gemini/config/skills/meta-prompt   # Gemini CLI
 ```
-브라우저에서 `http://localhost:8080` 접속을 통해 대시보드 웹앱을 열 수 있습니다.
 
----
+## 구조
 
-## 📄 라이선스
+```
+guidebooks/
+  registry.yaml        # 모델 목록·별칭·검증일 (항상 로드되는 유일한 파일)
+  <model-id>/
+    sources.yaml       # 공식 가이드 URL (refresh의 입력)
+    index.yaml         # 카드 목록·로드 조건·슬롯 정의
+    cards/*.yaml       # 주제별 문법 카드 (선별 로드)
+skill/meta-prompt/SKILL.md   # 스킬 본체 (변환 플로우)
+PLAN.md                      # 설계 결정 기록
+```
+
+설계 배경과 결정 근거는 [PLAN.md](PLAN.md) 참고.
+
+## 라이선스
 
 MIT License

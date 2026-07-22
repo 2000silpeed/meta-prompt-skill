@@ -1,2 +1,3 @@
 # Test & Temporary artifacts
-index.html
+index*.html
+.DS_Store

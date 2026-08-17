@@ -1,5 +1,5 @@
 model: anthropic-claude
-label: "Anthropic Claude"
+label: "Anthropic Claude / Claude Fable 5"
 output_language: follow-target
 
 slots:
@@ -7,6 +7,12 @@ slots:
     - id: task_goal
       ask: "이 프롬프트로 모델이 정확히 무엇을 해내야 하나요?"
   optional:
+    - id: model_variant
+      default: "claude-fable-5"
+      note: "Fable 5 전용 요청이면 해당 모델의 장시간 자율 작업·effort 규칙을 적용"
+    - id: effort
+      default: "high"
+      note: "Fable 5는 high를 일반 기본값으로, xhigh는 역량 최우선, medium/low는 일상 작업에 사용"
     - id: deployment
       default: "단발 대화형 호출"
       note: "시스템 프롬프트용 / 에이전트 루프용 / 단발 호출용"
@@ -20,6 +26,10 @@ slots:
       note: "좋은 출력 예시가 있으면 품질이 크게 오름"
 
 cards:
+  - id: fable-5-core
+    when: "타깃이 Claude Fable 5 또는 Fable일 때"
+  - id: fable-5-runtime
+    when: "Fable 5 API 통합·마이그레이션·장시간 실행·거부 처리 설정이 필요할 때"
   - id: explicit-instructions
     when: "항상 로드 (모든 Claude 변환의 기본)"
   - id: xml-structure
@@ -27,6 +37,6 @@ cards:
   - id: multishot-examples
     when: "출력 형식·스타일의 일관성이 중요하거나 예시 확보가 가능할 때"
   - id: thinking-and-cot
-    when: "다단계 추론, 분석, 판단이 필요한 작업일 때"
+    when: "다단계 추론, 분석, 판단 또는 thinking/effort 설정이 필요한 작업일 때"
   - id: system-role-tools
     when: "시스템 프롬프트 설계 또는 에이전트/툴 사용 프롬프트일 때"

@@ -2,19 +2,36 @@
 
 타깃 AI 모델의 공식 프롬프팅 가이드북에 맞춰 자연어 요청을 최적화된 프롬프트로 변환하는 에이전트 스킬.
 
-> **EN** — meta-prompt is an agent skill that transforms natural-language requests into prompts optimized for a target AI model, using per-model guidebooks distilled from official prompting guides (GPT-5.x, Codex, Claude, Gemini, Nano Banana, Seedance, Higgsfield). Guidebooks carry freshness metadata (`last_verified`, 30-day staleness warnings) and a `refresh` pipeline that re-verifies official sources — think Context7, but for prompting knowledge. Docs are Korean-first for now; the mechanism itself is language-agnostic.
+> **EN** — meta-prompt is an agent skill that transforms natural-language requests into prompts optimized for a target AI model, using per-model guidebooks distilled from official prompting guides (GPT-5.x, Codex, Claude, Gemini, GLM, Nano Banana, Seedance, Higgsfield). Guidebooks carry freshness metadata (`last_verified`, 30-day staleness warnings) and a `refresh` pipeline that re-verifies official sources — think Context7, but for prompting knowledge. Docs are Korean-first for now; the mechanism itself is language-agnostic.
 
 ## 사용법
 
-Claude Code(또는 Gemini CLI)에서 자연어로 부르면 자동 발동됩니다:
+Claude Code, Gemini CLI 또는 Codex에서 자연어로 부르면 자동 발동됩니다:
 
 ```
 시댄스로 카페 신제품 15초 광고 영상 프롬프트 만들어줘
 나노바나나2로 종이 공예 스타일 고양이 이미지 프롬프트 뽑아줘
-이 요청을 GPT-5.5용 프롬프트로 최적화해줘
+이 요청을 GPT-5.6 Sol용 프롬프트로 최적화해줘
+GLM-5.3으로 이 저장소의 버그를 수정하고 검증할 프롬프트를 만들어줘
 ```
 
 명시 호출은 `/meta-prompt <요청>`.
+
+### Codex에서 변환 후 바로 실행
+
+Codex에서 아래처럼 요청하면, 스킬이 현재 Codex 작업에 맞춘 최종 프롬프트를 먼저 만들고 그 명세를 즉시 적용해 작업을 계속합니다.
+
+```text
+$meta-prompt를 적용해서 이 요청을 Codex용으로 최적화한 뒤 구현해줘:
+대시보드의 접근성 문제를 찾아 수정하고 테스트해줘.
+```
+
+모델을 명시하면 해당 모델 가이드북을 우선합니다.
+
+```text
+실행 전에 meta-prompt를 적용해줘. 최종 모델은 Claude Fable 5야.
+아래 고객 문의를 분석하고 답변 초안을 만들어줘.
+```
 
 ### 동작 흐름
 
@@ -41,15 +58,16 @@ Claude Code(또는 Gemini CLI)에서 자연어로 부르면 자동 발동됩니�
 
 | ID | 커버리지 | 유형 |
 |---|---|---|
-| `openai-gpt-5` | GPT-5 / 5.1 / 5.5 Sol / 5.5 Terra | 텍스트 LLM |
+| `openai-gpt-5` | GPT-5.x / GPT-5.6 Sol·Terra·Luna | 텍스트 LLM |
 | `openai-codex` | Codex CLI/IDE (태스크 프롬프트, AGENTS.md) | 코딩 에이전트 |
 | `anthropic-claude` | Opus / Sonnet / Haiku / Fable 5 | 텍스트 LLM |
+| `z-ai-glm` | GLM-5.3 (Coding Plan; 일반 API 출시 전) | 텍스트 LLM / 코딩 에이전트 |
 | `google-gemini` | Gemini 3.6 Flash / 3.5 Flash / 3.0 Pro | 텍스트 LLM |
 | `google-nano-banana` | 나노바나나2 (Gemini 3.1 Flash Image) / Pro / Lite | 이미지 생성 |
 | `bytedance-seedance-2` | Jimeng Seedance 2.0 | 영상 생성 |
 | `higgsfield` | Higgsfield 플랫폼 (Cinema Studio 등) | 미디어 플랫폼 |
 
-한국어 별칭도 인식합니다 (예: "시댄스", "나노바나나2").
+한국어 별칭과 흔한 오타도 인식합니다 (예: "시댄스", "나노바나나2", `GML-5.3` → `GLM-5.3`).
 
 ## 설치
 
@@ -57,6 +75,7 @@ Claude Code(또는 Gemini CLI)에서 자연어로 부르면 자동 발동됩니�
 
 ```bash
 git clone https://github.com/2000silpeed/meta-prompt-skill.git
+ln -s "$PWD/meta-prompt-skill" ~/.codex/skills/meta-prompt           # Codex
 ln -s "$PWD/meta-prompt-skill" ~/.claude/skills/meta-prompt          # Claude Code
 ln -s "$PWD/meta-prompt-skill" ~/.gemini/config/skills/meta-prompt   # Gemini CLI
 ```

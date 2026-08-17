@@ -1,5 +1,5 @@
 model: openai-gpt-5
-label: "OpenAI GPT-5.x"
+label: "OpenAI GPT-5.x / GPT-5.6 Sol"
 output_language: follow-target   # 프롬프트 언어는 타깃 용도를 따름 (해설은 한국어)
 
 slots:
@@ -7,6 +7,12 @@ slots:
     - id: task_goal
       ask: "이 프롬프트로 모델이 정확히 무엇을 해내야 하나요?"
   optional:
+    - id: model_variant
+      default: "gpt-5.6-sol"
+      note: "최고 역량은 Sol, 비용 균형은 Terra, 고처리량은 Luna"
+    - id: reasoning_effort
+      default: "medium"
+      note: "none/low/medium/high/xhigh/max 중 선택; max는 최고 품질 우선 작업에 한정"
     - id: deployment
       default: "단발 대화형 호출"
       note: "시스템 프롬프트용 / 에이전트 루프용 / 단발 호출용 구분"
@@ -21,6 +27,8 @@ slots:
       note: "금지 사항, 길이 제한, 톤"
 
 cards:
+  - id: gpt-5.6-sol
+    when: "타깃이 GPT-5.6 또는 GPT-5.6 Sol일 때"
   - id: instruction-precision
     when: "항상 로드 (모든 GPT-5.x 변환의 기본)"
   - id: agentic-eagerness

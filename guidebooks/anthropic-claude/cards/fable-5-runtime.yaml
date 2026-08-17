@@ -1,0 +1,21 @@
+id: fable-5-runtime
+model: anthropic-claude
+topic: "Claude Fable 5 — API thinking, 장시간 실행, refusal 처리"
+verification: verified
+rules:
+  - "API 모델 ID는 claude-fable-5다. adaptive thinking은 항상 켜져 있으며 effort가 지능·지연·비용의 주 조절값이다."
+  - "thinking.display는 omitted(기본) 또는 summarized를 사용한다. 원시 사고 과정은 반환되지 않으며 멀티턴에서는 thinking 블록을 변경 없이 되돌려 보낸다."
+  - "고난도 요청은 수분, 자율 실행은 수시간 걸릴 수 있으므로 스트리밍, 충분한 타임아웃, 비동기 상태 확인, 사용자용 진행 표시를 설계한다."
+  - "공격적 사이버·생명과학·reasoning extraction 분류기는 stop_reason: refusal을 반환할 수 있다. 통합 시 이 종료 사유를 명시적으로 처리하고 필요하면 공식 권고 대체 모델로 fallback한다."
+  - "사용자에게 중간 산출물을 그대로 전달해야 하는 장시간 에이전트라면 전용 send-to-user 도구와 그 사용 지시를 함께 제공한다. 일반 진행 내레이션에는 사용하지 않는다."
+template: |
+  API 권고:
+  - model: claude-fable-5
+  - effort: {high|xhigh|medium|low}
+  - thinking.display: {omitted|summarized}
+  - streaming/timeout: {long_run에 맞게 설정}
+  - stop_reason == refusal 처리와 fallback 정책: {policy}
+pitfalls:
+  - "원시 chain-of-thought가 반환된다고 가정하거나 thinking 블록을 수정해 재전송하는 것"
+  - "장시간 실행을 일반 동기 요청 타임아웃으로 처리하는 것"
+  - "refusal을 정상 완료나 빈 응답으로 오인하는 것"

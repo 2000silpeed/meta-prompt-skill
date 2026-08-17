@@ -23,7 +23,7 @@
 | 모델 감지 | ⓪ 환경 자체 감지(현재 세션 모델, 연결된 MCP 도구) → ① 사용자 명시 → ② 맥락 추론(추론 시 반드시 명시) → ③ 레지스트리 목록에서 질문 |
 | 컨텍스트 보강 | 모델 index.yaml이 required/optional 슬롯 정의. 필수 슬롯 누락분만 묶어 1라운드 질문, optional은 기본값 + 가정 명시 |
 | 실행 | 변환된 프롬프트 전달이 기본. 세션에 실행 경로(Higgsfield MCP, codex 등)가 있으면 비용 명시 후 확인받고 실행 |
-| v1 커버리지 | GPT-5.x, Claude, Gemini + Seedance 2.0, Higgsfield (기존 seedance-prompt 스킬은 카드 작성 참고자료로만) |
+| v1 커버리지 | GPT-5.x, Claude, Gemini, GLM + Seedance 2.0, Higgsfield (기존 seedance-prompt 스킬은 카드 작성 참고자료로만) |
 | 호출 | `/meta-prompt`, 자연어 자동 트리거 병행. 서브커맨드: `refresh <model>`, `add <model>` |
 
 ## 세부 설계
@@ -73,3 +73,9 @@ meta-prompt-skill/                 # 레포 루트 = 스킬 디렉토리 (통째
 
 보류: 훅 기반 auto 모드(철학 상이 — 모델별 변환이 아닌 전 프롬프트 정제),
 마켓플레이스 등재(외부 공개는 별도 결정).
+
+## 2026-08-17 모델 갱신
+
+- OpenAI 패밀리를 GPT-5.6 Sol/Terra/Luna 기준으로 갱신하고, 간결한 결과 중심 프롬프트·승인 경계·reasoning effort/pro mode 규칙을 공식 문서로 재검증.
+- Claude Fable 5 전용 카드를 추가하고, always-on adaptive thinking·effort·장시간 실행·refusal 처리·숨은 추론 비노출 규칙을 반영.
+- Z.ai GLM-5.3 가이드북을 추가. Coding Plan 제공과 일반 API 미출시 상태를 분리하고, agentic engineering·검증·thinking/도구 규칙을 등록.

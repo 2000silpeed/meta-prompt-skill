@@ -1,0 +1,15 @@
+model: z-ai-glm
+sources:
+  - url: https://docs.z.ai/guides/llm/glm-5.3
+    covers: [glm-5.3-availability, agentic-engineering]
+  - url: https://z.ai/blog/glm-5.3
+    covers: [glm-5.3-availability, agentic-engineering]
+  - url: https://docs.z.ai/guides/overview/migrate-to-glm-new
+    covers: [thinking-and-tools]
+    note: "현재 문서는 GLM-5.2 기준. GLM-5.3 일반 API 출시 전까지 호환 파라미터의 잠정 근거로만 사용"
+  - url: https://docs.z.ai/guides/capabilities/thinking-mode
+    covers: [thinking-and-tools]
+  - url: https://docs.z.ai/guides/capabilities/function-calling
+    covers: [thinking-and-tools]
+  - url: https://docs.z.ai/guides/capabilities/struct-output
+    covers: [thinking-and-tools]

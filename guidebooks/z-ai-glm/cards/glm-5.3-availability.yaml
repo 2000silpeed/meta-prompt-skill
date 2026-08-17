@@ -1,0 +1,17 @@
+id: glm-5.3-availability
+model: z-ai-glm
+topic: "GLM-5.3 제공 상태와 모델 범위"
+verification: verified
+rules:
+  - "GLM-5.3은 Z.ai의 코딩·에이전트 작업용 최신 플래그십 텍스트 모델이다. 입력·출력은 텍스트, 컨텍스트는 1M, 최대 출력은 128K다."
+  - "2026-08-17 기준 모든 GLM Coding Plan 사용자에게 제공되지만 일반 API는 공식 문서상 coming soon이다."
+  - "API용 model slug, 가격, sampling 기본값을 GLM-5.2와 같다고 단정하지 않는다. 일반 API 호출이 요청되면 미출시 상태를 알리고 공식 문서 재확인을 권한다."
+  - "GLM-5.3은 GLM-5.2와 같은 base model에 post-training으로 코딩·에이전트 성능을 개선했다. 프롬프트는 장기 엔지니어링 작업의 목표·환경·검증·완료 조건을 중심으로 쓴다."
+template: |
+  대상: GLM-5.3 (GLM Coding Plan)
+  제공 상태: 2026-08-17 기준 Coding Plan 사용 가능, 일반 API 출시 전
+
+  {task_prompt}
+pitfalls:
+  - "GLM-5.3 일반 API가 이미 출시됐다고 가정해 존재하지 않는 호출 예시를 만드는 것"
+  - "공식 근거 없이 GLM-5.2의 API 모델 ID·가격·파라미터를 그대로 복사하는 것"

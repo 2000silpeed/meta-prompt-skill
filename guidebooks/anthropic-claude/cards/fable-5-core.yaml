@@ -1,0 +1,31 @@
+id: fable-5-core
+model: anthropic-claude
+topic: "Claude Fable 5 — 장시간 자율 작업과 강한 지시 이행"
+verification: verified
+rules:
+  - "Fable 5에는 사람에게 수시간~수일 걸리는 복잡한 작업도 단순 질의가 아니라 명확한 일감 인계 형태로 맡긴다: 최종 목표, 왜 필요한지, 작업 경계, 완료 기준을 준다."
+  - "지시 이행이 강하므로 같은 행동을 여러 표현으로 열거하지 않는다. 결과 우선·간결성·중단 조건은 짧고 직접적인 지시 한두 개로 충분하다."
+  - "충분한 정보가 있으면 행동하고, 이미 확정된 사실·결정을 재검토하지 않으며, 선택지를 나열하기보다 권고안을 내도록 한다."
+  - "질문·진단 요청과 변경 요청의 권한을 구분한다. 외부·파괴적·비가역적 행동, 실제 범위 변경, 사용자만 줄 수 있는 입력에서만 멈추도록 한다."
+  - "장시간 작업의 진행·완료 주장은 이 세션의 실제 툴 결과와 대조하고, 실패·생략·미검증 사항을 그대로 보고하도록 한다."
+  - "최종 응답은 결과를 첫 문장에 두고, 작업 중 생긴 축약어·내부 맥락을 버린 완전한 문장으로 재정리한다. 짧음보다 명확성을 우선한다."
+  - "고난도 기본 effort는 high, 역량 최우선은 xhigh, 일상·상호작용 작업은 medium/low로 조절한다. 높은 effort에서는 요청 밖 리팩터링·추상화를 금지하는 짧은 범위 규칙을 둔다."
+template: |
+  <goal>
+  {task_goal}
+  </goal>
+  <why>
+  {larger_context_and_what_the_result_enables}
+  </why>
+  <boundaries>
+  {authorized_actions_and_actions_requiring_confirmation}
+  </boundaries>
+  <done_when>
+  {measurable_completion_and_verification_criteria}
+  </done_when>
+
+  충분한 정보가 있으면 끝까지 수행하라. 진행·완료 주장은 실제 도구 결과로 검증하고, 최종 답은 결과부터 명확한 문장으로 보고하라.
+pitfalls:
+  - "이전 Claude용 장황한 행동 규칙을 그대로 누적해 Fable 5의 기본 성능을 떨어뜨리는 것"
+  - "단순 작업에 high/xhigh를 고정해 과도한 조사·계획·정리를 유발하는 것"
+  - "이미 승인된 가역적 범위 내 작업마다 다시 허가를 묻게 하는 것"

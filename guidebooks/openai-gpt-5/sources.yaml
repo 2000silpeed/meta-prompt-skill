@@ -1,6 +1,10 @@
 model: openai-gpt-5
 # refresh 시 이 URL들을 WebFetch로 재확인하고 변경된 카드만 수정한다.
 sources:
+  - url: https://developers.openai.com/api/docs/guides/latest-model
+    covers: [gpt-5.6-sol, instruction-precision, agentic-eagerness, output-verbosity-format]
+  - url: https://developers.openai.com/api/docs/models/gpt-5.6-sol
+    covers: [gpt-5.6-sol]
   - url: https://cookbook.openai.com/examples/gpt-5/gpt-5_prompting_guide
     covers: [instruction-precision, agentic-eagerness, tool-preambles-planning, coding-agent]
   - url: https://cookbook.openai.com/examples/gpt-5/gpt-5-1_prompting_guide

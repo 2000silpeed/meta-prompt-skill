@@ -1,0 +1,25 @@
+id: thinking-and-tools
+model: z-ai-glm
+topic: "GLM thinking, 멀티턴 추론 보존, 도구 호출"
+verification: verified
+rules:
+  - "복잡한 코딩·추론에서는 thinking을 활성화한다. 공개된 GLM-5.2 호환 문서 기준 reasoning_effort는 high/max이며 max가 기본이지만, GLM-5.3 일반 API 출시 후 다시 검증한다."
+  - "GLM은 도구 호출 사이에 interleaved thinking을 사용한다. 툴 결과를 받은 뒤 다음 행동을 판단할 수 있도록 도구의 목적·입력 스키마·출력 필드·오류 의미를 정확히 정의한다."
+  - "Coding Plan에서는 preserved thinking이 기본이다. 표준 API에서 지원 모델을 쓸 때 clear_thinking: false로 켜며, 이전 reasoning_content를 순서와 내용 그대로 재전송한다."
+  - "단순 사실 확인·윤문은 turn-level thinking을 줄이거나 끄고, 복잡한 계획·디버깅·다중 제약 판단은 켜서 지연과 품질을 조절한다."
+  - "sampling을 조정할 때 temperature와 top_p를 동시에 바꾸지 않는다. 구조화 출력은 지원되는 JSON schema 기능으로 강제하고 프롬프트에는 의미·성공 조건을 둔다."
+template: |
+  # Task
+  {task_goal}
+  # Tool contract
+  {available_tools_with_precise_inputs_outputs_and_error_behavior}
+  # Decision and stopping rules
+  {when_to_call_tools_how_to_verify_and_when_to_stop}
+  # Output contract
+  {structured_schema_or_human_readable_format}
+
+  잠정 파라미터 권고(GLM-5.2 호환 문서 기준): thinking.enabled=true, reasoning_effort={high|max}
+pitfalls:
+  - "reasoning_content를 편집·재정렬하거나 누락한 채 멀티턴 도구 결과를 보내는 것"
+  - "도구 이름만 주고 반환 형식·오류 동작을 설명하지 않는 것"
+  - "GLM-5.3 일반 API가 출시되기 전에 잠정 파라미터를 확정 사양처럼 제시하는 것"

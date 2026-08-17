@@ -1,0 +1,27 @@
+id: agentic-engineering
+model: z-ai-glm
+topic: "GLM-5.3 agentic engineering — 분석부터 검증·납품까지"
+verification: verified
+rules:
+  - "단일 코드 조각보다 완성할 엔지니어링 결과를 지정한다: 문제 식별 → 해결안 판단 → 구현 → 실제 검증 → 납품의 전체 흐름을 맡긴다."
+  - "저장소·런타임·관련 문서, 기존 코드 규약, 변경 허용 범위, 금지 사항을 제공한다. 대형 저장소에서는 관련 파일과 우선 탐색 지점을 명시한다."
+  - "수만 줄·수백 파일의 장기 작업에서도 목표를 유지하도록 완료 조건과 검증 명령을 측정 가능하게 적는다."
+  - "최소 개입을 원하면 범위 내 가역적 변경은 스스로 진행하고, 파괴적·외부·비가역적 행동과 실제 범위 변경에서만 멈추도록 한다."
+  - "구현 후 테스트·타입 검사·빌드·재현 절차 등 태스크에 맞는 검증을 실제로 실행하고, 실패·미실행 항목을 그대로 보고하게 한다."
+template: |
+  # Goal
+  {task_goal}
+  # Environment and relevant context
+  {repository_runtime_documents_and_existing_conventions}
+  # Scope and boundaries
+  {allowed_changes_forbidden_changes_and_approval_gates}
+  # Execution
+  문제를 확인하고, 가장 단순한 유효 해결안을 구현한 뒤, 실제 검증 결과에 따라 수정하라.
+  # Done when
+  {measurable_acceptance_criteria_and_commands}
+  # Deliverable
+  {files_or_artifacts_and_concise_verification_report}
+pitfalls:
+  - "'코드를 개선해줘'처럼 산출물·범위·검증 없이 장기 자율성을 부여하는 것"
+  - "기존 규약과 관련 문서 위치를 주지 않아 대규모 재탐색·불필요한 리팩터링을 유발하는 것"
+  - "계획이나 코드 생성에서 멈추고 실제 실행·검증을 완료 조건에 넣지 않는 것"

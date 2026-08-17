@@ -1,0 +1,28 @@
+model: z-ai-glm
+label: "Z.ai GLM / GLM-5.3"
+output_language: follow-target
+
+slots:
+  required:
+    - id: task_goal
+      ask: "이 프롬프트로 GLM-5.3이 정확히 무엇을 완성해야 하나요?"
+  optional:
+    - id: deployment
+      default: "GLM Coding Plan의 코딩 에이전트"
+      note: "2026-08-17 기준 GLM-5.3 일반 API는 출시 전이며 Coding Plan에서 제공"
+    - id: repository_context
+      default: "사용자 요청과 현재 작업공간에서 추론"
+      note: "관련 파일, 기존 규약, 실행·검증 명령"
+    - id: output_format
+      default: "완성 결과 + 간결한 검증 보고"
+    - id: reasoning_effort
+      default: "max"
+      note: "공개된 GLM-5.2 호환 설정 기준 high/max; GLM-5.3 일반 API 출시 후 재검증 필요"
+
+cards:
+  - id: glm-5.3-availability
+    when: "항상 로드 (GLM-5.3의 현재 제공 경로와 한계)"
+  - id: agentic-engineering
+    when: "코딩, 버그 수정, 리팩터링, 프로젝트 구축 또는 장시간 에이전트 작업일 때"
+  - id: thinking-and-tools
+    when: "복잡한 추론, 멀티턴, 도구 호출 또는 API/클라이언트 파라미터 권고가 필요할 때"

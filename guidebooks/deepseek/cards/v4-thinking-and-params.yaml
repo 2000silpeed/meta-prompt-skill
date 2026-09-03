@@ -1,0 +1,23 @@
+id: v4-thinking-and-params
+model: deepseek
+topic: "DeepSeek V4 라인업과 thinking/non-thinking 전환"
+verification: verified   # 2026-09-03 api-docs.deepseek.com 대조
+rules:
+  - "현행 라인업은 deepseek-v4-pro(1.6T/활성 49B)와 deepseek-v4-flash(284B/활성 13B)이며 둘 다 컨텍스트 1M이 기본이다. 레거시 ID deepseek-chat / deepseek-reasoner는 2026-07-24에 은퇴했으므로 새 코드에 쓰지 않는다."
+  - "V4는 'reasoner 전용 모델'이 없는 이중 모드 구조다 — 모델은 티어(pro/flash)로 고르고, 사고 여부·깊이는 파라미터로 고른다."
+  - "프로토콜별 파라미터 이름이 다르다: OpenAI 형식 thinking: {type: enabled|disabled}, Anthropic 형식 reasoning: {effort: none|low|high|max}, Responses 형식 output_config: {effort}. 기본은 thinking 활성 + effort high다."
+  - "thinking 모드에서는 temperature / top_p / presence_penalty / frequency_penalty가 무시된다(오류는 아니지만 효과 없음). 출력 성향 조정은 프롬프트와 스키마로 한다."
+  - "OpenAI ChatCompletions와 Anthropic Messages를 모두 지원하므로 base_url은 두고 model만 바꿔 이식할 수 있다. 다만 사고 관련 필드는 프로토콜 규약을 따라야 한다."
+  - "단순 분류·형식 변환·짧은 요약은 non-thinking(또는 effort none/low)으로 내려 지연과 비용을 줄이고, 다단계 추론·디버깅·계획 수립에서만 high/max를 쓴다."
+template: |
+  {프롬프트 본문}
+
+  # API 권고
+  model: {deepseek-v4-pro | deepseek-v4-flash}
+  thinking: {"type": "enabled"}          # OpenAI 호환 형식
+  reasoning_effort: {none | low | high(기본) | max}
+  (thinking 모드에서 temperature/top_p/penalty는 무시됨)
+pitfalls:
+  - "은퇴한 deepseek-chat / deepseek-reasoner ID를 그대로 쓰는 것"
+  - "thinking 모드에서 temperature를 조정해 놓고 효과가 있다고 가정하는 것"
+  - "간단한 작업까지 기본 effort high로 돌려 비용·지연을 키우는 것"

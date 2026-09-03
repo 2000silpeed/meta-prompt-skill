@@ -1,12 +1,15 @@
 model: z-ai-glm
 sources:
   - url: https://docs.z.ai/guides/llm/glm-5.3
-    covers: [glm-5.3-availability, agentic-engineering]
-  - url: https://z.ai/blog/glm-5.3
-    covers: [glm-5.3-availability, agentic-engineering]
-  - url: https://docs.z.ai/guides/overview/migrate-to-glm-new
-    covers: [thinking-and-tools]
-    note: "현재 문서는 GLM-5.2 기준. GLM-5.3 일반 API 출시 전까지 호환 파라미터의 잠정 근거로만 사용"
+    covers: [glm-5.3-availability, agentic-engineering, thinking-and-tools]
+    fetched: "2026-09-03"
+  - url: https://docs.z.ai/guides/overview/pricing
+    covers: [glm-5.3-availability]
+    fetched: "2026-09-03"
+    note: "표준 API 등재 모델과 가격 확인용 — GLM-5.3 GA 여부를 여기서 판단"
+  - url: https://z.ai/blog/glm-5.3-flash
+    covers: [glm-5.3-availability]
+    note: "GLM-5.3-Flash(2026-08-26, MIT 오픈웨이트) 공식 발표"
   - url: https://docs.z.ai/guides/capabilities/thinking-mode
     covers: [thinking-and-tools]
   - url: https://docs.z.ai/guides/capabilities/function-calling

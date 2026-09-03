@@ -1,5 +1,5 @@
 model: anthropic-claude
-label: "Anthropic Claude / Claude Fable 5"
+label: "Anthropic Claude / Claude Fable 5.1"
 output_language: follow-target
 
 slots:
@@ -8,11 +8,11 @@ slots:
       ask: "이 프롬프트로 모델이 정확히 무엇을 해내야 하나요?"
   optional:
     - id: model_variant
-      default: "claude-fable-5"
-      note: "Fable 5 전용 요청이면 해당 모델의 장시간 자율 작업·effort 규칙을 적용"
+      default: "claude-fable-5-1"
+      note: "Fable 5.1이 최신. 일반 워크로드는 Opus 5부터 시작하고, 고난도 추론·장기 에이전트 작업에 Fable을 쓴다"
     - id: effort
       default: "high"
-      note: "Fable 5는 high를 일반 기본값으로, xhigh는 역량 최우선, medium/low는 일상 작업에 사용"
+      note: "high가 기본. 역량 최우선은 xhigh/max, 일상 작업은 medium/low. 긴 산출물은 high가 유리"
     - id: deployment
       default: "단발 대화형 호출"
       note: "시스템 프롬프트용 / 에이전트 루프용 / 단발 호출용"
@@ -27,9 +27,11 @@ slots:
 
 cards:
   - id: fable-5-core
-    when: "타깃이 Claude Fable 5 또는 Fable일 때"
+    when: "타깃이 Claude Fable(5 또는 5.1)이거나 장시간 자율 작업을 맡길 때"
+  - id: fable-5-1-behaviors
+    when: "Fable 5.1의 관찰된 증상(툴 배칭, 진행 표시, 문체·서식, 중도 중단, 범위 초과, 전체 재작성 등)을 교정해야 할 때"
   - id: fable-5-runtime
-    when: "Fable 5 API 통합·마이그레이션·장시간 실행·거부 처리 설정이 필요할 때"
+    when: "Fable 5.1 API 통합·마이그레이션·effort/thinking 설정·거부 처리가 필요할 때"
   - id: explicit-instructions
     when: "항상 로드 (모든 Claude 변환의 기본)"
   - id: xml-structure

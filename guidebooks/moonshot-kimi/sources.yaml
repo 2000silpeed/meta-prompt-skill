@@ -1,0 +1,14 @@
+model: moonshot-kimi
+sources:
+  - url: https://platform.kimi.ai/docs/introduction/models
+    covers: [k3-runtime]
+    fetched: "2026-09-03"
+    note: "모델 목록·컨텍스트·reasoning_effort 기본값 (platform.moonshot.ai에서 리다이렉트)"
+  - url: https://platform.kimi.ai/docs/guide/agent-support
+    covers: [long-horizon-agent]
+    fetched: "2026-09-03"
+  - url: https://huggingface.co/moonshotai
+    covers: [k3-runtime]
+    note: "오픈웨이트 배포·모델 카드 — 자체 호스팅 시 확인"
+notes:
+  - "Moonshot은 프롬프팅 전용 가이드를 따로 내지 않는다. 카드는 플랫폼 문서에서 확인되는 사실 위주이며, 그 밖의 항목은 일반 원칙임을 표기한다."

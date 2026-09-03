@@ -79,3 +79,39 @@ meta-prompt-skill/                 # 레포 루트 = 스킬 디렉토리 (통째
 - OpenAI 패밀리를 GPT-5.6 Sol/Terra/Luna 기준으로 갱신하고, 간결한 결과 중심 프롬프트·승인 경계·reasoning effort/pro mode 규칙을 공식 문서로 재검증.
 - Claude Fable 5 전용 카드를 추가하고, always-on adaptive thinking·effort·장시간 실행·refusal 처리·숨은 추론 비노출 규칙을 반영.
 - Z.ai GLM-5.3 가이드북을 추가. Coding Plan 제공과 일반 API 미출시 상태를 분리하고, agentic engineering·검증·thinking/도구 규칙을 등록.
+
+## 2026-09-03 모델 갱신 (v1.2)
+
+8월 중순 이후 릴리스를 반영하고, 커버리지를 8종 → 12종으로 넓혔다.
+
+**기존 가이드북 갱신**
+
+- **Claude**: Fable 5.1(2026-09-01) 반영. `fable-5-runtime`을 5.1 기준으로 다시 쓰고(effort에 `max` 추가,
+  forced tool use 미지원, thinking 블록의 대화 바인딩, turn-scoped system message·per-message effort·
+  `display: updates` 베타, cache read 0.025배), 5.1에서 달라진 기본 동작의 증상→처방 대응표를
+  `fable-5-1-behaviors` 카드로 신설했다.
+- **Gemini**: `gemini-3-runtime` 카드 신설. 3.8 Flash(2026-09-02)를 기본으로 두고 `thinking_level` 체계와
+  temperature 1.0 고정·top_p/top_k/candidate_count 폐기를 명시했다. 기존 `iteration-parameters` 카드가
+  권고하던 "결정적 작업은 temperature 0" 지침은 2.x 시대 규칙이라 3.x 기준으로 교체했다.
+- **GLM**: GLM-5.3 일반 API가 출시돼 "coming soon" 상태 표기를 걷어내고, GLM-5.3-Flash(2026-08-26, MIT
+  오픈웨이트, 320B/활성 18B)를 라인업에 추가했다. `reasoning_effort` low/high/max(기본 max)와
+  temperature 1.0을 공식 문서로 확정했다.
+- **Codex**: GPT-5.4/5.4-mini 은퇴(2026-08-31)와 Terra/Luna 대체, 신뢰되지 않은 프로젝트의 AGENTS.md
+  미주입(v0.150.0), 태스크 @ 멘션을 반영.
+- **Seedance**: 2.5(2026-07-31)로 갱신. 30초 원테이크·다회 연장, 영상과 동시 생성되는 오디오,
+  참조 50개(이미지 30/영상 10/오디오 10), 클레이 렌더·모션·조명 참조, 타임스탬프 편집.
+- **나노바나나**: video-to-image, 이미지 검색 그라운딩, 3.1 Flash의 thinking level, 모델별 참조 상한.
+- **Higgsfield**: 현재 탑재 모델 라인업과 Genjutsu 편집 경로(legacy motion_control 대체)로 라우팅 갱신.
+- **GPT-5.x**: 2026-09-03 재확인 결과 GPT-5.6(Sol/Terra/Luna)이 여전히 최신 — 검증일만 갱신.
+
+**신규 가이드북 4종** (사용자 선택으로 범위 확정)
+
+| ID | 근거 |
+|---|---|
+| `alibaba-qwen` | Qwen3.8-Max(2.4T MoE, 1M) / Flash. Model Studio·QwenCloud 공식 문서 대조 |
+| `xai-grok` | Grok 4.6(500K). docs.x.ai 기준 — xAI는 별도 프롬프팅 가이드 미발행 |
+| `deepseek` | V4-Pro / V4-Flash. thinking·non-thinking 이중 모드, 레거시 ID 은퇴 |
+| `moonshot-kimi` | Kimi K3(2.8T 오픈웨이트, 1M). 상시 thinking, reasoning_effort 기본 max |
+
+**메타데이터 규약 추가**: `verification: partial` — 스펙·라인업은 공식 대조했지만 프롬프트 문법 카드는
+지식 기반 초안인 상태(현재 Seedance, Higgsfield). SKILL.md의 신선도 표기 규칙에 반영했다.

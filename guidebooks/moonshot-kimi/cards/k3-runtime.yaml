@@ -1,0 +1,19 @@
+id: k3-runtime
+model: moonshot-kimi
+topic: "Kimi K3 런타임 — 모델 선택과 reasoning_effort"
+verification: verified   # 2026-09-03 platform.kimi.ai 모델 문서 대조
+rules:
+  - "kimi-k3(2.8T 파라미터, 컨텍스트 1M)가 권장 기본이다. 장기 코딩·지식 작업·네이티브 시각 이해를 겨냥한다. 출력 속도가 중요한 코딩 에이전트는 kimi-k2.7-code-highspeed(256K), 범용·저비용은 kimi-k2.6(256K)."
+  - "K3는 사고가 상시 켜져 있다. 조절값은 최상위 reasoning_effort 필드이며 low / high / max(기본)다."
+  - "기본이 max이므로, 작은 호출을 대량으로 던지는 에이전트 루프는 호출마다 최대 사고 비용을 낸다. 루프 안의 단순 단계는 low로 낮추고 판단이 필요한 단계에서만 올린다."
+  - "API는 OpenAI 호환이다(base_url: https://api.moonshot.ai/v1). 프롬프트 자체는 이식 가능하지만 reasoning_effort 같은 필드는 Kimi 규약을 따른다."
+  - "오픈웨이트가 공개돼 있어 자체 호스팅·파인튜닝이 가능하다. 자체 호스팅 시 추론 히스토리 처리 방식이 하네스마다 달라질 수 있으므로 먼저 짧은 태스크로 확인한다."
+template: |
+  {프롬프트 본문 — 목표 / 맥락 / 제약 / 완료 조건}
+
+  # API 권고
+  model: kimi-k3
+  reasoning_effort: {low | high | max(기본)}
+pitfalls:
+  - "에이전트 루프의 모든 단계를 기본 max로 돌려 비용이 폭증하는 것"
+  - "K2 계열(256K)과 K3(1M)의 컨텍스트를 혼동해 입력을 잘라 넣는 것"

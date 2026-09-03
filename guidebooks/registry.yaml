@@ -1,16 +1,16 @@
 # meta-prompt 가이드북 레지스트리 — 항상 로드되는 유일한 파일. 극소로 유지할 것.
 version: 1
-updated: "2026-08-17"
+updated: "2026-09-03"
 staleness_days: 30   # last_verified가 이보다 오래되면 사용 시 경고 (차단 아님)
 fallback: _generic   # 미등록 모델 요청 시 사용할 범용 가이드북 디렉토리
 
 models:
   - id: openai-gpt-5
-    label: "OpenAI GPT-5.x / GPT-5.6 (GPT-5.6 Sol / Terra / Luna 포함)"
+    label: "OpenAI GPT-5.x / GPT-5.6 (Sol / Terra / Luna)"
     type: text-llm
     provider: OpenAI
     aliases: [gpt, gpt-5, gpt5, gpt-5.1, gpt-5.4, gpt-5.5, gpt-5.6, gpt-5.6-sol, gpt5.6-sol, sol, gpt-5.6-terra, terra, gpt-5.6-luna, luna, chatgpt, openai]
-    last_verified: "2026-08-17"
+    last_verified: "2026-09-03"
     verification: verified
 
   - id: openai-codex
@@ -18,53 +18,85 @@ models:
     type: coding-agent
     provider: OpenAI
     aliases: [codex, codex-cli, 코덱스, agents-md, agents.md]
-    last_verified: "2026-07-22"
-    verification: verified   # 공식 가이드 2건 + 로컬 플러그인 스킬 대조 완료
+    last_verified: "2026-09-03"
+    verification: verified
 
   - id: anthropic-claude
-    label: "Anthropic Claude (Fable 5 / Sonnet / Opus / Haiku)"
+    label: "Anthropic Claude (Fable 5.1 / Fable 5 / Opus 5 / Sonnet / Haiku)"
     type: text-llm
     provider: Anthropic
-    aliases: [claude, opus, sonnet, haiku, fable, claude-fable, claude-fable-5, fable-5, fable5, anthropic]
-    last_verified: "2026-08-17"
+    aliases: [claude, opus, opus-5, sonnet, haiku, fable, claude-fable, fable-5, fable5, fable-5.1, fable5.1, claude-fable-5-1, mythos, mythos-5-1, anthropic]
+    last_verified: "2026-09-03"
     verification: verified
 
   - id: z-ai-glm
-    label: "Z.ai GLM (GLM-5.3 — agentic coding / long-horizon tasks)"
+    label: "Z.ai GLM (GLM-5.3 / GLM-5.3-Flash — agentic coding)"
     type: text-llm
     provider: Z.ai
-    aliases: [glm, glm-5, glm5, glm-5.3, glm5.3, gml, gml-5.3, gml5.3, z.ai, zai, zhipu, chatglm]
-    last_verified: "2026-08-17"
+    aliases: [glm, glm-5, glm5, glm-5.3, glm5.3, glm-5.3-flash, gml, gml-5.3, gml5.3, z.ai, zai, zhipu, chatglm]
+    last_verified: "2026-09-03"
     verification: verified
 
   - id: google-gemini
-    label: "Google Gemini (2.x / 3.x — 3.6 Flash / 3.5 Flash / 3.0 Pro)"
+    label: "Google Gemini 3.x (3.8 Flash / 3.1 Pro / 3.1 Flash-Lite)"
     type: text-llm
     provider: Google
-    aliases: [gemini, gemini-3.6, gemini-3.6-flash, gemini-3.5, gemini-3.5-flash, gemini-3, google, vertex]
-    last_verified: "2026-07-22"
+    aliases: [gemini, gemini-3.8, gemini-3.8-flash, gemini-3.7, gemini-3.6, gemini-3.5, gemini-3.1-pro, gemini-3, google, vertex]
+    last_verified: "2026-09-03"
     verification: verified
+
+  - id: alibaba-qwen
+    label: "Alibaba Qwen (Qwen3.8-Max / Flash — hybrid thinking, 에이전트·코딩)"
+    type: text-llm
+    provider: Alibaba
+    aliases: [qwen, qwen3, qwen3.8, qwen3.8-max, qwen-max, qwen3.8-flash, 큐원, 통이, tongyi, dashscope, model-studio]
+    last_verified: "2026-09-03"
+    verification: verified
+
+  - id: xai-grok
+    label: "xAI Grok (Grok 4.6 — 500K 컨텍스트, 서버측 검색·코드 실행 툴)"
+    type: text-llm
+    provider: xAI
+    aliases: [grok, grok-4, grok-4.5, grok-4.6, grok4.6, grok-4.20, xai, x.ai, 그록]
+    last_verified: "2026-09-03"
+    verification: verified   # 공식 API 문서 기준. xAI는 별도 프롬프팅 가이드를 내지 않음
+
+  - id: deepseek
+    label: "DeepSeek (V4-Pro / V4-Flash — thinking/non-thinking 이중 모드)"
+    type: text-llm
+    provider: DeepSeek
+    aliases: [deepseek, deepseek-v4, deepseek-v4-pro, deepseek-v4-flash, deepseek-chat, deepseek-reasoner, 딥시크]
+    last_verified: "2026-09-03"
+    verification: verified
+
+  - id: moonshot-kimi
+    label: "Moonshot Kimi (Kimi K3 — 오픈웨이트 장기 에이전트)"
+    type: text-llm
+    provider: Moonshot AI
+    aliases: [kimi, kimi-k3, k3, kimi-k2.7, moonshot, 키미, 문샷]
+    last_verified: "2026-09-03"
+    verification: verified   # 공식 플랫폼 문서 기준. 프롬프팅 전용 가이드는 미발행
 
   - id: google-nano-banana
     label: "Google Nano Banana (Gemini 3.x Image — 나노바나나2/Pro/Lite)"
     type: media-image
     provider: Google
     aliases: [nano-banana, nano-banana-2, nano-banana-pro, 나노바나나, 나노바나나2, nanobanana, gemini-image, gemini-3.1-flash-image, gemini-3-pro-image]
-    last_verified: "2026-07-22"
-    verification: verified   # 공식 가이드 2건 fetch 대조 완료
+    last_verified: "2026-09-03"
+    verification: verified
 
   - id: bytedance-seedance-2
-    label: "Jimeng Seedance 2.0 (영상 생성)"
+    label: "Seedance 2.x (2.5 최신 — 30초 원테이크 + 네이티브 오디오 / 2.0)"
     type: media-video
     provider: ByteDance
-    aliases: [seedance, 시댄스, jimeng, 즉몽]
-    last_verified: "2026-07-22"
-    verification: knowledge-based
+    aliases: [seedance, seedance-2, seedance-2.5, 시댄스, jimeng, 즉몽, dreamina]
+    last_verified: "2026-09-03"
+    verification: partial   # 2.5 스펙은 공식 발표 대조, 프롬프트 문법 카드는 2.0 기반 지식 초안
 
   - id: higgsfield
     label: "Higgsfield (이미지/영상 생성 플랫폼)"
     type: media-platform
     provider: Higgsfield
     aliases: [higgsfield, 힉스필드, cinema-studio]
-    last_verified: "2026-07-22"
-    verification: knowledge-based
+    last_verified: "2026-09-03"
+    verification: partial   # 모델 라인업은 2026-09-03 확인, 프롬프트 카드는 지식 기반 초안

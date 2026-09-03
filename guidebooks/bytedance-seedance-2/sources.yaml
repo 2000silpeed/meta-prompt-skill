@@ -1,5 +1,9 @@
 model: bytedance-seedance-2
 sources:
+  - url: https://seed.bytedance.com/en/blog/one-take-creation-flexible-referencing-introducing-seedance-2-5
+    covers: [prompt-structure-timing, at-reference-system, capability-patterns]
+    fetched: "2026-09-03"
+    note: "Seedance 2.5(2026-07-31) 공식 발표 — 30초 원테이크·네이티브 오디오·참조 50개·클레이 렌더"
   - url: https://github.com/dexhunter/seedance2-skill
     covers: [at-reference-system, prompt-structure-timing, camera-language, capability-patterns, style-and-pitfalls]
     note: "로컬 사본: ~/.claude/skills/seedance-prompt-en/SKILL.md (카드 증류의 1차 원본)"

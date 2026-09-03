@@ -1,5 +1,5 @@
 model: google-gemini
-label: "Google Gemini"
+label: "Google Gemini 3.x"
 output_language: follow-target
 
 slots:
@@ -7,6 +7,12 @@ slots:
     - id: task_goal
       ask: "이 프롬프트로 모델이 정확히 무엇을 해내야 하나요?"
   optional:
+    - id: model_variant
+      default: "gemini-3.8-flash"
+      note: "무거운 추론은 Gemini 3.1 Pro, 최저 지연·비용은 3.1 Flash-Lite"
+    - id: thinking_level
+      default: "medium"
+      note: "3.8 Flash는 low/medium/high (minimal 미지원)"
     - id: input_description
       default: "사용자 요청에서 추론"
       note: "멀티모달 입력(이미지/영상/PDF) 여부가 중요"
@@ -16,11 +22,13 @@ slots:
       default: "일반"
 
 cards:
+  - id: gemini-3-runtime
+    when: "항상 로드 (3.x 모델 선택·thinking_level·폐기된 파라미터)"
   - id: structure-pctf
-    when: "항상 로드 (모든 Gemini 변환의 기본)"
+    when: "항상 로드 (프롬프트 조립 골격)"
   - id: long-context-multimodal
     when: "긴 문서(수십만 토큰) 또는 이미지/영상/오디오/PDF 입력이 있을 때"
   - id: structured-output
     when: "JSON 등 기계가 파싱할 출력이 필요할 때"
   - id: iteration-parameters
-    when: "결과가 불안정하거나 파라미터 튜닝 여지가 있을 때"
+    when: "결과가 불안정하거나 지연·품질 트레이드오프 조정이 필요할 때"

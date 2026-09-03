@@ -1,15 +1,18 @@
 model: z-ai-glm
-label: "Z.ai GLM / GLM-5.3"
+label: "Z.ai GLM / GLM-5.3 · GLM-5.3-Flash"
 output_language: follow-target
 
 slots:
   required:
     - id: task_goal
-      ask: "이 프롬프트로 GLM-5.3이 정확히 무엇을 완성해야 하나요?"
+      ask: "이 프롬프트로 GLM이 정확히 무엇을 완성해야 하나요?"
   optional:
+    - id: model_variant
+      default: "glm-5.3"
+      note: "난도 높은 장기 작업은 glm-5.3, 비용 민감한 대량 에이전트 루프·자체 호스팅은 glm-5.3-flash(MIT)"
     - id: deployment
       default: "GLM Coding Plan의 코딩 에이전트"
-      note: "2026-08-17 기준 GLM-5.3 일반 API는 출시 전이며 Coding Plan에서 제공"
+      note: "Coding Plan / 표준 API — 프로토콜별 엔드포인트가 다름"
     - id: repository_context
       default: "사용자 요청과 현재 작업공간에서 추론"
       note: "관련 파일, 기존 규약, 실행·검증 명령"
@@ -17,11 +20,11 @@ slots:
       default: "완성 결과 + 간결한 검증 보고"
     - id: reasoning_effort
       default: "max"
-      note: "공개된 GLM-5.2 호환 설정 기준 high/max; GLM-5.3 일반 API 출시 후 재검증 필요"
+      note: "low / high / max (기본 max). 반복 호출이 많은 루프는 낮춰서 비용·지연 관리"
 
 cards:
   - id: glm-5.3-availability
-    when: "항상 로드 (GLM-5.3의 현재 제공 경로와 한계)"
+    when: "항상 로드 (모델 라인업·제공 경로·엔드포인트)"
   - id: agentic-engineering
     when: "코딩, 버그 수정, 리팩터링, 프로젝트 구축 또는 장시간 에이전트 작업일 때"
   - id: thinking-and-tools

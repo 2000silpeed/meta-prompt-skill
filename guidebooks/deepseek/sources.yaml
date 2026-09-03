@@ -1,0 +1,17 @@
+model: deepseek
+sources:
+  - url: https://api-docs.deepseek.com/guides/thinking_mode
+    covers: [v4-thinking-and-params, agentic-and-output]
+    fetched: "2026-09-03"
+    note: "thinking/non-thinking 전환, 무시되는 샘플링 파라미터, 멀티턴 reasoning_content 규칙"
+  - url: https://api-docs.deepseek.com/news/news260424/
+    covers: [v4-thinking-and-params]
+    fetched: "2026-09-03"
+    note: "V4 라인업 발표 — 레거시 모델 ID 은퇴 일정"
+  - url: https://api-docs.deepseek.com/updates/
+    covers: [v4-thinking-and-params]
+    note: "체인지로그 — refresh 시 신규 모델·파라미터 변경 확인"
+  - url: https://api-docs.deepseek.com/guides/function_calling
+    covers: [agentic-and-output]
+  - url: https://api-docs.deepseek.com/guides/json_mode
+    covers: [agentic-and-output]

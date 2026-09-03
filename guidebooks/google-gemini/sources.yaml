@@ -1,5 +1,12 @@
 model: google-gemini
 sources:
+  - url: https://ai.google.dev/gemini-api/docs/latest-model
+    covers: [gemini-3-runtime]
+    fetched: "2026-09-03"
+    note: "현재 최신 모델(Gemini 3.8 Flash)의 what's new — refresh 시 최우선 확인"
+  - url: https://ai.google.dev/gemini-api/docs/gemini-3
+    covers: [gemini-3-runtime, iteration-parameters, structure-pctf]
+    fetched: "2026-09-03"
   - url: https://ai.google.dev/gemini-api/docs/prompting-strategies
     covers: [structure-pctf, iteration-parameters, structured-output]
   - url: https://cloud.google.com/vertex-ai/generative-ai/docs/learn/prompts/introduction-prompt-design

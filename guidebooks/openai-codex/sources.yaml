@@ -2,7 +2,7 @@ model: openai-codex
 sources:
   - url: https://learn.chatgpt.com/guides/best-practices
     covers: [task-prompt-4-elements, agents-md, verification-and-review, workflow-antipatterns]
-    fetched: "2026-07-22"
+    fetched: "2026-09-03"
     note: "developers.openai.com/codex/learn/best-practices 에서 리다이렉트"
   - url: https://developers.openai.com/cookbook/examples/gpt-5/codex_prompting_guide
     covers: [task-prompt-4-elements, xml-block-contracts, verification-and-review]
@@ -10,3 +10,7 @@ sources:
   - url: local:~/.claude/plugins/marketplaces/openai-codex/plugins/codex/skills/gpt-5-4-prompting/SKILL.md
     covers: [xml-block-contracts, workflow-antipatterns]
     note: "references/ 하위에 prompt-blocks, recipes, antipatterns 상세 파일 있음"
+  - url: https://learn.chatgpt.com/docs/changelog
+    covers: [agents-md, task-prompt-4-elements, workflow-antipatterns]
+    fetched: "2026-09-03"
+    note: "Codex 체인지로그 — 모델 은퇴/추가, AGENTS.md 로딩 정책 변경을 refresh 시 확인"

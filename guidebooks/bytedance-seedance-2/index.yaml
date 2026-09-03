@@ -1,5 +1,5 @@
 model: bytedance-seedance-2
-label: "Jimeng Seedance 2.0"
+label: "Seedance 2.x (2.5 / 2.0)"
 output_language: english-prompt   # 프롬프트는 영어, 해설은 한국어
 
 slots:
@@ -9,16 +9,19 @@ slots:
   optional:
     - id: assets
       default: "없음 (순수 텍스트 생성)"
-      note: "보유한 참조 이미지/영상/오디오 목록 — @ 시스템 설계에 필수"
+      note: "보유한 참조 이미지/영상/오디오(2.5는 클레이 렌더·모션·조명 참조 포함) — @ 시스템 설계에 필수"
+    - id: model_generation
+      default: "2.5"
+      note: "2.5 = 30초 원테이크 + 네이티브 오디오 + 참조 50개. 2.0 = 4~15초, 참조 12개"
     - id: duration
-      default: "5~10초"
-      note: "4~15초. 10초 이상이면 시간 분할 프롬프트 적용"
+      default: "10초"
+      note: "2.5는 최대 30초(연장 가능), 2.0은 4~15초. 10초 이상이면 시간 분할 프롬프트 적용"
     - id: camera
       default: "내용에 맞게 카드에서 선택"
     - id: style_mood
       default: "cinematic"
     - id: audio
-      default: "자동 생성 BGM/효과음에 방향만 지시"
+      default: "2.5는 영상과 동시 생성 — 대사·효과음·BGM을 구간별로 지시"
 
 cards:
   - id: at-reference-system

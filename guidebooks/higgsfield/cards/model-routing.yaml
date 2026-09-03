@@ -1,15 +1,17 @@
 id: model-routing
 model: higgsfield
 topic: "모델·툴 라우팅 — 생성 전에 올바른 경로부터"
-verification: knowledge-based
+verification: partial   # 2026-09-03 라인업·MCP 지침 재확인, 프롬프트 문법은 지식 기반
 rules:
   - "Higgsfield는 단일 모델이 아니라 멀티모델 플랫폼. 어떤 생성 모델을 쓸지 모호하면 models_explore(action:'recommend')에 목표를 넘겨 추천받는 흐름을 프롬프트에 선행시킨다."
-  - "기존 자산의 '편집'은 재생성이 아니라 전용 툴로: upscale_image/video(해상도), outpaint_image(확장), reframe(비율 변경), remove_background(배경 제거), motion_control(모션 전이). 프롬프트 변환 전에 요청이 생성인지 편집인지 먼저 분류."
+  - "기존 자산의 '편집'은 재생성이 아니라 전용 툴로: upscale_image/video(해상도), outpaint_image(확장), reframe(비율 변경), remove_background(배경 제거). 프롬프트 변환 전에 요청이 생성인지 편집인지 먼저 분류."
   - "서사형 영상(내레이션 설명영상, 광고, UGC, 팟캐스트 등)은 단발 프롬프트가 아니라 workflow 카탈로그(get_workflow_instructions) 경유가 정답."
   - "게임 제작은 get_game_creation_instructions 선행."
+  - "2026-09 기준 플랫폼이 얹고 있는 대표 생성 모델: 영상 Seedance 2.5(30초·네이티브 오디오)·Kling 3.0·Veo 3.1·Sora 2·Wan 2.6, 이미지 Nano Banana Pro·GPT Image·Seedream 5.0·Flux Kontext. 특정 모델을 지목하기 전에 그 모델이 현재 카탈로그에 있는지 models_explore로 확인한다."
+  - "영상 편집형 요청(모션 전이, 오브젝트 교체)은 legacy motion_control이 아니라 generate_video의 Genjutsu 경로를 쓴다: 움직임 복제·전이는 hf_mult_motion_control, 오브젝트 교체는 hf_mult_replace_object. 하나의 클립을 여러 버전으로 파생하는 요청은 ad-multiplier 워크플로우."
 routing_table:
   generate: "generate_image / generate_video / generate_audio / generate_3d"
-  edit: "upscale / outpaint / reframe / remove_background / motion_control"
+  edit: "upscale / outpaint / reframe / remove_background / generate_video(Genjutsu: hf_mult_motion_control, hf_mult_replace_object)"
   narrative_video: "get_workflow_instructions → 해당 워크플로우"
 pitfalls:
   - "업스케일이면 될 것을 재생성 프롬프트로 만드는 것 — 비용 낭비 + 원본 유실"

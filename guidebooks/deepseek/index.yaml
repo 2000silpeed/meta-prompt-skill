@@ -1,0 +1,26 @@
+model: deepseek
+label: "DeepSeek V4 (Pro / Flash)"
+output_language: follow-target
+
+slots:
+  required:
+    - id: task_goal
+      ask: "이 프롬프트로 DeepSeek이 정확히 무엇을 해내야 하나요?"
+  optional:
+    - id: model_variant
+      default: "deepseek-v4-flash"
+      note: "난도 높은 추론·복잡한 코딩은 deepseek-v4-pro, 일반·대량 처리는 deepseek-v4-flash"
+    - id: thinking
+      default: "활성 (기본)"
+      note: "단순 변환·분류는 non-thinking으로 지연·비용 절감"
+    - id: reasoning_effort
+      default: "high"
+      note: "none / low / high(기본) / max"
+    - id: output_format
+      default: "자유 산문"
+
+cards:
+  - id: v4-thinking-and-params
+    when: "항상 로드 (모델 선택·thinking 전환·파라미터 제약)"
+  - id: agentic-and-output
+    when: "도구 호출, 멀티턴 에이전트, JSON/구조화 출력이 관련될 때"

@@ -1,17 +1,19 @@
 id: iteration-parameters
 model: google-gemini
-topic: "반복 개선과 파라미터"
-verification: knowledge-based
+topic: "반복 개선과 파라미터 (3.x 기준)"
+verification: verified   # 2026-09-03 Gemini 3 가이드 대조 — 샘플링 파라미터 지침 교체
 rules:
-  - "결과가 불안정하면 표현을 바꿔 재시도: 동의어 교체, 유사 태스크로 재프레이밍(분류→완성 유도), 순서 변경이 유효한 개선 수단."
-  - "결정적 작업(분류, 추출)은 temperature 0 부근, 창의 작업은 0.7 이상을 권고. 프롬프트와 파라미터를 함께 제시할 것."
-  - "fallback 응답이 반복되면 temperature를 올려본다."
-  - "프롬프트가 길어질수록 지시 반복이 유효하다: 핵심 제약을 시작과 끝에 한 번씩."
+  - "결과가 불안정하면 파라미터부터 만지지 말고 표현을 바꿔 재시도한다: 동의어 교체, 유사 태스크로 재프레이밍(분류→완성 유도), 지시 순서 변경."
+  - "Gemini 3.x에서 품질·지연의 주 조절값은 temperature가 아니라 thinking_level이다. 얕은 답이 나오면 medium→high로, 너무 느리면 high→low로 옮긴다."
+  - "temperature는 기본 1.0을 유지한다. 결정성이 필요한 분류·추출은 온도를 낮추는 대신 responseSchema(enum 포함)와 명확한 지시로 잠근다. (temperature 0 부근 권고는 Gemini 2.x 시대 지침이며 3.x에는 적용하지 않는다.)"
+  - "프롬프트가 길어질수록 핵심 제약을 시작과 끝에 한 번씩 반복하는 것은 여전히 유효하다."
+  - "같은 프롬프트로 여러 번 돌릴 계획이면 고정 부분을 앞에, 매 요청 달라지는 부분을 뒤에 두어 캐시 적중률을 높인다."
 template: |
   {프롬프트 본문}
 
-  # 권고 파라미터
-  temperature: {태스크 성격에 따라}
-  topP: 기본값 유지
+  # 권고 파라미터 (Gemini 3.x)
+  thinking_level: {태스크 성격에 따라 low/medium/high}
+  temperature: 1.0 (기본값)
 pitfalls:
-  - "프롬프트만 고치고 파라미터를 방치 — 불안정성의 절반은 샘플링 설정 문제"
+  - "불안정성을 temperature로 해결하려는 것 — 3.x에서는 thinking_level과 스키마 강제가 정답"
+  - "2.x용 파라미터 권고(temperature 0, top_p 조정)를 3.x 프롬프트에 그대로 붙이는 것"

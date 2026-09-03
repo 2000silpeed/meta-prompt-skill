@@ -20,7 +20,7 @@ slots:
       note: "프레임 내 텍스트가 있으면 text-rendering 카드 필수"
     - id: references
       default: "없음"
-      note: "참조 이미지 최대 14개"
+      note: "참조 상한은 모델별로 다름 (3.1 Flash: 오브젝트 10+캐릭터 4+스타일 3)"
     - id: model_variant
       default: "gemini-3.1-flash-image"
       note: "품질 최우선이면 gemini-3-pro-image, 속도/비용이면 flash-lite"

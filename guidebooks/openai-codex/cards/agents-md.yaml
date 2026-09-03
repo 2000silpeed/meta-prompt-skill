@@ -1,7 +1,7 @@
 id: agents-md
 model: openai-codex
 topic: "AGENTS.md — 에이전트를 위한 README"
-verification: verified   # 2026-07-22 공식 가이드 대조
+verification: verified   # 2026-09-03 Codex 체인지로그 재확인
 rules:
   - "프롬프트에 반복해서 들어가는 규칙은 AGENTS.md로 옮긴다. AGENTS.md는 자동으로 컨텍스트에 로드된다."
   - "포함할 것: 저장소 레이아웃과 중요 디렉토리, 실행 방법, 빌드·테스트·린트 명령, 엔지니어링 관례와 PR 기대사항, 금지 규칙, '완료'의 정의와 검증 방법."
@@ -9,6 +9,7 @@ rules:
   - "규칙은 실수가 반복될 때 추가한다 — 선제적으로 쌓지 않는다. 파일이 커지면 작업별 마크다운으로 분리."
   - "캐스케이딩: 전역(~/.codex/AGENTS.md) → 레포 루트 → 하위 디렉토리 순으로 주입되고, 수정 파일에 더 가까운 것이 우선한다."
   - "/init 명령으로 프로젝트 구조를 분석한 초기 AGENTS.md를 생성할 수 있다."
+  - "신뢰되지 않은(untrusted) 프로젝트에서는 프로젝트 레벨 AGENTS.md 지시가 더 이상 주입되지 않는다(Codex v0.150.0). 외부 저장소를 다룰 때는 필요한 규칙을 태스크 프롬프트나 전역 AGENTS.md에 직접 넣는다."
 template: |
   # AGENTS.md 골격
   ## Layout: {중요 디렉토리와 역할}

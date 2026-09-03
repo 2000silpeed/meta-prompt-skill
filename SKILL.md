@@ -1,6 +1,6 @@
 ---
 name: meta-prompt
-description: 타깃 AI 모델(GPT/Codex, Claude, Gemini, GLM, Seedance, Higgsfield 등)별 프롬프트 가이드북에 맞춰 사용자의 요청을 최적화된 프롬프트로 변환·생성한다. 사용자가 "○○용 프롬프트 만들어줘", "프롬프트 최적화해줘", "이 요청을 ○○ 프롬프트로 바꿔줘", "프롬프트 잘 써줘", "meta-prompt"라고 하거나, "실행 전에 meta-prompt를 적용해줘", "최종 프롬프트를 바꾼 뒤 진행해줘"라고 할 때 사용한다. 후자의 경우 모델별 최종 프롬프트를 먼저 컴파일한 뒤 그 프롬프트로 작업을 계속 수행한다. 서브커맨드 — "/meta-prompt refresh 모델명"(가이드북 갱신), "/meta-prompt add 모델명"(새 모델 추가), "/meta-prompt eval 요청"(원본 vs 변환본 A/B 비교). 단순 문장 윤문이나 한글 자연화는 humanize-korean 소관.
+description: 타깃 AI 모델(GPT/Codex, Claude, Gemini, GLM, Qwen, Grok, DeepSeek, Kimi, Seedance, 나노바나나, Higgsfield 등)별 프롬프트 가이드북에 맞춰 사용자의 요청을 최적화된 프롬프트로 변환·생성한다. 사용자가 "○○용 프롬프트 만들어줘", "프롬프트 최적화해줘", "이 요청을 ○○ 프롬프트로 바꿔줘", "프롬프트 잘 써줘", "meta-prompt"라고 하거나, "실행 전에 meta-prompt를 적용해줘", "최종 프롬프트를 바꾼 뒤 진행해줘"라고 할 때 사용한다. 후자의 경우 모델별 최종 프롬프트를 먼저 컴파일한 뒤 그 프롬프트로 작업을 계속 수행한다. 서브커맨드 — "/meta-prompt refresh 모델명"(가이드북 갱신), "/meta-prompt add 모델명"(새 모델 추가), "/meta-prompt eval 요청"(원본 vs 변환본 A/B 비교). 단순 문장 윤문이나 한글 자연화는 humanize-korean 소관.
 ---
 
 # meta-prompt: 모델별 가이드북 기반 프롬프트 변환기
@@ -38,7 +38,7 @@ description: 타깃 AI 모델(GPT/Codex, Claude, Gemini, GLM, Seedance, Higgsfie
 ### 2. 가이드북 로드 + 신선도 확인
 
 - `$GB/registry.yaml`에서 모델 확인. `last_verified`가 `staleness_days`(30일)를 넘었으면 **경고만** 한다: "이 가이드북은 N일 전 검증본입니다. `/meta-prompt refresh <model>`로 갱신할 수 있습니다." 차단하지 않는다.
-- `verification: knowledge-based`면 "공식 가이드 대조 전 초안" 상태임을 함께 표기.
+- `verification`이 `knowledge-based`(공식 가이드 대조 전 초안) 또는 `partial`(일부만 공식 대조)이면 그 상태를 함께 표기한다. 카드 안의 개별 `verification`도 같은 규칙으로 읽는다.
 - `$GB/<model-id>/index.yaml`을 읽고, `when` 조건이 요청에 해당하는 카드만 로드.
 
 ### 3. 슬롯 확인 → 컨텍스트 보강

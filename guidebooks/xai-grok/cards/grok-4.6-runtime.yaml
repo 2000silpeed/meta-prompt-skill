@@ -1,0 +1,25 @@
+id: grok-4.6-runtime
+model: xai-grok
+topic: "Grok 4.6 런타임 — 모델 선택, reasoning_effort, 금지 파라미터, 캐시"
+verification: verified   # 2026-09-03 docs.x.ai 대조
+rules:
+  - "기본 모델은 grok-4.6(컨텍스트 500K, 텍스트·이미지 입력, 텍스트 출력, 지식 컷오프 2026-01)이다. 더 긴 컨텍스트가 필요하면 grok-4.3 / grok-4.20 계열(1M), 다중 에이전트 심층 리서치는 grok-4.20-multi-agent를 검토한다."
+  - "reasoning_effort는 low / medium / high(기본) / xhigh(4.6+)다. 지연 민감한 에이전트 루프·단순 툴 호출은 low, 복잡한 데이터 분석·롱컨텍스트 추론은 medium, 난도 높은 수학·다단계 논리는 high, 답 품질이 응답 속도보다 중요한 최난도 문제만 xhigh."
+  - "추론은 끌 수 없다. 지식 컷오프 이후 정보가 필요하면 프롬프트로 막지 말고 검색 툴을 켠다."
+  - "presence_penalty / frequency_penalty / stop은 추론 모델에서 사용할 수 없다 — 넣으면 오류다. 길이·중단 제어는 프롬프트의 출력 계약으로 한다."
+  - "멀티턴에서는 prompt_cache_key(Responses) 또는 x-grok-conv-id 헤더(Chat Completions)를 반드시 설정한다. 없으면 캐시가 식은 서버로 라우팅돼 매 턴 전체 입력 요금을 낸다. 프롬프트도 고정 부분을 앞, 변하는 부분을 뒤로 두어 캐시 적중을 돕는다."
+  - "추론 모델은 응답이 길어질 수 있으므로 클라이언트 타임아웃을 넉넉히(공식 예시 3600초) 잡는다. 4.6은 스트림 델타로 요약된 추론을 보여주고, include: ['reasoning.encrypted_content']로 암호화된 추론을 받아 다음 턴에 되돌려 보낼 수 있다."
+  - "grok-4.20-multi-agent에서는 effort 단계가 사고 깊이가 아니라 협업 에이전트 수를 조절한다 — 같은 값이라도 의미가 다르다."
+template: |
+  {프롬프트 본문 — 역할 / 맥락 / 과업 / 출력 계약}
+
+  # API 권고
+  model: grok-4.6
+  reasoning_effort: {low | medium | high(기본) | xhigh}
+  prompt_cache_key 또는 x-grok-conv-id: {대화 식별자}
+  timeout: 넉넉히 (긴 추론 대비)
+pitfalls:
+  - "stop / presence_penalty / frequency_penalty를 그대로 이식해 오류를 맞는 것"
+  - "캐시 키 없이 멀티턴을 돌려 매 턴 전액 입력 요금을 내는 것"
+  - "지식 컷오프 이후 정보를 검색 툴 없이 물어보고 최신이라고 믿는 것"
+  - "multi-agent 변형에서 effort를 사고 깊이로 오해하는 것"

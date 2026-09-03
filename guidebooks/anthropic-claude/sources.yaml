@@ -1,9 +1,18 @@
 model: anthropic-claude
 sources:
+  - url: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5-1
+    covers: [fable-5-1-behaviors, fable-5-core, thinking-and-cot, system-role-tools]
+    fetched: "2026-09-03"
+  - url: https://platform.claude.com/docs/en/models/fable-5-1/whats-new-fable-5-1
+    covers: [fable-5-runtime]
+    fetched: "2026-09-03"
+  - url: https://platform.claude.com/docs/en/models/fable-5-1/migration-guide
+    covers: [fable-5-runtime]
+    note: "Fable 5 / Opus 5에서의 이전 절차 — refresh 시 breaking change 목록 재확인"
   - url: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5
-    covers: [fable-5-core, fable-5-runtime, thinking-and-cot, system-role-tools]
-  - url: https://platform.claude.com/docs/en/about-claude/models/introducing-claude-fable-5-and-claude-mythos-5
-    covers: [fable-5-runtime, thinking-and-cot]
+    covers: [fable-5-core, fable-5-runtime]
+    fetched: "2026-09-03"
+    note: "Fable 5 세대용. 장기 자율 작업·메모리·send-to-user 도구 원본"
   - url: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices
     covers: [explicit-instructions, multishot-examples, thinking-and-cot, system-role-tools]
   - url: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/use-xml-tags

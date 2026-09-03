@@ -1,0 +1,28 @@
+id: gemini-3-runtime
+model: google-gemini
+topic: "Gemini 3.x 런타임 — 모델 선택, thinking_level, 폐기된 샘플링 파라미터"
+verification: verified   # 2026-09-03 공식 문서 대조 (latest-model, gemini-3 developer guide)
+rules:
+  - "최신 워크로드 기본값은 gemini-3.8-flash다. 장기 소프트웨어 엔지니어링·자율 에이전트·복잡한 업무 흐름을 겨냥해 나왔고, 컨텍스트 1M / 최대 출력 64K다. 더 무거운 추론이 필요하면 Gemini 3.1 Pro, 최저 지연·비용은 3.1 Flash-Lite를 검토한다."
+  - "thinking_budget 대신 thinking_level 문자열을 쓴다. gemini-3.8-flash는 low / medium(기본) / high를 지원하고 minimal은 지원하지 않는다(오류). 지연이 중요하면 low, 복잡한 코드·에이전트는 기본 medium, 밀집 시각 QA나 60분+ 영상 다단계 추론은 high."
+  - "Gemini 3.x에서 temperature는 기본값 1.0을 유지한다. 1.0 미만으로 내리면 루프나 성능 저하 같은 예상 밖 동작이 생길 수 있다. top_p/top_k/candidate_count는 쓰지 않는다."
+  - "프롬프트는 짧고 직접적으로 쓴다. Gemini 3.x는 장황한 chain-of-thought 유도문 없이 자체 추론을 하므로, 2.5 시대의 '단계별로 생각하라' 류 장치는 제거하고 thinking_level로 대체한다."
+  - "기본 출력이 이전 세대보다 덜 장황하고 직설적이다. 대화체나 풍부한 설명이 필요하면 프롬프트에서 명시적으로 요구한다."
+  - "멀티턴은 서버측 상태 모드(previous_interaction_id)를 기본으로 쓴다. 무상태로 직접 히스토리를 관리하면 thought signature(암호화된 추론 표현)를 그대로 되돌려 보내야 한다."
+  - "이미지·PDF 입력이 많으면 media_resolution 설정으로 토큰과 정확도를 조절한다. high로 올릴 때 컨텍스트 초과 여부를 먼저 확인한다."
+  - "Gemini 3.x는 structured outputs와 내장 툴(Google Search, URL Context, Code Execution) + 커스텀 function calling을 동시에 쓸 수 있다. 에이전트 프롬프트는 이 조합을 전제로 설계한다."
+  - "FunctionResponse에는 call_id와 name을 반드시 포함한다."
+template: |
+  {프롬프트 본문 — 짧고 직접적으로}
+
+  # API 권고
+  model: gemini-3.8-flash
+  thinking_level: {low | medium(기본) | high}
+  temperature: 1.0 (기본값 유지)
+  media_resolution: {입력이 이미지/PDF 중심일 때만 조정}
+  previous_interaction_id: {멀티턴이면 서버측 상태 사용}
+pitfalls:
+  - "Gemini 2.x 습관대로 temperature를 0~0.3으로 낮추는 것 — 3.x에서는 성능 저하·루프 위험"
+  - "thinking_budget 토큰 수를 지정하거나 3.8 Flash에 minimal을 넘기는 것"
+  - "긴 CoT 유도문과 반복 지시로 프롬프트를 부풀리는 것 — 3.x는 간결한 지시에 가장 잘 반응한다"
+  - "무상태 호출에서 thought signature를 빠뜨려 멀티턴 추론 맥락을 잃는 것"

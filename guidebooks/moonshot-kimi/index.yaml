@@ -1,0 +1,26 @@
+model: moonshot-kimi
+label: "Moonshot Kimi (K3)"
+output_language: follow-target
+
+slots:
+  required:
+    - id: task_goal
+      ask: "이 프롬프트로 Kimi가 정확히 무엇을 해내야 하나요?"
+  optional:
+    - id: model_variant
+      default: "kimi-k3"
+      note: "장기 코딩·지식 작업은 kimi-k3(1M). 출력 속도가 중요한 코딩은 kimi-k2.7-code-highspeed(256K), 범용은 kimi-k2.6(256K)"
+    - id: reasoning_effort
+      default: "max"
+      note: "low / high / max(기본). 반복 호출이 많은 루프는 낮춰서 비용 관리"
+    - id: deployment
+      default: "API 호출"
+      note: "코딩 에이전트 하네스면 추론 히스토리 보존 호환성이 중요"
+    - id: output_format
+      default: "자유 산문"
+
+cards:
+  - id: k3-runtime
+    when: "항상 로드 (모델 선택과 reasoning_effort)"
+  - id: long-horizon-agent
+    when: "장기 코딩·에이전트 루프·대규모 코드베이스 작업일 때"

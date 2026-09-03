@@ -3,10 +3,10 @@ model: anthropic-claude
 topic: "사고 제어 — effort와 adaptive thinking, 숨은 추론 비노출"
 verification: verified
 rules:
-  - "Fable 5는 adaptive thinking이 항상 켜져 있으므로 thinking을 끄거나 extended-thinking 토큰 예산을 지정하지 않는다. 깊이는 effort로 조절한다."
-  - "Fable 5의 원시 chain-of-thought는 반환되지 않는다. 숨은 추론을 재현·전사·설명하라고 요구하거나 <thinking> 태그로 출력하게 하지 않는다."
+  - "Fable 5/5.1은 adaptive thinking이 항상 켜져 있으므로 thinking을 끄거나 extended-thinking 토큰 예산을 지정하지 않는다. 깊이는 effort로 조절한다."
+  - "Fable 5/5.1의 원시 chain-of-thought는 반환되지 않는다. 숨은 추론을 재현·전사·설명하라고 요구하거나 <thinking> 태그로 출력하게 하지 않는다."
   - "사용자에게 필요한 것은 결론을 뒷받침하는 간결한 근거·검증 결과·중요한 판단 기준으로 요청한다."
-  - "다단계 작업은 고려할 요소와 성공 기준을 주되 내부 사고 순서를 과도하게 각본화하지 않는다. Fable 5의 강한 지시 이행을 짧은 지시로 활용한다."
+  - "다단계 작업은 고려할 요소와 성공 기준을 주되 내부 사고 순서를 과도하게 각본화하지 않는다. Fable의 강한 지시 이행을 짧은 지시로 활용한다."
   - "툴 사용 작업은 실제 툴 결과에 근거해 진행 주장과 최종 결과를 감사하도록 지시한다."
 template: |
   다음 판단 요소를 고려해 {task_goal}을 수행하라:
@@ -15,7 +15,7 @@ template: |
   - 충돌 시 우선순위: {priority}
 
   최종 답에는 결론, 결론을 지지하는 근거, 검증 결과, 중요한 불확실성만 포함하라.
-  API 권고(Fable 5): effort={low|medium|high|xhigh}, thinking.display={omitted|summarized}
+  API 권고(Fable 5.1): effort={low|medium|high(기본)|xhigh|max}, thinking.display={omitted|updates(beta)|summarized}
 pitfalls:
   - "숨은 사고 과정이나 thinking summary를 프롬프트로 추출하려는 지시 — reasoning_extraction 거부를 유발할 수 있다"
-  - "Fable 5에 thinking: disabled 또는 구형 budget_tokens를 전달하는 것"
+  - "Fable에 thinking: disabled 또는 구형 budget_tokens를 전달하는 것"

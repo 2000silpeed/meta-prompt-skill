@@ -1,7 +1,7 @@
 id: task-prompt-4-elements
 model: openai-codex
 topic: "태스크 프롬프트 4요소 — Goal, Context, Constraints, Done when"
-verification: verified   # 2026-07-22 공식 가이드 대조
+verification: verified   # 2026-09-03 재확인 (모델 라인업 갱신)
 rules:
   - "모든 태스크 프롬프트에 4요소를 갖춘다: Goal(무엇을 바꾸거나 만들 것인가) / Context(관련 파일·문서·에러) / Constraints(지킬 표준·아키텍처·금지) / Done when(완료 기준: 테스트 통과, 동작 변경, 버그 재현 불가 등)."
   - "한 번의 실행에 한 태스크만. 무관한 요청은 별도 실행으로 분리한다."
@@ -9,6 +9,8 @@ rules:
   - "완료 상태를 추론하게 두지 않는다 — done의 모습을 명시할 것."
   - "reasoning effort를 태스크에 맞춘다: 명확한 소작업 low, 복잡한 변경·디버깅 medium~high, 장기 에이전트 작업 xhigh."
   - "복잡하거나 모호한 작업은 플랜 모드(/plan)를 먼저 — 또는 'Codex가 먼저 인터뷰하게 하라'."
+  - "2026-09 기준 Codex 기본 권장 모델은 GPT-5.6 Sol이고, ChatGPT 계정 로그인 사용자의 GPT-5.4/5.4-mini는 2026-08-31에 은퇴해 GPT-5.6 Terra/Luna로 대체됐다. 모델별 프롬프트 지침이 필요하면 openai-gpt-5 가이드북의 gpt-5.6-sol 카드를 함께 로드한다."
+  - "다른 Codex 태스크를 @ 멘션으로 참조할 수 있다. 선행 태스크의 결과를 이어받는 프롬프트라면 그 태스크를 명시적으로 가리킨다."
 template: |
   Goal: {무엇을 바꾸거나 만든다}
   Context: {관련 파일 경로:줄번호, 에러 로그, 참고 문서}

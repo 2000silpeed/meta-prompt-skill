@@ -1,0 +1,19 @@
+model: xai-grok
+sources:
+  - url: https://docs.x.ai/developers/grok-4-6
+    covers: [grok-4.6-runtime]
+    fetched: "2026-09-03"
+    note: "모델 스펙·컨텍스트·캐시 키 권고"
+  - url: https://docs.x.ai/developers/model-capabilities/text/reasoning
+    covers: [grok-4.6-runtime]
+    fetched: "2026-09-03"
+    note: "reasoning_effort 단계별 용도, 미지원 파라미터, 타임아웃 권고"
+  - url: https://docs.x.ai/developers/tools/overview
+    covers: [tools-and-search]
+    fetched: "2026-09-03"
+  - url: https://docs.x.ai/developers/models
+    covers: [grok-4.6-runtime]
+    fetched: "2026-09-03"
+    note: "현재 모델 목록 — refresh 시 신규 모델/은퇴 확인"
+notes:
+  - "xAI는 Anthropic/OpenAI 수준의 별도 프롬프팅 가이드를 발행하지 않는다. 카드는 API 문서에서 확인 가능한 사실 + 일반 원칙으로 구성하고, 문서에 없는 부분은 그렇게 표기한다."

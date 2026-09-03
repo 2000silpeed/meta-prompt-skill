@@ -1,0 +1,29 @@
+model: alibaba-qwen
+label: "Alibaba Qwen3.8 (Max / Flash / 오픈웨이트)"
+output_language: follow-target
+
+slots:
+  required:
+    - id: task_goal
+      ask: "이 프롬프트로 Qwen이 정확히 무엇을 해내야 하나요?"
+  optional:
+    - id: model_variant
+      default: "qwen3.8-max"
+      note: "최고 역량은 qwen3.8-max, 비용·지연은 qwen3.8-flash, 자체 호스팅은 오픈웨이트(qwen3.8-27b / qwen3.8-2.4t-a95b)"
+    - id: thinking
+      default: "활성 (기본값)"
+      note: "단순 대화·정형 추출은 enable_thinking=false로 지연·비용 절감"
+    - id: reasoning_effort
+      default: "xhigh"
+      note: "qwen3.8-max는 low/medium/xhigh(기본). thinking_budget과 동시 지정 불가"
+    - id: deployment
+      default: "단발 API 호출"
+      note: "에이전트 루프면 도구 계약과 reasoning_content 재전송 규칙이 중요"
+    - id: output_format
+      default: "자유 산문"
+
+cards:
+  - id: qwen3.8-lineup-and-thinking
+    when: "항상 로드 (모델 선택과 thinking 파라미터)"
+  - id: agentic-and-tools
+    when: "코딩, 장기 자율 작업, 도구 호출, 멀티턴 에이전트 프롬프트일 때"

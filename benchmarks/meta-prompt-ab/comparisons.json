@@ -1,0 +1,17 @@
+[
+  {
+    "model": "gpt-6-astra",
+    "passed_delta": 0,
+    "mean_seconds_delta": 38.31
+  },
+  {
+    "model": "gpt-5.6-sol",
+    "passed_delta": 0,
+    "mean_seconds_delta": -82.99
+  },
+  {
+    "model": "gpt-5.6-luna",
+    "passed_delta": 4,
+    "mean_seconds_delta": 4.514
+  }
+]

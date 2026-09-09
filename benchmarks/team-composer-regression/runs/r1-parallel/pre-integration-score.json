@@ -1,0 +1,174 @@
+{
+  "passed": 40,
+  "total": 40,
+  "tests_run": 40,
+  "details": [
+    {
+      "id": "test_acceptance.Acceptance.test_01_public_exports_and_initial_snapshot",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_02_time_offsets_canonicalize_to_utc",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_03_time_requires_datetime_string_and_offset",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_04_discount_largest_remainder_and_sku_tie",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_05_large_integer_discount_remainder_is_exact",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_06_zero_subtotal_and_full_discount",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_07_invalid_line_shapes_and_duplicate_sku",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_08_discount_rejects_bool_and_noninteger_numbers",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_09_refund_cumulative_rounding_and_large_integer",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_10_refund_domain_validation",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_11_inventory_success_in_place_and_items_unchanged",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_12_inventory_reserve_cross_sku_atomicity",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_13_inventory_release_cross_sku_atomicity_and_empty_items",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_14_initial_stock_validation",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_15_reserve_snapshot_defaults_and_input_ownership",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_16_confirm_charges_once_without_reserving_again",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_17_reserved_full_cancel_restores_without_refund",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_18_reserved_partial_cancel_rejected_full_explicit_allowed",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_19_confirmed_partial_cancel_cumulative_rounding",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_20_omitted_cancel_items_cancels_only_remaining",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_21_confirmed_cancel_cross_sku_atomicity",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_22_terminal_orders_cannot_confirm_cancel_or_be_reused",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_23_expiry_must_be_strictly_after_reserve",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_24_exact_ttl_confirm_rejection_rolls_back_everything",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_25_success_at_exact_ttl_expires_and_reuses_released_stock",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_26_failed_event_rolls_back_other_orders_expiration",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_27_confirmed_order_survives_ttl",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_28_time_reversal_rejected_equal_timestamp_allowed",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_29_older_duplicate_bypasses_time_and_expiration",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_30_duplicate_fingerprint_normalizes_both_time_fields_and_key_order",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_31_duplicate_fingerprint_includes_unknown_keys",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_32_duplicate_fingerprint_preserves_line_order",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_33_failed_event_id_can_be_retried_with_corrected_payload",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_34_invalid_common_event_fields_only_raise_valueerror",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_35_snapshot_and_caller_mutations_do_not_alias_internal_state",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_36_cancel_items_caller_ownership",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_37_engine_reserve_cross_sku_failure_is_atomic",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_38_replay_utc_sort_and_input_immutability",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_39_replay_equal_instant_stable_order",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_40_replay_empty_and_invalid_events",
+      "status": "passed"
+    }
+  ],
+  "source_sha256": {
+    "__init__.py": "dd780670db291e473e40916e4c5eaf724d464bd7bd574cc0ccf2289bdba4007d",
+    "clock.py": "bccb96ccb970f5590b5a52e7b11e16229958cabe9ccb4a506115e7a685435054",
+    "engine.py": "1680bfc320a6c0b37dc83181425487ec4a0caabc05a601ee4ca0f7ac8f46e308",
+    "inventory.py": "2e00728e673906e5f455231dd2f15984a9821011ed8048305a99dd2bad30f055",
+    "money.py": "f5a5c615824f5e93aeb73df69a02812b1a30870db5166f1e6f975c1faccba5d7"
+  }
+}

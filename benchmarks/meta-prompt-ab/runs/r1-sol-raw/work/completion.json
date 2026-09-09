@@ -1,0 +1,1 @@
+{"status":"completed","tests_run":["python3 -m unittest discover -s tests -v","python3 -m py_compile shop/__init__.py shop/clock.py shop/engine.py shop/inventory.py shop/money.py tests/test_contract_additional.py tests/test_public.py"],"limitations":[]}

@@ -1,0 +1,1 @@
+{"status":"completed","tests_run":["python -m unittest discover -s tests -v","별도 Python focused checks (시간대/naive 거부, 할인·환불 산술, TTL 경계 원자성, 만료, alias 방지)"],"limitations":["평가용 테스트 결과는 확인하지 않음"]}

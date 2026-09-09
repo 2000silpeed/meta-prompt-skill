@@ -8,6 +8,14 @@ description: 타깃 AI 모델(GPT/Codex, Claude, Gemini, GLM, Qwen, Grok, DeepSe
 가이드북 루트: 이 스킬의 베이스 디렉토리(이 SKILL.md가 있는 곳)의 `guidebooks/`
 (이하 `$GB`. 설계 배경: 같은 디렉토리의 `PLAN.md`)
 
+## 에이전트 팀 구성으로 확장
+
+사용자가 서비스 조합이나 에이전트 팀 자동 구성을 요청하면 이 저장소의
+[agent-team-composer](skills/agent-team-composer/SKILL.md)를 읽고 팀 구성을 수행한다.
+팀 구성기는 이 스킬을 역할별 프롬프트 컴파일러로 재사용한다. 컴파일 단계에서는
+프롬프트 산출물만 생성하고 실제 배정·실행은 팀 구성기가 담당한다.
+단일 모델용 프롬프트 요청은 아래 기존 흐름으로 처리한다.
+
 ## 핵심 원칙
 
 - **토큰 절약 — 3단 점진 로딩을 엄수한다.** ①`$GB/registry.yaml`(항상) → ②해당 모델의 `index.yaml`(변환 시) → ③index의 `when` 조건에 맞는 카드 파일만 선별 로드. 모델 디렉토리 전체를 읽지 않는다.
@@ -29,7 +37,7 @@ description: 타깃 AI 모델(GPT/Codex, Claude, Gemini, GLM, Qwen, Grok, DeepSe
 
 ### 1. 타깃 모델 감지 (사다리 순서대로)
 
-0. **환경 자체 감지**: 요청이 "지금 이 세션"용이면 현재 Claude 모델이 타깃. 세션에 연결된 실행 도구(Higgsfield MCP, codex 등)가 요청 내용과 맞으면 그 모델을 후보로.
+0. **환경 자체 감지**: 요청이 "지금 이 세션"용이면 런타임에서 확인된 현재 서비스·모델이 타깃. Codex 작업은 `openai-codex`를 우선하며 특정 호스트를 가정하지 않는다. 세션에 연결된 실행 도구가 요청 내용과 맞으면 실제 실행 모델을 후보로.
 1. **사용자 명시**: 모델명이 있으면 registry의 `aliases`로 매칭.
 2. **맥락 추론**: 요청 성격으로 추론하되(영상 → media 타입 모델 등), 추론했음을 반드시 명시: "○○ 모델 기준으로 변환합니다. 다른 모델이면 알려주세요."
 3. **질문**: 모호하면 registry의 모델 목록을 AskUserQuestion으로 제시.

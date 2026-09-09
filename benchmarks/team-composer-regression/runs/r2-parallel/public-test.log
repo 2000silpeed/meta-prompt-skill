@@ -1,0 +1,29 @@
+test_confirmed_never_expires_and_cumulative_refunds (test_engine_added.EngineAddedTests.test_confirmed_never_expires_and_cumulative_refunds) ... ok
+test_duplicates_before_ordering_and_expiry (test_engine_added.EngineAddedTests.test_duplicates_before_ordering_and_expiry) ... ok
+test_expiration_rollback_and_failed_id_reuse (test_engine_added.EngineAddedTests.test_expiration_rollback_and_failed_id_reuse) ... ok
+test_inputs_and_snapshots_are_independent (test_engine_added.EngineAddedTests.test_inputs_and_snapshots_are_independent) ... ok
+test_invalid_events_are_atomic (test_engine_added.EngineAddedTests.test_invalid_events_are_atomic) ... ok
+test_replay_utc_sort_and_equal_time_stability (test_engine_added.EngineAddedTests.test_replay_utc_sort_and_equal_time_stability) ... ok
+test_reserved_cancellation_must_be_full (test_engine_added.EngineAddedTests.test_reserved_cancellation_must_be_full) ... ok
+test_discount_invalid_inputs (test_foundation_added.FoundationTests.test_discount_invalid_inputs) ... ok
+test_discount_ties_and_large_exact_values (test_foundation_added.FoundationTests.test_discount_ties_and_large_exact_values) ... ok
+test_inventory_is_atomic_and_items_unchanged (test_foundation_added.FoundationTests.test_inventory_is_atomic_and_items_unchanged) ... ok
+test_inventory_rejects_invalid_stock (test_foundation_added.FoundationTests.test_inventory_rejects_invalid_stock) ... ok
+test_refunds_are_cumulative_and_conserved (test_foundation_added.FoundationTests.test_refunds_are_cumulative_and_conserved) ... ok
+test_timestamp_normalization_and_validation (test_foundation_added.FoundationTests.test_timestamp_normalization_and_validation) ... ok
+test_fingerprint_preserves_line_order_and_unknown_nested_fields (test_integration_added.IntegrationTests.test_fingerprint_preserves_line_order_and_unknown_nested_fields) ... ok
+test_multiline_discount_and_refund_conservation (test_integration_added.IntegrationTests.test_multiline_discount_and_refund_conservation) ... ok
+test_multiple_expirations_roll_back_on_inventory_failure (test_integration_added.IntegrationTests.test_multiple_expirations_roll_back_on_inventory_failure) ... ok
+test_replay_is_repeatable_across_offset_day_boundaries (test_integration_added.IntegrationTests.test_replay_is_repeatable_across_offset_day_boundaries) ... ok
+test_unbounded_integer_money_survives_fingerprinting (test_integration_added.IntegrationTests.test_unbounded_integer_money_survives_fingerprinting) ... ok
+test_atomic_stock (test_public.PublicTests.test_atomic_stock) ... ok
+test_discount_conservation (test_public.PublicTests.test_discount_conservation) ... ok
+test_empty_replay (test_public.PublicTests.test_empty_replay) ... ok
+test_happy_path (test_public.PublicTests.test_happy_path) ... ok
+test_refund_keeps_last_unit (test_public.PublicTests.test_refund_keeps_last_unit) ... ok
+test_timezone (test_public.PublicTests.test_timezone) ... ok
+
+----------------------------------------------------------------------
+Ran 24 tests in 0.011s
+
+OK

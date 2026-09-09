@@ -1,0 +1,208 @@
+{
+  "passed": 40,
+  "total": 41,
+  "tests_run": 41,
+  "details": [
+    {
+      "id": "test_acceptance.Acceptance.test_01_public_exports_and_initial_snapshot",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_02_time_offsets_canonicalize_to_utc",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_03_time_requires_datetime_string_and_offset",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_04_discount_largest_remainder_and_sku_tie",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_05_large_integer_discount_remainder_is_exact",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_06_zero_subtotal_and_full_discount",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_07_invalid_line_shapes_and_duplicate_sku",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_08_discount_rejects_bool_and_noninteger_numbers",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_09_refund_cumulative_rounding_and_large_integer",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_10_refund_domain_validation",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_11_inventory_success_in_place_and_items_unchanged",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_12_inventory_reserve_cross_sku_atomicity",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_13_inventory_release_cross_sku_atomicity_and_empty_items",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_14_initial_stock_validation",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_15_reserve_snapshot_defaults_and_input_ownership",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_16_confirm_charges_once_without_reserving_again",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_17_reserved_full_cancel_restores_without_refund",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_18_reserved_partial_cancel_rejected_full_explicit_allowed",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_19_confirmed_partial_cancel_cumulative_rounding",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_20_omitted_cancel_items_cancels_only_remaining",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_21_confirmed_cancel_cross_sku_atomicity",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_22_terminal_orders_cannot_confirm_cancel_or_be_reused",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_23_expiry_must_be_strictly_after_reserve",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_24_exact_ttl_confirm_rejection_rolls_back_everything",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_25_success_at_exact_ttl_expires_and_reuses_released_stock",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_26_failed_event_rolls_back_other_orders_expiration",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_27_confirmed_order_survives_ttl",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_28_time_reversal_rejected_equal_timestamp_allowed",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_29_older_duplicate_bypasses_time_and_expiration",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_30_duplicate_fingerprint_normalizes_both_time_fields_and_key_order",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_31_duplicate_fingerprint_includes_unknown_keys",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_32_duplicate_fingerprint_preserves_line_order",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_33_failed_event_id_can_be_retried_with_corrected_payload",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_34_invalid_common_event_fields_only_raise_valueerror",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_35_snapshot_and_caller_mutations_do_not_alias_internal_state",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_36_cancel_items_caller_ownership",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_37_engine_reserve_cross_sku_failure_is_atomic",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_38_replay_utc_sort_and_input_immutability",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_39_replay_equal_instant_stable_order",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_40_replay_empty_and_invalid_events",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.ExtendedAcceptance.test_41_unbounded_integer_event_lifecycle",
+      "status": "error",
+      "detail": "Traceback (most recent call last):\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 58, in testPartExecutor\n    yield\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 634, in run\n    self._callTestMethod(testMethod)\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 589, in _callTestMethod\n    if method() is not None:\n       ^^^^^^^^\n  File \"/Users/sungwoon/ai-projects/meta-prompt-skill/benchmarks/meta-prompt-ab/private/test_acceptance.py\", line 384, in test_41_unbounded_integer_event_lifecycle\n    b.apply(event)\n  File \"/Users/sungwoon/ai-projects/meta-prompt-skill/benchmarks/meta-prompt-ab/runs/r1-luna-meta/work/shop/engine.py\", line 28, in apply\n    fp = _fingerprint(event)\n         ^^^^^^^^^^^^^^^^^^^\n  File \"/Users/sungwoon/ai-projects/meta-prompt-skill/benchmarks/meta-prompt-ab/runs/r1-luna-meta/work/shop/engine.py\", line 12, in _fingerprint\n    return json.dumps(value, sort_keys=True, separators=(',', ':'), ensure_ascii=False, allow_nan=False)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/json/__init__.py\", line 238, in dumps\n    **kw).encode(obj)\n          ^^^^^^^^^^^\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/json/encoder.py\", line 200, in encode\n    chunks = self.iterencode(o, _one_shot=True)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/json/encoder.py\", line 258, in iterencode\n    return _iterencode(o, 0)\n           ^^^^^^^^^^^^^^^^^\nValueError: Exceeds the limit (4300 digits) for integer string conversion; use sys.set_int_max_str_digits() to increase the limit\n"
+    }
+  ],
+  "source_sha256": {
+    "__init__.py": "dd780670db291e473e40916e4c5eaf724d464bd7bd574cc0ccf2289bdba4007d",
+    "clock.py": "c42b130fbfc2bb89353a4a629c09a02ba7be138be99b5510a29bd740f19e68e0",
+    "engine.py": "c8b0457774346c95f3d53759f6e59fc2cca72c28adee09c6ce2c1dccdfa35ec4",
+    "inventory.py": "bb18a5451cbe1f1a091af1e75ea34e68380cb1d5b302c80e614128268d6e197f",
+    "money.py": "65f8511a8b1c78738bd948cea91cb551cad3acf01a6b8ac689bfe244a449f61c"
+  },
+  "measurement": {
+    "started_epoch": 1788617616.533254,
+    "completed_epoch": 1788617730.2387366,
+    "observed_epoch": 1788617745.789402,
+    "source_sha256": {
+      "__init__.py": "dd780670db291e473e40916e4c5eaf724d464bd7bd574cc0ccf2289bdba4007d",
+      "clock.py": "c42b130fbfc2bb89353a4a629c09a02ba7be138be99b5510a29bd740f19e68e0",
+      "engine.py": "c8b0457774346c95f3d53759f6e59fc2cca72c28adee09c6ce2c1dccdfa35ec4",
+      "inventory.py": "bb18a5451cbe1f1a091af1e75ea34e68380cb1d5b302c80e614128268d6e197f",
+      "money.py": "65f8511a8b1c78738bd948cea91cb551cad3acf01a6b8ac689bfe244a449f61c"
+    },
+    "artifact_seconds": 113.705
+  },
+  "agents": [
+    "/root/ab_r1_luna_meta"
+  ],
+  "public_tests_passed": true,
+  "reported_completion": {
+    "status": "completed",
+    "tests_run": [
+      "python -m unittest discover -s tests -v",
+      "별도 Python focused checks (시간대/naive 거부, 할인·환불 산술, TTL 경계 원자성, 만료, alias 방지)"
+    ],
+    "limitations": [
+      "평가용 테스트 결과는 확인하지 않음"
+    ]
+  },
+  "actual_tokens": null,
+  "actual_cost": null
+}

@@ -1,0 +1,7 @@
+메타 프롬프트의 Codex 작업 계약을 적용한 실제 코드 회귀 벤치마크다.
+Goal: 지정 작업의 shop 패키지를 CONTRACT.md에 맞게 수정한다.
+Context: 작업 디렉터리 /Users/sungwoon/ai-projects/meta-prompt-skill/benchmarks/team-composer-regression/runs/r1-single/work. CONTRACT.md, shop/*.py, tests/를 읽어라.
+Constraints: 이 work 디렉터리만 읽고 쓸 수 있다. 다른 실행 결과, 상위 fixture, private/, 기준 구현, 평가기, 점수 파일은 읽지 않는다. 외부 호출·의존성 설치·추가 에이전트 생성은 하지 않는다. 공개 계약과 기존 tests/는 수정하지 않는다. Python 표준 라이브러리 사용. 모델 설정은 상속.
+Done when: 계약과 public API를 확인하고 공개 테스트 및 직접 추가한 의미 있는 테스트를 실행했다. handoff.md에 변경·검증·한계를 기록한다. 마지막에 completion.json을 {"status":"completed","tests_run":["실제 명령"],"limitations":[]} 형식으로 저장하고 종료한다. 계약을 충족하지 못하면 status=partial과 이유를 적는다. 자신의 검증 실패는 수정할 수 있으나 숨겨진 채점 피드백은 받지 않는다.
+
+전체 모듈을 혼자 수정·검증하라.

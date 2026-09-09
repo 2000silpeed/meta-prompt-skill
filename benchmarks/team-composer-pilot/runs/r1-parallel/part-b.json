@@ -1,0 +1,98 @@
+{
+  "cases": [
+    {
+      "case_id": "C04",
+      "status": "planned",
+      "assignments": [
+        {
+          "task_id": "a",
+          "service_id": "cloud-special",
+          "depends_on": [],
+          "guidebook": "openai-codex",
+          "prompt_contract": {
+            "goal": "research 작업으로 검토 가능한 research 산출물을 완성한다.",
+            "context": "작업 ID: a; 선행 작업 ID: 없음.",
+            "constraints": "local_only=false: 로컬 제한 없음; fixed_service=null: 고정 서비스 없음; 전체 budget=11 unit 이하를 지킨다.",
+            "done_when": "a의 research 산출물이 존재하고, 선행 결과 반영 여부와 작업 요구사항 충족 여부를 확인할 수 있다."
+          }
+        },
+        {
+          "task_id": "b",
+          "service_id": "cloud-special",
+          "depends_on": [],
+          "guidebook": "openai-codex",
+          "prompt_contract": {
+            "goal": "write 작업으로 검토 가능한 write 산출물을 완성한다.",
+            "context": "작업 ID: b; 선행 작업 ID: 없음.",
+            "constraints": "local_only=false: 로컬 제한 없음; fixed_service=null: 고정 서비스 없음; 전체 budget=11 unit 이하를 지킨다.",
+            "done_when": "b의 write 산출물이 존재하고, 선행 결과 반영 여부와 작업 요구사항 충족 여부를 확인할 수 있다."
+          }
+        },
+        {
+          "task_id": "c",
+          "service_id": "local-new",
+          "depends_on": [],
+          "guidebook": "_generic",
+          "prompt_contract": {
+            "goal": "image 작업으로 검토 가능한 image 산출물을 완성한다.",
+            "context": "작업 ID: c; 선행 작업 ID: 없음.",
+            "constraints": "local_only=false: 로컬 제한 없음; fixed_service=null: 고정 서비스 없음; 전체 budget=11 unit 이하를 지킨다.",
+            "done_when": "c의 image 산출물이 존재하고, 선행 결과 반영 여부와 작업 요구사항 충족 여부를 확인할 수 있다."
+          }
+        },
+        {
+          "task_id": "d",
+          "service_id": "local-new",
+          "depends_on": [
+            "a",
+            "b",
+            "c"
+          ],
+          "guidebook": "_generic",
+          "prompt_contract": {
+            "goal": "review 작업으로 검토 가능한 review 산출물을 완성한다.",
+            "context": "작업 ID: d; 선행 작업 ID: a, b, c.",
+            "constraints": "local_only=false: 로컬 제한 없음; fixed_service=null: 고정 서비스 없음; 전체 budget=11 unit 이하를 지킨다.",
+            "done_when": "d의 review 산출물이 존재하고, 선행 결과 반영 여부와 작업 요구사항 충족 여부를 확인할 수 있다."
+          }
+        }
+      ],
+      "total_cost": 9,
+      "latency": 9,
+      "waves": [
+        [
+          "a",
+          "b",
+          "c"
+        ],
+        [
+          "d"
+        ]
+      ],
+      "blockers": []
+    },
+    {
+      "case_id": "C05",
+      "status": "blocked",
+      "assignments": [],
+      "total_cost": null,
+      "latency": null,
+      "waves": [],
+      "blockers": [
+        "no_eligible_service",
+        "required_service_unavailable"
+      ]
+    },
+    {
+      "case_id": "C06",
+      "status": "blocked",
+      "assignments": [],
+      "total_cost": null,
+      "latency": null,
+      "waves": [],
+      "blockers": [
+        "budget_exceeded"
+      ]
+    }
+  ]
+}

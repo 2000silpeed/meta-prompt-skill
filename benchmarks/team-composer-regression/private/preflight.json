@@ -1,0 +1,9 @@
+{
+  "baseline_acceptance": "20/40",
+  "reference_acceptance": "40/40",
+  "all_subtest_failures_accounted": true,
+  "broken_candidate_import": "0/40 (denominator preserved)",
+  "reference_public_tests": "6/6",
+  "baseline_public_tests": "3/6",
+  "test_author_independent": true
+}

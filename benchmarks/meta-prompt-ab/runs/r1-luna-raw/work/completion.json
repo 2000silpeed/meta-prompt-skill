@@ -1,0 +1,1 @@
+{"status":"completed","tests_run":["python -m unittest discover -s tests -v","추가 표준 라이브러리 경계 검증 스크립트"],"limitations":["다중 스레드 안전성·DB·네트워크는 계약 범위 밖","평가용 비공개 테스트 결과는 제공되지 않음"]}

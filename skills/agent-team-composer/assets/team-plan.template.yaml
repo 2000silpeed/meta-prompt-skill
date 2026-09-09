@@ -1,0 +1,53 @@
+# 실제 값으로 채운 뒤 사용한다. 실행 엔진이나 자격 증명 저장소가 아니다.
+version: 1
+mode: plan # plan | execute
+goal: ""
+done_when: []
+constraints:
+  required_services: []
+  priority: balanced # balanced | quality | speed | cost
+  budget: unknown
+  deadline: unknown
+  data_boundary: "요청과 현재 세션의 허가 범위"
+assumptions: []
+meta_prompt_root: ""
+runtime:
+  host: ""
+  dispatch: sequential # native-subagents | sequential | mixed
+  observed_concurrency_limit: unknown
+  planned_peak_concurrency: 1
+services: [] # routing.md의 관측 기록. 필요한 후보만 기록.
+selection:
+  reason: ""
+  alternatives: []
+tasks:
+  - id: task-1
+    role: ""
+    owner: current-agent
+    service: ""
+    model: unknown
+    route: ""
+    depends_on: []
+    inputs: []
+    outputs: []
+    write_scope: []
+    done_when: []
+    prompt:
+      text: "" # 또는 같은 객체의 path에 실제 프롬프트 파일 경로를 사용
+      guidebook: ""
+      cards: []
+      verification: unknown
+      generic_additions: []
+    status: planned
+    dispatch_id: null
+    attempts: 0
+    result:
+      outputs: []
+      checks: []
+      issues: []
+      cost: unknown
+      elapsed_seconds: unknown
+integration:
+  owner: current-agent
+  checks: []
+  status: planned

@@ -1,0 +1,68 @@
+[
+  {
+    "run": "r1-parallel",
+    "config": "parallel",
+    "passed": 40,
+    "total": 40,
+    "seconds": 168.017,
+    "agents": 3,
+    "public_passed": true,
+    "before": 40,
+    "failed_tests": []
+  },
+  {
+    "run": "r1-review",
+    "config": "review",
+    "passed": 40,
+    "total": 40,
+    "seconds": 187.488,
+    "agents": 2,
+    "public_passed": true,
+    "before": 40,
+    "failed_tests": []
+  },
+  {
+    "run": "r1-single",
+    "config": "single",
+    "passed": 40,
+    "total": 40,
+    "seconds": 81.826,
+    "agents": 1,
+    "public_passed": true,
+    "before": null,
+    "failed_tests": []
+  },
+  {
+    "run": "r2-parallel",
+    "config": "parallel",
+    "passed": 40,
+    "total": 40,
+    "seconds": 187.588,
+    "agents": 3,
+    "public_passed": true,
+    "before": 40,
+    "failed_tests": []
+  },
+  {
+    "run": "r2-review",
+    "config": "review",
+    "passed": 40,
+    "total": 40,
+    "seconds": 196.779,
+    "agents": 2,
+    "public_passed": true,
+    "before": 40,
+    "failed_tests": []
+  },
+  {
+    "run": "r2-single",
+    "config": "single",
+    "passed": 40,
+    "total": 40,
+    "seconds": 77.589,
+    "agents": 1,
+    "public_passed": true,
+    "before": null,
+    "failed_tests": []
+  }
+]

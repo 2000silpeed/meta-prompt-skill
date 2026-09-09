@@ -1,0 +1,20 @@
+test_confirmed_partial_cancel_refunds_cumulatively (test_contract_additional.AdditionalContractTests.test_confirmed_partial_cancel_refunds_cumulatively) ... ok
+test_duplicate_normalizes_time_and_precedes_chronology (test_contract_additional.AdditionalContractTests.test_duplicate_normalizes_time_and_precedes_chronology) ... ok
+test_expiration_boundary_rolls_back_with_rejected_event (test_contract_additional.AdditionalContractTests.test_expiration_boundary_rolls_back_with_rejected_event) ... ok
+test_inputs_and_snapshots_do_not_alias (test_contract_additional.AdditionalContractTests.test_inputs_and_snapshots_do_not_alias) ... ok
+test_inventory_operations_are_atomic (test_contract_additional.AdditionalContractTests.test_inventory_operations_are_atomic) ... ok
+test_money_is_exact_and_rejects_bool (test_contract_additional.AdditionalContractTests.test_money_is_exact_and_rejects_bool) ... ok
+test_replay_uses_utc_order_without_mutating_events (test_contract_additional.AdditionalContractTests.test_replay_uses_utc_order_without_mutating_events) ... ok
+test_reserved_cancel_requires_whole_order (test_contract_additional.AdditionalContractTests.test_reserved_cancel_requires_whole_order) ... ok
+test_time_requires_offset_and_normalizes (test_contract_additional.AdditionalContractTests.test_time_requires_offset_and_normalizes) ... ok
+test_atomic_stock (test_public.PublicTests.test_atomic_stock) ... ok
+test_discount_conservation (test_public.PublicTests.test_discount_conservation) ... ok
+test_empty_replay (test_public.PublicTests.test_empty_replay) ... ok
+test_happy_path (test_public.PublicTests.test_happy_path) ... ok
+test_refund_keeps_last_unit (test_public.PublicTests.test_refund_keeps_last_unit) ... ok
+test_timezone (test_public.PublicTests.test_timezone) ... ok
+
+----------------------------------------------------------------------
+Ran 15 tests in 0.001s
+
+OK

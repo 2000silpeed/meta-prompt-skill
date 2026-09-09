@@ -1,0 +1,199 @@
+{
+  "passed": 20,
+  "total": 41,
+  "tests_run": 41,
+  "details": [
+    {
+      "id": "test_acceptance.Acceptance.test_01_public_exports_and_initial_snapshot",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_02_time_offsets_canonicalize_to_utc",
+      "status": "failed",
+      "detail": "Traceback (most recent call last):\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 58, in testPartExecutor\n    yield\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 634, in run\n    self._callTestMethod(testMethod)\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 589, in _callTestMethod\n    if method() is not None:\n       ^^^^^^^^\n  File \"/Users/sungwoon/ai-projects/meta-prompt-skill/benchmarks/meta-prompt-ab/private/test_acceptance.py\", line 60, in test_02_time_offsets_canonicalize_to_utc\n    self.assertEqual(shop.clock.parse_time(value), expected)\nAssertionError: datetime.datetime(2026, 1, 1, 9, 0, tzinfo=datetime.timezone.utc) != datetime.datetime(2026, 1, 1, 0, 0, tzinfo=datetime.timezone.utc)\n"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_03_time_requires_datetime_string_and_offset",
+      "status": "failed",
+      "detail": "Traceback (most recent call last):\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 58, in testPartExecutor\n    yield\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 539, in subTest\n    yield\n  File \"/Users/sungwoon/ai-projects/meta-prompt-skill/benchmarks/meta-prompt-ab/private/test_acceptance.py\", line 65, in test_03_time_requires_datetime_string_and_offset\n    with self.subTest(value=value), self.assertRaises(ValueError):\n                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ValueError not raised\n"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_04_discount_largest_remainder_and_sku_tie",
+      "status": "failed",
+      "detail": "Traceback (most recent call last):\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 58, in testPartExecutor\n    yield\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 634, in run\n    self._callTestMethod(testMethod)\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 589, in _callTestMethod\n    if method() is not None:\n       ^^^^^^^^\n  File \"/Users/sungwoon/ai-projects/meta-prompt-skill/benchmarks/meta-prompt-ab/private/test_acceptance.py\", line 71, in test_04_discount_largest_remainder_and_sku_tie\n    self.assertEqual(shop.money.allocate_discount(rows, 2), {\"a\": 0, \"b\": 0, \"c\": 1})\nAssertionError: {'c': 0, 'b': 0, 'a': 1} != {'a': 0, 'b': 0, 'c': 1}\n- {'a': 1, 'b': 0, 'c': 0}\n?       ^               ^\n\n+ {'a': 0, 'b': 0, 'c': 1}\n?       ^               ^\n\n"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_05_large_integer_discount_remainder_is_exact",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_06_zero_subtotal_and_full_discount",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_07_invalid_line_shapes_and_duplicate_sku",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_08_discount_rejects_bool_and_noninteger_numbers",
+      "status": "failed",
+      "detail": "Traceback (most recent call last):\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 58, in testPartExecutor\n    yield\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 539, in subTest\n    yield\n  File \"/Users/sungwoon/ai-projects/meta-prompt-skill/benchmarks/meta-prompt-ab/private/test_acceptance.py\", line 98, in test_08_discount_rejects_bool_and_noninteger_numbers\n    with self.subTest(rows=rows, discount=discount), self.assertRaises(ValueError):\n                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ValueError not raised\nTraceback (most recent call last):\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 58, in testPartExecutor\n    yield\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 539, in subTest\n    yield\n  File \"/Users/sungwoon/ai-projects/meta-prompt-skill/benchmarks/meta-prompt-ab/private/test_acceptance.py\", line 98, in test_08_discount_rejects_bool_and_noninteger_numbers\n    with self.subTest(rows=rows, discount=discount), self.assertRaises(ValueError):\n                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ValueError not raised\nTraceback (most recent call last):\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 58, in testPartExecutor\n    yield\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 539, in subTest\n    yield\n  File \"/Users/sungwoon/ai-projects/meta-prompt-skill/benchmarks/meta-prompt-ab/private/test_acceptance.py\", line 98, in test_08_discount_rejects_bool_and_noninteger_numbers\n    with self.subTest(rows=rows, discount=discount), self.assertRaises(ValueError):\n                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ValueError not raised\n"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_09_refund_cumulative_rounding_and_large_integer",
+      "status": "failed",
+      "detail": "Traceback (most recent call last):\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 58, in testPartExecutor\n    yield\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 634, in run\n    self._callTestMethod(testMethod)\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 589, in _callTestMethod\n    if method() is not None:\n       ^^^^^^^^\n  File \"/Users/sungwoon/ai-projects/meta-prompt-skill/benchmarks/meta-prompt-ab/private/test_acceptance.py\", line 102, in test_09_refund_cumulative_rounding_and_large_integer\n    self.assertEqual([shop.money.refund_delta(10, 3, c, 1) for c in range(3)], [3, 3, 4])\nAssertionError: Lists differ: [3, 3, 3] != [3, 3, 4]\n\nFirst differing element 2:\n3\n4\n\n- [3, 3, 3]\n?        ^\n\n+ [3, 3, 4]\n?        ^\n\n"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_10_refund_domain_validation",
+      "status": "failed",
+      "detail": "Traceback (most recent call last):\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 58, in testPartExecutor\n    yield\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 539, in subTest\n    yield\n  File \"/Users/sungwoon/ai-projects/meta-prompt-skill/benchmarks/meta-prompt-ab/private/test_acceptance.py\", line 112, in test_10_refund_domain_validation\n    with self.subTest(args=args), self.assertRaises(ValueError):\n                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ValueError not raised\nTraceback (most recent call last):\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 58, in testPartExecutor\n    yield\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 539, in subTest\n    yield\n  File \"/Users/sungwoon/ai-projects/meta-prompt-skill/benchmarks/meta-prompt-ab/private/test_acceptance.py\", line 112, in test_10_refund_domain_validation\n    with self.subTest(args=args), self.assertRaises(ValueError):\n                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ValueError not raised\nTraceback (most recent call last):\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 58, in testPartExecutor\n    yield\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 539, in subTest\n    yield\n  File \"/Users/sungwoon/ai-projects/meta-prompt-skill/benchmarks/meta-prompt-ab/private/test_acceptance.py\", line 112, in test_10_refund_domain_validation\n    with self.subTest(args=args), self.assertRaises(ValueError):\n                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ValueError not raised\nTraceback (most recent call last):\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 58, in testPartExecutor\n    yield\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 539, in subTest\n    yield\n  File \"/Users/sungwoon/ai-projects/meta-prompt-skill/benchmarks/meta-prompt-ab/private/test_acceptance.py\", line 112, in test_10_refund_domain_validation\n    with self.subTest(args=args), self.assertRaises(ValueError):\n                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ValueError not raised\n"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_11_inventory_success_in_place_and_items_unchanged",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_12_inventory_reserve_cross_sku_atomicity",
+      "status": "failed",
+      "detail": "Traceback (most recent call last):\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 58, in testPartExecutor\n    yield\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 634, in run\n    self._callTestMethod(testMethod)\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 589, in _callTestMethod\n    if method() is not None:\n       ^^^^^^^^\n  File \"/Users/sungwoon/ai-projects/meta-prompt-skill/benchmarks/meta-prompt-ab/private/test_acceptance.py\", line 129, in test_12_inventory_reserve_cross_sku_atomicity\n    self.assertEqual(stock, {\"a\": 4, \"b\": 2})\nAssertionError: {'a': 2, 'b': 2} != {'a': 4, 'b': 2}\n- {'a': 2, 'b': 2}\n?       ^\n\n+ {'a': 4, 'b': 2}\n?       ^\n\n"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_13_inventory_release_cross_sku_atomicity_and_empty_items",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_14_initial_stock_validation",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_15_reserve_snapshot_defaults_and_input_ownership",
+      "status": "failed",
+      "detail": "Traceback (most recent call last):\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 58, in testPartExecutor\n    yield\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 634, in run\n    self._callTestMethod(testMethod)\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 589, in _callTestMethod\n    if method() is not None:\n       ^^^^^^^^\n  File \"/Users/sungwoon/ai-projects/meta-prompt-skill/benchmarks/meta-prompt-ab/private/test_acceptance.py\", line 151, in test_15_reserve_snapshot_defaults_and_input_ownership\n    self.assertEqual(stock, {\"a\": 10})\nAssertionError: {'a': 7} != {'a': 10}\n- {'a': 7}\n?       ^\n\n+ {'a': 10}\n?       ^^\n\n"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_16_confirm_charges_once_without_reserving_again",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_17_reserved_full_cancel_restores_without_refund",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_18_reserved_partial_cancel_rejected_full_explicit_allowed",
+      "status": "failed",
+      "detail": "Traceback (most recent call last):\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 58, in testPartExecutor\n    yield\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 634, in run\n    self._callTestMethod(testMethod)\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 589, in _callTestMethod\n    if method() is not None:\n       ^^^^^^^^\n  File \"/Users/sungwoon/ai-projects/meta-prompt-skill/benchmarks/meta-prompt-ab/private/test_acceptance.py\", line 175, in test_18_reserved_partial_cancel_rejected_full_explicit_allowed\n    self.rejected(book, event(\"cancel\", \"x\", items={\"a\": 2}))\n  File \"/Users/sungwoon/ai-projects/meta-prompt-skill/benchmarks/meta-prompt-ab/private/test_acceptance.py\", line 46, in rejected\n    with self.assertRaises(ValueError):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ValueError not raised\n"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_19_confirmed_partial_cancel_cumulative_rounding",
+      "status": "failed",
+      "detail": "Traceback (most recent call last):\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 58, in testPartExecutor\n    yield\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 634, in run\n    self._callTestMethod(testMethod)\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 589, in _callTestMethod\n    if method() is not None:\n       ^^^^^^^^\n  File \"/Users/sungwoon/ai-projects/meta-prompt-skill/benchmarks/meta-prompt-ab/private/test_acceptance.py\", line 186, in test_19_confirmed_partial_cancel_cumulative_rounding\n    self.assertEqual((order[\"refunded\"], order[\"charged\"], order[\"status\"]), (refunded, 10, status))\nAssertionError: Tuples differ: (9, 10, 'cancelled') != (10, 10, 'cancelled')\n\nFirst differing element 0:\n9\n10\n\n- (9, 10, 'cancelled')\n?  ---\n\n+ (10, 10, 'cancelled')\n?     ++++\n\n"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_20_omitted_cancel_items_cancels_only_remaining",
+      "status": "failed",
+      "detail": "Traceback (most recent call last):\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 58, in testPartExecutor\n    yield\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 634, in run\n    self._callTestMethod(testMethod)\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 589, in _callTestMethod\n    if method() is not None:\n       ^^^^^^^^\n  File \"/Users/sungwoon/ai-projects/meta-prompt-skill/benchmarks/meta-prompt-ab/private/test_acceptance.py\", line 195, in test_20_omitted_cancel_items_cancels_only_remaining\n    self.assertEqual(book.snapshot()[\"orders\"][\"o\"][\"refunded\"], 10)\nAssertionError: 9 != 10\n"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_21_confirmed_cancel_cross_sku_atomicity",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_22_terminal_orders_cannot_confirm_cancel_or_be_reused",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_23_expiry_must_be_strictly_after_reserve",
+      "status": "failed",
+      "detail": "Traceback (most recent call last):\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 58, in testPartExecutor\n    yield\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 634, in run\n    self._callTestMethod(testMethod)\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 589, in _callTestMethod\n    if method() is not None:\n       ^^^^^^^^\n  File \"/Users/sungwoon/ai-projects/meta-prompt-skill/benchmarks/meta-prompt-ab/private/test_acceptance.py\", line 214, in test_23_expiry_must_be_strictly_after_reserve\n    self.rejected(book, reserve(expiry=expiry))\n  File \"/Users/sungwoon/ai-projects/meta-prompt-skill/benchmarks/meta-prompt-ab/private/test_acceptance.py\", line 46, in rejected\n    with self.assertRaises(ValueError):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ValueError not raised\n"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_24_exact_ttl_confirm_rejection_rolls_back_everything",
+      "status": "failed",
+      "detail": "Traceback (most recent call last):\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 58, in testPartExecutor\n    yield\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 634, in run\n    self._callTestMethod(testMethod)\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 589, in _callTestMethod\n    if method() is not None:\n       ^^^^^^^^\n  File \"/Users/sungwoon/ai-projects/meta-prompt-skill/benchmarks/meta-prompt-ab/private/test_acceptance.py\", line 218, in test_24_exact_ttl_confirm_rejection_rolls_back_everything\n    self.rejected(book, event(\"confirm\", \"c\", at=T2))\n  File \"/Users/sungwoon/ai-projects/meta-prompt-skill/benchmarks/meta-prompt-ab/private/test_acceptance.py\", line 46, in rejected\n    with self.assertRaises(ValueError):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ValueError not raised\n"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_25_success_at_exact_ttl_expires_and_reuses_released_stock",
+      "status": "error",
+      "detail": "Traceback (most recent call last):\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 58, in testPartExecutor\n    yield\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 634, in run\n    self._callTestMethod(testMethod)\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 589, in _callTestMethod\n    if method() is not None:\n       ^^^^^^^^\n  File \"/Users/sungwoon/ai-projects/meta-prompt-skill/benchmarks/meta-prompt-ab/private/test_acceptance.py\", line 226, in test_25_success_at_exact_ttl_expires_and_reuses_released_stock\n    book.apply(reserve(\"r2\", \"o2\", at=T2, expiry=T3))\n  File \"/Users/sungwoon/ai-projects/meta-prompt-skill/benchmarks/meta-prompt-ab/fixture/shop/engine.py\", line 53, in apply\n    staged._dispatch(event, now)\n  File \"/Users/sungwoon/ai-projects/meta-prompt-skill/benchmarks/meta-prompt-ab/fixture/shop/engine.py\", line 79, in _dispatch\n    reserve(self.stock, items)\n  File \"/Users/sungwoon/ai-projects/meta-prompt-skill/benchmarks/meta-prompt-ab/fixture/shop/inventory.py\", line 15, in reserve\n    raise ValueError('insufficient stock')\nValueError: insufficient stock\n"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_26_failed_event_rolls_back_other_orders_expiration",
+      "status": "failed",
+      "detail": "Traceback (most recent call last):\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 58, in testPartExecutor\n    yield\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 634, in run\n    self._callTestMethod(testMethod)\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 589, in _callTestMethod\n    if method() is not None:\n       ^^^^^^^^\n  File \"/Users/sungwoon/ai-projects/meta-prompt-skill/benchmarks/meta-prompt-ab/private/test_acceptance.py\", line 237, in test_26_failed_event_rolls_back_other_orders_expiration\n    self.rejected(book, reserve(\"r2\", \"o2\", at=T2, lines=[line(\"b\", 99, 1)]))\n  File \"/Users/sungwoon/ai-projects/meta-prompt-skill/benchmarks/meta-prompt-ab/private/test_acceptance.py\", line 48, in rejected\n    self.assertEqual(book.snapshot(), before)\nAssertionError: {'sto[48 chars]s': 'expired', 'remaining': {'a': 0}, 'line_to[81 chars]:00'} != {'sto[48 chars]s': 'reserved', 'remaining': {'a': 3}, 'line_t[82 chars]:00'}\n  {'as_of': '2026-01-01T00:00:00+00:00',\n   'orders': {'o': {'charged': 0,\n                    'line_totals': {'a': 15},\n                    'refunded': 0,\n-                   'remaining': {'a': 0},\n?                                      ^\n\n+                   'remaining': {'a': 3},\n?                                      ^\n\n-                   'status': 'expired'}},\n?                               ^^^\n\n+                   'status': 'reserved'}},\n?                              + ^^ +\n\n   'stock': {'a': 10, 'b': 10}}\n"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_27_confirmed_order_survives_ttl",
+      "status": "failed",
+      "detail": "Traceback (most recent call last):\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 58, in testPartExecutor\n    yield\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 634, in run\n    self._callTestMethod(testMethod)\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 589, in _callTestMethod\n    if method() is not None:\n       ^^^^^^^^\n  File \"/Users/sungwoon/ai-projects/meta-prompt-skill/benchmarks/meta-prompt-ab/private/test_acceptance.py\", line 246, in test_27_confirmed_order_survives_ttl\n    self.assertEqual(book.snapshot()[\"orders\"][\"o\"][\"status\"], \"confirmed\")\nAssertionError: 'expired' != 'confirmed'\n- expired\n+ confirmed\n\n"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_28_time_reversal_rejected_equal_timestamp_allowed",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_29_older_duplicate_bypasses_time_and_expiration",
+      "status": "error",
+      "detail": "Traceback (most recent call last):\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 58, in testPartExecutor\n    yield\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 634, in run\n    self._callTestMethod(testMethod)\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 589, in _callTestMethod\n    if method() is not None:\n       ^^^^^^^^\n  File \"/Users/sungwoon/ai-projects/meta-prompt-skill/benchmarks/meta-prompt-ab/private/test_acceptance.py\", line 262, in test_29_older_duplicate_bypasses_time_and_expiration\n    self.assertIsNone(book.apply(copy.deepcopy(payload)))\n                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/sungwoon/ai-projects/meta-prompt-skill/benchmarks/meta-prompt-ab/fixture/shop/engine.py\", line 44, in apply\n    raise ValueError('time went backwards')\nValueError: time went backwards\n"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_30_duplicate_fingerprint_normalizes_both_time_fields_and_key_order",
+      "status": "error",
+      "detail": "Traceback (most recent call last):\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 58, in testPartExecutor\n    yield\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 634, in run\n    self._callTestMethod(testMethod)\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 589, in _callTestMethod\n    if method() is not None:\n       ^^^^^^^^\n  File \"/Users/sungwoon/ai-projects/meta-prompt-skill/benchmarks/meta-prompt-ab/private/test_acceptance.py\", line 275, in test_30_duplicate_fingerprint_normalizes_both_time_fields_and_key_order\n    self.assertIsNone(book.apply(equivalent))\n                      ^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/sungwoon/ai-projects/meta-prompt-skill/benchmarks/meta-prompt-ab/fixture/shop/engine.py\", line 47, in apply\n    raise ValueError('conflicting duplicate id')\nValueError: conflicting duplicate id\n"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_31_duplicate_fingerprint_includes_unknown_keys",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_32_duplicate_fingerprint_preserves_line_order",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_33_failed_event_id_can_be_retried_with_corrected_payload",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_34_invalid_common_event_fields_only_raise_valueerror",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_35_snapshot_and_caller_mutations_do_not_alias_internal_state",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_36_cancel_items_caller_ownership",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_37_engine_reserve_cross_sku_failure_is_atomic",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_38_replay_utc_sort_and_input_immutability",
+      "status": "error",
+      "detail": "Traceback (most recent call last):\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 58, in testPartExecutor\n    yield\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 634, in run\n    self._callTestMethod(testMethod)\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 589, in _callTestMethod\n    if method() is not None:\n       ^^^^^^^^\n  File \"/Users/sungwoon/ai-projects/meta-prompt-skill/benchmarks/meta-prompt-ab/private/test_acceptance.py\", line 347, in test_38_replay_utc_sort_and_input_immutability\n    first = shop.replay(stock, events)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/sungwoon/ai-projects/meta-prompt-skill/benchmarks/meta-prompt-ab/fixture/shop/engine.py\", line 121, in replay\n    book.apply(event)\n  File \"/Users/sungwoon/ai-projects/meta-prompt-skill/benchmarks/meta-prompt-ab/fixture/shop/engine.py\", line 53, in apply\n    staged._dispatch(event, now)\n  File \"/Users/sungwoon/ai-projects/meta-prompt-skill/benchmarks/meta-prompt-ab/fixture/shop/engine.py\", line 86, in _dispatch\n    raise ValueError('unknown order')\nValueError: unknown order\n"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_39_replay_equal_instant_stable_order",
+      "status": "error",
+      "detail": "Traceback (most recent call last):\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 58, in testPartExecutor\n    yield\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 634, in run\n    self._callTestMethod(testMethod)\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 589, in _callTestMethod\n    if method() is not None:\n       ^^^^^^^^\n  File \"/Users/sungwoon/ai-projects/meta-prompt-skill/benchmarks/meta-prompt-ab/private/test_acceptance.py\", line 358, in test_39_replay_equal_instant_stable_order\n    result = shop.replay({\"a\": 10}, events)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/sungwoon/ai-projects/meta-prompt-skill/benchmarks/meta-prompt-ab/fixture/shop/engine.py\", line 121, in replay\n    book.apply(event)\n  File \"/Users/sungwoon/ai-projects/meta-prompt-skill/benchmarks/meta-prompt-ab/fixture/shop/engine.py\", line 53, in apply\n    staged._dispatch(event, now)\n  File \"/Users/sungwoon/ai-projects/meta-prompt-skill/benchmarks/meta-prompt-ab/fixture/shop/engine.py\", line 90, in _dispatch\n    raise ValueError('order is not reserved')\nValueError: order is not reserved\n"
+    },
+    {
+      "id": "test_acceptance.Acceptance.test_40_replay_empty_and_invalid_events",
+      "status": "passed"
+    },
+    {
+      "id": "test_acceptance.ExtendedAcceptance.test_41_unbounded_integer_event_lifecycle",
+      "status": "error",
+      "detail": "Traceback (most recent call last):\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 58, in testPartExecutor\n    yield\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 634, in run\n    self._callTestMethod(testMethod)\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/unittest/case.py\", line 589, in _callTestMethod\n    if method() is not None:\n       ^^^^^^^^\n  File \"/Users/sungwoon/ai-projects/meta-prompt-skill/benchmarks/meta-prompt-ab/private/test_acceptance.py\", line 384, in test_41_unbounded_integer_event_lifecycle\n    b.apply(event)\n  File \"/Users/sungwoon/ai-projects/meta-prompt-skill/benchmarks/meta-prompt-ab/fixture/shop/engine.py\", line 42, in apply\n    fingerprint = json.dumps(canonical, sort_keys=False, separators=(',', ':'), allow_nan=False)\n                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/json/__init__.py\", line 238, in dumps\n    **kw).encode(obj)\n          ^^^^^^^^^^^\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/json/encoder.py\", line 200, in encode\n    chunks = self.iterencode(o, _one_shot=True)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/sungwoon/.pyenv/versions/3.12.11/lib/python3.12/json/encoder.py\", line 258, in iterencode\n    return _iterencode(o, 0)\n           ^^^^^^^^^^^^^^^^^\nValueError: Exceeds the limit (4300 digits) for integer string conversion; use sys.set_int_max_str_digits() to increase the limit\n"
+    }
+  ],
+  "source_sha256": {
+    "__init__.py": "dd780670db291e473e40916e4c5eaf724d464bd7bd574cc0ccf2289bdba4007d",
+    "clock.py": "31cc53da368cd79a4c8a88fd79e96f3ba4ab611e097f754ce7e96cd4d3323dc0",
+    "engine.py": "0be9a2e8ae3821e7640e05f0d9c09da84fb3131fdf53e9a539f28b4a13a54010",
+    "inventory.py": "bd2d8b2eb9f2c25cdab101ea707c7b37ccb1ad73e574a8a219b8e119f81e6687",
+    "money.py": "002942a076f0b25a0ca86f003da5d37e25b6aec7d02cc1455a2e22fd11554444"
+  }
+}

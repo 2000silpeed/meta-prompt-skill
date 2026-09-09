@@ -1,0 +1,138 @@
+version: 1
+mode: plan
+goal: 근무 방식 설문을 Claude가 정리하고 Gemini가 사내 공지 초안을 작성하는 팀의 계획과 프롬프트만 생성
+done_when:
+- 두 역할의 프롬프트 제공
+- 입력·출력·선행 관계 명시
+- 외부 실행 없음
+constraints:
+  required_services:
+  - Claude
+  - Gemini
+  priority: balanced
+  budget: 외부 실행 없음
+  deadline: unknown
+  data_boundary: 요청과 현재 세션의 허가 범위
+assumptions:
+- '평가용 가상 환경: Claude와 Gemini 연결 없음'
+- '설문 입력: 집중시간 확보 12명, 빠른 응답 8명, 정기 대면 협업 5명; 복수 응답 여부 미상'
+meta_prompt_root: ../..
+runtime:
+  host: 평가용 가상 환경
+  dispatch: sequential
+  observed_concurrency_limit: 1
+  planned_peak_concurrency: 1
+services:
+- service: Claude
+  route: manual-handoff
+  model: unknown
+  capabilities:
+  - 텍스트 프롬프트 수동 전달
+  availability: manual-only
+  evidence: 평가 시나리오에 지정된 미연결 상태; 실제 계정 조사 결과가 아님
+  cost: unknown
+  constraints:
+  - 자동 호출 불가
+- service: Gemini
+  route: manual-handoff
+  model: unknown
+  capabilities:
+  - 텍스트 프롬프트 수동 전달
+  availability: manual-only
+  evidence: 평가 시나리오에 지정된 미연결 상태; 실제 계정 조사 결과가 아님
+  cost: unknown
+  constraints:
+  - 자동 호출 불가
+selection:
+  reason: 사용자가 지정한 서비스 조합 유지. 분석 결과가 초안의 입력이므로 순차 인계.
+  alternatives: []
+tasks:
+- id: survey-analysis
+  role: 설문 정리
+  owner: user-manual
+  service: Claude
+  model: unknown
+  route: manual-handoff
+  depends_on: []
+  inputs:
+  - 집중시간 확보 12명; 빠른 응답 8명; 정기 대면 협업 5명; 복수 응답 여부 미상
+  outputs:
+  - survey-analysis.md
+  write_scope: []
+  done_when:
+  - 세 응답과 수치 보존
+  - 사실과 제안 구분
+  - 응답 비율·합계 인원 추정 없음
+  prompt:
+    text: '당신은 사내 근무 방식 설문을 정리하는 담당자다. 사내 공지 작성자가 사용할 분석 메모를 작성하라. 입력: 집중시간 확보 12명,
+      빠른 응답 8명, 정기 대면 협업 5명. 복수 응답 여부는 미상이다. 세 항목과 수치를 그대로 보존하고 관측 사실, 운영 방안 제안, 확인할
+      질문을 구분하라. 제안은 확정 정책과 구분해 표시하라. 비율과 전체 응답 인원은 산정에 필요한 정보가 없다고 표시하라. survey-analysis.md에
+      사용할 Markdown 본문을 반환하라. 완료 기준: 세 입력을 모두 다루고, 없는 수치나 확정 정책을 추가하지 않았으며 공지 작성자가
+      그대로 인계받을 수 있다.'
+    guidebook: anthropic-claude
+    cards:
+    - guidebooks/anthropic-claude/cards/explicit-instructions.yaml
+    verification: verified (기존 카드 메타데이터; 외부 재검증 없음)
+    generic_additions:
+    - 수동 파일 인계 계약
+  status: manual-handoff
+  dispatch_id: null
+  attempts: 0
+  result:
+    outputs: []
+    checks: []
+    issues: []
+    cost: unknown
+    elapsed_seconds: unknown
+- id: notice-draft
+  role: 사내 공지 초안
+  owner: user-manual
+  service: Gemini
+  model: unknown
+  route: manual-handoff
+  depends_on:
+  - survey-analysis
+  inputs:
+  - 검토된 survey-analysis.md 본문
+  outputs:
+  - notice-draft.md
+  write_scope: []
+  done_when:
+  - 입력 사실 보존
+  - 제안을 확정 정책으로 표현하지 않음
+  - 제목·본문·확인 질문 포함
+  prompt:
+    text: 'Persona: 사내 공지 초안 작성자.
+
+      Context: 사용자가 아래에 붙여 넣은 검토 완료 survey-analysis.md가 유일한 근거다. 분석 본문이 없으면 본문을 요청하고
+      초안 생성을 보류하라.
+
+      Task: 직원에게 설문 결과와 검토 중인 운영 방향을 안내하는 초안을 작성하라. 수치와 불확실성을 보존하고 제안은 검토 중이라고 표현하라.
+
+      Format: notice-draft.md에 사용할 Markdown. 제목, 공지 본문, 게시 전에 확인할 질문 순서. 완료 기준은 입력
+      사실 보존, 미확정 정책의 명시, 세 출력 항목 포함이다.
+
+      검토된 분석 본문: 사용자가 survey-analysis.md 내용을 이 위치에 삽입한다.'
+    guidebook: google-gemini
+    cards:
+    - guidebooks/google-gemini/cards/structure-pctf.yaml
+    - guidebooks/google-gemini/cards/gemini-3-runtime.yaml
+    verification: verified (기존 카드 메타데이터; 외부 재검증 없음)
+    generic_additions:
+    - 선행 결과 미제공 시 보류; 모델 버전·API 설정은 미연결 상태이므로 지정하지 않음
+  status: blocked
+  dispatch_id: null
+  attempts: 0
+  result:
+    outputs: []
+    checks: []
+    issues:
+    - 선행 분석이 아직 실행되지 않음. 검토한 실제 결과를 프롬프트에 반영한 뒤 수동 전달.
+    cost: unknown
+    elapsed_seconds: unknown
+integration:
+  owner: current-agent
+  checks:
+  - 원 설문 수치와 최종 초안 대조
+  - 미확정 정책 표시 확인
+  status: planned

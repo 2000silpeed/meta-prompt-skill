@@ -1,0 +1,7 @@
+{
+  "started_epoch": 1788593331.7271008,
+  "artifact_ready_epoch": 1788593411.9070692,
+  "observed_epoch": 1788593620.43681,
+  "final_sha256": "6ad80dae1d0bde4e9ceaed978b80442de24dadfea163c1cef03699e390a0ab53",
+  "method": "start marker to final output mtime, frozen at first scoring"
+}

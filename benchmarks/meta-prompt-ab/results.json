@@ -1,0 +1,174 @@
+[
+  {
+    "run": "r1-astra-raw",
+    "model": "gpt-6-astra",
+    "reasoning_effort": "medium",
+    "arm": "raw",
+    "rep": 1,
+    "passed": 40,
+    "total": 41,
+    "seconds": 110.997,
+    "public_passed": true,
+    "failed_tests": [
+      "test_acceptance.ExtendedAcceptance.test_41_unbounded_integer_event_lifecycle"
+    ]
+  },
+  {
+    "run": "r1-astra-meta",
+    "model": "gpt-6-astra",
+    "reasoning_effort": "medium",
+    "arm": "meta",
+    "rep": 1,
+    "passed": 40,
+    "total": 41,
+    "seconds": 170.117,
+    "public_passed": true,
+    "failed_tests": [
+      "test_acceptance.ExtendedAcceptance.test_41_unbounded_integer_event_lifecycle"
+    ]
+  },
+  {
+    "run": "r1-sol-meta",
+    "model": "gpt-5.6-sol",
+    "reasoning_effort": "medium",
+    "arm": "meta",
+    "rep": 1,
+    "passed": 40,
+    "total": 41,
+    "seconds": 304.625,
+    "public_passed": true,
+    "failed_tests": [
+      "test_acceptance.ExtendedAcceptance.test_41_unbounded_integer_event_lifecycle"
+    ]
+  },
+  {
+    "run": "r1-sol-raw",
+    "model": "gpt-5.6-sol",
+    "reasoning_effort": "medium",
+    "arm": "raw",
+    "rep": 1,
+    "passed": 40,
+    "total": 41,
+    "seconds": 325.917,
+    "public_passed": true,
+    "failed_tests": [
+      "test_acceptance.ExtendedAcceptance.test_41_unbounded_integer_event_lifecycle"
+    ]
+  },
+  {
+    "run": "r1-luna-raw",
+    "model": "gpt-5.6-luna",
+    "reasoning_effort": "medium",
+    "arm": "raw",
+    "rep": 1,
+    "passed": 37,
+    "total": 41,
+    "seconds": 112.457,
+    "public_passed": true,
+    "failed_tests": [
+      "test_acceptance.Acceptance.test_08_discount_rejects_bool_and_noninteger_numbers",
+      "test_acceptance.Acceptance.test_10_refund_domain_validation",
+      "test_acceptance.Acceptance.test_18_reserved_partial_cancel_rejected_full_explicit_allowed",
+      "test_acceptance.ExtendedAcceptance.test_41_unbounded_integer_event_lifecycle"
+    ]
+  },
+  {
+    "run": "r1-luna-meta",
+    "model": "gpt-5.6-luna",
+    "reasoning_effort": "medium",
+    "arm": "meta",
+    "rep": 1,
+    "passed": 40,
+    "total": 41,
+    "seconds": 113.705,
+    "public_passed": true,
+    "failed_tests": [
+      "test_acceptance.ExtendedAcceptance.test_41_unbounded_integer_event_lifecycle"
+    ]
+  },
+  {
+    "run": "r2-luna-meta",
+    "model": "gpt-5.6-luna",
+    "reasoning_effort": "medium",
+    "arm": "meta",
+    "rep": 2,
+    "passed": 40,
+    "total": 41,
+    "seconds": 147.209,
+    "public_passed": true,
+    "failed_tests": [
+      "test_acceptance.ExtendedAcceptance.test_41_unbounded_integer_event_lifecycle"
+    ]
+  },
+  {
+    "run": "r2-luna-raw",
+    "model": "gpt-5.6-luna",
+    "reasoning_effort": "medium",
+    "arm": "raw",
+    "rep": 2,
+    "passed": 39,
+    "total": 41,
+    "seconds": 139.428,
+    "public_passed": true,
+    "failed_tests": [
+      "test_acceptance.Acceptance.test_08_discount_rejects_bool_and_noninteger_numbers",
+      "test_acceptance.ExtendedAcceptance.test_41_unbounded_integer_event_lifecycle"
+    ]
+  },
+  {
+    "run": "r2-sol-raw",
+    "model": "gpt-5.6-sol",
+    "reasoning_effort": "medium",
+    "arm": "raw",
+    "rep": 2,
+    "passed": 40,
+    "total": 41,
+    "seconds": 330.67,
+    "public_passed": true,
+    "failed_tests": [
+      "test_acceptance.ExtendedAcceptance.test_41_unbounded_integer_event_lifecycle"
+    ]
+  },
+  {
+    "run": "r2-sol-meta",
+    "model": "gpt-5.6-sol",
+    "reasoning_effort": "medium",
+    "arm": "meta",
+    "rep": 2,
+    "passed": 40,
+    "total": 41,
+    "seconds": 185.981,
+    "public_passed": true,
+    "failed_tests": [
+      "test_acceptance.ExtendedAcceptance.test_41_unbounded_integer_event_lifecycle"
+    ]
+  },
+  {
+    "run": "r2-astra-meta",
+    "model": "gpt-6-astra",
+    "reasoning_effort": "medium",
+    "arm": "meta",
+    "rep": 2,
+    "passed": 40,
+    "total": 41,
+    "seconds": 104.001,
+    "public_passed": true,
+    "failed_tests": [
+      "test_acceptance.ExtendedAcceptance.test_41_unbounded_integer_event_lifecycle"
+    ]
+  },
+  {
+    "run": "r2-astra-raw",
+    "model": "gpt-6-astra",
+    "reasoning_effort": "medium",
+    "arm": "raw",
+    "rep": 2,
+    "passed": 40,
+    "total": 41,
+    "seconds": 86.501,
+    "public_passed": true,
+    "failed_tests": [
+      "test_acceptance.ExtendedAcceptance.test_41_unbounded_integer_event_lifecycle"
+    ]
+  }
+]

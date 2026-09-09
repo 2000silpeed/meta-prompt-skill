@@ -1,0 +1,1 @@
+{"status":"completed","tests_run":["python -m unittest -v tests.test_public tests.test_contract_edges","python -m compileall -q shop tests"],"limitations":[]}

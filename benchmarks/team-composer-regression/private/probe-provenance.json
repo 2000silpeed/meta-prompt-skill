@@ -1,0 +1,6 @@
+{
+  "kind": "exploratory, post-hoc; does not alter the 40-test primary score",
+  "origin": "r1-review reviewer independently found integer-to-decimal serialization limit",
+  "selection_bias": "probe selected from one observed reviewer result; cannot support general team-quality ranking",
+  "probe_sha256": "bf818cb1a3cae850f9913dfa16cdf981845c5769ec204f0daafc6e5c4dc60443"
+}

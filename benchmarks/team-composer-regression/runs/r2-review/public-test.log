@@ -1,0 +1,28 @@
+test_atomic_stock (test_public.PublicTests.test_atomic_stock) ... ok
+test_discount_conservation (test_public.PublicTests.test_discount_conservation) ... ok
+test_empty_replay (test_public.PublicTests.test_empty_replay) ... ok
+test_happy_path (test_public.PublicTests.test_happy_path) ... ok
+test_refund_keeps_last_unit (test_public.PublicTests.test_refund_keeps_last_unit) ... ok
+test_timezone (test_public.PublicTests.test_timezone) ... ok
+test_confirmed_never_expires_and_refunds_original (test_regression.RegressionTests.test_confirmed_never_expires_and_refunds_original) ... ok
+test_duplicate_canonicalization_precedes_clock (test_regression.RegressionTests.test_duplicate_canonicalization_precedes_clock) ... ok
+test_exact_discount_and_tie_break (test_regression.RegressionTests.test_exact_discount_and_tie_break) ... ok
+test_invalid_events_always_atomic (test_regression.RegressionTests.test_invalid_events_always_atomic) ... ok
+test_inventory_atomic_and_validation (test_regression.RegressionTests.test_inventory_atomic_and_validation) ... ok
+test_money_rejects_bool_and_invalid_lines (test_regression.RegressionTests.test_money_rejects_bool_and_invalid_lines) ... ok
+test_ownership (test_regression.RegressionTests.test_ownership) ... ok
+test_refund_telescopes (test_regression.RegressionTests.test_refund_telescopes) ... ok
+test_replay_utc_stable_and_input_preserved (test_regression.RegressionTests.test_replay_utc_stable_and_input_preserved) ... ok
+test_reserved_full_cancel_only (test_regression.RegressionTests.test_reserved_full_cancel_only) ... ok
+test_time_validation_and_conversion (test_regression.RegressionTests.test_time_validation_and_conversion) ... ok
+test_ttl_rollback_and_failed_id_reuse (test_regression.RegressionTests.test_ttl_rollback_and_failed_id_reuse) ... ok
+test_discount_remainder_is_fractional_not_gross_order (test_review.ReviewTests.test_discount_remainder_is_fractional_not_gross_order) ... ok
+test_empty_stock_and_same_instant_replay_stability (test_review.ReviewTests.test_empty_stock_and_same_instant_replay_stability) ... ok
+test_line_order_and_unknown_keys_participate_in_fingerprint (test_review.ReviewTests.test_line_order_and_unknown_keys_participate_in_fingerprint) ... ok
+test_multiple_expirations_rollback_then_reuse_failed_id (test_review.ReviewTests.test_multiple_expirations_rollback_then_reuse_failed_id) ... ok
+test_zero_price_and_exhausted_sku_omitted_cancel (test_review.ReviewTests.test_zero_price_and_exhausted_sku_omitted_cancel) ... ok
+
+----------------------------------------------------------------------
+Ran 23 tests in 0.003s
+
+OK

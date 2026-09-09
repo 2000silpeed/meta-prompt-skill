@@ -1,0 +1,124 @@
+{
+  "passed": 54,
+  "total": 54,
+  "cases_passed": 6,
+  "case_count": 6,
+  "details": [
+    {
+      "case_id": "C01",
+      "checks": {
+        "coverage": true,
+        "status": true,
+        "blockers": true,
+        "metrics": true,
+        "waves": true,
+        "eligible": true,
+        "optimal": true,
+        "handoff": true,
+        "prompt_contract": true
+      },
+      "passed": 9,
+      "total": 9,
+      "fully_passed": true
+    },
+    {
+      "case_id": "C02",
+      "checks": {
+        "coverage": true,
+        "status": true,
+        "blockers": true,
+        "metrics": true,
+        "waves": true,
+        "eligible": true,
+        "optimal": true,
+        "handoff": true,
+        "prompt_contract": true
+      },
+      "passed": 9,
+      "total": 9,
+      "fully_passed": true
+    },
+    {
+      "case_id": "C03",
+      "checks": {
+        "coverage": true,
+        "status": true,
+        "blockers": true,
+        "metrics": true,
+        "waves": true,
+        "eligible": true,
+        "optimal": true,
+        "handoff": true,
+        "prompt_contract": true
+      },
+      "passed": 9,
+      "total": 9,
+      "fully_passed": true
+    },
+    {
+      "case_id": "C04",
+      "checks": {
+        "coverage": true,
+        "status": true,
+        "blockers": true,
+        "metrics": true,
+        "waves": true,
+        "eligible": true,
+        "optimal": true,
+        "handoff": true,
+        "prompt_contract": true
+      },
+      "passed": 9,
+      "total": 9,
+      "fully_passed": true
+    },
+    {
+      "case_id": "C05",
+      "checks": {
+        "coverage": true,
+        "status": true,
+        "blockers": true,
+        "metrics": true,
+        "waves": true,
+        "eligible": true,
+        "optimal": true,
+        "handoff": true,
+        "prompt_contract": true
+      },
+      "passed": 9,
+      "total": 9,
+      "fully_passed": true
+    },
+    {
+      "case_id": "C06",
+      "checks": {
+        "coverage": true,
+        "status": true,
+        "blockers": true,
+        "metrics": true,
+        "waves": true,
+        "eligible": true,
+        "optimal": true,
+        "handoff": true,
+        "prompt_contract": true
+      },
+      "passed": 9,
+      "total": 9,
+      "fully_passed": true
+    }
+  ],
+  "note": "prompt_contract checks structure only, not semantic quality",
+  "run": "r1-parallel",
+  "config": "parallel",
+  "artifact_seconds": 94.783,
+  "final_sha256": "fa5958e3244c1c608421f322e59adf650788542b1529e94d6d091cbf1d319fc2",
+  "agent_calls": 3,
+  "actual_cost": null,
+  "actual_tokens": null,
+  "agents": [
+    "/root/pilot_r1_parallel_a",
+    "/root/pilot_r1_parallel_b",
+    "/root/pilot_r1_parallel_integrator"
+  ],
+  "parts_score": 54
+}

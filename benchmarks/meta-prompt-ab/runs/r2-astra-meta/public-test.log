@@ -1,0 +1,21 @@
+test_aliases (test_contract_checks.ContractChecks.test_aliases) ... ok
+test_cancellation (test_contract_checks.ContractChecks.test_cancellation) ... ok
+test_duplicates_and_ordering (test_contract_checks.ContractChecks.test_duplicates_and_ordering) ... ok
+test_exact_allocation_and_validation (test_contract_checks.ContractChecks.test_exact_allocation_and_validation) ... ok
+test_expiry_transaction (test_contract_checks.ContractChecks.test_expiry_transaction) ... ok
+test_invalid_events_rollback (test_contract_checks.ContractChecks.test_invalid_events_rollback) ... ok
+test_inventory_atomicity (test_contract_checks.ContractChecks.test_inventory_atomicity) ... ok
+test_refunds_exhaustive (test_contract_checks.ContractChecks.test_refunds_exhaustive) ... ok
+test_replay_utc_stability (test_contract_checks.ContractChecks.test_replay_utc_stability) ... ok
+test_time_validation (test_contract_checks.ContractChecks.test_time_validation) ... ok
+test_atomic_stock (test_public.PublicTests.test_atomic_stock) ... ok
+test_discount_conservation (test_public.PublicTests.test_discount_conservation) ... ok
+test_empty_replay (test_public.PublicTests.test_empty_replay) ... ok
+test_happy_path (test_public.PublicTests.test_happy_path) ... ok
+test_refund_keeps_last_unit (test_public.PublicTests.test_refund_keeps_last_unit) ... ok
+test_timezone (test_public.PublicTests.test_timezone) ... ok
+
+----------------------------------------------------------------------
+Ran 16 tests in 0.004s
+
+OK

@@ -1,0 +1,13 @@
+{
+  "started_epoch": 1788617900.9380229,
+  "completed_epoch": 1788618040.365757,
+  "observed_epoch": 1788618059.875694,
+  "source_sha256": {
+    "__init__.py": "dd780670db291e473e40916e4c5eaf724d464bd7bd574cc0ccf2289bdba4007d",
+    "clock.py": "84b1d5bf2ad1ead7cdee9efd98081ab95db89422d57adde04fe21f4e3aaf04a8",
+    "engine.py": "b5049b7f2023a52373f66586c11ac9720e4e7c9fc31fccdcea4dccb6888323bf",
+    "inventory.py": "68a6f02e35dfa3a854fde6de723e02d20fca18656a59d983c7c7b23ee9c7de13",
+    "money.py": "4af10fd6a9afcec09f30969e569fab84a1d30289f658c3d819c7030982e35016"
+  },
+  "artifact_seconds": 139.428
+}

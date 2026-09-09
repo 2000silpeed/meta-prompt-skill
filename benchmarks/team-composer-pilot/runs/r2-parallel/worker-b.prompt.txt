@@ -1,0 +1,7 @@
+이 작업은 실제 벤치마크 실행이다. 프롬프트는 meta-prompt의 Codex Goal/Context/Constraints/Done when 및 구조화 출력 카드를 적용했다. 모델·reasoning 설정은 상속한다. 다른 에이전트를 생성하지 말고 도구는 로컬 파일과 Python 표준 라이브러리만 사용한다. 자신에게 지정된 입력·인계 파일만 읽고 지정 디렉터리 안에서만 쓴다. evaluator.py, manifest.json, 다른 실행의 결과를 열지 않는다. JSON 형식과 요구사항을 자기 검증하고 최종 output을 마지막에 저장한 뒤 종료한다. 실제 지출·토큰 수는 측정 도구가 없으므로 추정하지 않는다.
+
+공통 과제: /Users/sungwoon/ai-projects/meta-prompt-skill/benchmarks/team-composer-pilot/input/brief.md
+입력: /Users/sungwoon/ai-projects/meta-prompt-skill/benchmarks/team-composer-pilot/input/cases.json
+
+<task>C04,C05,C06만 해결하고 검증하라. 출력 cases 배열은 이 세 케이스만 포함한다.</task>
+<output>/Users/sungwoon/ai-projects/meta-prompt-skill/benchmarks/team-composer-pilot/runs/r2-parallel/part-b.json</output>

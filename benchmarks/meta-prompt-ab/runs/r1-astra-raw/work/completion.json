@@ -1,0 +1,10 @@
+{
+  "status": "completed",
+  "tests_run": [
+    "python -m unittest discover -s tests -v"
+  ],
+  "limitations": [
+    "평가용 테스트는 제공되지 않아 실행하지 않았습니다.",
+    "이벤트 원자성 보장을 위한 전체 내부 상태 복사 비용이 상태 크기에 비례합니다."
+  ]
+}

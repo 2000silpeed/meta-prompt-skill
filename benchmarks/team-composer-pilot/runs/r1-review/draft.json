@@ -1,0 +1,272 @@
+{
+  "cases": [
+    {
+      "case_id": "C01",
+      "status": "planned",
+      "assignments": [
+        {
+          "task_id": "r",
+          "service_id": "local-core",
+          "depends_on": [],
+          "guidebook": "openai-codex",
+          "prompt_contract": {
+            "goal": "research 작업으로 후속 작업에 사용할 조사 결과를 작성한다.",
+            "context": "작업 ID: r; 선행 작업 ID: 없음.",
+            "constraints": "local_only=false: 로컬 제한 없음; fixed_service=null: 고정 서비스 없음; 전체 budget=0 unit 이내에서 작업 비용과 서비스 설정·인계 비용을 모두 포함한다.",
+            "done_when": "r의 research 결과물이 존재하고, 요구된 내용과 선행 결과 반영 여부를 확인하면 완료한다."
+          }
+        },
+        {
+          "task_id": "w",
+          "service_id": "local-core",
+          "depends_on": [],
+          "guidebook": "openai-codex",
+          "prompt_contract": {
+            "goal": "write 작업으로 요구된 내용을 담은 원고를 작성한다.",
+            "context": "작업 ID: w; 선행 작업 ID: 없음.",
+            "constraints": "local_only=false: 로컬 제한 없음; fixed_service=null: 고정 서비스 없음; 전체 budget=0 unit 이내에서 작업 비용과 서비스 설정·인계 비용을 모두 포함한다.",
+            "done_when": "w의 write 결과물이 존재하고, 요구된 내용과 선행 결과 반영 여부를 확인하면 완료한다."
+          }
+        },
+        {
+          "task_id": "z",
+          "service_id": "local-core",
+          "depends_on": [
+            "r",
+            "w"
+          ],
+          "guidebook": "openai-codex",
+          "prompt_contract": {
+            "goal": "review 작업으로 산출물을 검토하여 결함과 통과 여부를 기록한다.",
+            "context": "작업 ID: z; 선행 작업 ID: r, w.",
+            "constraints": "local_only=false: 로컬 제한 없음; fixed_service=null: 고정 서비스 없음; 전체 budget=0 unit 이내에서 작업 비용과 서비스 설정·인계 비용을 모두 포함한다.",
+            "done_when": "z의 review 결과물이 존재하고, 요구된 내용과 선행 결과 반영 여부를 확인하면 완료한다."
+          }
+        }
+      ],
+      "total_cost": 0,
+      "latency": 15,
+      "waves": [
+        [
+          "r",
+          "w"
+        ],
+        [
+          "z"
+        ]
+      ],
+      "blockers": []
+    },
+    {
+      "case_id": "C02",
+      "status": "planned",
+      "assignments": [
+        {
+          "task_id": "a",
+          "service_id": "local-new",
+          "depends_on": [],
+          "guidebook": "_generic",
+          "prompt_contract": {
+            "goal": "image 작업으로 요구된 이미지 결과물을 제작한다.",
+            "context": "작업 ID: a; 선행 작업 ID: 없음.",
+            "constraints": "local_only=true: 로컬 서비스만 사용한다; fixed_service=null: 고정 서비스 없음; 전체 budget=8 unit 이내에서 작업 비용과 서비스 설정·인계 비용을 모두 포함한다.",
+            "done_when": "a의 image 결과물이 존재하고, 요구된 내용과 선행 결과 반영 여부를 확인하면 완료한다."
+          }
+        },
+        {
+          "task_id": "b",
+          "service_id": "local-core",
+          "depends_on": [],
+          "guidebook": "openai-codex",
+          "prompt_contract": {
+            "goal": "write 작업으로 요구된 내용을 담은 원고를 작성한다.",
+            "context": "작업 ID: b; 선행 작업 ID: 없음.",
+            "constraints": "local_only=true: 로컬 서비스만 사용한다; fixed_service=null: 고정 서비스 없음; 전체 budget=8 unit 이내에서 작업 비용과 서비스 설정·인계 비용을 모두 포함한다.",
+            "done_when": "b의 write 결과물이 존재하고, 요구된 내용과 선행 결과 반영 여부를 확인하면 완료한다."
+          }
+        },
+        {
+          "task_id": "c",
+          "service_id": "local-new",
+          "depends_on": [
+            "a",
+            "b"
+          ],
+          "guidebook": "_generic",
+          "prompt_contract": {
+            "goal": "review 작업으로 산출물을 검토하여 결함과 통과 여부를 기록한다.",
+            "context": "작업 ID: c; 선행 작업 ID: a, b.",
+            "constraints": "local_only=true: 로컬 서비스만 사용한다; fixed_service=null: 고정 서비스 없음; 전체 budget=8 unit 이내에서 작업 비용과 서비스 설정·인계 비용을 모두 포함한다.",
+            "done_when": "c의 review 결과물이 존재하고, 요구된 내용과 선행 결과 반영 여부를 확인하면 완료한다."
+          }
+        }
+      ],
+      "total_cost": 6,
+      "latency": 10,
+      "waves": [
+        [
+          "a",
+          "b"
+        ],
+        [
+          "c"
+        ]
+      ],
+      "blockers": []
+    },
+    {
+      "case_id": "C03",
+      "status": "planned",
+      "assignments": [
+        {
+          "task_id": "a",
+          "service_id": "cloud-special",
+          "depends_on": [],
+          "guidebook": "openai-codex",
+          "prompt_contract": {
+            "goal": "research 작업으로 후속 작업에 사용할 조사 결과를 작성한다.",
+            "context": "작업 ID: a; 선행 작업 ID: 없음.",
+            "constraints": "local_only=false: 로컬 제한 없음; fixed_service=null: 고정 서비스 없음; 전체 budget=20 unit 이내에서 작업 비용과 서비스 설정·인계 비용을 모두 포함한다.",
+            "done_when": "a의 research 결과물이 존재하고, 요구된 내용과 선행 결과 반영 여부를 확인하면 완료한다."
+          }
+        },
+        {
+          "task_id": "b",
+          "service_id": "cloud-special",
+          "depends_on": [
+            "a"
+          ],
+          "guidebook": "openai-codex",
+          "prompt_contract": {
+            "goal": "image 작업으로 요구된 이미지 결과물을 제작한다.",
+            "context": "작업 ID: b; 선행 작업 ID: a.",
+            "constraints": "local_only=false: 로컬 제한 없음; fixed_service=null: 고정 서비스 없음; 전체 budget=20 unit 이내에서 작업 비용과 서비스 설정·인계 비용을 모두 포함한다.",
+            "done_when": "b의 image 결과물이 존재하고, 요구된 내용과 선행 결과 반영 여부를 확인하면 완료한다."
+          }
+        },
+        {
+          "task_id": "c",
+          "service_id": "cloud-special",
+          "depends_on": [
+            "b"
+          ],
+          "guidebook": "openai-codex",
+          "prompt_contract": {
+            "goal": "write 작업으로 요구된 내용을 담은 원고를 작성한다.",
+            "context": "작업 ID: c; 선행 작업 ID: b.",
+            "constraints": "local_only=false: 로컬 제한 없음; fixed_service=null: 고정 서비스 없음; 전체 budget=20 unit 이내에서 작업 비용과 서비스 설정·인계 비용을 모두 포함한다.",
+            "done_when": "c의 write 결과물이 존재하고, 요구된 내용과 선행 결과 반영 여부를 확인하면 완료한다."
+          }
+        }
+      ],
+      "total_cost": 6,
+      "latency": 12,
+      "waves": [
+        [
+          "a"
+        ],
+        [
+          "b"
+        ],
+        [
+          "c"
+        ]
+      ],
+      "blockers": []
+    },
+    {
+      "case_id": "C04",
+      "status": "planned",
+      "assignments": [
+        {
+          "task_id": "a",
+          "service_id": "cloud-special",
+          "depends_on": [],
+          "guidebook": "openai-codex",
+          "prompt_contract": {
+            "goal": "research 작업으로 후속 작업에 사용할 조사 결과를 작성한다.",
+            "context": "작업 ID: a; 선행 작업 ID: 없음.",
+            "constraints": "local_only=false: 로컬 제한 없음; fixed_service=null: 고정 서비스 없음; 전체 budget=11 unit 이내에서 작업 비용과 서비스 설정·인계 비용을 모두 포함한다.",
+            "done_when": "a의 research 결과물이 존재하고, 요구된 내용과 선행 결과 반영 여부를 확인하면 완료한다."
+          }
+        },
+        {
+          "task_id": "b",
+          "service_id": "cloud-special",
+          "depends_on": [],
+          "guidebook": "openai-codex",
+          "prompt_contract": {
+            "goal": "write 작업으로 요구된 내용을 담은 원고를 작성한다.",
+            "context": "작업 ID: b; 선행 작업 ID: 없음.",
+            "constraints": "local_only=false: 로컬 제한 없음; fixed_service=null: 고정 서비스 없음; 전체 budget=11 unit 이내에서 작업 비용과 서비스 설정·인계 비용을 모두 포함한다.",
+            "done_when": "b의 write 결과물이 존재하고, 요구된 내용과 선행 결과 반영 여부를 확인하면 완료한다."
+          }
+        },
+        {
+          "task_id": "c",
+          "service_id": "local-new",
+          "depends_on": [],
+          "guidebook": "_generic",
+          "prompt_contract": {
+            "goal": "image 작업으로 요구된 이미지 결과물을 제작한다.",
+            "context": "작업 ID: c; 선행 작업 ID: 없음.",
+            "constraints": "local_only=false: 로컬 제한 없음; fixed_service=null: 고정 서비스 없음; 전체 budget=11 unit 이내에서 작업 비용과 서비스 설정·인계 비용을 모두 포함한다.",
+            "done_when": "c의 image 결과물이 존재하고, 요구된 내용과 선행 결과 반영 여부를 확인하면 완료한다."
+          }
+        },
+        {
+          "task_id": "d",
+          "service_id": "local-new",
+          "depends_on": [
+            "a",
+            "b",
+            "c"
+          ],
+          "guidebook": "_generic",
+          "prompt_contract": {
+            "goal": "review 작업으로 산출물을 검토하여 결함과 통과 여부를 기록한다.",
+            "context": "작업 ID: d; 선행 작업 ID: a, b, c.",
+            "constraints": "local_only=false: 로컬 제한 없음; fixed_service=null: 고정 서비스 없음; 전체 budget=11 unit 이내에서 작업 비용과 서비스 설정·인계 비용을 모두 포함한다.",
+            "done_when": "d의 review 결과물이 존재하고, 요구된 내용과 선행 결과 반영 여부를 확인하면 완료한다."
+          }
+        }
+      ],
+      "total_cost": 9,
+      "latency": 9,
+      "waves": [
+        [
+          "a",
+          "b",
+          "c"
+        ],
+        [
+          "d"
+        ]
+      ],
+      "blockers": []
+    },
+    {
+      "case_id": "C05",
+      "status": "blocked",
+      "assignments": [],
+      "total_cost": null,
+      "latency": null,
+      "waves": [],
+      "blockers": [
+        "no_eligible_service",
+        "required_service_unavailable"
+      ]
+    },
+    {
+      "case_id": "C06",
+      "status": "blocked",
+      "assignments": [],
+      "total_cost": null,
+      "latency": null,
+      "waves": [],
+      "blockers": [
+        "budget_exceeded"
+      ]
+    }
+  ]
+}

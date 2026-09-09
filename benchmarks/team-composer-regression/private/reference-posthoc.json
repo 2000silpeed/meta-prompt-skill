@@ -1,0 +1,1 @@
+{"kind": "post-hoc exploratory observation", "source": "r1-review reviewer finding", "int_string_limit": 4300, "passed": false, "failed_stage": "reserve", "error_type": "ValueError", "error": "Exceeds the limit (4300 digits) for integer string conversion; use sys.set_int_max_str_digits() to increase the limit"}

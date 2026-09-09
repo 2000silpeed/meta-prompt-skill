@@ -1,0 +1,24 @@
+test_bool_is_not_numeric (test_additional.AdditionalTests.test_bool_is_not_numeric) ... ok
+test_confirmed_order_does_not_expire (test_additional.AdditionalTests.test_confirmed_order_does_not_expire) ... ok
+test_confirmed_refunds_by_line (test_additional.AdditionalTests.test_confirmed_refunds_by_line) ... ok
+test_discount_tie_uses_sku (test_additional.AdditionalTests.test_discount_tie_uses_sku) ... ok
+test_duplicate_normalizes_offsets_and_key_order (test_additional.AdditionalTests.test_duplicate_normalizes_offsets_and_key_order) ... ok
+test_exact_expiry_failure_is_fully_atomic (test_additional.AdditionalTests.test_exact_expiry_failure_is_fully_atomic) ... ok
+test_expiry_commits_with_later_success (test_additional.AdditionalTests.test_expiry_commits_with_later_success) ... ok
+test_input_and_snapshot_are_not_aliased (test_additional.AdditionalTests.test_input_and_snapshot_are_not_aliased) ... ok
+test_inventory_operations_are_atomic (test_additional.AdditionalTests.test_inventory_operations_are_atomic) ... ok
+test_parse_rejects_naive_and_date_only (test_additional.AdditionalTests.test_parse_rejects_naive_and_date_only) ... ok
+test_refund_telescopes (test_additional.AdditionalTests.test_refund_telescopes) ... ok
+test_replay_orders_by_instant_stably (test_additional.AdditionalTests.test_replay_orders_by_instant_stably) ... ok
+test_reserved_partial_cancel_is_rejected (test_additional.AdditionalTests.test_reserved_partial_cancel_is_rejected) ... ok
+test_atomic_stock (test_public.PublicTests.test_atomic_stock) ... ok
+test_discount_conservation (test_public.PublicTests.test_discount_conservation) ... ok
+test_empty_replay (test_public.PublicTests.test_empty_replay) ... ok
+test_happy_path (test_public.PublicTests.test_happy_path) ... ok
+test_refund_keeps_last_unit (test_public.PublicTests.test_refund_keeps_last_unit) ... ok
+test_timezone (test_public.PublicTests.test_timezone) ... ok
+
+----------------------------------------------------------------------
+Ran 19 tests in 0.001s
+
+OK

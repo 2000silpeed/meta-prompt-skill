@@ -1,0 +1,17 @@
+test_duplicate_precedes_time_check_and_normalizes_offsets (test_contract_edges.ContractEdgeTests.test_duplicate_precedes_time_check_and_normalizes_offsets) ... ok
+test_exact_money_and_bool_validation (test_contract_edges.ContractEdgeTests.test_exact_money_and_bool_validation) ... ok
+test_inputs_and_snapshots_do_not_alias (test_contract_edges.ContractEdgeTests.test_inputs_and_snapshots_do_not_alias) ... ok
+test_naive_time_is_rejected (test_contract_edges.ContractEdgeTests.test_naive_time_is_rejected) ... ok
+test_replay_orders_by_instant_and_preserves_input (test_contract_edges.ContractEdgeTests.test_replay_orders_by_instant_and_preserves_input) ... ok
+test_ttl_failure_is_fully_atomic (test_contract_edges.ContractEdgeTests.test_ttl_failure_is_fully_atomic) ... ok
+test_atomic_stock (test_public.PublicTests.test_atomic_stock) ... ok
+test_discount_conservation (test_public.PublicTests.test_discount_conservation) ... ok
+test_empty_replay (test_public.PublicTests.test_empty_replay) ... ok
+test_happy_path (test_public.PublicTests.test_happy_path) ... ok
+test_refund_keeps_last_unit (test_public.PublicTests.test_refund_keeps_last_unit) ... ok
+test_timezone (test_public.PublicTests.test_timezone) ... ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 0.001s
+
+OK

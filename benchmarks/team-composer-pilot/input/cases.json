@@ -1,0 +1,309 @@
+{
+  "services": [
+    {
+      "id": "local-core",
+      "available": true,
+      "local": true,
+      "guidebook": "openai-codex",
+      "offers": {
+        "research": {
+          "cost": 0,
+          "duration": 9
+        },
+        "write": {
+          "cost": 0,
+          "duration": 8
+        },
+        "review": {
+          "cost": 0,
+          "duration": 6
+        }
+      }
+    },
+    {
+      "id": "cloud-fast",
+      "available": true,
+      "local": false,
+      "guidebook": "openai-codex",
+      "offers": {
+        "research": {
+          "cost": 3,
+          "duration": 2
+        },
+        "write": {
+          "cost": 3,
+          "duration": 2
+        },
+        "review": {
+          "cost": 2,
+          "duration": 1
+        }
+      }
+    },
+    {
+      "id": "cloud-special",
+      "available": true,
+      "local": false,
+      "guidebook": "openai-codex",
+      "offers": {
+        "research": {
+          "cost": 1,
+          "duration": 4
+        },
+        "write": {
+          "cost": 1,
+          "duration": 5
+        },
+        "image": {
+          "cost": 4,
+          "duration": 3
+        }
+      }
+    },
+    {
+      "id": "local-new",
+      "available": true,
+      "local": true,
+      "guidebook": null,
+      "offers": {
+        "image": {
+          "cost": 2,
+          "duration": 7
+        },
+        "review": {
+          "cost": 1,
+          "duration": 2
+        }
+      }
+    },
+    {
+      "id": "cloud-unknown",
+      "available": true,
+      "local": false,
+      "guidebook": null,
+      "offers": {
+        "video": {
+          "cost": null,
+          "duration": 1
+        },
+        "image": {
+          "cost": null,
+          "duration": 1
+        }
+      }
+    },
+    {
+      "id": "cloud-offline",
+      "available": false,
+      "local": false,
+      "guidebook": "openai-codex",
+      "offers": {
+        "video": {
+          "cost": 1,
+          "duration": 1
+        },
+        "write": {
+          "cost": 0,
+          "duration": 1
+        }
+      }
+    }
+  ],
+  "cases": [
+    {
+      "id": "C01",
+      "label": "외부 비용 0과 병렬 분기",
+      "objective": "speed",
+      "budget": 0,
+      "setup_cost": 2,
+      "transfer_cost": 1,
+      "tasks": [
+        {
+          "id": "r",
+          "capability": "research",
+          "depends_on": [],
+          "local_only": false,
+          "fixed_service": null
+        },
+        {
+          "id": "w",
+          "capability": "write",
+          "depends_on": [],
+          "local_only": false,
+          "fixed_service": null
+        },
+        {
+          "id": "z",
+          "capability": "review",
+          "depends_on": [
+            "r",
+            "w"
+          ],
+          "local_only": false,
+          "fixed_service": null
+        }
+      ]
+    },
+    {
+      "id": "C02",
+      "label": "반출 금지와 미등록 모델",
+      "objective": "speed",
+      "budget": 8,
+      "setup_cost": 2,
+      "transfer_cost": 1,
+      "tasks": [
+        {
+          "id": "a",
+          "capability": "image",
+          "depends_on": [],
+          "local_only": true,
+          "fixed_service": null
+        },
+        {
+          "id": "b",
+          "capability": "write",
+          "depends_on": [],
+          "local_only": true,
+          "fixed_service": null
+        },
+        {
+          "id": "c",
+          "capability": "review",
+          "depends_on": [
+            "a",
+            "b"
+          ],
+          "local_only": true,
+          "fixed_service": null
+        }
+      ]
+    },
+    {
+      "id": "C03",
+      "label": "전역 인계 비용",
+      "objective": "cost",
+      "budget": 20,
+      "setup_cost": 3,
+      "transfer_cost": 3,
+      "tasks": [
+        {
+          "id": "a",
+          "capability": "research",
+          "depends_on": [],
+          "local_only": false,
+          "fixed_service": null
+        },
+        {
+          "id": "b",
+          "capability": "image",
+          "depends_on": [
+            "a"
+          ],
+          "local_only": false,
+          "fixed_service": null
+        },
+        {
+          "id": "c",
+          "capability": "write",
+          "depends_on": [
+            "b"
+          ],
+          "local_only": false,
+          "fixed_service": null
+        }
+      ]
+    },
+    {
+      "id": "C04",
+      "label": "예산 안에서 최단 지연",
+      "objective": "speed",
+      "budget": 11,
+      "setup_cost": 2,
+      "transfer_cost": 1,
+      "tasks": [
+        {
+          "id": "a",
+          "capability": "research",
+          "depends_on": [],
+          "local_only": false,
+          "fixed_service": null
+        },
+        {
+          "id": "b",
+          "capability": "write",
+          "depends_on": [],
+          "local_only": false,
+          "fixed_service": null
+        },
+        {
+          "id": "c",
+          "capability": "image",
+          "depends_on": [],
+          "local_only": false,
+          "fixed_service": null
+        },
+        {
+          "id": "d",
+          "capability": "review",
+          "depends_on": [
+            "a",
+            "b",
+            "c"
+          ],
+          "local_only": false,
+          "fixed_service": null
+        }
+      ]
+    },
+    {
+      "id": "C05",
+      "label": "필수 서비스 미연결과 미확인 요금",
+      "objective": "cost",
+      "budget": 10,
+      "setup_cost": 0,
+      "transfer_cost": 0,
+      "tasks": [
+        {
+          "id": "a",
+          "capability": "write",
+          "depends_on": [],
+          "local_only": false,
+          "fixed_service": "cloud-offline"
+        },
+        {
+          "id": "b",
+          "capability": "video",
+          "depends_on": [],
+          "local_only": false,
+          "fixed_service": null
+        }
+      ]
+    },
+    {
+      "id": "C06",
+      "label": "전체 예산 초과",
+      "objective": "cost",
+      "budget": 1,
+      "setup_cost": 0,
+      "transfer_cost": 0,
+      "tasks": [
+        {
+          "id": "a",
+          "capability": "image",
+          "depends_on": [],
+          "local_only": false,
+          "fixed_service": null
+        },
+        {
+          "id": "b",
+          "capability": "review",
+          "depends_on": [
+            "a"
+          ],
+          "local_only": false,
+          "fixed_service": null
+        }
+      ]
+    }
+  ]
+}

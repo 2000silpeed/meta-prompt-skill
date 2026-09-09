@@ -1,0 +1,33 @@
+test_confirmed_refunds_and_no_ttl (test_engine_added.EngineAddedTests.test_confirmed_refunds_and_no_ttl) ... ok
+test_duplicates_canonical_and_old (test_engine_added.EngineAddedTests.test_duplicates_canonical_and_old) ... ok
+test_expiry_rollback_and_failed_id_reuse (test_engine_added.EngineAddedTests.test_expiry_rollback_and_failed_id_reuse) ... ok
+test_invalid_inputs_atomic (test_engine_added.EngineAddedTests.test_invalid_inputs_atomic) ... ok
+test_no_aliases (test_engine_added.EngineAddedTests.test_no_aliases) ... ok
+test_replay_utc_and_stable_order (test_engine_added.EngineAddedTests.test_replay_utc_and_stable_order) ... ok
+test_reserved_partial_and_full_cancel (test_engine_added.EngineAddedTests.test_reserved_partial_and_full_cancel) ... ok
+test_discount_ties_are_lexical_and_input_unchanged (test_foundation_added.FoundationTests.test_discount_ties_are_lexical_and_input_unchanged) ... ok
+test_discount_validation (test_foundation_added.FoundationTests.test_discount_validation) ... ok
+test_huge_exact_discount (test_foundation_added.FoundationTests.test_huge_exact_discount) ... ok
+test_invalid_times (test_foundation_added.FoundationTests.test_invalid_times) ... ok
+test_inventory_atomic_validation_and_round_trip (test_foundation_added.FoundationTests.test_inventory_atomic_validation_and_round_trip) ... ok
+test_refund_telescopes_for_different_batches (test_foundation_added.FoundationTests.test_refund_telescopes_for_different_batches) ... ok
+test_refund_validation (test_foundation_added.FoundationTests.test_refund_validation) ... ok
+test_reservation_shortage_rolls_back (test_foundation_added.FoundationTests.test_reservation_shortage_rolls_back) ... ok
+test_utc_offsets_and_fraction (test_foundation_added.FoundationTests.test_utc_offsets_and_fraction) ... ok
+test_zero_subtotal (test_foundation_added.FoundationTests.test_zero_subtotal) ... ok
+test_expiry_then_failed_multisku_reserve_is_atomic (test_integration_added.IntegrationTests.test_expiry_then_failed_multisku_reserve_is_atomic) ... ok
+test_fingerprint_preserves_lines_order_and_nested_unknown_values (test_integration_added.IntegrationTests.test_fingerprint_preserves_lines_order_and_nested_unknown_values) ... ok
+test_multisku_allocation_and_cumulative_refund (test_integration_added.IntegrationTests.test_multisku_allocation_and_cumulative_refund) ... ok
+test_reserved_multisku_partial_rejection_and_full_cancel (test_integration_added.IntegrationTests.test_reserved_multisku_partial_rejection_and_full_cancel) ... ok
+test_zero_price_end_to_end_and_replay_input_preservation (test_integration_added.IntegrationTests.test_zero_price_end_to_end_and_replay_input_preservation) ... ok
+test_atomic_stock (test_public.PublicTests.test_atomic_stock) ... ok
+test_discount_conservation (test_public.PublicTests.test_discount_conservation) ... ok
+test_empty_replay (test_public.PublicTests.test_empty_replay) ... ok
+test_happy_path (test_public.PublicTests.test_happy_path) ... ok
+test_refund_keeps_last_unit (test_public.PublicTests.test_refund_keeps_last_unit) ... ok
+test_timezone (test_public.PublicTests.test_timezone) ... ok
+
+----------------------------------------------------------------------
+Ran 28 tests in 0.004s
+
+OK

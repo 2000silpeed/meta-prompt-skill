@@ -1,0 +1,24 @@
+test_alias_isolation (test_contract.ContractTests.test_alias_isolation) ... ok
+test_clock (test_contract.ContractTests.test_clock) ... ok
+test_confirmed_no_expiry_and_refund (test_contract.ContractTests.test_confirmed_no_expiry_and_refund) ... ok
+test_discount_exact_and_ties (test_contract.ContractTests.test_discount_exact_and_ties) ... ok
+test_duplicates (test_contract.ContractTests.test_duplicates) ... ok
+test_expiry_boundary_rollback_and_retry (test_contract.ContractTests.test_expiry_boundary_rollback_and_retry) ... ok
+test_invalid_events_and_time (test_contract.ContractTests.test_invalid_events_and_time) ... ok
+test_inventory_atomic (test_contract.ContractTests.test_inventory_atomic) ... ok
+test_line_order_fingerprint (test_contract.ContractTests.test_line_order_fingerprint) ... ok
+test_money_validation (test_contract.ContractTests.test_money_validation) ... ok
+test_refund_conservation (test_contract.ContractTests.test_refund_conservation) ... ok
+test_replay_utc_stable_and_immutable (test_contract.ContractTests.test_replay_utc_stable_and_immutable) ... ok
+test_reserved_cancel_full_only_and_no_reuse (test_contract.ContractTests.test_reserved_cancel_full_only_and_no_reuse) ... ok
+test_atomic_stock (test_public.PublicTests.test_atomic_stock) ... ok
+test_discount_conservation (test_public.PublicTests.test_discount_conservation) ... ok
+test_empty_replay (test_public.PublicTests.test_empty_replay) ... ok
+test_happy_path (test_public.PublicTests.test_happy_path) ... ok
+test_refund_keeps_last_unit (test_public.PublicTests.test_refund_keeps_last_unit) ... ok
+test_timezone (test_public.PublicTests.test_timezone) ... ok
+
+----------------------------------------------------------------------
+Ran 19 tests in 0.003s
+
+OK

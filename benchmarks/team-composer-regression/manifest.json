@@ -1,0 +1,47 @@
+{
+  "version": 2,
+  "kind": "multi-module regression pilot",
+  "repetitions": 2,
+  "orders": [
+    [
+      "single",
+      "parallel",
+      "review"
+    ],
+    [
+      "review",
+      "parallel",
+      "single"
+    ]
+  ],
+  "same_model": "inherited; no overrides",
+  "external_calls": 0,
+  "actual_tokens": null,
+  "actual_cost": null,
+  "acceptance_tests": 40,
+  "public_tests": 6,
+  "fixture_baseline_passed": 20,
+  "test_author": "/root/regression_acceptance_author",
+  "source_of_rules": "fixture/CONTRACT.md",
+  "isolation": "fresh no-history agents; read/write scoped by instructions; shared filesystem; not a security sandbox",
+  "frozen": {
+    "fixture/shop/clock.py": "31cc53da368cd79a4c8a88fd79e96f3ba4ab611e097f754ce7e96cd4d3323dc0",
+    "fixture/shop/__init__.py": "dd780670db291e473e40916e4c5eaf724d464bd7bd574cc0ccf2289bdba4007d",
+    "fixture/shop/money.py": "002942a076f0b25a0ca86f003da5d37e25b6aec7d02cc1455a2e22fd11554444",
+    "fixture/shop/engine.py": "0be9a2e8ae3821e7640e05f0d9c09da84fb3131fdf53e9a539f28b4a13a54010",
+    "fixture/shop/inventory.py": "bd2d8b2eb9f2c25cdab101ea707c7b37ccb1ad73e574a8a219b8e119f81e6687",
+    "fixture/tests/test_public.py": "9433f3e3bcc9a6d47c7ce82aa502bf7f561c8e9ee729b8d349849a44c050c1d1",
+    "fixture/CONTRACT.md": "1fd6df2fea44f02b3ecbbe51ef3e1cfbfc4bea21816f2eeb49f17a19360b72e0",
+    "private/test_acceptance.py": "8d200341cbd774c06db4d36bbf8136c6d20be680f81292c8f7ea3493991e0e7a",
+    "grade.py": "ecea165349e2b2cb1d4dafdf30c0776838b414d8b662f3db6c9e5cb44a5d09e6"
+  },
+  "meta_prompt_cards": [
+    "guidebooks/openai-codex/cards/task-prompt-4-elements.yaml",
+    "guidebooks/openai-codex/cards/verification-and-review.yaml",
+    "guidebooks/openai-codex/cards/workflow-antipatterns.yaml",
+    "guidebooks/openai-codex/cards/xml-block-contracts.yaml"
+  ],
+  "guide_note": "Task structure and verification rules reused; historical runtime claims not applied; no guide refresh.",
+  "python_version": "3.12.11 (main, Mar 28 2026, 22:39:15) [Clang 17.0.0 (clang-1700.6.4.2)]",
+  "fixture_lines": 201
+}

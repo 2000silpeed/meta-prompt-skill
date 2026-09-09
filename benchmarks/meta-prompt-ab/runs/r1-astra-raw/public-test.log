@@ -1,0 +1,24 @@
+test_confirmed_does_not_expire_and_refunds_accumulate (test_contract_regressions.ContractRegressions.test_confirmed_does_not_expire_and_refunds_accumulate) ... ok
+test_duplicate_canonical_and_old (test_contract_regressions.ContractRegressions.test_duplicate_canonical_and_old) ... ok
+test_fingerprint_includes_line_order_and_nested_extras (test_contract_regressions.ContractRegressions.test_fingerprint_includes_line_order_and_nested_extras) ... ok
+test_input_and_snapshot_isolation (test_contract_regressions.ContractRegressions.test_input_and_snapshot_isolation) ... ok
+test_invalid_events_atomic_and_id_not_consumed (test_contract_regressions.ContractRegressions.test_invalid_events_atomic_and_id_not_consumed) ... ok
+test_invalid_initial_stock (test_contract_regressions.ContractRegressions.test_invalid_initial_stock) ... ok
+test_inventory_atomic_validation (test_contract_regressions.ContractRegressions.test_inventory_atomic_validation) ... ok
+test_money_exact_large_ties_and_zero (test_contract_regressions.ContractRegressions.test_money_exact_large_ties_and_zero) ... ok
+test_money_validation (test_contract_regressions.ContractRegressions.test_money_validation) ... ok
+test_replay_utc_sort_and_stable_ties (test_contract_regressions.ContractRegressions.test_replay_utc_sort_and_stable_ties) ... ok
+test_reserved_full_only (test_contract_regressions.ContractRegressions.test_reserved_full_only) ... ok
+test_time_validation (test_contract_regressions.ContractRegressions.test_time_validation) ... ok
+test_ttl_boundary_rollback_then_success (test_contract_regressions.ContractRegressions.test_ttl_boundary_rollback_then_success) ... ok
+test_atomic_stock (test_public.PublicTests.test_atomic_stock) ... ok
+test_discount_conservation (test_public.PublicTests.test_discount_conservation) ... ok
+test_empty_replay (test_public.PublicTests.test_empty_replay) ... ok
+test_happy_path (test_public.PublicTests.test_happy_path) ... ok
+test_refund_keeps_last_unit (test_public.PublicTests.test_refund_keeps_last_unit) ... ok
+test_timezone (test_public.PublicTests.test_timezone) ... ok
+
+----------------------------------------------------------------------
+Ran 19 tests in 0.003s
+
+OK

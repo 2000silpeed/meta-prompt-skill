@@ -1,0 +1,23 @@
+test_atomic_stock (test_public.PublicTests.test_atomic_stock) ... ok
+test_discount_conservation (test_public.PublicTests.test_discount_conservation) ... ok
+test_empty_replay (test_public.PublicTests.test_empty_replay) ... ok
+test_happy_path (test_public.PublicTests.test_happy_path) ... ok
+test_refund_keeps_last_unit (test_public.PublicTests.test_refund_keeps_last_unit) ... ok
+test_timezone (test_public.PublicTests.test_timezone) ... ok
+test_alias_isolation (test_regressions.RegressionTests.test_alias_isolation) ... ok
+test_confirmed_survives_ttl_and_refunds (test_regressions.RegressionTests.test_confirmed_survives_ttl_and_refunds) ... ok
+test_duplicate_normalization_and_old_noop (test_regressions.RegressionTests.test_duplicate_normalization_and_old_noop) ... ok
+test_exact_large_money_and_ties (test_regressions.RegressionTests.test_exact_large_money_and_ties) ... ok
+test_expiry_boundary_atomic_and_failed_id_reusable (test_regressions.RegressionTests.test_expiry_boundary_atomic_and_failed_id_reusable) ... ok
+test_invalid_event_rollback (test_regressions.RegressionTests.test_invalid_event_rollback) ... ok
+test_invalid_money (test_regressions.RegressionTests.test_invalid_money) ... ok
+test_inventory_atomic_validation (test_regressions.RegressionTests.test_inventory_atomic_validation) ... ok
+test_refund_conservation (test_regressions.RegressionTests.test_refund_conservation) ... ok
+test_replay_utc_stable_and_immutable (test_regressions.RegressionTests.test_replay_utc_stable_and_immutable) ... ok
+test_reserved_cancel_full_only (test_regressions.RegressionTests.test_reserved_cancel_full_only) ... ok
+test_times (test_regressions.RegressionTests.test_times) ... ok
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.002s
+
+OK

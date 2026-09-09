@@ -1,5 +1,13 @@
 # meta-prompt-skill 설계 합의안
 
+## 2026-09-05 확장: Agent Team Composer
+
+meta-prompt를 역할별 프롬프트 컴파일러로 재사용하는 팀 구성 스킬을 추가했다.
+서비스·모델·역할을 구분하고 현재 실행 환경에 맞는 최소 팀, 작업 의존성, 결과 인계와 검증을 정의한다.
+상세 기획은 [agent-team-design.md](docs/agent-team-design.md),
+구현은 [skills/agent-team-composer/SKILL.md](skills/agent-team-composer/SKILL.md),
+검증 범위는 [agent-team-validation.md](docs/agent-team-validation.md)를 참고한다.
+
 2026-07-22 grill 세션에서 합의된 설계. 구현의 기준 문서.
 
 ## 목적

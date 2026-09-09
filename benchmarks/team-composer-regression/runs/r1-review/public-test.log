@@ -1,0 +1,26 @@
+test_atomic_stock (test_public.PublicTests.test_atomic_stock) ... ok
+test_discount_conservation (test_public.PublicTests.test_discount_conservation) ... ok
+test_empty_replay (test_public.PublicTests.test_empty_replay) ... ok
+test_happy_path (test_public.PublicTests.test_happy_path) ... ok
+test_refund_keeps_last_unit (test_public.PublicTests.test_refund_keeps_last_unit) ... ok
+test_timezone (test_public.PublicTests.test_timezone) ... ok
+test_aliases (test_regression.RegressionTests.test_aliases) ... ok
+test_bad_envelopes_and_backwards (test_regression.RegressionTests.test_bad_envelopes_and_backwards) ... ok
+test_confirmed_refunds_and_no_expiry (test_regression.RegressionTests.test_confirmed_refunds_and_no_expiry) ... ok
+test_duplicate_normalization_and_unknown_keys (test_regression.RegressionTests.test_duplicate_normalization_and_unknown_keys) ... ok
+test_exact_money_and_tie (test_regression.RegressionTests.test_exact_money_and_tie) ... ok
+test_expiry_rollback_and_id_retry (test_regression.RegressionTests.test_expiry_rollback_and_id_retry) ... ok
+test_invalid_money (test_regression.RegressionTests.test_invalid_money) ... ok
+test_inventory_atomicity (test_regression.RegressionTests.test_inventory_atomicity) ... ok
+test_replay_utc_stability_and_inputs (test_regression.RegressionTests.test_replay_utc_stability_and_inputs) ... ok
+test_reserved_full_cancel_only (test_regression.RegressionTests.test_reserved_full_cancel_only) ... ok
+test_time_validation (test_regression.RegressionTests.test_time_validation) ... ok
+test_fingerprint_structure_order_and_types (test_review.ReviewTests.test_fingerprint_structure_order_and_types) ... ok
+test_multiple_expirations_are_rolled_back_together (test_review.ReviewTests.test_multiple_expirations_are_rolled_back_together) ... ok
+test_multisku_refund_after_exhausting_one_line (test_review.ReviewTests.test_multisku_refund_after_exhausting_one_line) ... ok
+test_unbounded_integer_payload_and_charge (test_review.ReviewTests.test_unbounded_integer_payload_and_charge) ... ok
+
+----------------------------------------------------------------------
+Ran 21 tests in 0.005s
+
+OK

@@ -6,6 +6,47 @@
 
 ## 사용법
 
+### 에이전트 팀 자동 구성
+
+`agent-team-composer`는 이 스킬의 가이드북을 기반으로 서비스·모델·역할을 선택하고,
+역할별 프롬프트와 작업 순서를 구성하는 확장 스킬입니다.
+실행까지 요청하면 현재 연결된 도구로 배정·통합·검증합니다.
+서비스의 성능 순위를 고정하지 않고 작업 적합성, 실제 연결, 비용 제약, 인계 비용으로 판단합니다.
+
+```text
+$agent-team-composer 연결된 서비스로 이 프로젝트에 맞는 팀을 구성하고 구현해줘.
+$agent-team-composer Claude 조사 + Gemini 초안 조합으로 팀과 프롬프트만 만들어줘.
+$agent-team-composer 외부 비용 없이 이 작업을 처리할 팀을 구성해줘.
+```
+
+기존 meta-prompt를 설치한 상태에서 저장소 루트에서 추가 등록할 수 있습니다.
+
+```bash
+ln -s "$PWD/skills/agent-team-composer" ~/.codex/skills/agent-team-composer
+```
+
+연결되지 않은 서비스에는 수동 전달용 프롬프트를 제공합니다. 프롬프트 생성과 실제 서비스
+실행은 구분하며, 서브에이전트 기능이 없는 환경에서는 순차 실행합니다.
+[설계](docs/agent-team-design.md) · [스킬 본체](skills/agent-team-composer/SKILL.md)
+
+팀 구성 비교 파일럿: [테스트 조건](benchmarks/team-composer-pilot/PROTOCOL.md) ·
+[실행 결과](benchmarks/team-composer-pilot/RESULTS.md) ·
+[관측과 해석](benchmarks/team-composer-pilot/FINDINGS.md).
+동일한 합성 과제에서 단일 에이전트, 병렬 분담·통합, 제작·검토 구성을 비교합니다.
+실제 서비스별 모델 성능이나 요금 비교와는 구분합니다.
+
+확장 실험은 [다중 모듈 코드 회귀 수정](benchmarks/team-composer-regression/FINDINGS.md)입니다.
+공개 계약과 평가용 테스트 40개를 고정해 같은 세 구성을 각각 두 번 실행했습니다.
+고정 평가 결과와 실행 중 새로 발견한 결함의 사후 검사를 분리해 기록합니다.
+
+모델별 프롬프트 A/B: [실험 조건](benchmarks/meta-prompt-ab/PROTOCOL.md) ·
+[실행 결과](benchmarks/meta-prompt-ab/RESULTS.md) ·
+[관측과 해석](benchmarks/meta-prompt-ab/FINDINGS.md).
+Astra·Sol·Luna 각각에서 일반 지시와 가이드북으로 구성한 메타 프롬프트를 비교합니다.
+상세 명세와 코드, 단독 실행 구조, 추론 설정, 41개 평가 테스트를 동일하게 유지합니다.
+
+### 단일 모델 프롬프트
+
 Claude Code, Gemini CLI 또는 Codex에서 자연어로 부르면 자동 발동됩니다:
 
 ```

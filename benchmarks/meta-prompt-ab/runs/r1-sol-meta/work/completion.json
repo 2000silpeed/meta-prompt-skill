@@ -1,0 +1,1 @@
+{"status":"completed","tests_run":["python -m unittest -v tests.test_public","python -m compileall -q shop","python - <<'PY' ... PY (custom contract checks)","python - <<'PY' ... PY (extended contract checks)","python -m json.tool completion.json >/dev/null && python -m unittest -q tests.test_public"],"limitations":[]}

@@ -1,0 +1,10 @@
+{
+  "status": "completed",
+  "tests_run": [
+    "python3 -m unittest discover -s tests -v"
+  ],
+  "limitations": [
+    "비공개 평가 테스트 결과는 제공되지 않아 확인하지 않음.",
+    "이벤트 원자성을 위해 전체 상태를 복사하므로 누적 상태 크기에 비례하는 비용이 있음."
+  ]
+}

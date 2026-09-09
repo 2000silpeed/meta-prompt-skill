@@ -1,0 +1,6 @@
+공통 실험 환경(두 조건에 동일): 작업 디렉터리 /Users/sungwoon/ai-projects/meta-prompt-skill/benchmarks/meta-prompt-ab/runs/r2-sol-raw/work.
+이 디렉터리의 CONTRACT.md, shop/, tests/와 자신이 만든 파일만 읽고 쓴다. 상위 디렉터리, 다른 실행, private/, 평가기·점수·이전 결과·스킬 파일은 읽지 않는다. 별도 프롬프트 변환이나 스킬 로딩은 수행하지 않는다. 새 에이전트, 외부 네트워크, 패키지 설치는 사용하지 않는다. Python 표준 라이브러리만 사용한다. 원본 CONTRACT.md와 tests/test_public.py는 수정하지 않는다. 자체 테스트 추가 및 로컬 검증 도구 사용은 가능하다.
+아래 요청을 수행한 후 handoff.md에 변경 사항·실제 검증·한계를 쓰고, 마지막에 completion.json을 {"status":"completed 또는 partial","tests_run":["실제 실행한 명령"],"limitations":[]} 형식으로 저장한다. 평가용 테스트 결과는 제공되지 않는다.
+
+사용자 작업 지시:
+이 작업 폴더의 shop 코드를 CONTRACT.md 요구사항에 맞게 고쳐줘. 테스트로 확인하고 변경 사항과 테스트 결과를 알려줘.

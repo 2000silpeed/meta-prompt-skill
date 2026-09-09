@@ -1,0 +1,74 @@
+{
+  "version": 3,
+  "models": {
+    "astra": "gpt-6-astra",
+    "sol": "gpt-5.6-sol",
+    "luna": "gpt-5.6-luna"
+  },
+  "effort": "medium",
+  "repetitions": 2,
+  "orders": [
+    "r1-astra-raw",
+    "r1-astra-meta",
+    "r1-sol-meta",
+    "r1-sol-raw",
+    "r1-luna-raw",
+    "r1-luna-meta",
+    "r2-luna-meta",
+    "r2-luna-raw",
+    "r2-sol-raw",
+    "r2-sol-meta",
+    "r2-astra-meta",
+    "r2-astra-raw"
+  ],
+  "baseline_tests": 20,
+  "acceptance_tests": 41,
+  "frozen": {
+    "fixture/shop/clock.py": "31cc53da368cd79a4c8a88fd79e96f3ba4ab611e097f754ce7e96cd4d3323dc0",
+    "fixture/shop/__init__.py": "dd780670db291e473e40916e4c5eaf724d464bd7bd574cc0ccf2289bdba4007d",
+    "fixture/shop/money.py": "002942a076f0b25a0ca86f003da5d37e25b6aec7d02cc1455a2e22fd11554444",
+    "fixture/shop/engine.py": "0be9a2e8ae3821e7640e05f0d9c09da84fb3131fdf53e9a539f28b4a13a54010",
+    "fixture/shop/inventory.py": "bd2d8b2eb9f2c25cdab101ea707c7b37ccb1ad73e574a8a219b8e119f81e6687",
+    "fixture/tests/test_public.py": "9433f3e3bcc9a6d47c7ce82aa502bf7f561c8e9ee729b8d349849a44c050c1d1",
+    "fixture/CONTRACT.md": "00bddb25e92d707da39a834608bcada78ae0f43302d089c0bba054bd72ffe59c",
+    "private/test_acceptance.py": "29207d10e5a0a8d7e95cbf8c8b5ffe5e57d2b26a6c881efe4c390bf0493cd5e7",
+    "grade.py": "ecea165349e2b2cb1d4dafdf30c0776838b414d8b662f3db6c9e5cb44a5d09e6",
+    "runs/r1-luna-meta/prompt.txt": "ab6efdd7dc1082ca24b8a22750b1eb6489e602288ad14469cc4e0fb7fe521e91",
+    "runs/r2-luna-raw/prompt.txt": "fc6f6f39055a7875698eb5a4e4a8519f691aec8acd31389a84f133dce85b8ed2",
+    "runs/r1-astra-raw/prompt.txt": "b94e0e49a0a65ee068b9e42ee5906d4ba6a2cfa952a38a756424eb69a758d2ac",
+    "runs/r2-astra-meta/prompt.txt": "2f265e8070efb90db07874fc4b9a59d84d19b79c6a81c23209671974b97e03b8",
+    "runs/r1-sol-meta/prompt.txt": "01c1ef1e0f413eb45f04235b3110d5b16ac20025645f849346b45063ab95f74a",
+    "runs/r1-luna-raw/prompt.txt": "d420b1301403650321a7b02a0174912d2488ef67c2c137d8ede21df334a5d7e0",
+    "runs/r2-sol-raw/prompt.txt": "f7d4b1f1cc7e2bae8b63612a1bfa3c4ba66ed34ef01db99909bc61706a263172",
+    "runs/r2-sol-meta/prompt.txt": "ec57b47684a5c85d5a79bb199dee7b075a7d0e71314ca57c081f77dd21bdc5fa",
+    "runs/r1-astra-meta/prompt.txt": "ae28f8f917ee34d26f757ab191d8e641f0ddefd060bdee26d1266080b3f54f2a",
+    "runs/r2-luna-meta/prompt.txt": "c0b0746a7de98eca6fc9eb811a0309ac39fb803624885fdd95a3dcbb4b309364",
+    "runs/r2-astra-raw/prompt.txt": "f7d120ccc04945ca4f32db78a3cc51d1861e2cbe3b74713b0026f8a263927545",
+    "runs/r1-sol-raw/prompt.txt": "1e57a439069e7e4b5c9a493515d434e5729dd7abadd166d4435360cce115cd88"
+  },
+  "python": "3.12.11 (main, Mar 28 2026, 22:39:15) [Clang 17.0.0 (clang-1700.6.4.2)]",
+  "comparison": "normal competent instruction plus detailed spec versus guidebook-compiled instruction, with identical spec/controls",
+  "guidebooks": {
+    "astra": [
+      "openai-codex",
+      "_generic (knowledge-based; no dedicated Astra guide)"
+    ],
+    "sol": [
+      "openai-codex",
+      "openai-gpt-5/gpt-5.6-sol"
+    ],
+    "luna": [
+      "openai-codex",
+      "openai-gpt-5 (family rules; no dedicated Luna card)"
+    ]
+  },
+  "limits": [
+    "same detailed domain spec already supplied in both arms",
+    "one synthetic task, two repetitions per cell",
+    "no cost/token measurements",
+    "instruction-scoped isolation; shared filesystem",
+    "model-specific prompting rules vary, compare within each model first"
+  ],
+  "actual_cost": null,
+  "actual_tokens": null
+}

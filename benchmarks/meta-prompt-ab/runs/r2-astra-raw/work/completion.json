@@ -1,0 +1,10 @@
+{
+  "status": "completed",
+  "tests_run": [
+    "python3 -m unittest discover -s tests -v"
+  ],
+  "limitations": [
+    "평가용 비공개 테스트는 실행하지 않았습니다.",
+    "이벤트마다 내부 상태를 깊게 복사하므로 상태 크기에 비례하는 처리 비용이 발생합니다."
+  ]
+}

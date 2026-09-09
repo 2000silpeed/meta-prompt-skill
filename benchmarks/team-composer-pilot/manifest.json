@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "kind": "pilot",
+  "repetitions": 2,
+  "case_count": 6,
+  "orders": [
+    [
+      "parallel",
+      "single",
+      "review"
+    ],
+    [
+      "review",
+      "single",
+      "parallel"
+    ]
+  ],
+  "actual_service": "Codex native subagents",
+  "model": "inherited; no model override",
+  "external_calls": 0,
+  "actual_cost": "unknown",
+  "unit_note": "fixture units and simulated latency are NOT real cost/time",
+  "seed": null,
+  "isolation": "fresh no-history agents, instruction-scoped directories, shared filesystem (not a security sandbox)",
+  "evaluation": "deterministic rules frozen before execution; semantic prompt quality reported separately",
+  "cards": [
+    "guidebooks/openai-codex/cards/task-prompt-4-elements.yaml",
+    "guidebooks/openai-codex/cards/workflow-antipatterns.yaml",
+    "guidebooks/openai-codex/cards/xml-block-contracts.yaml"
+  ],
+  "input_sha256": {
+    "cases.json": "ad5506c68687e52b0f351a22364885518676e44414193474f22f2611a30fec7d",
+    "brief.md": "ac33dccb7349a3ecb957354edf4173aa371af7e746fc4b7b1d15d74bc48af6ab"
+  },
+  "evaluator_sha256": "8eb60645922c788177a04a14168e16098e906bcf9120eee6669f218839616fbb",
+  "guidebook_verification": {
+    "task-prompt-4-elements": "verified; 2026-09-03",
+    "workflow-antipatterns": "verified; 2026-07-22, stale beyond 30 days",
+    "xml-block-contracts": "verified; 2026-07-22, stale beyond 30 days"
+  },
+  "compiler_note": "Only task structure, output contract and verification rules applied; no historical model availability/pricing claims used. Guides not refreshed."
+}

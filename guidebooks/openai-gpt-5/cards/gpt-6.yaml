@@ -1,0 +1,23 @@
+id: gpt-6
+model: openai-gpt-5
+topic: "GPT-6 Astra / Sol / Luna — 선택과 프롬프트 적용"
+verification: verified
+last_verified: "2026-09-24"
+rules:
+  - "최고 역량은 gpt-6-astra, 복잡한 코딩·에이전트 작업은 gpt-6-sol, 반복·대량 작업은 gpt-6-luna를 검토한다. 사용자 지정 버전은 유지한다."
+  - "Astra의 API reasoning.effort는 low/medium/high/xhigh/max, Sol·Luna는 none도 지원하며 기본은 medium이다. 프롬프트 문구만으로 실제 설정이 바뀌었다고 보고하지 않는다."
+  - "Sol·Luna의 툴 사용은 Responses API를 우선한다. Chat Completions의 함수 호출은 reasoning_effort=none일 때만 지원한다."
+  - "목표·제약·완료 기준을 명확히 하고, 결과를 바꾸는 질문만 하도록 지정한다. 승인된 범위는 구현·검증까지 이어가도록 쓴다."
+  - "AGENTS.md·스킬의 중복 지시와 충돌을 점검하고, 답변 길이·문체, 위임 조건, 변경 규모에 맞는 검증 범위를 명시한다."
+template: |
+  목표: {task_goal}
+  필요한 맥락과 제약: {context_and_constraints}
+  완료 조건과 검증 범위: {acceptance_and_validation}
+  자율 수행·질문·승인 경계: {authority_boundaries}
+  출력 형식과 길이: {output_format}
+
+  API 권고: model={model_variant}, reasoning.effort={supported_effort}
+pitfalls:
+  - "Astra에 none을 지정하거나 Codex 전용 effort를 API 지원값으로 가정하는 것"
+  - "GPT-5.6 Sol 전용 카드를 GPT-6 Sol에 적용하는 것"
+  - "새 모델 등록을 실제 계정 접근권한이나 실행 성공으로 해석하는 것"

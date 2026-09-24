@@ -2,9 +2,18 @@ model: openai-gpt-5
 # refresh 시 이 URL들을 WebFetch로 재확인하고 변경된 카드만 수정한다.
 sources:
   - url: https://developers.openai.com/api/docs/guides/latest-model
-    covers: [gpt-5.6-sol, instruction-precision, agentic-eagerness, output-verbosity-format]
-    fetched: "2026-09-03"
-    note: "2026-09-03 재확인 — GPT-5.6(Sol/Terra/Luna)이 여전히 최신, effort none~max 6단계 유지"
+    covers: [gpt-6]
+    fetched: "2026-09-24"
+    note: "GPT-6 모델 선택·프롬프팅 지침 확인. 기존 GPT-5.x 공통 카드는 이번에 전부 재검증하지 않음"
+  - url: https://developers.openai.com/api/docs/models/gpt-6-astra
+    covers: [gpt-6]
+    fetched: "2026-09-24"
+  - url: https://developers.openai.com/api/docs/models/gpt-6-sol
+    covers: [gpt-6]
+    fetched: "2026-09-24"
+  - url: https://developers.openai.com/api/docs/models/gpt-6-luna
+    covers: [gpt-6]
+    fetched: "2026-09-24"
   - url: https://developers.openai.com/api/docs/models/gpt-5.6-sol
     covers: [gpt-5.6-sol]
   - url: https://cookbook.openai.com/examples/gpt-5/gpt-5_prompting_guide

@@ -1,16 +1,16 @@
 id: fable-5-runtime
 model: anthropic-claude
 topic: "Claude Fable 5.1 런타임 — 모델 ID, effort, thinking, breaking change, refusal"
-verification: verified   # 2026-09-03 공식 문서 대조 (whats-new-fable-5-1)
+verification: verified   # 2026-09-24 공식 모델 개요·Opus 5.5 마이그레이션·2026-09-03 Fable 문서 대조
 rules:
-  - "API 모델 ID는 claude-fable-5-1(제한 접근판은 claude-mythos-5-1)이다. 컨텍스트 1M, 최대 출력 128K, adaptive thinking 상시 on. 대부분의 워크로드는 Claude Opus 5로 시작하고, 고난도 추론·장기 에이전트 작업에 Fable 5.1을 쓴다."
+  - "API 모델 ID는 claude-fable-5-1(제한 접근판은 claude-mythos-5-1)이다. 컨텍스트 1M, 최대 출력 128K, adaptive thinking 상시 on. 대부분의 워크로드는 Claude Opus 5.5로 시작하고, 고난도 추론·장기 에이전트 작업에 Fable 5.1을 쓴다."
   - "effort가 지능·지연·비용의 주 조절값이다. 기본 high에서 시작해 low/medium/xhigh/max를 자체 eval로 비교한다. effort 이름이 모델 간 같은 사고량을 뜻하지 않으므로 Fable 5에서 이전했다면 스윕을 다시 돌린다. medium은 Fable 5 수준을 더 낮은 비용으로 내고, low도 Opus/Sonnet 대비 경쟁력이 있다."
   - "breaking change 3건을 프롬프트·하네스 설계에 반영한다 — ①forced tool use 미지원(tool_choice any/tool은 400; auto + strict tool use 또는 structured outputs로 대체하고 '어떤 상황에 이 툴을 쓰라'를 프롬프트에 명시) ②thinking 블록은 생성 모델에 묶여 이전 모델이 읽지 못함 ③이전 턴을 수정하면 이후 thinking 블록이 무효화됨(2026-08-31 이후 생성 계정은 강제)."
   - "대화 히스토리는 append-only로 다룬다. 턴마다 주입·삭제하던 리마인더는 turn-scoped system message(clear_at: next_user_message, beta mid-conversation-system-clear-at-2026-08-21)로 옮기고, system/tools 변경은 mid-conversation system message로, 히스토리 정리는 서버측 compaction/context editing으로 한다."
   - "per-message effort(beta mid-conversation-output-config-2026-07-01)로 어려운 단계만 effort를 올리고 일상 단계는 내릴 수 있다. 프롬프트 캐시를 깨지 않는다."
   - "thinking.display 기본은 omitted다. 툴 호출 사이 진행 상황을 사용자에게 보여주려면 display: updates(beta thinking-display-updates-2026-08-18) 또는 summarized를 쓴다. 원시 사고 과정은 반환되지 않으며, thinking 블록은 받은 그대로 되돌려 보낸다."
   - "temperature/top_p/top_k 비기본값, assistant 프리필, thinking disabled/budget_tokens 지정은 모두 400이다. 캐시 최소 길이는 512토큰이고 cache read가 기본 입력가의 0.025배(기존 0.1배)라 조기 compaction이 항상 이득은 아니다."
-  - "공격적 사이버·생명과학·reasoning extraction 분류기는 stop_reason: refusal을 반환한다. 통합 시 이 종료 사유를 처리하고 fallback 대상(Claude Opus 4.8 / Claude Opus 5)을 설정한다. 소스코드 취약점 탐색은 허용되며 오탐은 Fable 5보다 줄었다."
+  - "공격적 사이버·생명과학·reasoning extraction 분류기는 stop_reason: refusal을 반환한다. 통합 시 이 종료 사유를 처리하고 fallback 대상(Claude Opus 5.5)을 설정한다. 소스코드 취약점 탐색은 허용되며 오탐은 Fable 5보다 줄었다."
   - "'추론 과정을 응답에 그대로 옮겨 적으라'는 지시는 reasoning_extraction 거부를 유발한다. 사고 가시성이 필요하면 thinking 블록이나 send-to-user 도구를 쓴다."
 template: |
   API 권고:
@@ -19,7 +19,7 @@ template: |
   - thinking.display: {omitted | updates(beta) | summarized}
   - tool_choice: auto  (any/tool 금지 — 필요하면 strict tool use / structured outputs)
   - 히스토리: append-only, 턴별 리마인더는 turn-scoped system message
-  - stop_reason == refusal 처리와 fallback: {Claude Opus 5 | Claude Opus 4.8}
+  - stop_reason == refusal 처리와 fallback: {Claude Opus 5.5 | Claude Opus 5}
 pitfalls:
   - "tool_choice: any/tool을 그대로 이전해 400을 맞는 것"
   - "턴마다 system 프롬프트나 리마인더를 재작성해 thinking 블록과 프롬프트 캐시를 무효화하는 것"

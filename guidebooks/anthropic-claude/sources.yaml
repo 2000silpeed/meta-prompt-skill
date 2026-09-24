@@ -1,5 +1,20 @@
 model: anthropic-claude
 sources:
+  - url: https://platform.claude.com/docs/en/models/overview
+    covers: [opus-5-5-runtime]
+    fetched: "2026-09-24"
+    note: "최신 Claude 모델 라인업·권장 용도·모델 ID·컨텍스트/출력 한도"
+  - url: https://platform.claude.com/docs/en/models/opus-5-5/overview
+    covers: [opus-5-5-runtime]
+    fetched: "2026-09-24"
+  - url: https://platform.claude.com/docs/en/models/opus-5-5/migration-guide
+    covers: [opus-5-5-runtime, fable-5-runtime, thinking-and-cot, system-role-tools]
+    fetched: "2026-09-24"
+    note: "Opus 5.5 전환 시 thinking/effort/tool_choice/프리필/컴퓨터 사용 변경"
+  - url: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-5-5
+    covers: [opus-5-5-runtime, explicit-instructions, system-role-tools]
+    fetched: "2026-09-24"
+    note: "Opus 5.5 전용 effort 조정·장기 에이전트·진행 표시·붙여넣은 텍스트 경계 지침"
   - url: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5-1
     covers: [fable-5-1-behaviors, fable-5-core, thinking-and-cot, system-role-tools]
     fetched: "2026-09-03"

@@ -1,5 +1,5 @@
-model: openai-gpt-5
-label: "OpenAI GPT-5.x / GPT-5.6 Sol"
+model: openai-gpt-5  # 기존 경로·참조 호환을 위해 ID 유지
+label: "OpenAI GPT-6 (Astra / Sol / Luna) / GPT-5.x"
 output_language: follow-target   # 프롬프트 언어는 타깃 용도를 따름 (해설은 한국어)
 
 slots:
@@ -8,11 +8,11 @@ slots:
       ask: "이 프롬프트로 모델이 정확히 무엇을 해내야 하나요?"
   optional:
     - id: model_variant
-      default: "gpt-5.6-sol"
-      note: "최고 역량은 Sol, 비용 균형은 Terra, 고처리량은 Luna"
+      default: "gpt-6-sol"
+      note: "최고 역량은 GPT-6 Astra, 코딩·에이전트 균형은 GPT-6 Sol, 고처리량은 GPT-6 Luna. 명시한 구버전은 유지"
     - id: reasoning_effort
       default: "medium"
-      note: "none/low/medium/high/xhigh/max 중 선택; max는 최고 품질 우선 작업에 한정"
+      note: "모델별 지원 범위 확인: Astra는 low~max, GPT-6 Sol/Luna는 none~max. 런타임 전용 설정을 API에 복사하지 않는다"
     - id: deployment
       default: "단발 대화형 호출"
       note: "시스템 프롬프트용 / 에이전트 루프용 / 단발 호출용 구분"
@@ -27,10 +27,12 @@ slots:
       note: "금지 사항, 길이 제한, 톤"
 
 cards:
+  - id: gpt-6
+    when: "GPT-6/Astra 또는 버전 없는 GPT/Sol/Luna 요청. 버전 없는 Sol/Luna는 GPT-6, Astra는 GPT-6 Astra로 해석. 공통 카드의 GPT-5.x 한정 규칙은 GPT-6에 적용하지 않음"
   - id: gpt-5.6-sol
     when: "타깃이 GPT-5.6 또는 GPT-5.6 Sol일 때"
   - id: instruction-precision
-    when: "항상 로드 (모든 GPT-5.x 변환의 기본)"
+    when: "항상 로드 (GPT-5.x/6 변환의 기본)"
   - id: agentic-eagerness
     when: "에이전트 루프, 툴 호출, 자율 작업용 프롬프트일 때"
   - id: tool-preambles-planning

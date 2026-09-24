@@ -1,5 +1,5 @@
 model: anthropic-claude
-label: "Anthropic Claude / Claude Fable 5.1"
+label: "Anthropic Claude / Claude Opus 5.5 · Fable 5.1"
 output_language: follow-target
 
 slots:
@@ -8,11 +8,11 @@ slots:
       ask: "이 프롬프트로 모델이 정확히 무엇을 해내야 하나요?"
   optional:
     - id: model_variant
-      default: "claude-fable-5-1"
-      note: "Fable 5.1이 최신. 일반 워크로드는 Opus 5부터 시작하고, 고난도 추론·장기 에이전트 작업에 Fable을 쓴다"
+      default: "claude-opus-5-5"
+      note: "대부분의 워크로드는 Opus 5.5부터 시작하고, 고난도 추론·장기 에이전트 작업에서 eval이 부족하면 Fable 5.1을 쓴다"
     - id: effort
-      default: "high"
-      note: "high가 기본. 역량 최우선은 xhigh/max, 일상 작업은 medium/low. 긴 산출물은 high가 유리"
+      default: "medium"
+      note: "Opus 5.5 기본은 medium. 역량 최우선은 high/xhigh/max, 일상 작업은 low. Fable 5.1을 명시하면 기본 high"
     - id: deployment
       default: "단발 대화형 호출"
       note: "시스템 프롬프트용 / 에이전트 루프용 / 단발 호출용"
@@ -26,8 +26,10 @@ slots:
       note: "좋은 출력 예시가 있으면 품질이 크게 오름"
 
 cards:
+  - id: opus-5-5-runtime
+    when: "타깃이 Claude Opus 5.5이거나 버전 없는 Claude/Opus 요청일 때"
   - id: fable-5-core
-    when: "타깃이 Claude Fable(5 또는 5.1)이거나 장시간 자율 작업을 맡길 때"
+    when: "타깃이 Claude Fable(5 또는 5.1)이고 장시간 자율 작업을 맡길 때"
   - id: fable-5-1-behaviors
     when: "Fable 5.1의 관찰된 증상(툴 배칭, 진행 표시, 문체·서식, 중도 중단, 범위 초과, 전체 재작성 등)을 교정해야 할 때"
   - id: fable-5-runtime

@@ -1,17 +1,17 @@
 # meta-prompt 가이드북 레지스트리 — 항상 로드되는 유일한 파일. 극소로 유지할 것.
 version: 1
-updated: "2026-09-03"
+updated: "2026-09-24"
 staleness_days: 30   # last_verified가 이보다 오래되면 사용 시 경고 (차단 아님)
 fallback: _generic   # 미등록 모델 요청 시 사용할 범용 가이드북 디렉토리
 
 models:
   - id: openai-gpt-5
-    label: "OpenAI GPT-5.x / GPT-5.6 (Sol / Terra / Luna)"
+    label: "OpenAI GPT-6 (Astra / Sol / Luna) / GPT-5.x"
     type: text-llm
     provider: OpenAI
-    aliases: [gpt, gpt-5, gpt5, gpt-5.1, gpt-5.4, gpt-5.5, gpt-5.6, gpt-5.6-sol, gpt5.6-sol, sol, gpt-5.6-terra, terra, gpt-5.6-luna, luna, chatgpt, openai]
-    last_verified: "2026-09-03"
-    verification: verified
+    aliases: [gpt-6, gpt6, gpt-6-astra, astra, 아스트라, gpt-6-sol, gpt-6-luna, gpt, gpt-5, gpt5, gpt-5.1, gpt-5.4, gpt-5.5, gpt-5.6, gpt-5.6-sol, gpt5.6-sol, sol, gpt-5.6-terra, terra, gpt-5.6-luna, luna, chatgpt, openai]
+    last_verified: "2026-09-24"
+    verification: partial   # GPT-6 카드 검증; 기존 GPT-5.x 카드는 이전 검증 유지
 
   - id: openai-codex
     label: "OpenAI Codex (CLI/IDE 코딩 에이전트 — 태스크 프롬프트/AGENTS.md)"
@@ -22,12 +22,12 @@ models:
     verification: verified
 
   - id: anthropic-claude
-    label: "Anthropic Claude (Fable 5.1 / Fable 5 / Opus 5 / Sonnet / Haiku)"
+    label: "Anthropic Claude (Opus 5.5 / Fable 5.1 / Opus 5 / Sonnet / Haiku)"
     type: text-llm
     provider: Anthropic
-    aliases: [claude, opus, opus-5, sonnet, haiku, fable, claude-fable, fable-5, fable5, fable-5.1, fable5.1, claude-fable-5-1, mythos, mythos-5-1, anthropic]
-    last_verified: "2026-09-03"
-    verification: verified
+    aliases: [opus-5.5, opus5.5, opus-5-5, claude-opus-5-5, claude-opus-5.5, claude, opus, opus-5, sonnet, haiku, fable, claude-fable, fable-5, fable5, fable-5.1, fable5.1, claude-fable-5-1, mythos, mythos-5-1, anthropic]
+    last_verified: "2026-09-24"
+    verification: partial   # Opus 5.5 카드 검증; 기존 공통 카드는 이전 검증 유지
 
   - id: z-ai-glm
     label: "Z.ai GLM (GLM-5.3 / GLM-5.3-Flash — agentic coding)"

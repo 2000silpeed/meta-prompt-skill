@@ -1,5 +1,5 @@
 model: openai-gpt-5  # 기존 경로·참조 호환을 위해 ID 유지
-label: "OpenAI GPT-6 (Astra / Sol / Luna) / GPT-5.x"
+label: "OpenAI GPT-6 (Astra / 6.1 Sol / Luna) / GPT-5.x"
 output_language: follow-target   # 프롬프트 언어는 타깃 용도를 따름 (해설은 한국어)
 
 slots:
@@ -8,11 +8,11 @@ slots:
       ask: "이 프롬프트로 모델이 정확히 무엇을 해내야 하나요?"
   optional:
     - id: model_variant
-      default: "gpt-6-sol"
-      note: "최고 역량은 GPT-6 Astra, 코딩·에이전트 균형은 GPT-6 Sol, 고처리량은 GPT-6 Luna. 명시한 구버전은 유지"
+      default: "gpt-6.1-sol"
+      note: "최고 역량은 GPT-6 Astra, 코딩·에이전트 균형은 GPT-6.1 Sol, 고처리량은 GPT-6 Luna. 명시한 구버전은 유지"
     - id: reasoning_effort
       default: "medium"
-      note: "모델별 지원 범위 확인: Astra는 low~max, GPT-6 Sol/Luna는 none~max. 런타임 전용 설정을 API에 복사하지 않는다"
+      note: "Astra·GPT-6.1 Sol은 low/medium/high/xhigh/max. GPT-6 Sol·Luna는 none도 지원. 런타임 전용 설정을 API에 복사하지 않는다"
     - id: deployment
       default: "단발 대화형 호출"
       note: "시스템 프롬프트용 / 에이전트 루프용 / 단발 호출용 구분"
@@ -28,7 +28,7 @@ slots:
 
 cards:
   - id: gpt-6
-    when: "GPT-6/Astra 또는 버전 없는 GPT/Sol/Luna 요청. 버전 없는 Sol/Luna는 GPT-6, Astra는 GPT-6 Astra로 해석. 공통 카드의 GPT-5.x 한정 규칙은 GPT-6에 적용하지 않음"
+    when: "GPT-6 계열(6.1 Sol 포함) 또는 버전 없는 GPT/Sol/Luna 요청. 버전 없는 GPT/Sol은 GPT-6.1 Sol, Luna는 GPT-6 Luna, Astra는 GPT-6 Astra로 해석. 공통 카드의 GPT-5.x 한정 규칙은 GPT-6에 적용하지 않음"
   - id: gpt-5.6-sol
     when: "타깃이 GPT-5.6 또는 GPT-5.6 Sol일 때"
   - id: instruction-precision

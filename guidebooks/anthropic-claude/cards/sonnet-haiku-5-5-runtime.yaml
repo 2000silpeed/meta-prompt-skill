@@ -1,0 +1,25 @@
+id: sonnet-haiku-5-5-runtime
+model: anthropic-claude
+topic: "Claude Sonnet 5.5 / Haiku 5.5 런타임과 프롬프트 선택"
+verification: verified   # 2026-10-12 Anthropic Platform 모델 개요·전용 프롬프팅 가이드 대조
+last_verified: "2026-10-12"
+rules:
+  - "Claude Sonnet 5.5는 속도와 지능의 균형이 필요한 일반·에이전트 작업용이다. API 모델 ID는 claude-sonnet-5-5이며 adaptive thinking, 기본 effort high, 1M 컨텍스트와 최대 출력 128K를 지원한다."
+  - "Claude Haiku 5.5는 분류·추출·라우팅 등 고처리량·저지연 작업용이다. API 모델 ID는 claude-haiku-5-5이며 adaptive thinking, 기본 effort medium, 1M 컨텍스트와 최대 출력 128K를 지원한다."
+  - "Sonnet 5.5는 이전 Sonnet 5와 effort 의미가 재조정됐으므로 자체 eval로 다시 스윕한다. 에이전트 코딩은 medium에서 시작하고 어려운 작업은 high로 올리며, 채팅·저지연 작업은 medium/low에서 시작한다."
+  - "Sonnet 5.5는 forced tool choice(any/named tool)와 thinking disabled를 거부한다. tool_choice:auto + strict tool use와 프롬프트의 호출 조건으로 대체하고, thinking을 끄는 대신 thinking.type=between_tools를 low/medium/high에서 사용한다. xhigh/max는 adaptive thinking을 사용한다."
+  - "Haiku 5.5는 thinking이 기본 adaptive이고 thinking enabled+budget_tokens는 400이다. forced tool choice(any/named tool)는 지원하지만 생각 후 호출하려면 tool_choice:auto를 쓰며, response의 thinking 블록을 type으로 분기하고 툴 루프에서 그대로 보존한다."
+  - "Sonnet 5.5의 낮은 effort 장기 작업은 완료 전에 확인을 요청하거나 검증을 생략할 수 있다. 완료까지 진행하고 실제 테스트·빌드를 실행하라는 지시를 system prompt에 넣을 수 있다."
+  - "두 모델 모두 progress-update thinking 블록이 올 수 있으므로 응답을 content 블록의 type으로 분기한다. Sonnet 5.5는 최신 정보가 필요한 질문에서 검색 도구를 사용하도록 명시하고, Haiku 5.5는 빠른 처리량을 우선하는 단순 작업에 사용한다."
+  - "refusal 응답은 stop_reason=refusal과 stop_details.category로 처리하며, reasoning_extraction을 유발하는 원시 사고 과정 출력 요구는 제거하고 summarized thinking을 사용한다."
+template: |
+  모델 선택:
+  - 일반·에이전트·속도 균형: claude-sonnet-5-5, effort={medium|high(기본)|low}
+  - 고처리량·저지연 분류/추출/라우팅: claude-haiku-5-5, effort=medium(기본)
+  - 응답 처리: content[].type으로 text/thinking/tool_use를 분기
+  - 검색이 필요한 최신 사실: Sonnet 5.5에 검색 도구 사용을 명시
+pitfalls:
+  - "Sonnet 5의 effort 값을 그대로 재사용하고 새 eval을 생략하는 것"
+  - "Sonnet 5.5의 between_tools를 xhigh/max 또는 도구 없는 추론 JSON 작업에 사용하는 것"
+  - "Haiku 5.5를 장기 고난도 추론 모델로 선택하는 것"
+  - "thinking 블록을 항상 text로 가정하거나 원시 사고 과정 출력을 요구하는 것"

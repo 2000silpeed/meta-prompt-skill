@@ -1,8 +1,8 @@
 id: opus-5-5-runtime
 model: anthropic-claude
 topic: "Claude Opus 5.5 런타임 — 최신 기본 모델의 ID·thinking·effort·마이그레이션"
-verification: verified   # 2026-09-24 Anthropic Platform 모델 개요·Opus 5.5 마이그레이션 가이드 대조
-last_verified: "2026-09-24"
+verification: verified   # 2026-10-12 Anthropic Platform 모델 개요·Opus 5.5 마이그레이션 가이드 대조
+last_verified: "2026-10-12"
 rules:
   - "대부분의 워크로드는 Claude Opus 5.5를 기본으로 시작한다. API 모델 ID는 claude-opus-5-5이며 날짜 suffix가 없는 고정 ID다. 1M 토큰 컨텍스트, 최대 출력 128K, adaptive thinking 상시 on이다."
   - "thinking은 생략하거나 {type: adaptive}만 보낼 수 있다. disabled와 수동 budget_tokens는 400이므로 thinking 깊이는 output_config.effort로 조절한다. 지원 단계는 low/medium/high/xhigh/max이며 기본은 medium이다."

@@ -48,6 +48,7 @@ description: 타깃 AI 모델(GPT/Codex, Claude, Gemini, GLM, Qwen, Grok, DeepSe
 - `$GB/registry.yaml`에서 모델 확인. `last_verified`가 `staleness_days`(30일)를 넘었으면 **경고만** 한다: "이 가이드북은 N일 전 검증본입니다. `/meta-prompt refresh <model>`로 갱신할 수 있습니다." 차단하지 않는다.
 - `verification`이 `knowledge-based`(공식 가이드 대조 전 초안) 또는 `partial`(일부만 공식 대조)이면 그 상태를 함께 표기한다. 카드 안의 개별 `verification`도 같은 규칙으로 읽는다.
 - `$GB/<model-id>/index.yaml`을 읽고, `when` 조건이 요청에 해당하는 카드만 로드.
+- 요청이 최고 수준의 완성도와 반복 다듬기를 원하면 `$GB/_shared/index.yaml`의 공용 카드도 함께 로드한다(겹치면 모델 카드 우선).
 
 ### 3. 슬롯 확인 → 컨텍스트 보강
 

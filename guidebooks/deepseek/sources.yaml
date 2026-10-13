@@ -10,8 +10,35 @@ sources:
     note: "V4 라인업 발표 — 레거시 모델 ID 은퇴 일정"
   - url: https://api-docs.deepseek.com/updates/
     covers: [v4-thinking-and-params]
-    note: "체인지로그 — refresh 시 신규 모델·파라미터 변경 확인"
+    fetched: "2026-10-14"
+    note: "2026-09-10 V4.1-Flash release, legacy ID routing, Pro routing notice"
+  - url: https://api-docs.deepseek.com/news/news260910/
+    covers: [v4-thinking-and-params]
+    fetched: "2026-10-14"
+    note: "V4.1-Flash 출시와 V4 Flash/Pro ID 라우팅 공지"
+  - url: https://api-docs.deepseek.com/quick_start/pricing/
+    covers: [v4-thinking-and-params]
+    fetched: "2026-10-14"
+    note: "현재 모델 ID별 버전·컨텍스트·최대 출력·vision·요금 표; release notice의 Pro 설명과 차이가 있음"
+  - url: https://api-docs.deepseek.com/guides/thinking_mode/
+    covers: [v4-thinking-and-params, agentic-and-output]
+    fetched: "2026-10-14"
+    note: "현재 thinking effort와 파라미터 제약, tool 요청에서 reasoning_content 재전송 규칙"
+  - url: https://api-docs.deepseek.com/api/create-chat-completion/
+    covers: [v4-thinking-and-params, agentic-and-output]
+    fetched: "2026-10-14"
+    note: "OpenAI Chat Completions body: model IDs, thinking/reasoning_effort, token ceiling, tool_choice 제약"
+  - url: https://api-docs.deepseek.com/api/create-response/
+    covers: [v4-thinking-and-params]
+    fetched: "2026-10-14"
+    note: "Responses API request schema: reasoning.effort none/low/high/max와 모델 ID"
+  - url: https://api-docs.deepseek.com/guides/anthropic_api/
+    covers: [v4-thinking-and-params]
+    fetched: "2026-10-14"
+    note: "Anthropic wire format 지원 필드; output_config는 effort만 지원"
   - url: https://api-docs.deepseek.com/guides/function_calling
     covers: [agentic-and-output]
   - url: https://api-docs.deepseek.com/guides/json_mode
     covers: [agentic-and-output]
+    fetched: "2026-10-14"
+    note: "JSON object 모드의 프롬프트 요구사항과 필드 스키마 검증 구분"

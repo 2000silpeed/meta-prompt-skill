@@ -1,6 +1,6 @@
 # meta-prompt 가이드북 레지스트리 — 항상 로드되는 유일한 파일. 극소로 유지할 것.
 version: 1
-updated: "2026-10-12"
+updated: "2026-10-14"
 staleness_days: 30   # last_verified가 이보다 오래되면 사용 시 경고 (차단 아님)
 fallback: _generic   # 미등록 모델 요청 시 사용할 범용 가이드북 디렉토리
 
@@ -14,12 +14,12 @@ models:
     verification: partial   # GPT-6 카드 검증; 기존 GPT-5.x 카드는 이전 검증 유지
 
   - id: openai-codex
-    label: "OpenAI Codex (CLI/IDE 코딩 에이전트 — 태스크 프롬프트/AGENTS.md)"
+    label: "OpenAI Codex (CLI/IDE 코딩 에이전트 / GPT-6.1 Sol 권장)"
     type: coding-agent
     provider: OpenAI
     aliases: [codex, codex-cli, 코덱스, agents-md, agents.md]
-    last_verified: "2026-09-03"
-    verification: verified
+    last_verified: "2026-10-14"
+    verification: partial   # 태스크 모델 선택 카드 검증; 다른 카드는 이전 검증 유지
 
   - id: anthropic-claude
     label: "Anthropic Claude (Opus 5.5 / Sonnet 5.5 / Haiku 5.5 / Fable 5.1 / Opus 5)"
@@ -38,12 +38,12 @@ models:
     verification: verified
 
   - id: google-gemini
-    label: "Google Gemini 3.x (3.8 Flash / 3.1 Pro / 3.1 Flash-Lite)"
+    label: "Google Gemini (4 Argon / 3.8 Flash / 3.1 Pro)"
     type: text-llm
     provider: Google
-    aliases: [gemini, gemini-3.8, gemini-3.8-flash, gemini-3.7, gemini-3.6, gemini-3.5, gemini-3.1-pro, gemini-3, google, vertex]
-    last_verified: "2026-09-03"
-    verification: verified
+    aliases: [gemini-4-argon, gemini4-argon, gemini-4, gemini4, argon, 아르곤, gemini, gemini-3.8, gemini-3.8-flash, gemini-3.7, gemini-3.6, gemini-3.5, gemini-3.1-pro, gemini-3, google, vertex]
+    last_verified: "2026-10-14"
+    verification: partial   # Gemini 4 모델·런타임 갱신; 공통 카드의 검증 범위는 개별 표시
 
   - id: alibaba-qwen
     label: "Alibaba Qwen (Qwen3.8-Max / Flash — hybrid thinking, 에이전트·코딩)"
@@ -54,20 +54,20 @@ models:
     verification: verified
 
   - id: xai-grok
-    label: "xAI Grok (Grok 4.6 — 500K 컨텍스트, 서버측 검색·코드 실행 툴)"
+    label: "xAI Grok (Grok 4.7 — 모델 선택·추론·서버측 툴)"
     type: text-llm
     provider: xAI
-    aliases: [grok, grok-4, grok-4.5, grok-4.6, grok4.6, grok-4.20, xai, x.ai, 그록]
-    last_verified: "2026-09-03"
-    verification: verified   # 공식 API 문서 기준. xAI는 별도 프롬프팅 가이드를 내지 않음
+    aliases: [grok-4.7, grok4.7, grok, grok-4, grok-4.5, grok-4.6, grok4.6, grok-4.20, xai, x.ai, 그록]
+    last_verified: "2026-10-14"
+    verification: partial   # 4.7 모델·API 갱신; 개별 카드의 검증 상태 참조
 
   - id: deepseek
-    label: "DeepSeek (V4-Pro / V4-Flash — thinking/non-thinking 이중 모드)"
+    label: "DeepSeek (V4.1-Flash / deepseek-flash)"
     type: text-llm
     provider: DeepSeek
-    aliases: [deepseek, deepseek-v4, deepseek-v4-pro, deepseek-v4-flash, deepseek-chat, deepseek-reasoner, 딥시크]
-    last_verified: "2026-09-03"
-    verification: verified
+    aliases: [deepseek-v4.1, deepseek-v4.1-flash, deepseek-flash, deepseek, deepseek-v4, deepseek-v4-pro, deepseek-v4-flash, deepseek-chat, deepseek-reasoner, 딥시크]
+    last_verified: "2026-10-14"
+    verification: partial   # V4.1 모델·API 갱신; 개별 카드의 검증 상태 참조
 
   - id: moonshot-kimi
     label: "Moonshot Kimi (Kimi K3 — 오픈웨이트 장기 에이전트)"
@@ -78,12 +78,12 @@ models:
     verification: verified   # 공식 플랫폼 문서 기준. 프롬프팅 전용 가이드는 미발행
 
   - id: google-nano-banana
-    label: "Google Nano Banana (Gemini 3.x Image — 나노바나나2/Pro/Lite)"
+    label: "Google Nano Banana (2.1 / Pro / Lite / 이전 2)"
     type: media-image
     provider: Google
-    aliases: [nano-banana, nano-banana-2, nano-banana-pro, 나노바나나, 나노바나나2, nanobanana, gemini-image, gemini-3.1-flash-image, gemini-3-pro-image]
-    last_verified: "2026-09-03"
-    verification: verified
+    aliases: [gemini-3.1-flash-lite-image, nano-banana-2-lite, 나노바나나2라이트, nano-banana-2.1, nanobanana2.1, 나노바나나2.1, gemini-nano-banana-2.1, nano-banana, nano-banana-2, nano-banana-pro, 나노바나나, 나노바나나2, nanobanana, gemini-image, gemini-3.1-flash-image, gemini-3-pro-image]
+    last_verified: "2026-10-14"
+    verification: partial   # 2.1 모델·편집·스펙 갱신; 개별 카드의 검증 상태 참조
 
   - id: bytedance-seedance-2
     label: "Seedance 2.x (2.5 최신 — 30초 원테이크 + 네이티브 오디오 / 2.0)"
@@ -94,9 +94,9 @@ models:
     verification: partial   # 2.5 스펙은 공식 발표 대조, 프롬프트 문법 카드는 2.0 기반 지식 초안
 
   - id: higgsfield
-    label: "Higgsfield (이미지/영상 생성 플랫폼)"
+    label: "Higgsfield (이미지/영상 플랫폼 — 최신 모델·편집 경로)"
     type: media-platform
     provider: Higgsfield
     aliases: [higgsfield, 힉스필드, cinema-studio]
-    last_verified: "2026-09-03"
-    verification: partial   # 모델 라인업은 2026-09-03 확인, 프롬프트 카드는 지식 기반 초안
+    last_verified: "2026-10-14"
+    verification: partial   # 모델 라인업·편집 경로 확인; 전용 프롬프트 카드는 검증 범위 별도

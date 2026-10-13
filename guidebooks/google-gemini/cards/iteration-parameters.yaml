@@ -1,19 +1,21 @@
 id: iteration-parameters
 model: google-gemini
-topic: "반복 개선과 파라미터 (3.x 기준)"
-verification: verified   # 2026-09-03 Gemini 3 가이드 대조 — 샘플링 파라미터 지침 교체
+topic: "반복 개선과 모델별 파라미터 (Gemini 4 / 3)"
+verification: verified   # 2026-10-14 Gemini 4 Argon latest-model 문서와 3.x 규칙 대조
 rules:
   - "결과가 불안정하면 파라미터부터 만지지 말고 표현을 바꿔 재시도한다: 동의어 교체, 유사 태스크로 재프레이밍(분류→완성 유도), 지시 순서 변경."
-  - "Gemini 3.x에서 품질·지연의 주 조절값은 temperature가 아니라 thinking_level이다. 얕은 답이 나오면 medium→high로, 너무 느리면 high→low로 옮긴다."
-  - "temperature는 기본 1.0을 유지한다. 결정성이 필요한 분류·추출은 온도를 낮추는 대신 responseSchema(enum 포함)와 명확한 지시로 잠근다. (temperature 0 부근 권고는 Gemini 2.x 시대 지침이며 3.x에는 적용하지 않는다.)"
+  - "Gemini 4 Argon에서는 thinking_level이 품질·지연·토큰 사용의 주 조절값이다. 단순 작업은 low, 일반적인 코딩·에이전트는 medium, 최난도 추론은 high로 조정한다."
+  - "Argon은 temperature/top_p/top_k를 무시하므로 요청에서 제거한다. Gemini 3.x에는 해당 모델 문서의 규칙을 따른다: 예를 들어 3.8 Flash는 thinking_level low/medium/high이고 temperature 기본값 1.0을 유지한다."
+  - "결정성이 필요한 분류·추출은 Argon의 무시되는 샘플링 값을 조정하지 말고 구조화 출력 스키마와 명확한 지시로 잠근다."
   - "프롬프트가 길어질수록 핵심 제약을 시작과 끝에 한 번씩 반복하는 것은 여전히 유효하다."
   - "같은 프롬프트로 여러 번 돌릴 계획이면 고정 부분을 앞에, 매 요청 달라지는 부분을 뒤에 두어 캐시 적중률을 높인다."
 template: |
   {프롬프트 본문}
 
-  # 권고 파라미터 (Gemini 3.x)
-  thinking_level: {태스크 성격에 따라 low/medium/high}
-  temperature: 1.0 (기본값)
+  # 권고 파라미터 (선택한 모델에 맞춰 적용)
+  thinking_level: {Argon: low/medium/high; 3.8 Flash: low/medium/high}
+  sampling: {Argon은 temperature/top_p/top_k 전송 금지; 3.x는 해당 모델 기본값 유지}
 pitfalls:
-  - "불안정성을 temperature로 해결하려는 것 — 3.x에서는 thinking_level과 스키마 강제가 정답"
-  - "2.x용 파라미터 권고(temperature 0, top_p 조정)를 3.x 프롬프트에 그대로 붙이는 것"
+  - "Argon 요청에 temperature/top_p/top_k를 넣고 값이 적용될 것으로 가정하는 것"
+  - "Argon 규칙을 Gemini 3.x에 그대로 옮기거나 3.x 파라미터 규칙을 Argon에 옮기는 것"
+  - "불안정성을 샘플링 값부터 바꿔 해결하려는 것 — thinking level과 스키마부터 조정한다"

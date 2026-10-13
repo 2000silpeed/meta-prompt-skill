@@ -1,9 +1,21 @@
 model: google-gemini
 sources:
   - url: https://ai.google.dev/gemini-api/docs/latest-model
+    covers: [gemini-3-runtime, iteration-parameters]
+    fetched: "2026-10-14"
+    note: "Gemini 4 Argon의 API 변경·migration checklist·thinking·long decode"
+  - url: https://ai.google.dev/gemini-api/docs/models/gemini-4-argon
+    covers: [gemini-3-runtime, iteration-parameters]
+    fetched: "2026-10-14"
+    note: "Argon stable ID, 입출력 한도와 기능표"
+  - url: https://ai.google.dev/gemini-api/docs/models
     covers: [gemini-3-runtime]
-    fetched: "2026-09-03"
-    note: "현재 최신 모델(Gemini 3.8 Flash)의 what's new — refresh 시 최우선 확인"
+    fetched: "2026-10-14"
+    note: "공식 전체 모델 목록과 Gemini 3 모델 상태"
+  - url: https://ai.google.dev/gemini-api/docs/generate-content/long-decode
+    covers: [gemini-3-runtime, long-context-multimodal]
+    fetched: "2026-10-14"
+    note: "SDK 최소 버전과 continuation별 long decode 조건"
   - url: https://ai.google.dev/gemini-api/docs/gemini-3
     covers: [gemini-3-runtime, iteration-parameters, structure-pctf]
     fetched: "2026-09-03"

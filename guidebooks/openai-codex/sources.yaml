@@ -1,9 +1,17 @@
 model: openai-codex
 sources:
-  - url: https://learn.chatgpt.com/guides/best-practices
+  - url: https://learn.chatgpt.com/docs/learn/best-practices
     covers: [task-prompt-4-elements, agents-md, verification-and-review, workflow-antipatterns]
-    fetched: "2026-09-03"
-    note: "developers.openai.com/codex/learn/best-practices 에서 리다이렉트"
+    fetched: "2026-10-14"
+    note: "GPT-6.1 Sol 권장과 클라이언트별 effort 확인. 기존 다른 카드의 전체 재검증은 포함하지 않음"
+  - url: https://learn.chatgpt.com/docs/models?surface=cli
+    covers: [task-prompt-4-elements]
+    fetched: "2026-10-14"
+    note: "계정·클라이언트별 모델 선택과 GPT-5.5의 ChatGPT/Work/Codex 은퇴; API는 별도"
+  - url: https://learn.chatgpt.com/docs/prompting
+    covers: [task-prompt-4-elements]
+    fetched: "2026-10-14"
+    note: "단순 요청에 불필요한 고정 서식을 강제하지 않는 결과 중심 프롬프트"
   - url: https://developers.openai.com/cookbook/examples/gpt-5/codex_prompting_guide
     covers: [task-prompt-4-elements, xml-block-contracts, verification-and-review]
     fetched: "2026-07-22"
@@ -12,5 +20,5 @@ sources:
     note: "references/ 하위에 prompt-blocks, recipes, antipatterns 상세 파일 있음"
   - url: https://learn.chatgpt.com/docs/changelog
     covers: [agents-md, task-prompt-4-elements, workflow-antipatterns]
-    fetched: "2026-09-03"
+    fetched: "2026-10-14"
     note: "Codex 체인지로그 — 모델 은퇴/추가, AGENTS.md 로딩 정책 변경을 refresh 시 확인"

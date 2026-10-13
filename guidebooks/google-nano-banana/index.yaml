@@ -12,7 +12,7 @@ slots:
       note: "신규 생성 / 기존 이미지 편집 / 다중 참조 합성 — 편집이면 editing 카드 필수"
     - id: aspect_resolution
       default: "1:1, 1K"
-      note: "비율 1:1~21:9(+1:4, 4:1, 1:8, 8:1), 해상도 0.5K~4K"
+      note: "Nano Banana 2.1/Pro: 1K~4K, 2.1은 0.5K 미지원. 3.1 Flash Image는 0.5K~4K, Lite는 1K만. 2.1/3.1 Flash의 파노라마 비율 1:4·4:1·1:8·8:1 포함"
     - id: style
       default: "photorealistic"
     - id: text_in_image
@@ -20,10 +20,10 @@ slots:
       note: "프레임 내 텍스트가 있으면 text-rendering 카드 필수"
     - id: references
       default: "없음"
-      note: "참조 상한은 모델별로 다름 (3.1 Flash: 오브젝트 10+캐릭터 4+스타일 3)"
+      note: "참조 상한은 모델별로 다름: 2.1/3.1 Flash 오브젝트 10+캐릭터 4, Pro 오브젝트 6+캐릭터 5+스타일 3, Lite 오브젝트 14"
     - id: model_variant
-      default: "gemini-3.1-flash-image"
-      note: "품질 최우선이면 gemini-3-pro-image, 속도/비용이면 flash-lite"
+      default: "gemini-nano-banana-2.1"
+      note: "새 기본 모델. Nano Banana 2 / gemini-3.1-flash-image는 deprecated(종료일 미정)된 이전 model ID로 기존 작업의 호환 안내를 위해 유지. 품질 최우선은 gemini-3-pro-image (Nano Banana Pro), 속도·비용 우선은 gemini-3.1-flash-lite-image (Nano Banana 2 Lite)"
 
 cards:
   - id: prompt-structure

@@ -1,14 +1,15 @@
-id: gemini-3-runtime
+id: gemini-3-runtime  # 기존 카드 경로·참조 호환을 위해 ID 유지
 model: google-gemini
-topic: "Gemini 3.x 런타임 — 모델 선택, thinking_level, 폐기된 샘플링 파라미터"
-verification: verified   # 2026-09-03 공식 문서 대조 (latest-model, gemini-3 developer guide)
+topic: "Gemini 4 / 3 런타임 — 모델 선택, thinking_level, long decode와 마이그레이션"
+verification: verified   # 2026-10-14 Gemini 4 Argon 모델·latest-model·long-decode 문서 대조; 기존 3.x 규칙은 제한적으로 보존
 rules:
-  - "최신 워크로드 기본값은 gemini-3.8-flash다. 장기 소프트웨어 엔지니어링·자율 에이전트·복잡한 업무 흐름을 겨냥해 나왔고, 컨텍스트 1M / 최대 출력 64K다. 더 무거운 추론이 필요하면 Gemini 3.1 Pro, 최저 지연·비용은 3.1 Flash-Lite를 검토한다."
-  - "thinking_budget 대신 thinking_level 문자열을 쓴다. gemini-3.8-flash는 low / medium(기본) / high를 지원하고 minimal은 지원하지 않는다(오류). 지연이 중요하면 low, 복잡한 코드·에이전트는 기본 medium, 밀집 시각 QA나 60분+ 영상 다단계 추론은 high."
-  - "Gemini 3.x에서 temperature는 기본값 1.0을 유지한다. 1.0 미만으로 내리면 루프나 성능 저하 같은 예상 밖 동작이 생길 수 있다. top_p/top_k/candidate_count는 쓰지 않는다."
-  - "프롬프트는 짧고 직접적으로 쓴다. Gemini 3.x는 장황한 chain-of-thought 유도문 없이 자체 추론을 하므로, 2.5 시대의 '단계별로 생각하라' 류 장치는 제거하고 thinking_level로 대체한다."
-  - "기본 출력이 이전 세대보다 덜 장황하고 직설적이다. 대화체나 풍부한 설명이 필요하면 프롬프트에서 명시적으로 요구한다."
-  - "멀티턴은 서버측 상태 모드(previous_interaction_id)를 기본으로 쓴다. 무상태로 직접 히스토리를 관리하면 thought signature(암호화된 추론 표현)를 그대로 되돌려 보내야 한다."
+  - "복합 추론·코딩·에이전트의 최신 기본은 stable gemini-4-argon이다. 입력·thinking·출력이 공유하는 컨텍스트는 1,048,576 토큰이고 일반 최대 출력은 65,536이다. 빠른 고처리량 작업은 stable gemini-3.8-flash, 비용 중심 작업은 3.1 Flash-Lite를 검토한다. Gemini 3.1 Pro는 preview 모델이다."
+  - "Argon은 thinking_level low / medium(기본) / high를 지원한다. 단순·지연 민감 요청은 low, 대부분의 코드·에이전트 작업은 medium, 어려운 수학·과학·최난도 코드는 high로 둔다. minimal은 오류다."
+  - "Argon 호출에서는 temperature / top_p / top_k를 요청에서 제거한다(무시됨). thinking_budget 대신 thinking_level을 쓴다. Gemini 3.x에 관한 기존 API 규칙을 Argon에 그대로 적용하지 않는다."
+  - "64K를 넘는 단일 응답이 실제로 필요할 때만 long decode를 켠다: background=true와 max_output_tokens>65,536을 지정하고, 최신 GenAI SDK 자동 continuation 또는 직접 continuation을 사용한다. 더 긴 출력은 64K 단위 hop으로 이어지며 전체 입력·thinking·출력이 공유 1M 한도 안에 든다."
+  - "long decode가 필요한 GenerateContent 호출은 Google GenAI SDK Python 2.30.1 / JS 2.29.1 이상을 사용하고 클라이언트 read timeout을 최소 15분으로 둔다. 일반 채팅과 짧은 도구 턴에는 불필요하다."
+  - "Argon에는 explicit context caching이 지원되지 않는다. 긴 고정 프리픽스에는 기본 implicit caching이 적용될 수 있다. 멀티턴은 previous_interaction_id로 서버 상태를 잇는다."
+  - "Gemini 3.x 호환 경로: gemini-3.8-flash는 thinking_level low / medium(기본) / high이고 minimal은 미지원이다. 3.x의 샘플링·thought-signature 제약은 3.x 요청에만 적용한다."
   - "이미지·PDF 입력이 많으면 media_resolution 설정으로 토큰과 정확도를 조절한다. high로 올릴 때 컨텍스트 초과 여부를 먼저 확인한다."
   - "Gemini 3.x는 structured outputs와 내장 툴(Google Search, URL Context, Code Execution) + 커스텀 function calling을 동시에 쓸 수 있다. 에이전트 프롬프트는 이 조합을 전제로 설계한다."
   - "FunctionResponse에는 call_id와 name을 반드시 포함한다."
@@ -16,13 +17,14 @@ template: |
   {프롬프트 본문 — 짧고 직접적으로}
 
   # API 권고
-  model: gemini-3.8-flash
+  model: gemini-4-argon
   thinking_level: {low | medium(기본) | high}
-  temperature: 1.0 (기본값 유지)
-  media_resolution: {입력이 이미지/PDF 중심일 때만 조정}
-  previous_interaction_id: {멀티턴이면 서버측 상태 사용}
+  max_output_tokens: {일반 작업은 기본 65536; 장문 코딩·증명은 131072 이상 검토}
+  background: {65K 초과 long decode가 필요할 때만 true}
+  previous_interaction_id: {멀티턴이면 서버 상태로 이어가기}
 pitfalls:
-  - "Gemini 2.x 습관대로 temperature를 0~0.3으로 낮추는 것 — 3.x에서는 성능 저하·루프 위험"
-  - "thinking_budget 토큰 수를 지정하거나 3.8 Flash에 minimal을 넘기는 것"
-  - "긴 CoT 유도문과 반복 지시로 프롬프트를 부풀리는 것 — 3.x는 간결한 지시에 가장 잘 반응한다"
-  - "무상태 호출에서 thought signature를 빠뜨려 멀티턴 추론 맥락을 잃는 것"
+  - "Argon에 temperature/top_p/top_k나 thinking_budget을 보내 파라미터가 반영된다고 가정하는 것"
+  - "Argon에서 explicit cachedContents를 만들거나 재사용하는 것"
+  - "background=true만 켜고 max_output_tokens를 올리지 않아 64K에서 응답이 끝나는 것"
+  - "long decode에 지원 버전보다 오래된 SDK를 사용해 continuation이 자동 처리될 것으로 기대하는 것"
+  - "3.x 전용 thinking·멀티턴 규칙을 Argon에 무차별 적용하는 것"

@@ -1,5 +1,5 @@
 model: xai-grok
-label: "xAI Grok (Grok 4.6)"
+label: "xAI Grok (Grok 4.7 / 4.6)"
 output_language: follow-target
 
 slots:
@@ -8,11 +8,11 @@ slots:
       ask: "이 프롬프트로 Grok이 정확히 무엇을 해내야 하나요?"
   optional:
     - id: model_variant
-      default: "grok-4.6"
-      note: "기본 권장. 1M 컨텍스트가 필요하면 grok-4.3 / grok-4.20 계열, 심층 리서치는 multi-agent 변형"
+      default: "grok-4.7"
+      note: "현재 flagship. Grok 4.6도 사용 가능; 1M 컨텍스트는 4.20 계열, 심층 병렬 리서치는 4.20 Multi-Agent"
     - id: reasoning_effort
       default: "high"
-      note: "low(지연 민감·단순 툴) / medium(데이터 분석·롱컨텍스트) / high(기본) / xhigh(최난도, 4.6+)"
+      note: "4.7 기본 high; low/medium/high/xhigh 지원. reasoning은 끌 수 없음"
     - id: realtime_need
       default: "없음"
       note: "최신 정보·X 여론이 필요하면 서버측 web/X search 툴을 켤지 결정"
@@ -21,6 +21,6 @@ slots:
 
 cards:
   - id: grok-4.6-runtime
-    when: "항상 로드 (모델 선택·reasoning_effort·미지원 파라미터·캐시)"
+    when: "항상 로드 (모델 선택·reasoning_effort·API 제약·캐시)"
   - id: tools-and-search
     when: "실시간 검색, X 검색, 코드 실행, 문서 컬렉션, 커스텀 함수 호출이 관련될 때"

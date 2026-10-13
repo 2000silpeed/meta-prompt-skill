@@ -5,8 +5,20 @@ sources:
     note: "공식 문서 — refresh 시 모델 라인업·워크플로우 카탈로그 변경 확인"
   - url: https://higgsfield.ai/creator-hub/changelog
     covers: [model-routing]
-    fetched: "2026-09-03"
-    note: "플랫폼 체인지로그 — 신규 모델 탑재(예: 2026-08 Seedance 2.5) 확인처"
+    fetched: "2026-10-14"
+    note: "플랫폼 공지 대조: GPT Image 2.5, Seedream 5.0 Flash, Wan 3.0/Prime, Grok Imagine Video 1.5, FLUX 3 Image, Genjutsu Restyle, Seedance 2.5 Draft Mode 등"
+  - url: https://open.higgsfield.ai/models/xai/grok-imagine-video/v1.5/reference-to-video/api-reference
+    covers: [model-routing]
+    fetched: "2026-10-14"
+    note: "Grok Imagine Video 1.5 공식 API 모델 정보와 참조 영상 변형 확인; 현 MCP는 Grok Video 1.5 표시명으로 검색됨"
+  - url: https://open.higgsfield.ai/models/higgsfield/genjutsu/restyle/v1.0/api-reference
+    covers: [model-routing]
+    fetched: "2026-10-14"
+    note: "Genjutsu Restyle 공식 API 경로: 프리셋 기반 영상 재스타일, 동작·구도·원본 오디오 유지"
+  - url: https://open.higgsfield.ai/models/alibaba/wan-3.0/text-to-video/api-reference
+    covers: [model-routing]
+    fetched: "2026-10-14"
+    note: "Wan 3.0 공식 Higgsfield API 모델 정보"
   - url: local:/Users/sungwoon/ai-projects/higgsfield_ai_filmmaking_skillset/03-prompt-assembly/SKILL.md
     covers: [six-decisions]
     note: "로컬 필름메이킹 스킬셋 — Six Decisions 프레임 원본"

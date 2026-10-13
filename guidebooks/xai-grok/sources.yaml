@@ -13,7 +13,27 @@ sources:
     fetched: "2026-09-03"
   - url: https://docs.x.ai/developers/models
     covers: [grok-4.6-runtime]
-    fetched: "2026-09-03"
-    note: "현재 모델 목록 — refresh 시 신규 모델/은퇴 확인"
+    fetched: "2026-10-14"
+    note: "공식 모델 목록과 현재 flagship / 모델 선택 권고"
+  - url: https://docs.x.ai/developers/models/grok-4.7
+    covers: [grok-4.6-runtime]
+    fetched: "2026-10-14"
+    note: "Grok 4.7 API model ID, context, reasoning levels, default, API availability"
+  - url: https://docs.x.ai/developers/grok-4-7
+    covers: [grok-4.6-runtime]
+    fetched: "2026-10-14"
+    note: "Grok 4.7 developer guide, encrypted reasoning, Fast variant availability, migration details"
+  - url: https://docs.x.ai/developers/model-capabilities/text/reasoning
+    covers: [grok-4.6-runtime]
+    fetched: "2026-10-14"
+    note: "4.7/4.6 effort levels, unsupported parameters, encrypted reasoning carry-forward"
+  - url: https://docs.x.ai/developers/model-capabilities/text/generate-text
+    covers: [grok-4.6-runtime]
+    fetched: "2026-10-14"
+    note: "Responses API continuation, timeout and encrypted content behavior"
+  - url: https://docs.x.ai/developers/tools/overview
+    covers: [tools-and-search]
+    fetched: "2026-10-14"
+    note: "Current built-in tool categories and Grok 4.7 API examples"
 notes:
   - "xAI는 Anthropic/OpenAI 수준의 별도 프롬프팅 가이드를 발행하지 않는다. 카드는 API 문서에서 확인 가능한 사실 + 일반 원칙으로 구성하고, 문서에 없는 부분은 그렇게 표기한다."

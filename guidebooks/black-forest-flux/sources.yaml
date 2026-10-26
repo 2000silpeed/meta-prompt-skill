@@ -1,0 +1,41 @@
+model: black-forest-flux
+sources:
+  - url: https://docs.bfl.ai/guides/prompting_guide_flux2
+    covers: [prompt-composition, editing-and-runtime]
+    fetched: "2026-10-27"
+    applies_to: "FLUX.2 [pro] 및 [max] 가이드 페이지의 지침. FLUX 3나 다른 FLUX.2 변형의 근거로 확대하지 않는다."
+    note: "텍스트 구성, 순서, 문구·HEX·언어, 참조 역할, prompt_upsampling, aspect ratio/resolution; 페이지가 FLUX.2는 negative prompt를 지원하지 않는다고 명시"
+  - url: https://docs.bfl.ml/guides/prompting_summary.md
+    covers: [prompt-composition, editing-and-runtime]
+    fetched: "2026-10-27"
+    applies_to: "FLUX 3 Image"
+    note: "현재 문서 인덱스의 FLUX 3 이미지 프롬프팅 안내"
+  - url: https://docs.bfl.ml/guides/prompting_unified_basics.md
+    covers: [prompt-composition]
+    fetched: "2026-10-27"
+    applies_to: "FLUX 3 Image"
+    note: "모델의 프롬프트 해석, positive description 중심 작성, 파라미터 경계"
+  - url: https://docs.bfl.ml/guides/prompting_unified_style.md
+    covers: [prompt-composition]
+    fetched: "2026-10-27"
+    applies_to: "FLUX 3 Image"
+    note: "시각 매체·조명·색·문구 지침"
+  - url: https://docs.bfl.ml/guides/prompting_unified_technical.md
+    covers: [editing-and-runtime]
+    fetched: "2026-10-27"
+    applies_to: "FLUX 3 Image"
+    note: "negative_prompt 필드 없음과 현재 technical request fields"
+  - url: https://docs.bfl.ml/guides/prompting_editing_multi_reference.md
+    covers: [editing-and-runtime]
+    fetched: "2026-10-27"
+    applies_to: "FLUX 3 Image"
+    note: "최대 10 references, 이미지별 역할 및 순서 지정"
+  - url: https://docs.bfl.ml/api-reference/models/generate-or-edit-an-image-with-flux2-%5Bpro%5D.md
+    covers: [editing-and-runtime]
+    fetched: "2026-10-27"
+    applies_to: "FLUX.2 [pro] direct BFL API"
+    note: "직접 API 엔드포인트. 플랫폼 UI나 Codex 내장 도구의 지원 증거가 아님"
+  - url: https://docs.bfl.ml/llms.txt
+    covers: [prompt-composition, editing-and-runtime]
+    fetched: "2026-10-27"
+    note: "공식 문서 인덱스에서 FLUX 3 Image 현행 prompting 페이지와 FLUX.2/FLUX 3 API 페이지 존재 확인"

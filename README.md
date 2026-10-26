@@ -2,7 +2,7 @@
 
 타깃 AI 모델의 공식 프롬프팅 가이드북에 맞춰 자연어 요청을 최적화된 프롬프트로 변환하는 에이전트 스킬.
 
-> **EN** — meta-prompt is an agent skill that transforms natural-language requests into prompts optimized for a target AI model, using per-model guidebooks distilled from official prompting guides (GPT-6 / GPT-5.x, Codex, Claude, Gemini, GLM, Qwen, Grok, DeepSeek, Kimi, GPT Image/imagegen, Nano Banana, Seedance, Higgsfield). Guidebooks carry freshness metadata (`last_verified`, 30-day staleness warnings) and a `refresh` pipeline that re-verifies official sources — think Context7, but for prompting knowledge. Docs are Korean-first for now; the mechanism itself is language-agnostic.
+> **EN** — meta-prompt is an agent skill that transforms natural-language requests into prompts optimized for a target AI model, using per-model guidebooks distilled from official prompting guides (GPT-6 / GPT-5.x, Codex, Claude, Gemini, GLM, Qwen, Grok, DeepSeek, Kimi, GPT Image/imagegen, Nano Banana, FLUX, Ideogram, Seedream, Seedance, Higgsfield). Guidebooks carry freshness metadata (`last_verified`, 30-day staleness warnings) and a `refresh` pipeline that re-verifies official sources — think Context7, but for prompting knowledge. Docs are Korean-first for now; the mechanism itself is language-agnostic.
 
 ## 사용법
 
@@ -56,13 +56,14 @@ Claude Code, Gemini CLI 또는 Codex에서 자연어로 부르면 자동 발동�
 Claude Opus 5.5로 장시간 리팩터링을 맡길 프롬프트 만들어줘
 Gemini 4 Argon으로 긴 코드 맥락의 버그를 수정할 프롬프트 만들어줘
 Qwen3.8-Max로 이 저장소의 버그를 수정하고 검증할 프롬프트를 만들어줘
+Kimi K3.1 Pro로 도구 호출을 이어가는 코딩 에이전트 프롬프트를 만들어줘
 ```
 
 명시 호출은 `/meta-prompt <요청>`.
 
 ### 이미지 생성·편집 가이드
 
-GPT Image·Codex `imagegen`, 나노바나나, Higgsfield에 이미지 제작 공용 가이드를 결합합니다.
+GPT Image·Codex `imagegen`, 나노바나나, FLUX, Ideogram, Seedream, Higgsfield에 이미지 제작 공용 가이드를 결합합니다.
 장면·구도·재질, 참조별 역할, 편집할 부분과 보존할 부분, 한국어 문구와 결과 검수 기준을
 요청에 맞게 구성합니다. `imagegen` 실행 경로와 API 모델·파라미터는 구분합니다.
 
@@ -70,9 +71,15 @@ GPT Image·Codex `imagegen`, 나노바나나, Higgsfield에 이미지 제작 공
 imagegen용 프롬프트만 만들어줘. 카페 메뉴 사진에 "오늘의 커피"를 정확히 넣고 싶어.
 나노바나나로 제품 사진 배경만 바꿀 프롬프트. 병 모양과 한글 라벨은 유지해줘.
 Higgsfield의 GPT Image 2.5로 의상 A/B 프롬프트. 같은 얼굴·자세·배경에서 재킷만 바꿔줘.
+Higgsfield의 FLUX 3 Image용 제품 광고 프롬프트만 만들어줘. 참조 1은 병 형태, 참조 2는 배경 색이야.
+Ideogram 4.5 포스터 프롬프트. 한글 제목 "오늘의 커피"를 그대로 유지하고 Magic Prompt 설정도 구분해줘.
+Seedream 5.0 Pro로 표시한 소파 색만 바꿀 편집 프롬프트. 나머지 구도와 가구는 유지해줘.
 ```
 
 [OpenAI 가이드](guidebooks/openai-gpt-image/index.yaml) ·
+[FLUX 가이드](guidebooks/black-forest-flux/index.yaml) ·
+[Ideogram 가이드](guidebooks/ideogram/index.yaml) ·
+[Seedream 가이드](guidebooks/bytedance-seedream/index.yaml) ·
 [이미지 제작 공용 가이드](guidebooks/_shared/cards/image-production.yaml).
 프롬프트 작성은 이미지 생성이나 품질 향상 실험을 뜻하지 않습니다. 실제 A/B는 요청·승인된
 범위에서 같은 모델·참조·설정으로 실행하고 결과 이미지를 비교합니다.
@@ -127,9 +134,12 @@ $meta-prompt를 적용해서 이 요청을 Codex용으로 최적화한 뒤 구�
 | `alibaba-qwen` | Qwen3.8-Max / Flash / 오픈웨이트 | 텍스트 LLM |
 | `xai-grok` | Grok 4.7 / 기존 4.6·4.20 계열 | 텍스트 LLM |
 | `deepseek` | DeepSeek V4.1-Flash (`deepseek-flash`; 이전 V4 ID는 호환 경로) | 텍스트 LLM |
-| `moonshot-kimi` | Kimi K3 (오픈웨이트) / K2.7 · K2.6 | 텍스트 LLM |
+| `moonshot-kimi` | Kimi K3.1 Pro / Highspeed (이전 별칭 유지, 설정은 버전별 확인) | 텍스트 LLM |
 | `google-nano-banana` | 나노바나나2.1 / Pro / Lite / 이전 2 | 이미지 생성 |
 | `openai-gpt-image` | GPT Image 2.5 Flare·Sunburst / 2 / imagegen 경로 | 이미지 생성·편집 |
+| `black-forest-flux` | FLUX 3 Image / FLUX.2 pro·max (버전별 작성법·참조·설정) | 이미지 생성·편집 |
+| `ideogram` | Ideogram 4.0 / 4.5 (문구·Magic Prompt·JSON·편집 경로) | 이미지 생성·편집 |
+| `bytedance-seedream` | Seedream 5.0 Pro / Flash (참조·영역 편집·출력 제약) | 이미지 생성·편집 |
 | `bytedance-seedance-2` | Seedance 2.5 (30초 원테이크 + 네이티브 오디오) / 2.0 | 영상 생성 |
 | `higgsfield` | Higgsfield 플랫폼 (최신 이미지·영상 모델 선택, 편집 경로) | 미디어 플랫폼 |
 

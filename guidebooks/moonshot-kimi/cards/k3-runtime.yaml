@@ -1,19 +1,24 @@
 id: k3-runtime
 model: moonshot-kimi
-topic: "Kimi K3 런타임 — 모델 선택과 reasoning_effort"
-verification: verified   # 2026-09-03 platform.kimi.ai 모델 문서 대조
+topic: "Kimi K3.1 Pro API 런타임"
+verification: verified   # 2026-10-27 공식 Quickstart, 모델 목록, K3.1 Pro 문서 대조
+last_verified: "2026-10-27"
 rules:
-  - "kimi-k3(2.8T 파라미터, 컨텍스트 1M)가 권장 기본이다. 장기 코딩·지식 작업·네이티브 시각 이해를 겨냥한다. 출력 속도가 중요한 코딩 에이전트는 kimi-k2.7-code-highspeed(256K), 범용·저비용은 kimi-k2.6(256K)."
-  - "K3는 사고가 상시 켜져 있다. 조절값은 최상위 reasoning_effort 필드이며 low / high / max(기본)다."
-  - "기본이 max이므로, 작은 호출을 대량으로 던지는 에이전트 루프는 호출마다 최대 사고 비용을 낸다. 루프 안의 단순 단계는 low로 낮추고 판단이 필요한 단계에서만 올린다."
-  - "API는 OpenAI 호환이다(base_url: https://api.moonshot.ai/v1). 프롬프트 자체는 이식 가능하지만 reasoning_effort 같은 필드는 Kimi 규약을 따른다."
-  - "오픈웨이트가 공개돼 있어 자체 호스팅·파인튜닝이 가능하다. 자체 호스팅 시 추론 히스토리 처리 방식이 하네스마다 달라질 수 있으므로 먼저 짧은 태스크로 확인한다."
+  - "이 카드는 K3.1 Pro에 적용한다. 기존 k3-runtime 경로와 K3/K2.7 별칭은 호환을 위해 유지하되, 명시된 구버전을 K3.1로 바꾸지 않는다. 구버전 요청은 현재 모델 목록·해당 버전 문서에서 가용성과 필드를 확인하며, 확인 전에는 K3.1 전용 설정을 적용하지 않는다."
+  - "공식 API quickstart의 기본 모델 ID는 kimi-k3.1-pro이며 컨텍스트는 1M 토큰이다. API에서 쓰는 ID를 지정하고 모델명과 별칭을 섞지 않는다."
+  - "kimi-k3.1-pro-highspeed는 같은 계열의 고속 변형이며 공식 설명은 약 2–3배 속도다. 지연이 중요한 요청에서 선택하고, 가격·한도는 현재 모델 목록에서 확인한다."
+  - "K3.1 Pro는 thinking이 항상 켜져 있다. reasoning_effort는 최상위 요청 필드이며 low / high / max를 지원하고 기본값은 max다. 단순·반복 단계에는 low를, 더 깊은 판단이 필요한 단계에는 high 또는 max를 선택한다. 이는 호출 설정 권고이지 프롬프트 문구가 아니다."
+  - "API 프로토콜은 Chat Completions와 Responses의 OpenAI 호환 형식, Messages의 Anthropic 호환 형식을 제공한다. 선택한 경로와 SDK에 맞는 엔드포인트 및 필드를 확인한다."
+  - "공식 K3.1 페이지는 오픈 웨이트 공개 예정일을 2026-11-04로 안내한다. 2026-10-27 기준 K3.1 웨이트가 공개됐다고 전제하거나 자체 호스팅·파인튜닝을 권하지 않는다."
 template: |
   {프롬프트 본문 — 목표 / 맥락 / 제약 / 완료 조건}
 
-  # API 권고
-  model: kimi-k3
-  reasoning_effort: {low | high | max(기본)}
+  # API 설정(K3.1 Pro 호출일 때만; 구버전은 해당 사양 확인)
+  model: {명시 버전; 미지정이면 kimi-k3.1-pro}
+  reasoning_effort: {low | high | max — 기본 max}
 pitfalls:
-  - "에이전트 루프의 모든 단계를 기본 max로 돌려 비용이 폭증하는 것"
-  - "K2 계열(256K)과 K3(1M)의 컨텍스트를 혼동해 입력을 잘라 넣는 것"
+  - "reasoning_effort를 모델 입력 프롬프트에 넣고 API 요청 필드에는 설정하지 않는 것"
+  - "K3.1 Pro의 항상 켜진 thinking을 끌 수 있다고 가정하는 것"
+  - "고속 모델의 가격·속도·가용성을 고정값으로 간주하는 것"
+  - "예정된 공개를 이미 완료된 K3.1 오픈 웨이트 배포로 서술하는 것"
+  - "기존 K3/K2.7 별칭이 매칭됐다는 이유로 K3.1 전용 설정을 적용하는 것"

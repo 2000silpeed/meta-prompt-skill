@@ -1,0 +1,14 @@
+model: bytedance-seedream
+sources:
+  - url: https://docs.byteplus.com/en/docs/ModelArk/seedream-5-0-pro
+    covers: [prompt-composition, editing-and-runtime]
+    fetched: "2026-10-27"
+    note: "JavaScript 렌더링된 공식 튜토리얼 본문 확인. Pro/Flash ID, 참조·해상도, 좌표 편집, 레이어 분해, 알파 입력 제약, 한국어, URL 보관. 다른 제공자 UI 지원 근거가 아님."
+  - url: https://docs.byteplus.com/en/docs/ModelArk/image-generation-tutorial
+    covers: [prompt-composition, editing-and-runtime]
+    fetched: "2026-10-27"
+    note: "JavaScript 렌더링된 공식 본문 확인. 피사체+행동+환경 및 600 영어 단어 이내 권장, Pro/Flash와 5.0 Lite·4.5·4.0의 순차 다중 출력·스트리밍 차이."
+  - url: https://seed.bytedance.com/en/blog/beyond-generation-it-understands-design-introducing-seedream-5-0-pro
+    covers: [prompt-composition, editing-and-runtime]
+    fetched: "2026-10-27"
+    note: "Seedream 5.0 Pro 공식 소개: 디자인 배치, 다중 참조별 역할, 표시 영역·점·스케치 편집. 마케팅 품질 표현을 결과 보장으로 옮기지 않음."

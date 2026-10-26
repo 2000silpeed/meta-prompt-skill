@@ -1,17 +1,20 @@
 id: glm-5.3-availability
 model: z-ai-glm
 topic: "GLM-5.3 / GLM-5.3-Flash 라인업과 제공 경로"
-verification: verified   # 2026-09-03 docs.z.ai 모델 문서·가격표 대조
+verification: partial   # 기존 라인업·가격은 2026-09-03; 2026-10-27 재검토는 API 프로토콜 제한에 한정
+last_verified: "2026-10-27"
 rules:
   - "GLM-5.3(model id: glm-5.3)은 Z.ai의 코딩·에이전트용 플래그십이다. 컨텍스트 1M, 최대 출력 128K, thinking 상시 활성. 2026-08-17 시점의 '일반 API 출시 전' 상태는 해소되어 표준 가격표에 등재되어 있다."
   - "GLM-5.3-Flash(model id: glm-5.3-flash, 2026-08-26 공개)는 320B/활성 18B MoE 멀티모달 모델이며 MIT 라이선스로 가중치가 공개됐다. 컨텍스트 1M, 가격은 GLM-5.3의 약 1/10 수준이라 대량 에이전트 루프·자체 호스팅에 적합하다."
   - "역할 분담: 난도 높은 장기 엔지니어링·복잡한 판단은 glm-5.3, 반복 호출이 많은 에이전트 루프·비용 민감 워크로드·파인튜닝/자체 호스팅은 glm-5.3-flash."
   - "엔드포인트는 용도별로 다르다 — OpenAI Chat Completion 호환: https://api.z.ai/api/coding/paas/v4, OpenAI Responses 호환: https://api.z.ai/api/v1, Anthropic Messages 호환: https://api.z.ai/api/anthropic. 프롬프트를 그대로 옮길 수 있지만 파라미터 이름은 프로토콜을 따른다."
+  - "GLM-5.3 공식 문서상 GLM Coding Plan을 구독한 이력이 있으면 만료된 구독도 포함해 현재 모델 API 접근은 OpenAI Chat Completion 호환 프로토콜로 제한된다. 해당 사용자에게 Responses/Anthropic 경로도 가능하다고 가정하지 않는다. 일반 프로토콜 목록과 계정별 접근 조건을 구분한다."
   - "GLM-5.3은 GLM-5.2와 같은 base model에 post-training으로 코딩·에이전트 성능을 개선했다. 프롬프트는 장기 엔지니어링 작업의 목표·환경·검증·완료 조건을 중심으로 쓴다."
   - "GLM Coding Plan은 구독형 포인트 쿼터로 제공되며 비피크 시간대 할인이 있다. Flash는 같은 구독에서 GLM-5.3 대비 약 3배 쿼터를 준다."
 template: |
   대상: {glm-5.3 | glm-5.3-flash}
-  경로: {Coding Plan | 표준 API} / 프로토콜: {OpenAI Chat | OpenAI Responses | Anthropic Messages}
+  경로: {Coding Plan | 표준 API}
+  프로토콜: {GLM-5.3에 구독 이력이 있으면 OpenAI Chat; 다른 모델·조건은 공식 문서와 실제 접근 경로 확인}
 
   {task_prompt}
 pitfalls:

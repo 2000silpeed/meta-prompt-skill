@@ -1,0 +1,25 @@
+id: editing-runtime
+model: ideogram
+topic: "참조·편집 경로·버전별 API 범위"
+verification: partial
+last_verified: "2026-10-27"
+note: "공식 API 문서만 확인. 현재 세션 연결·계정 권한·실행 결과·이미지 품질은 확인하지 않음."
+rules:
+  - "제품의 버전 이름과 API 경로 식별자를 구별한다: Ideogram 4.0은 v2 경로의 ideogram-4, Ideogram 4.5는 ideogram-4-5다. API 세대 또한 경로에 표시한다. v1 예시의 ideogram-v4와 text_prompt를 v2의 ideogram-4와 prompt에 혼용하지 않으며, 경로 식별자를 임의의 model 요청 필드로 만들지 않는다."
+  - "4.5 공식 API는 generate 경로에 source images를 넣어 편집 지시를 처리하고, 별도 precise-edit 경로도 제공한다. precise-edit는 이미지·선택 mask·참조 이미지를 받는다. 실제 제약과 보존 범위는 각 API 사양을 따른다."
+  - "4.5 API에서 generate는 최대 5개 images를 받고 첫 이미지가 편집 대상, 나머지가 참조다. mask 사용 시 별도 개수·크기 조건이 있으므로 정확한 제한은 현재 endpoint 문서를 확인한다. 4.5 제품의 Precise Edit와 generate-with-images를 같은 경로라고 부르지 않는다."
+  - "4.5 precise-edit는 선택되지 않은 픽셀 보존을 목표로 하지만 이를 일반적인 이미지 편집이나 다른 버전의 보장으로 확장하지 않는다. 전체 이미지 편집의 픽셀 제한과 context_window 동작은 API 문서에서 확인한다."
+  - "4.0 API의 v2 generate/remix가 문서화되어 있어도 4.5 전용 precise-edit 기능을 4.0 지원으로 추정하지 않는다. 4.0 structured JSON·Magic Prompt와 4.5 API 기능을 버전별로 기술한다."
+  - "Ideogram 앱, MCP, API는 별도 실행 경로다. 문서상 제공 경로를 현재 세션의 연결, 사용자 계정 지원, 과금 승인 또는 생성 품질 검증으로 표현하지 않는다. 이미 승인된 실행 범위를 유지하고 새 유료 경로나 추가 호출이 필요할 때만 실행 직전에 확인한다."
+  - "지원 필드와 설정은 선택한 endpoint 및 API 세대 문서에서 확인한다. API 파라미터를 앱/MCP에, 또는 한 endpoint의 파라미터를 다른 endpoint에 복사하지 않는다."
+template: |
+  제품 버전: {Ideogram 4.0 또는 4.5}
+  실행 경로: {앱 / MCP / API — 문서 확인과 실제 사용 가능 여부를 구분}
+  API 모델 ID/경로: {예: ideogram-4-5 및 해당 v2 endpoint — API일 때만}
+  입력: {새 생성 / 편집할 원본 / 역할을 지정한 추가 참조 / 지원 경로에서 mask}
+  변경: {바꿀 대상과 보존할 속성}
+  설정: {선택 endpoint에서 지원하는 필드만; 프롬프트 본문과 분리}
+pitfalls:
+  - "Ideogram 4.0, Ideogram 4.5, ideogram-4, ideogram-4-5, ideogram-v4를 동의어처럼 쓰는 것"
+  - "공식 API 기능이 현재 계정이나 세션에서 사용 가능하다고 말하는 것"
+  - "4.5 precise-edit의 보존 설명을 전 버전의 보장으로 확대하는 것"

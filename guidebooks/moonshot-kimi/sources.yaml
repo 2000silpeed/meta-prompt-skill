@@ -1,14 +1,33 @@
 model: moonshot-kimi
 sources:
-  - url: https://platform.kimi.ai/docs/introduction/models
+  - url: https://platform.kimi.ai/docs/get-your-api-key
     covers: [k3-runtime]
-    fetched: "2026-09-03"
-    note: "모델 목록·컨텍스트·reasoning_effort 기본값 (platform.moonshot.ai에서 리다이렉트)"
-  - url: https://platform.kimi.ai/docs/guide/agent-support
+    fetched: "2026-10-27"
+    note: "공식 quickstart: API key 취급, K3.1 Pro/Highspeed 모델 ID, 1M 컨텍스트, API 프로토콜, 기본 호출"
+  - url: https://platform.kimi.ai/docs/models
+    covers: [k3-runtime]
+    fetched: "2026-10-27"
+    note: "공식 모델 목록 및 이전 세대 모델 상태. K3.1 Pro와 Highspeed ID 확인"
+  - url: https://platform.kimi.ai/docs/guide/kimi-k3-1-pro-quickstart
+    covers: [k3-runtime, long-horizon-agent]
+    fetched: "2026-10-27"
+    note: "공식 K3.1 Pro 상세: reasoning_effort, 고속 변형, 완전한 assistant 메시지 유지, tool calls, 자동 캐시, 웨이트 공개 예정일"
+  - url: https://platform.kimi.ai/docs/guide/use-reasoning-effort
+    covers: [k3-runtime, long-horizon-agent]
+    fetched: "2026-10-27"
+    note: "공식 reasoning_effort 값·기본값과 멀티턴에서 reasoning_content/tool_calls 포함 전체 assistant 메시지 보존"
+  - url: https://platform.kimi.ai/docs/guide/engage-in-multi-turn-conversations-using-kimi-api
     covers: [long-horizon-agent]
-    fetched: "2026-09-03"
-  - url: https://huggingface.co/moonshotai
-    covers: [k3-runtime]
-    note: "오픈웨이트 배포·모델 카드 — 자체 호스팅 시 확인"
+    fetched: "2026-10-27"
+    note: "상태 비보유 API와 클라이언트 측 messages 히스토리 유지"
+  - url: https://platform.kimi.ai/docs/guide/use-kimi-api-to-complete-tool-calls
+    covers: [long-horizon-agent]
+    fetched: "2026-10-27"
+    note: "도구 정의·호출·애플리케이션 실행·결과 반환 흐름과 동적 도구"
+  - url: https://platform.kimi.ai/docs/guide/kimi-k3-tool-calling-best-practice
+    covers: [long-horizon-agent]
+    fetched: "2026-10-27"
+    note: "큰 도구 목록의 검색 후 주입, tool_choice, reasoning effort 운용"
 notes:
-  - "Moonshot은 프롬프팅 전용 가이드를 따로 내지 않는다. 카드는 플랫폼 문서에서 확인되는 사실 위주이며, 그 밖의 항목은 일반 원칙임을 표기한다."
+  - "공식 문서에서 확인된 API 사실과 일반 에이전트 운영 권고를 카드에서 구분한다."
+  - "K3.1 오픈 웨이트는 문서상 2026-11-04 공개 예정으로 표시돼 있어 2026-10-27 기준 가이드에서 배포 완료로 단정하지 않는다."

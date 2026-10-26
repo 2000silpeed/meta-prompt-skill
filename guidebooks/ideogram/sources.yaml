@@ -1,0 +1,30 @@
+model: ideogram
+sources:
+  - url: https://ideogram.ai/blog/claude-mcp/
+    covers: [prompting]
+    fetched: "2026-10-27"
+    note: "Ideogram 4.0 prompting guide: natural-language/Magic Prompt vs structured JSON workflow; examples and style extraction."
+  - url: https://ideogram.ai/blog/ideogram-4-json-prompting/
+    covers: [prompting]
+    fetched: "2026-10-27"
+    note: "Official Ideogram 4.0 JSON prompt field roles and ordering."
+  - url: https://github.com/ideogram-oss/ideogram4/blob/main/docs/prompting.md
+    covers: [prompting]
+    fetched: "2026-10-27"
+    note: "Official open-weight Ideogram 4 schema, caption verifier, and caveat that local Magic Prompt differs from hosted service."
+  - url: https://developer.ideogram.ai/api-reference/images/generate/ideogram-4
+    covers: [prompting, editing-runtime]
+    fetched: "2026-10-27"
+    note: "v2 Ideogram 4 generation: structured prompt, magic_prompt API field, resolution/rendering_speed, endpoint model ID."
+  - url: https://developer.ideogram.ai/api-reference/images/generate/ideogram-4-5
+    covers: [prompting, editing-runtime]
+    fetched: "2026-10-27"
+    note: "v2 Ideogram 4.5 generation: natural-language or Ideogram 4.0 structured JSON prompt, magic_prompt field, images and masks."
+  - url: https://developer.ideogram.ai/api-reference/images/precise-edit/ideogram-4-5
+    covers: [editing-runtime]
+    fetched: "2026-10-27"
+    note: "v2 Ideogram 4.5 precise-edit endpoint and input/output constraints."
+  - url: https://developer.ideogram.ai/ideogram-api/api-overview
+    covers: [editing-runtime]
+    fetched: "2026-10-27"
+    note: "v1-to-v2 route and request-field differences; current API overview."

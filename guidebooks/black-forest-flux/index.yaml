@@ -1,0 +1,20 @@
+model: black-forest-flux
+label: "Black Forest Labs FLUX 이미지 (FLUX 3 Image / FLUX.2 [pro·max] 및 명시 버전별 안내)"
+output_language: follow-target
+slots:
+  required:
+    - id: image_goal
+      ask: "어떤 이미지를 어디에 쓰나요? (피사체와 용도)"
+  optional:
+    - id: model_variant
+      default: "명시된 버전 우선; 미지정이면 사용 가능한 버전 확인 또는 중립 초안"
+    - id: execution_route
+      default: "명시된 플랫폼 우선; 미지정이면 프롬프트만 작성"
+    - id: references
+      default: "없음"
+note: "모델/버전을 사용자 지정했으면 우선한다. 지정이 없으면 런타임에서 실제 선택 가능한 모델을 확인하며, FLUX 3와 FLUX.2 전용 기능을 서로 일반화하지 않는다. 공통 제작·시각 검수 규칙은 _shared/image-production을 함께 로드한다."
+cards:
+  - id: prompt-composition
+    when: "FLUX 모델용 이미지 생성 프롬프트 작성"
+  - id: editing-and-runtime
+    when: "항상 로드 (버전·실행 경로 구분); 편집·다중 참조·API 설정일 때 해당 규칙 적용"

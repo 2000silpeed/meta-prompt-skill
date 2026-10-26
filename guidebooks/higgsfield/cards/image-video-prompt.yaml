@@ -3,7 +3,7 @@ model: higgsfield
 topic: "이미지/영상 프롬프트 작성 디테일"
 verification: knowledge-based
 rules:
-  - "이미지: Six Decisions 중 Action을 '포즈/순간'으로 치환. 렌즈감(35mm, 85mm portrait, macro)과 조명(golden hour, rim light, soft window light) 어휘가 품질을 좌우."
+  - "이미지: Six Decisions 중 Action을 '포즈/순간'으로 치환. 사진적 방향이 필요할 때 렌즈감(35mm, 85mm portrait, macro)과 조명(golden hour, rim light, soft window light)을 묘사한다. 모든 매체에 이를 추가하거나 품질 향상을 보장하지 않는다."
   - "영상: 지속시간 내 수행 가능한 단일 행동 + 단일 카메라 무빙. 복잡한 서사는 샷을 나눠 각각 생성."
   - "스타일은 참조 가능한 구체어로: 'A24 indie film look', 'Kodak Portra 400', 'Studio Ghibli' 등. '예쁘게' 류 금지."
   - "텍스트가 프레임에 필요하면 정확한 문자열과 위치를 Constraints에 명시."

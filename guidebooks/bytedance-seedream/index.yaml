@@ -1,0 +1,22 @@
+model: bytedance-seedream
+label: "ByteDance Seedream 5.0 Pro / Flash"
+output_language: follow-target
+slots:
+  required:
+    - id: image_goal
+      ask: "어떤 이미지를 어디에 쓰나요? (피사체와 용도)"
+  optional:
+    - id: model_variant
+      default: "명시 버전 우선; 미지정이면 실제 경로에서 지원하는 Pro/Flash 후보 안내"
+      note: "Pro/Flash와 5.0 Lite·4.5·4.0은 기능이 다르다. 명시된 구버전을 최신 모델로 바꾸지 않는다."
+    - id: execution_route
+      default: "사용자가 지정한 플랫폼 우선; 미지정이면 프롬프트만 작성"
+    - id: references
+      default: "없음"
+    - id: output_spec
+      default: "사용처와 요청에 맞춤; 장수·크기·레이어 분해를 자동 추가하지 않음"
+cards:
+  - id: prompt-composition
+    when: "항상 로드 (장면·문구·다중 참조)"
+  - id: editing-and-runtime
+    when: "항상 로드 (버전·경로 구분); 편집·다중 출력·투명 배경일 때 해당 규칙 적용"

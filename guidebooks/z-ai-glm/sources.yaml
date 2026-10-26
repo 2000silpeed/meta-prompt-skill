@@ -2,7 +2,8 @@ model: z-ai-glm
 sources:
   - url: https://docs.z.ai/guides/llm/glm-5.3
     covers: [glm-5.3-availability, agentic-engineering, thinking-and-tools]
-    fetched: "2026-09-03"
+    fetched: "2026-10-27"
+    note: "이번 반영은 구독 이력자의 OpenAI Chat Completion 호환 프로토콜 제한. 다른 카드·가격·Flash 라인업의 기존 검증일은 갱신하지 않음"
   - url: https://docs.z.ai/guides/overview/pricing
     covers: [glm-5.3-availability]
     fetched: "2026-09-03"

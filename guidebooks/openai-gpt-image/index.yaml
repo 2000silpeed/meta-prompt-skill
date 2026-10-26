@@ -1,0 +1,26 @@
+model: openai-gpt-image
+label: "OpenAI GPT Image / imagegen"
+output_language: follow-target   # 영어 강제 없음. 프레임 안 문구는 요청 언어 그대로
+slots:
+  required:
+    - id: image_goal
+      ask: "어떤 이미지를 어디에 쓰나요? (피사체와 용도)"
+  optional:
+    - id: mode
+      default: "요청에서 생성/편집을 판별; 변경 대상이 없으면 신규 생성"
+    - id: execution_route
+      default: "명시 경로 우선; 미지정이면 사용 가능한 내장 image_gen"
+      note: "내장 도구의 실제 백엔드 모델명은 추정하지 않는다. 도구가 없으면 프롬프트만 전달한다."
+    - id: references
+      default: "없음"
+    - id: text_in_image
+      default: "요청에 있을 때만 포함"
+    - id: output_spec
+      default: "사용처에서 추론; 숫자 해상도·품질은 자동 강제하지 않음"
+cards:
+  - id: prompt-composition
+    when: "항상 로드 (장면·구도·문구 작성)"
+  - id: editing-and-references
+    when: "기존 이미지 편집, 참조 이미지 활용, 합성, 정체성 보존, 연속 수정일 때"
+  - id: runtime-routing
+    when: "항상 로드 (내장 imagegen과 API 모델·설정 분리)"

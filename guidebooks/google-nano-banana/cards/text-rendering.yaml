@@ -1,8 +1,10 @@
 id: text-rendering
 model: google-nano-banana
 topic: "프레임 내 텍스트 렌더링 — 나노바나나의 강점 영역"
-verification: verified   # 2026-07-22 공식 가이드 대조
+verification: partial   # 기존 공식 가이드 기반; 2026-10-27 API의 문구 우선 작성 권고 대조
+last_verified: "2026-10-27"
 rules:
+  - "문구가 미정이면 먼저 쓸 텍스트를 정리한 뒤 그 텍스트가 포함된 이미지를 요청한다. 사용자가 이미 제공한 문구는 다시 쓰거나 번역하지 않고 그대로 사용한다."
   - "정확히 렌더링할 문자열은 따옴표로 감싼다: the word 'GLOW', the text '10% OFF'."
   - "폰트는 서술적으로 지정: 'a flowing, elegant Brush Script font', 'heavy, blocky Impact font', 'thin, minimalist Century Gothic font', 'clean, bold, sans-serif'."
   - "줄 단위로 배치·크기·스타일을 각각 지시한다 (top line / middle line / bottom line)."

@@ -1,6 +1,6 @@
 # meta-prompt 가이드북 레지스트리 — 항상 로드되는 유일한 파일. 극소로 유지할 것.
 version: 1
-updated: "2026-10-14"
+updated: "2026-10-27"
 staleness_days: 30   # last_verified가 이보다 오래되면 사용 시 경고 (차단 아님)
 fallback: _generic   # 미등록 모델 요청 시 사용할 범용 가이드북 디렉토리
 
@@ -77,13 +77,21 @@ models:
     last_verified: "2026-09-03"
     verification: verified   # 공식 플랫폼 문서 기준. 프롬프팅 전용 가이드는 미발행
 
+  - id: openai-gpt-image
+    label: "OpenAI GPT Image / Codex imagegen (내장 도구와 API 구분)"
+    type: media-image
+    provider: OpenAI
+    aliases: [gpt-image, gpt-image-2.5, gpt-image-2.5-flare, gpt-image-2.5-sunburst, gpt-image-2, gpt-image-1.5, gpt-image-1, chatgpt-image-latest, imagegen, image_gen, gpt이미지, 챗지피티이미지, 코덱스이미지]
+    last_verified: "2026-10-27"
+    verification: partial   # 공식 API/프롬프팅 대조; 내장 도구는 실행 시 스키마 확인, 생성 품질 A/B 미실행
+
   - id: google-nano-banana
     label: "Google Nano Banana (2.1 / Pro / Lite / 이전 2)"
     type: media-image
     provider: Google
     aliases: [gemini-3.1-flash-lite-image, nano-banana-2-lite, 나노바나나2라이트, nano-banana-2.1, nanobanana2.1, 나노바나나2.1, gemini-nano-banana-2.1, nano-banana, nano-banana-2, nano-banana-pro, 나노바나나, 나노바나나2, nanobanana, gemini-image, gemini-3.1-flash-image, gemini-3-pro-image]
     last_verified: "2026-10-14"
-    verification: partial   # 2.1 모델·편집·스펙 갱신; 개별 카드의 검증 상태 참조
+    verification: partial   # 10/27 프롬프트·편집·문구·영상 입력 보강; 기존 스펙 검증일 10/14 유지, 개별 카드 참조
 
   - id: bytedance-seedance-2
     label: "Seedance 2.x (2.5 최신 — 30초 원테이크 + 네이티브 오디오 / 2.0)"

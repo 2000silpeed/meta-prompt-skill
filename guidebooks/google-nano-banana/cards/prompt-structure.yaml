@@ -1,11 +1,12 @@
 id: prompt-structure
 model: google-nano-banana
 topic: "프롬프트 조립 공식과 서술 원칙"
-verification: verified   # 2026-07-22 공식 가이드 대조
+verification: partial   # 기존 공식 가이드 기반; 2026-10-27 API 권고와 부정문 규칙 대조
+last_verified: "2026-10-27"
 rules:
   - "기본 공식: [Subject] + [Action] + [Location/context] + [Composition] + [Style]. 참조 이미지가 있으면 [Reference images] + [Relationship instruction] + [New scenario]."
   - "키워드 나열이 아니라 서사적 장면 묘사로 쓴다. Gemini 3 계열은 추론 모델이라 문장 맥락을 깊게 이해한다."
-  - "부정문 금지 — 긍정 표현으로 치환: 'no cars' 대신 'empty street'."
+  - "원하는 장면 상태를 긍정적으로 묘사하는 semantic negative prompting을 우선한다: 'no cars' 대신 'empty street'. 부정문 자체가 금지된 것은 아니며 '추가 글자 없음', '배경을 바꾸지 말 것' 같은 필요한 제약은 보존한다."
   - "강한 동사로 시작한다 (Create, Transform, Render, Generate)."
   - "구체성이 품질을 좌우: 'a woman in a red dress'가 아니라 'a young woman in a red dress running through a park'처럼 피사체·행동·맥락을 명시."
   - "재질을 명명한다: 'suit jacket' 대신 'navy blue tweed', 'armor' 대신 'ornate elven plate armor, etched with silver leaf patterns'."
@@ -20,5 +21,5 @@ example: |
   Medium-full shot, center-framed. Fashion magazine style editorial,
   shot on medium-format analog film, pronounced grain, cinematic lighting.
 pitfalls:
-  - "'no ~', 'without ~' 부정 지시 — 원하는 상태를 긍정문으로"
+  - "긍정문 권장을 절대 금지 규칙으로 바꿔 사용자의 제외·보존 조건을 삭제하는 것"
   - "쉼표로 끊긴 키워드 덤프 — 문장으로 연결할 것"

@@ -1,0 +1,26 @@
+id: prompt-composition
+model: openai-gpt-image
+topic: "용도·구도·재질·정확한 문구"
+verification: verified
+last_verified: "2026-10-27"
+rules:
+  - "용도를 먼저 잡고 장면 → 피사체 → 핵심 세부 → 제약을 읽기 쉽게 쓴다. 복잡한 요청만 짧은 항목으로 나누며 특별한 JSON 문법이 품질을 보장한다고 말하지 않는다."
+  - "사진이면 원하는 현실감, 프레이밍, 광원과 재질을 구체화한다. 카메라·렌즈 어휘는 시각 방향이지 정확한 광학 시뮬레이션 보장이 아니다."
+  - "광고·배너는 필요한 문구 영역과 주피사체의 관계를 지정한다. 기존 배치가 있으면 그 배치를 따르고 임의로 좌우 여백을 추가하지 않는다."
+  - "문구는 따옴표로 격리하고 위치·줄별 위계·글꼴 성격을 정한다. 문구가 한 번만 필요한지, 추가 글자를 허용하는지도 요청에 맞춰 명시한다."
+  - "간결한 후속 수정으로 한 요소씩 개선한다. 텍스트 정확성·작은 글자 가독성·제품 모양은 결과를 직접 보고 판단한다."
+template: |
+  Create {asset and intended use}.
+  Scene and subject: {scene, subject, relevant details}.
+  Composition: {framing and layout needed for the use}.
+  Look: {medium, materials, light — only relevant details}.
+  Text (verbatim): "{exact copy; omit when absent}".
+  Constraints: {observable requirements}.
+example: |
+  카페 메뉴판에 쓸 따뜻한 도자기 머그 제품 사진을 만든다.
+  옅은 회색 배경 위에 머그 한 개를 정면보다 약간 위에서 촬영한다.
+  무광 유약의 잔잔한 질감과 왼쪽 창의 부드러운 빛을 표현한다.
+  상단 중앙에 "오늘의 커피"를 한 번만, 굵고 읽기 쉬운 한글로 넣는다.
+pitfalls:
+  - "영문 프롬프트를 쓰면서 한국어 간판·라벨까지 번역하는 것"
+  - "용도와 상관없는 사진 장비·효과를 추가해 이미 정해진 미감을 바꾸는 것"

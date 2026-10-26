@@ -4,5 +4,7 @@ output_language: follow-target
 note: "대상 모델 가이드북 카드와 함께 로드한다. 내용이 겹치면 모델 카드를 우선한다."
 
 cards:
+  - id: image-production
+    when: "이미지 생성·편집·참조 합성 프롬프트를 작성하거나 이미지 결과의 A/B를 평가할 때"
   - id: ambitious-craft-brief
     when: "사용자가 최고 수준의 완성도(아름다운·인터랙티브한 시각물, 출판 수준의 글·데이터 시각화 등)와 충분한 시간을 들인 반복 다듬기를 원할 때"

@@ -1,6 +1,6 @@
 ---
 name: meta-prompt
-description: 타깃 AI 모델(GPT/Codex, Claude, Gemini, GLM, Qwen, Grok, DeepSeek, Kimi, Seedance, 나노바나나, Higgsfield 등)별 프롬프트 가이드북에 맞춰 사용자의 요청을 최적화된 프롬프트로 변환·생성한다. 사용자가 "○○용 프롬프트 만들어줘", "프롬프트 최적화해줘", "이 요청을 ○○ 프롬프트로 바꿔줘", "프롬프트 잘 써줘", "meta-prompt"라고 하거나, "실행 전에 meta-prompt를 적용해줘", "최종 프롬프트를 바꾼 뒤 진행해줘"라고 할 때 사용한다. 후자의 경우 모델별 최종 프롬프트를 먼저 컴파일한 뒤 그 프롬프트로 작업을 계속 수행한다. 서브커맨드 — "/meta-prompt refresh 모델명"(가이드북 갱신), "/meta-prompt add 모델명"(새 모델 추가), "/meta-prompt eval 요청"(원본 vs 변환본 A/B 비교). 단순 문장 윤문이나 한글 자연화는 humanize-korean 소관.
+description: 타깃 AI 모델·이미지 스킬(GPT/Codex, GPT Image/imagegen, Claude, Gemini, GLM, Qwen, Grok, DeepSeek, Kimi, Seedance, 나노바나나, Higgsfield 등)별 프롬프트 가이드북에 맞춰 사용자의 요청을 최적화된 프롬프트로 변환·생성한다. 사용자가 "○○용 프롬프트 만들어줘", "프롬프트 최적화해줘", "이 요청을 ○○ 프롬프트로 바꿔줘", "프롬프트 잘 써줘", "meta-prompt"라고 하거나, "실행 전에 meta-prompt를 적용해줘", "최종 프롬프트를 바꾼 뒤 진행해줘"라고 할 때 사용한다. 후자의 경우 모델별 최종 프롬프트를 먼저 컴파일한 뒤 그 프롬프트로 작업을 계속 수행한다. 서브커맨드 — "/meta-prompt refresh 모델명"(가이드북 갱신), "/meta-prompt add 모델명"(새 모델 추가), "/meta-prompt eval 요청"(원본 vs 변환본 A/B 비교). 단순 문장 윤문이나 한글 자연화는 humanize-korean 소관.
 ---
 
 # meta-prompt: 모델별 가이드북 기반 프롬프트 변환기
@@ -21,12 +21,38 @@ description: 타깃 AI 모델(GPT/Codex, Claude, Gemini, GLM, Qwen, Grok, DeepSe
 - **토큰 절약 — 3단 점진 로딩을 엄수한다.** ①`$GB/registry.yaml`(항상) → ②해당 모델의 `index.yaml`(변환 시) → ③index의 `when` 조건에 맞는 카드 파일만 선별 로드. 모델 디렉토리 전체를 읽지 않는다.
 - **가이드북에 없는 지식으로 임의 변환하지 않는다.** 카드가 다루지 않는 영역은 일반 프롬프트 원칙으로 채우되, 그 사실을 산출물 해설에 명시한다.
 
+## 이미지 생성·편집 프롬프트
+
+이미지 산출물이 목표면 현재 대화 모델보다 **사용자가 지정한 이미지 모델·실행 경로**를 우선한다.
+`imagegen`/`image_gen`/GPT Image는 `openai-gpt-image`, 나노바나나는 `google-nano-banana`,
+Higgsfield는 `higgsfield`로 연결한다. 일반 `GPT`/`Gemini`/`Codex`라는 이름만 있고 이미지
+생성·편집이 목표라면 텍스트·코딩 가이드로 보내지 말고 이 분기를 적용한다.
+모델 미지정이면 연결된 이미지 도구를 기준으로 추론했음을 알린다. 도구도 불명확하면
+`_generic`과 공용 이미지 카드로 모델 중립 프롬프트를 만들고 전용 문법 미적용을 밝힌다.
+
+- 해당 모델 index와 `$GB/_shared/index.yaml`에서 `image-production` 카드를 함께 읽는다.
+  단순 요청에 모든 템플릿 항목을 강제로 채우지 않는다.
+- Higgsfield에서 사용할 이미지 모델까지 지정됐으면 플랫폼 라우팅과 그 모델의 등록된
+  이미지 가이드를 함께 적용한다. 예: **Higgsfield + GPT Image 2.5 → `higgsfield/index.yaml`과
+  `openai-gpt-image/index.yaml`**, Higgsfield + 나노바나나 → `higgsfield/index.yaml`과
+  `google-nano-banana/index.yaml`. 버전명이 별도 디렉토리로 없더라도 registry 별칭에
+  등록돼 있으면 해당 계열의 가이드가 있는 것이다. 실행 경로·설정은 Higgsfield가 우선하고,
+  장면·편집 작성법은 선택한 모델 카드에서 가져온다. 미등록 모델에는 공용 지침만 적용한다.
+- `imagegen`은 실행 스킬/도구 경로이고 GPT Image는 모델 계열이다. 실행할 때만 현재
+  세션의 `imagegen` 스킬이 있으면 읽고 도구 스키마를 확인한다. 없으면 존재를 가정하지 않는다.
+- 프롬프트, 참조 이미지의 역할, 실행 설정을 구분한다. API 파라미터를 내장 도구에 복사하지 않는다.
+- “프롬프트만/가이드만”은 이미지 생성 요청이 아니다. 실행 요청과 이미 승인된 범위는 보존하고,
+  별도 유료 API 전환·추가 생성이 필요할 때만 해당 경로의 승인 절차를 적용한다.
+
+이미지 A/B 평가는 공용 카드의 비교 기준을 사용한다. 구조 검증이나 프롬프트 작성만으로
+이미지 품질 향상을 검증했다고 보고하지 않는다.
+
 ## Codex 최종 실행 전 적용
 
 사용자가 실행 전 적용을 명시하면, 변환된 프롬프트를 보여주고 끝내지 말고 **같은 턴에서 그 프롬프트를 작업 명세로 사용해 수행**한다.
 
 1. 원 요청, 현재 세션의 모델/실행 대상, 이미 주어진 제약을 수집한다. 이미 필요한 정보가 있으면 다시 묻지 않는다.
-2. Codex에서 현재 작업을 수행하는 경우 `openai-codex` 가이드북을 우선 사용한다. 사용자가 다른 최종 모델을 지정하면 그 모델 가이드북을 우선한다.
+2. Codex에서 코드 작업을 수행하는 경우 `openai-codex` 가이드북을 우선 사용한다. 이미지 생성·편집은 위 이미지 분기를 적용한다. 사용자가 다른 최종 모델을 지정하면 그 모델 가이드북을 우선한다.
 3. 3단 점진 로딩과 진단·변환을 수행한다.
 4. 변환본을 1~3문장으로 요약해 알린 뒤, 변환된 프롬프트의 목표·제약·검증 조건을 실제 작업 계획과 구현에 적용한다.
 5. 과금되는 외부 모델/API 실행이 필요하면, 변환은 수행하되 API 호출 전에 비용과 대상을 밝히고 확인받는다.
@@ -37,7 +63,7 @@ description: 타깃 AI 모델(GPT/Codex, Claude, Gemini, GLM, Qwen, Grok, DeepSe
 
 ### 1. 타깃 모델 감지 (사다리 순서대로)
 
-0. **환경 자체 감지**: 요청이 "지금 이 세션"용이면 런타임에서 확인된 현재 서비스·모델이 타깃. Codex 작업은 `openai-codex`를 우선하며 특정 호스트를 가정하지 않는다. 세션에 연결된 실행 도구가 요청 내용과 맞으면 실제 실행 모델을 후보로.
+0. **환경 자체 감지**: 사용자 명시 모델·이미지 분기를 먼저 적용한다. 그 외 요청이 "지금 이 세션"용이면 런타임에서 확인된 현재 서비스·모델이 타깃. Codex 코드 작업은 `openai-codex`를 우선하며 특정 호스트를 가정하지 않는다. 세션에 연결된 실행 도구가 요청 내용과 맞으면 실제 실행 모델을 후보로.
 1. **사용자 명시**: 모델명이 있으면 registry의 `aliases`로 매칭.
 2. **맥락 추론**: 요청 성격으로 추론하되(영상 → media 타입 모델 등), 추론했음을 반드시 명시: "○○ 모델 기준으로 변환합니다. 다른 모델이면 알려주세요."
 3. **질문**: 모호하면 registry의 모델 목록을 AskUserQuestion으로 제시.
@@ -48,7 +74,7 @@ description: 타깃 AI 모델(GPT/Codex, Claude, Gemini, GLM, Qwen, Grok, DeepSe
 - `$GB/registry.yaml`에서 모델 확인. `last_verified`가 `staleness_days`(30일)를 넘었으면 **경고만** 한다: "이 가이드북은 N일 전 검증본입니다. `/meta-prompt refresh <model>`로 갱신할 수 있습니다." 차단하지 않는다.
 - `verification`이 `knowledge-based`(공식 가이드 대조 전 초안) 또는 `partial`(일부만 공식 대조)이면 그 상태를 함께 표기한다. 카드 안의 개별 `verification`도 같은 규칙으로 읽는다.
 - `$GB/<model-id>/index.yaml`을 읽고, `when` 조건이 요청에 해당하는 카드만 로드.
-- 요청이 최고 수준의 완성도와 반복 다듬기를 원하면 `$GB/_shared/index.yaml`의 공용 카드도 함께 로드한다(겹치면 모델 카드 우선).
+- 이미지 생성·편집이거나 최고 수준의 완성도와 반복 다듬기를 원하면 `$GB/_shared/index.yaml`에서 조건에 맞는 공용 카드도 함께 로드한다(겹치면 모델 카드 우선).
 
 ### 3. 슬롯 확인 → 컨텍스트 보강
 
@@ -77,6 +103,9 @@ description: 타깃 AI 모델(GPT/Codex, Claude, Gemini, GLM, Qwen, Grok, DeepSe
 API 파라미터 권고가 있는 카드(reasoning_effort, temperature, responseSchema 등)면 프롬프트 아래 별도로 표기.
 
 ### 6. 실행 제안 (전달 기본 + 확인 후 실행)
+
+이미지는 위 이미지 분기의 실행 경계가 우선한다. “프롬프트만”이면 실행 제안 없이 전달로 끝내고,
+이미 승인된 이미지 생성은 재승인을 요구하지 않는다.
 
 세션에 타깃 모델의 실행 경로가 있을 때만 제안한다:
 

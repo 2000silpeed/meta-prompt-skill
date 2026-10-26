@@ -1,0 +1,24 @@
+id: editing-and-references
+model: openai-gpt-image
+topic: "국소 편집·참조 합성·정체성 보존"
+verification: verified
+last_verified: "2026-10-27"
+rules:
+  - "첫 이미지의 무엇을 바꾸고 다른 이미지에서 무엇을 가져올지 명시한다. 단순히 '합쳐줘' 대신 대상과 삽입 요소를 특정한다."
+  - "변경 대상과 보존할 얼굴·제품 형태·시점·조명·배경을 나눠 쓴다. 보존 지시는 목표이며 픽셀 단위 불변을 보증하지 않는다."
+  - "스타일 참조는 팔레트·질감·매체 중 사용할 속성을 지정하고 새 피사체와 분리한다. 옷 참조가 인물 정체성을 덮어쓰지 않게 역할을 명시한다."
+  - "합성에서는 크기·원근·접촉 그림자·광원 일치를 요구하고 실제 결과에서 확인한다."
+  - "마스크 입력은 그 기능이 있는 API/도구에서만 사용한다. Images API는 원본과 마스크의 규격·알파 조건을 확인하며, 마스크를 줘도 경계를 완벽히 지킨다고 보증하지 않는다."
+template: |
+  Edit image 1: {single requested change}.
+  Use image 2 only for {reference role; omit when absent}.
+  Preserve {identity, composition, lighting and other requested invariants}.
+  Match {perspective, scale and contact shadows where needed}.
+example: |
+  이미지 1의 재킷만 이미지 2의 재킷으로 교체한다.
+  이미지 2에서는 의상의 색·재질·재단만 사용한다.
+  이미지 1의 얼굴, 체형, 자세, 카메라 위치, 배경과 조명을 유지한다.
+  옷 주름과 그림자는 원래 자세와 광원에 맞춘다.
+pitfalls:
+  - "매 수정마다 전체 장면을 새로 생성해 선택한 결과를 잃는 것"
+  - "원본 보존을 지시했다는 이유로 실제 보존 검수를 생략하는 것"

@@ -1,0 +1,22 @@
+model: openai-gpt-image
+sources:
+  - url: https://developers.openai.com/api/docs/guides/image-prompting
+    covers: [prompt-composition, editing-and-references, runtime-routing]
+    fetched: "2026-10-27"
+    note: "GPT Image 2.5 선택, 편집 보존, 문자, API 설정과 이전 모델 상태"
+  - url: https://developers.openai.com/cookbook/examples/multimodal/image-gen-models-prompting-guide
+    covers: [prompt-composition, editing-and-references]
+    fetched: "2026-10-27"
+    note: "용도·구도·매체와 참조 역할. 최신 모델 선택은 위 API 가이드 우선"
+  - url: https://developers.openai.com/api/docs/guides/image-generation
+    covers: [editing-and-references, runtime-routing]
+    fetched: "2026-10-27"
+    note: "Images API, 마스크, 투명 출력. Codex 내장 도구의 스키마와는 별개"
+  - url: https://developers.openai.com/api/docs/guides/tools-image-generation
+    covers: [runtime-routing]
+    fetched: "2026-10-27"
+    note: "Responses의 대화/이미지 모델 분리, revised_prompt"
+runtime_evidence:
+  checked: "2026-10-27"
+  scope: "이 세션에 노출된 image_gen 도구 스키마와 설치된 imagegen/SKILL.md"
+  refresh: "실행 환경에서 제공하는 스킬 위치와 도구 설명을 다시 확인한다. API 웹 문서는 내장 경로의 지원 근거로 쓰지 않는다."

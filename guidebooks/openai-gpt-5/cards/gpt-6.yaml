@@ -1,12 +1,13 @@
 id: gpt-6
 model: openai-gpt-5
-topic: "GPT-6 Astra / GPT-6.1 Sol / Luna — 선택과 프롬프트 적용"
-verification: verified
-last_verified: "2026-10-12"
+topic: "GPT-6 Astra / GPT-6.1 Sol / GPT-6.1 Terra / Luna — 선택과 프롬프트 적용"
+verification: partial   # 10/28 Terra와 계열 호환성 확인; 기존 프롬프트 운영 권장은 이전 검증 유지
+last_verified: "2026-10-28"
 rules:
-  - "최고 역량은 gpt-6-astra, 복잡한 코딩·에이전트 작업의 비용 균형은 gpt-6.1-sol, 반복·대량 작업은 gpt-6-luna를 검토한다. 사용자 지정 gpt-6-sol 등 구버전은 유지한다."
-  - "Astra·GPT-6.1 Sol의 API reasoning.effort는 low/medium/high/xhigh/max이며 none·minimal은 지원하지 않는다. 기존 GPT-6 Sol·Luna는 none도 지원한다. Sol 계열·Luna의 기본은 medium이다. 프롬프트 문구만으로 실제 설정이 바뀌었다고 보고하지 않는다."
-  - "Astra·GPT-6.1 Sol의 툴 호출은 Responses API가 필요하며 Chat Completions에서는 툴을 사용할 수 없다. 기존 GPT-6 Sol·Luna의 Chat Completions 함수 호출은 reasoning_effort=none일 때만 지원한다."
+  - "최고 역량은 gpt-6-astra, 복잡한 코딩·에이전트 작업의 비용 균형은 gpt-6.1-sol, 시각 이해·정밀한 화면 조작·자연스러운 글쓰기는 gpt-6.1-terra, 반복·대량 작업은 gpt-6-luna를 검토한다. 사용자 지정 gpt-6-sol·gpt-5.6-terra 등 구버전은 유지한다."
+  - "Astra·GPT-6.1 Sol의 API reasoning.effort는 low/medium/high/xhigh/max이며 none·minimal은 지원하지 않는다. GPT-6.1 Terra·기존 GPT-6 Sol·Luna는 none도 지원한다. Sol 계열·GPT-6.1 Terra·Luna의 기본은 medium이다. 프롬프트 문구만으로 실제 설정이 바뀌었다고 보고하지 않는다."
+  - "Astra·GPT-6.1 Sol·GPT-6.1 Terra의 툴 호출은 Responses API가 필요하며 Chat Completions에서는 툴을 사용할 수 없다. 기존 GPT-6 Sol·Luna의 Chat Completions 함수 호출은 reasoning_effort=none일 때만 지원한다."
+  - "GPT-6.1 Terra는 이미지 입력·텍스트 출력 경로로 사용한다. 제품 사진·도면·화면 등 판단에 필요한 원본 자료와 기대 결과를 제공한다. 이미지에서 읽은 이름·수치·라벨을 자료와 대조하고 판독이 불명확하면 표시한다. GPT-5.6 Terra에서 이전할 때 같은 reasoning effort로 대표 이미지와 작업 흐름을 비교한다."
   - "GPT-6 Sol에서 6.1 Sol로 이전할 때 none·minimal은 low부터 평가하고, 기존 툴 호출 경로와 sampling 설정을 확인한다. 추론 활성 상태에서는 temperature/top_p/top_logprobs를 제거한다."
   - "속도가 중요하면 GPT-6.1 Sol의 Responses API에서 service_tier: ultrafast를 평가한다. 기본값으로 강제하지 않고 추가 비용과 결과 품질을 비교한다."
   - "목표·제약·완료 기준을 명확히 하고, 결과를 바꾸는 질문만 하도록 지정한다. 승인된 범위는 구현·검증까지 이어가도록 쓴다."
@@ -22,5 +23,6 @@ template: |
 pitfalls:
   - "Astra·GPT-6.1 Sol에 none/minimal을 지정하거나 Codex 전용 effort를 API 지원값으로 가정하는 것"
   - "GPT-6 Sol의 Chat Completions 함수 호출 설정을 GPT-6.1 Sol에 그대로 적용하는 것"
+  - "GPT-6.1 Terra가 none을 지원한다는 이유로 Chat Completions 툴 호출도 가능하다고 가정하거나, 구형 GPT-5.6 Terra를 자동 교체하는 것"
   - "GPT-5.6 Sol 전용 카드를 GPT-6 Sol에 적용하는 것"
   - "새 모델 등록을 실제 계정 접근권한이나 실행 성공으로 해석하는 것"

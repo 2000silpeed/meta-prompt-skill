@@ -126,8 +126,8 @@ $meta-prompt를 적용해서 이 요청을 Codex용으로 최적화한 뒤 구�
 
 | ID | 커버리지 | 유형 |
 |---|---|---|
-| `openai-gpt-5` | GPT-6 Astra · GPT-6.1 Sol · GPT-6 Luna / GPT-5.x | 텍스트 LLM |
-| `openai-codex` | Codex CLI/IDE (GPT-6.1 Sol 권장, 태스크 프롬프트, AGENTS.md) | 코딩 에이전트 |
+| `openai-gpt-5` | GPT-6 Astra · GPT-6.1 Sol · GPT-6.1 Terra · GPT-6 Luna / GPT-5.x | 텍스트 LLM |
+| `openai-codex` | Codex CLI/IDE (태스크 프롬프트·AGENTS.md; GPT-6.1 Sol 권장; Terra는 시각 이해·글쓰기·화면 조작, CLI 0.159.0+) | 코딩 에이전트 |
 | `anthropic-claude` | Claude Opus 5.5 / Sonnet 5.5 / Haiku 5.5 / Fable 5.1 | 텍스트 LLM |
 | `z-ai-glm` | GLM-5.3 / GLM-5.3-Flash (MIT 오픈웨이트) | 텍스트 LLM / 코딩 에이전트 |
 | `google-gemini` | Gemini 4 Argon / 3.8 Flash / 3.1 Pro / 3.1 Flash-Lite | 텍스트 LLM |

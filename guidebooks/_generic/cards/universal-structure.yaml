@@ -2,11 +2,12 @@ id: universal-structure
 model: _generic
 topic: "범용 조립 공식 — CO-STAR 기본, 작업 성격별 경량 변형"
 verification: knowledge-based
+note: "역할 선택은 로컬 운용 원칙이며, 특정 프레임워크나 페르소나의 품질 향상을 입증한 카드가 아니다."
 rules:
-  - "기본 골격은 CO-STAR: Context(배경) / Objective(목표) / Style(문체) / Tone(어조) / Audience(독자) / Response format(출력 형식). 모델 불문 안정적으로 작동하는 최소 공통 구조다."
-  - "단순 작업엔 RTF로 경량화: Role(역할) + Task(할 일) + Format(형식)."
-  - "다단계 작업엔 RISEN: Role + Instructions + Steps(순서) + End goal(완료 기준) + Narrowing(범위 제한)."
-  - "공통 원칙: 구체적 역할 부여, 목표는 하나로, 출력 형식 명시, 가능하면 예시 1개, 제약은 긍정형으로."
+  - "CO-STAR는 Context(배경) / Objective(목표) / Style(문체) / Tone(어조) / Audience(독자) / Response format(출력 형식)의 조립 참고 틀이다. 과업에 필요한 항목만 사용한다."
+  - "단순 작업은 할 일과 필요한 출력 형식 중심으로 작성한다. RTF를 참고하더라도 Role(역할)은 선택 사항이다."
+  - "다단계 작업은 지시·순서·완료 기준·범위를 구체화한다. RISEN을 참고하더라도 Role은 선택 사항이다."
+  - "공통 원칙: 목표·맥락·제약·출력 형식을 구체화하고, 이해에 도움이 될 때만 예시를 추가한다. 필요한 전문성은 전문가 수식어 대신 실제 작업·판단 기준으로 쓴다."
   - "완료 기준(무엇이 되면 성공인지)을 반드시 포함 — 프레임워크 불문 가장 자주 빠지는 요소."
 template: |
   # Context: {배경, 입력 데이터, 용도}

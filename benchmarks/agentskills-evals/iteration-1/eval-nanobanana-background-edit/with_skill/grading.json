@@ -1,0 +1,36 @@
+{
+  "assertion_results": [
+    {
+      "text": "응답이 프롬프트 전달에 그치고, 이미지를 생성·편집했다고 주장하거나 생성 도구를 호출하려 하지 않는다",
+      "passed": true,
+      "evidence": "응답은 코드블록 안의 프롬프트와 짧은 사용 안내('결과물에서 라벨 글자가 한 자라도 바뀌었는지 꼭 확인하세요')로만 구성된다. 이미지를 만들었다거나 편집했다는 주장도, 도구 호출 시도도 없다."
+    },
+    {
+      "text": "라벨 문구 '제주 감귤 에이드'가 프롬프트 안에 한 글자도 바뀌지 않고 원문 그대로 들어 있다",
+      "passed": true,
+      "evidence": "프롬프트 3번째 문단에 \"including the Korean text '제주 감귤 에이드'\"가 들어 있다. 띄어쓰기까지 사용자 요청과 같다."
+    },
+    {
+      "text": "프롬프트가 변경 대상(배경)과 보존 대상(병 형태, 라벨 문구)을 분리해 명시한다",
+      "passed": true,
+      "evidence": "첫 문단에서 'only the background changes'로 변경 범위를 정한다. 둘째 문단 'Keep the glass bottle exactly as it is... Do not reshape'는 병 보존, 셋째 문단 'Keep the label exactly as it is... Every character... must stay identical'은 라벨 보존을 다룬다. 넷째 문단 'New background:'는 새 배경을 별도로 묘사한다. 변경 대상과 보존 대상이 문단 단위로 나뉘어 있다."
+    },
+    {
+      "text": "새 배경이 여름 해변으로 구체적으로(모래·바다·하늘·빛 등 2개 이상 요소) 묘사된다",
+      "passed": true,
+      "evidence": "'fine pale-golden sand', 'clear turquoise water and gentle white waves', 'vivid blue sky with a few light clouds', 'warm, natural summer sunlight'로 모래·바다·하늘·빛 4개 요소를 모두 묘사한다."
+    },
+    {
+      "text": "결과 검수 방법(라벨 글자 변형 확인 등) 또는 실패 시 이어서 보낼 수정 지시가 제공된다",
+      "passed": true,
+      "evidence": "'결과물에서 라벨 글자가 한 자라도 바뀌었는지 꼭 확인하세요'라는 검수 안내가 있다. 실패 시 보낼 후속 지시 \"Restore the label text '제주 감귤 에이드' exactly as in the original photo\"도 제공한다."
+    }
+  ],
+  "assertion_feedback": "1번은 응답 텍스트만으로 판정할 수 있지만 거의 모든 응답이 통과할 만큼 쉽다. 2번도 문자열 포함 여부만 보면 되므로 변별력이 낮다. 사용자가 '프롬프트만 줘'라고 했으므로 프롬프트 밖의 부가 설명이 짧게 유지되는지를 따지는 assertion이 있으면 지시 준수 여부를 가려내기 좋다. 이 응답은 짧은 안내 두 문장만 덧붙였다. 병이 유리라는 점에서 오는 투명도와 반사가 새 배경과 일관되는지를 다루는 assertion도 추가할 만하다.",
+  "summary": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "pass_rate": 1.0
+  }
+}

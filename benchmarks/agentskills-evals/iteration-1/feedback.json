@@ -1,0 +1,7 @@
+{
+  "eval-claude-long-refactor": "",
+  "eval-nanobanana-background-edit": "",
+  "eval-unregistered-model-fallback": "",
+  "eval-glm-stale-guidebook": "",
+  "eval-vague-no-target": ""
+}

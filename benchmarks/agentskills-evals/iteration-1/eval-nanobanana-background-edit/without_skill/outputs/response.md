@@ -1,0 +1,5 @@
+```
+Using the provided product photo, change only the background. Keep the glass bottle exactly as it is: same shape, silhouette, proportions, size, position, angle, cap, liquid color, glass transparency and reflections. Keep the label pixel-for-pixel identical, and keep the Korean text "제주 감귤 에이드" on it exactly as written, with the same characters, font, size, color, spacing and placement. Do not redraw, retype, translate, blur or restyle any of the label text or graphics.
+
+Replace the background with a bright summer beach scene: turquoise sea and soft white waves in the background, warm golden sand under the bottle, clear blue sky with a few light clouds, and strong midday sunlight. Put the bottle naturally on the sand with a realistic contact shadow that matches the sunlight direction. Add a subtle sunlit highlight and a faint blue-sky reflection on the glass, without hiding or distorting the label. Blur the background slightly (shallow depth of field) so the bottle stays the sharp focal point. Make it look like a refreshing, high-end commercial product photo with a photorealistic, natural color grade and no added text, logos or watermarks.
+```

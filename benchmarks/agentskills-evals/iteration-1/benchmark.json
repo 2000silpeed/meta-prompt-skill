@@ -1,0 +1,116 @@
+{
+  "run_summary": {
+    "with_skill": {
+      "pass_rate": {
+        "mean": 1.0,
+        "stddev": 0.0
+      },
+      "time_seconds": {
+        "mean": 36.33,
+        "stddev": 19.981
+      },
+      "tokens": {
+        "mean": 224982.6,
+        "stddev": 111492.037
+      }
+    },
+    "without_skill": {
+      "pass_rate": {
+        "mean": 0.714,
+        "stddev": 0.184
+      },
+      "time_seconds": {
+        "mean": 28.661,
+        "stddev": 19.091
+      },
+      "tokens": {
+        "mean": 47811.6,
+        "stddev": 15888.939
+      }
+    },
+    "delta": {
+      "pass_rate": 0.286,
+      "time_seconds": 7.669,
+      "tokens": 177171.0
+    }
+  },
+  "per_eval": {
+    "eval-claude-long-refactor": {
+      "with_skill": {
+        "pass": "7/7",
+        "skill_triggered": true,
+        "failed": []
+      },
+      "without_skill": {
+        "pass": "4/7",
+        "skill_triggered": false,
+        "failed": [
+          "프롬프트 본문과 분리해 Claude Opus 5.5 실행 설정(effort, thinking 등) 권고를 제시한다",
+          "응답 해설이 원 요청에서 부족했던 점(모호함·측정 기준 부재·맥락 부족 등)을 짚고 무엇을 보강했는지 연결해 설명한다",
+          "응답이 근거로 사용한 가이드의 검증 날짜나 검증 범위(일부 검증 등)를 밝힌다"
+        ]
+      },
+      "blind_preference": "without_skill"
+    },
+    "eval-glm-stale-guidebook": {
+      "with_skill": {
+        "pass": "5/5",
+        "skill_triggered": true,
+        "failed": []
+      },
+      "without_skill": {
+        "pass": "3/5",
+        "skill_triggered": false,
+        "failed": [
+          "응답이 근거 가이드의 검증일이 30일 이상 지났다는 사실과 갱신 방법을 알린다",
+          "프롬프트와 분리해 GLM-5.3/Coding Plan 실행 설정(모델 변형, reasoning effort, 엔드포인트 등) 권고를 제시한다"
+        ]
+      },
+      "blind_preference": "without_skill"
+    },
+    "eval-nanobanana-background-edit": {
+      "with_skill": {
+        "pass": "5/5",
+        "skill_triggered": true,
+        "failed": []
+      },
+      "without_skill": {
+        "pass": "4/5",
+        "skill_triggered": false,
+        "failed": [
+          "결과 검수 방법(라벨 글자 변형 확인 등) 또는 실패 시 이어서 보낼 수정 지시가 제공된다"
+        ]
+      },
+      "blind_preference": "without_skill"
+    },
+    "eval-unregistered-model-fallback": {
+      "with_skill": {
+        "pass": "5/5",
+        "skill_triggered": true,
+        "failed": []
+      },
+      "without_skill": {
+        "pass": "3/5",
+        "skill_triggered": false,
+        "failed": [
+          "응답이 Mistral 전용 프롬프트 가이드나 공식 근거 없이 작성되어 모델 고유 최적화가 반영되지 않았음을 명시한다",
+          "Mistral API 파라미터·기능·모델 ID를 언급할 때 공식 문서로 확인되지 않았음을 표시하고 단정하지 않는다"
+        ]
+      },
+      "blind_preference": "without_skill"
+    },
+    "eval-vague-no-target": {
+      "with_skill": {
+        "pass": "4/4",
+        "skill_triggered": false,
+        "failed": []
+      },
+      "without_skill": {
+        "pass": "4/4",
+        "skill_triggered": false,
+        "failed": []
+      },
+      "blind_preference": "without_skill"
+    }
+  }
+}

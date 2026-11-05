@@ -1,0 +1,11 @@
+{
+  "score_A": 6,
+  "score_B": 8,
+  "preferred": "B",
+  "rationale": "두 프롬프트 모두 같은 흐름(조사 → 재현 테스트 → 최소 수정 → 검증)과 멈출 지점을 갖췄고, 반올림 정책이 불명확하면 GLM이 임의로 정하지 않게 막아 두었습니다. B는 몇 가지 장치를 더 넣어 바로 쓰기에 더 좋습니다: 구체적인 경계값 목록, BigDecimal(double) 생성자 함정, 증상만 가리는 보정 금지, 기존 테스트 기대값을 바꾸지 말고 보고하게 한 점, git commit/push 금지입니다. A는 프롬프트 자체는 탄탄하지만 덧붙인 설명에 검증할 수 없는 단정이 섞여 있습니다(reasoning_effort 기본값 max, 구독 이력에 따른 엔드포인트 제한). 또 '63일 전 검증', '/meta-prompt refresh glm' 같은 내부 도구 문구가 사용자에게 그대로 노출되어 신뢰도와 간결성이 떨어집니다. B에도 'GLM 계열은 toFixed 하나만 고치는 경향' 같은 근거 없는 일반화가 있지만, 영향은 작습니다.",
+  "mapping": {
+    "A": "with_skill",
+    "B": "without_skill"
+  },
+  "preferred_config": "without_skill"
+}

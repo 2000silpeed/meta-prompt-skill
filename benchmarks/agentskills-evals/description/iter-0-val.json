@@ -1,0 +1,114 @@
+{
+ "description_file": "benchmarks/agentskills-evals/description/desc-0.txt",
+ "summary": {
+  "passed": 8,
+  "total": 8,
+  "pass_rate": 1.0
+ },
+ "results": [
+  {
+   "query": "시댄스로 카페 신제품 딸기라떼 15초 광고 영상 만들 건데 뭐라고 입력해야 돼?",
+   "should_trigger": true,
+   "triggers": 3,
+   "runs": 3,
+   "trigger_rate": 1.0,
+   "passed": true,
+   "first_tools": [
+    "Skill",
+    "Skill",
+    "Skill"
+   ]
+  },
+  {
+   "query": "터미널 프롬프트(PS1)에 현재 git 브랜치 표시되게 .bashrc 설정해줘",
+   "should_trigger": false,
+   "triggers": 0,
+   "runs": 3,
+   "trigger_rate": 0.0,
+   "passed": true,
+   "first_tools": [
+    "Bash",
+    "Bash",
+    "Bash"
+   ]
+  },
+  {
+   "query": "그록한테 물어볼 건데 질문을 어떻게 던져야 웹검색까지 써서 제대로 답할까? 주제는 2026년 반도체 수출 동향",
+   "should_trigger": true,
+   "triggers": 3,
+   "runs": 3,
+   "trigger_rate": 1.0,
+   "passed": true,
+   "first_tools": [
+    "Skill",
+    "Skill",
+    "Skill"
+   ]
+  },
+  {
+   "query": "Qwen3.8-Max 시스템 프롬프트로 넣을 고객센터 상담 지침 좀 써줘. 환불은 7일 이내만 가능하고 말투는 존댓말",
+   "should_trigger": true,
+   "triggers": 3,
+   "runs": 3,
+   "trigger_rate": 1.0,
+   "passed": true,
+   "first_tools": [
+    "Skill",
+    "Skill",
+    "Skill"
+   ]
+  },
+  {
+   "query": "Claude API로 스트리밍 응답 받는 파이썬 코드 짜줘. anthropic SDK 쓸 거야",
+   "should_trigger": false,
+   "triggers": 0,
+   "runs": 3,
+   "trigger_rate": 0.0,
+   "passed": true,
+   "first_tools": [
+    "Skill",
+    "Skill",
+    "Skill"
+   ]
+  },
+  {
+   "query": "GPT-6이랑 Claude Opus 5.5 중에 코딩 에이전트로는 뭐가 더 나아? 가격도 비교해줘",
+   "should_trigger": false,
+   "triggers": 0,
+   "runs": 3,
+   "trigger_rate": 0.0,
+   "passed": true,
+   "first_tools": [
+    "ToolSearch",
+    "ToolSearch",
+    "ToolSearch"
+   ]
+  },
+  {
+   "query": "I need a prompt for GPT-6.1 Sol that makes it review PRs for security issues, can u write one? we use python + django",
+   "should_trigger": true,
+   "triggers": 3,
+   "runs": 3,
+   "trigger_rate": 1.0,
+   "passed": true,
+   "first_tools": [
+    "Skill",
+    "Skill",
+    "Skill"
+   ]
+  },
+  {
+   "query": "LangChain PromptTemplate에 변수 두 개 넣는 법 알려줘",
+   "should_trigger": false,
+   "triggers": 0,
+   "runs": 3,
+   "trigger_rate": 0.0,
+   "passed": true,
+   "first_tools": [
+    null,
+    null,
+    null
+   ]
+  }
+ ]
+}

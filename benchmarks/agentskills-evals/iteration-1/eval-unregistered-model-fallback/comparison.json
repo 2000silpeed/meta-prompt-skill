@@ -1,0 +1,11 @@
+{
+  "score_A": 7,
+  "score_B": 9,
+  "preferred": "B",
+  "rationale": "두 응답 모두 분류 기준, 경계 사례 규칙, 프롬프트 인젝션 방어, JSON 단일 출력 지시를 잘 갖췄습니다. B는 `<email>` 태그로 데이터를 구분하고, user 메시지 템플릿, `response_format`과 값 검증이 포함된 호출 코드, 인젝션 예시까지 제공해 바로 쓰기 좋습니다. 확인하지 못한 모델 ID는 콘솔에서 확인하라고 명시해 근거 없는 단정도 피했습니다. A는 미검증 API 정보를 신중하게 다뤘지만, 사용자 요청과 무관한 내부 도구 이야기('모델별 프롬프트 가이드', `/meta-prompt add mistral`)가 섞여 있고 통합에 필요한 템플릿과 코드가 없어 완성도가 낮습니다.",
+  "mapping": {
+    "A": "with_skill",
+    "B": "without_skill"
+  },
+  "preferred_config": "without_skill"
+}

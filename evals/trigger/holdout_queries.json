@@ -1,0 +1,12 @@
+[
+ {"query": "내가 쓴 시스템 프롬프트인데 모델이 자꾸 JSON 형식을 안 지켜. 좀 고쳐줘:\n너는 리뷰 분석기다. 리뷰를 읽고 감성을 json으로 줘", "should_trigger": true},
+ {"query": "chatgpt에 붙여넣을 거라 영어로 깔끔하게 정리 좀: 우리 회사 분기 실적 보도자료 초안 써달라고 할 거임, 톤은 담담하게", "should_trigger": true},
+ {"query": "미드저니 말고 higgsfield에서 쓸 건데 여름 세일 배너 문구 넣은 이미지 지시문 짜줘", "should_trigger": true},
+ {"query": "이 작업 opus한테 넘기기 전에 지시를 좀 단단하게 만들어줘. 작업은 우리 모노레포 의존성 정리야", "should_trigger": true},
+ {"query": "gemini로 긴 계약서 리스크 검토 시킬 때 어떻게 써야 빠뜨리는 조항 없이 보는지 템플릿 만들어줘", "should_trigger": true},
+ {"query": "이 프롬프트 그대로 Claude API로 호출하는 curl 명령어 만들어줘: '다음 글을 요약해'", "should_trigger": false},
+ {"query": "회사 위키에 'AI한테 일 잘 시키는 법' 교육 자료 목차 짜줘. 신입 대상 1시간 분량", "should_trigger": false},
+ {"query": "방금 Seedance로 뽑은 영상이 손가락이 이상하게 나왔어. 이거 원인이 뭐야? 모델 한계야?", "should_trigger": false},
+ {"query": "나노바나나 API 호출할 때 429 rate limit 에러가 계속 나. 재시도 로직 짜줘 python으로", "should_trigger": false},
+ {"query": "GLM-5.3 코딩플랜 월 요금이랑 사용량 한도 알려줘", "should_trigger": false}
+]

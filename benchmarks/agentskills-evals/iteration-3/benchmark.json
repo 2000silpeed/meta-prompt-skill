@@ -1,0 +1,540 @@
+{
+  "run_summary": {
+    "with_skill": {
+      "pass_rate": {
+        "mean": 0.933,
+        "stddev": 0.092
+      },
+      "time_seconds": {
+        "mean": 35.588,
+        "stddev": 20.333
+      },
+      "tokens": {
+        "mean": 218874.067,
+        "stddev": 93444.694
+      },
+      "cost_usd": {
+        "mean": 0.263,
+        "stddev": 0.083
+      }
+    },
+    "without_skill": {
+      "pass_rate": {
+        "mean": 0.778,
+        "stddev": 0.196
+      },
+      "time_seconds": {
+        "mean": 29.813,
+        "stddev": 18.884
+      },
+      "tokens": {
+        "mean": 47806.467,
+        "stddev": 14908.221
+      },
+      "cost_usd": {
+        "mean": 0.125,
+        "stddev": 0.036
+      }
+    },
+    "delta": {
+      "pass_rate": 0.155,
+      "time_seconds": 5.775,
+      "tokens": 171067.6,
+      "cost_usd": 0.138
+    }
+  },
+  "per_eval": {
+    "eval-claude-long-refactor": {
+      "with_skill": [
+        {
+          "run": "run-1",
+          "pass": "7/9",
+          "skill_triggered": true,
+          "failed": [
+            "응답 해설이 원 요청에서 부족했던 점(모호함·측정 기준 부재·맥락 부족 등)을 짚고 무엇을 보강했는지 연결해 설명한다",
+            "프롬프트가 사용자가 말하지 않은 저장소·조직 사실(병행 개발 여부, 언어·도구 등)을 사실처럼 단정하지 않고, 확인 지시나 자리표시자로 다룬다"
+          ]
+        },
+        {
+          "run": "run-2",
+          "pass": "7/9",
+          "skill_triggered": true,
+          "failed": [
+            "응답 해설이 원 요청에서 부족했던 점(모호함·측정 기준 부재·맥락 부족 등)을 짚고 무엇을 보강했는지 연결해 설명한다",
+            "프롬프트가 사용자가 말하지 않은 저장소·조직 사실(병행 개발 여부, 언어·도구 등)을 사실처럼 단정하지 않고, 확인 지시나 자리표시자로 다룬다"
+          ]
+        },
+        {
+          "run": "run-3",
+          "pass": "8/9",
+          "skill_triggered": true,
+          "failed": [
+            "응답 해설이 원 요청에서 부족했던 점(모호함·측정 기준 부재·맥락 부족 등)을 짚고 무엇을 보강했는지 연결해 설명한다"
+          ]
+        }
+      ],
+      "without_skill": [
+        {
+          "run": "run-1",
+          "pass": "7/9",
+          "skill_triggered": false,
+          "failed": [
+            "프롬프트 본문과 분리해 Claude Opus 5.5 실행 설정(effort, thinking 등) 권고를 제시한다",
+            "응답 해설이 원 요청에서 부족했던 점(모호함·측정 기준 부재·맥락 부족 등)을 짚고 무엇을 보강했는지 연결해 설명한다"
+          ]
+        },
+        {
+          "run": "run-2",
+          "pass": "7/9",
+          "skill_triggered": false,
+          "failed": [
+            "프롬프트 본문과 분리해 Claude Opus 5.5 실행 설정(effort, thinking 등) 권고를 제시한다",
+            "응답 해설이 원 요청에서 부족했던 점(모호함·측정 기준 부재·맥락 부족 등)을 짚고 무엇을 보강했는지 연결해 설명한다"
+          ]
+        },
+        {
+          "run": "run-3",
+          "pass": "5/9",
+          "skill_triggered": false,
+          "failed": [
+            "최종 프롬프트가 복사해 쓸 수 있는 하나의 코드블록으로 제시된다",
+            "프롬프트 본문과 분리해 Claude Opus 5.5 실행 설정(effort, thinking 등) 권고를 제시한다",
+            "응답 해설이 원 요청에서 부족했던 점(모호함·측정 기준 부재·맥락 부족 등)을 짚고 무엇을 보강했는지 연결해 설명한다",
+            "프롬프트가 사용자가 말하지 않은 저장소·조직 사실(병행 개발 여부, 언어·도구 등)을 사실처럼 단정하지 않고, 확인 지시나 자리표시자로 다룬다"
+          ]
+        }
+      ],
+      "blind_comparison-without_skill-norefs": [
+        {
+          "preferred": "without_skill",
+          "scores": {
+            "with_skill": 7,
+            "without_skill": 8
+          }
+        },
+        {
+          "preferred": "without_skill",
+          "scores": {
+            "with_skill": 7,
+            "without_skill": 8
+          }
+        },
+        {
+          "preferred": "without_skill",
+          "scores": {
+            "with_skill": 7,
+            "without_skill": 8
+          }
+        }
+      ],
+      "blind_comparison-without_skill-refs": [
+        {
+          "preferred": "with_skill",
+          "scores": {
+            "with_skill": 9,
+            "without_skill": 7
+          }
+        },
+        {
+          "preferred": "with_skill",
+          "scores": {
+            "with_skill": 8,
+            "without_skill": 7
+          }
+        },
+        {
+          "preferred": "with_skill",
+          "scores": {
+            "with_skill": 9,
+            "without_skill": 7
+          }
+        }
+      ]
+    },
+    "eval-glm-stale-guidebook": {
+      "with_skill": [
+        {
+          "run": "run-1",
+          "pass": "8/9",
+          "skill_triggered": true,
+          "failed": [
+            "프롬프트가 실결제 API 호출이나 운영 데이터 접근·변경을 금지하거나 멈춤 조건으로 둔다"
+          ]
+        },
+        {
+          "run": "run-2",
+          "pass": "7/9",
+          "skill_triggered": true,
+          "failed": [
+            "프롬프트가 실결제 API 호출이나 운영 데이터 접근·변경을 금지하거나 멈춤 조건으로 둔다",
+            "프롬프트가 사용자가 말하지 않은 저장소·조직 사실(병행 개발 여부, 언어·도구 등)을 사실처럼 단정하지 않고, 확인 지시나 자리표시자로 다룬다"
+          ]
+        },
+        {
+          "run": "run-3",
+          "pass": "8/9",
+          "skill_triggered": true,
+          "failed": [
+            "프롬프트가 실결제 API 호출이나 운영 데이터 접근·변경을 금지하거나 멈춤 조건으로 둔다"
+          ]
+        }
+      ],
+      "without_skill": [
+        {
+          "run": "run-1",
+          "pass": "5/9",
+          "skill_triggered": false,
+          "failed": [
+            "프롬프트가 의도된 반올림 정책이 불명확하면 임의로 정하지 말고 보고하도록 한다",
+            "응답이 근거로 쓴 지침의 기준일이 30일 이상 지났음을 사용자가 이해할 수 있는 말로 알린다",
+            "프롬프트와 분리해 GLM-5.3/Coding Plan 실행 설정(모델 변형, reasoning effort, 엔드포인트 등) 권고를 제시한다",
+            "프롬프트가 commit/push 또는 기존 테스트 기대값 변경을 하지 말고 보고하도록(사람 결정으로) 명시한다"
+          ]
+        },
+        {
+          "run": "run-2",
+          "pass": "4/9",
+          "skill_triggered": false,
+          "failed": [
+            "프롬프트가 의도된 반올림 정책이 불명확하면 임의로 정하지 말고 보고하도록 한다",
+            "프롬프트가 실결제 API 호출이나 운영 데이터 접근·변경을 금지하거나 멈춤 조건으로 둔다",
+            "응답이 근거로 쓴 지침의 기준일이 30일 이상 지났음을 사용자가 이해할 수 있는 말로 알린다",
+            "프롬프트와 분리해 GLM-5.3/Coding Plan 실행 설정(모델 변형, reasoning effort, 엔드포인트 등) 권고를 제시한다",
+            "프롬프트가 commit/push 또는 기존 테스트 기대값 변경을 하지 말고 보고하도록(사람 결정으로) 명시한다"
+          ]
+        },
+        {
+          "run": "run-3",
+          "pass": "5/9",
+          "skill_triggered": false,
+          "failed": [
+            "프롬프트가 실결제 API 호출이나 운영 데이터 접근·변경을 금지하거나 멈춤 조건으로 둔다",
+            "응답이 근거로 쓴 지침의 기준일이 30일 이상 지났음을 사용자가 이해할 수 있는 말로 알린다",
+            "프롬프트와 분리해 GLM-5.3/Coding Plan 실행 설정(모델 변형, reasoning effort, 엔드포인트 등) 권고를 제시한다",
+            "프롬프트가 commit/push 또는 기존 테스트 기대값 변경을 하지 말고 보고하도록(사람 결정으로) 명시한다"
+          ]
+        }
+      ],
+      "blind_comparison-without_skill-norefs": [
+        {
+          "preferred": "without_skill",
+          "scores": {
+            "with_skill": 6,
+            "without_skill": 8
+          }
+        },
+        {
+          "preferred": "without_skill",
+          "scores": {
+            "with_skill": 7,
+            "without_skill": 8
+          }
+        },
+        {
+          "preferred": "without_skill",
+          "scores": {
+            "with_skill": 7,
+            "without_skill": 8
+          }
+        }
+      ],
+      "blind_comparison-without_skill-refs": [
+        {
+          "preferred": "without_skill",
+          "scores": {
+            "with_skill": 7,
+            "without_skill": 8
+          }
+        },
+        {
+          "preferred": "with_skill",
+          "scores": {
+            "with_skill": 9,
+            "without_skill": 8
+          }
+        },
+        {
+          "preferred": "with_skill",
+          "scores": {
+            "with_skill": 8,
+            "without_skill": 7
+          }
+        }
+      ]
+    },
+    "eval-nanobanana-background-edit": {
+      "with_skill": [
+        {
+          "run": "run-1",
+          "pass": "6/6",
+          "skill_triggered": true,
+          "failed": []
+        },
+        {
+          "run": "run-2",
+          "pass": "6/6",
+          "skill_triggered": true,
+          "failed": []
+        },
+        {
+          "run": "run-3",
+          "pass": "6/6",
+          "skill_triggered": true,
+          "failed": []
+        }
+      ],
+      "without_skill": [
+        {
+          "run": "run-1",
+          "pass": "5/6",
+          "skill_triggered": false,
+          "failed": [
+            "편집 프롬프트가 원본에서 정해지는 조명 방향·렌즈·화각을 새 값으로 고정하지 않는다(원본 기준 지시는 허용)"
+          ]
+        },
+        {
+          "run": "run-2",
+          "pass": "6/6",
+          "skill_triggered": false,
+          "failed": []
+        },
+        {
+          "run": "run-3",
+          "pass": "6/6",
+          "skill_triggered": false,
+          "failed": []
+        }
+      ],
+      "blind_comparison-without_skill-norefs": [
+        {
+          "preferred": "with_skill",
+          "scores": {
+            "with_skill": 9,
+            "without_skill": 7
+          }
+        },
+        {
+          "preferred": "with_skill",
+          "scores": {
+            "without_skill": 7,
+            "with_skill": 8
+          }
+        },
+        {
+          "preferred": "without_skill",
+          "scores": {
+            "without_skill": 8,
+            "with_skill": 6
+          }
+        }
+      ],
+      "blind_comparison-without_skill-refs": [
+        {
+          "preferred": "with_skill",
+          "scores": {
+            "with_skill": 9,
+            "without_skill": 7
+          }
+        },
+        {
+          "preferred": "with_skill",
+          "scores": {
+            "without_skill": 7,
+            "with_skill": 8
+          }
+        },
+        {
+          "preferred": "without_skill",
+          "scores": {
+            "without_skill": 8,
+            "with_skill": 7
+          }
+        }
+      ]
+    },
+    "eval-unregistered-model-fallback": {
+      "with_skill": [
+        {
+          "run": "run-1",
+          "pass": "6/6",
+          "skill_triggered": true,
+          "failed": []
+        },
+        {
+          "run": "run-2",
+          "pass": "6/6",
+          "skill_triggered": true,
+          "failed": []
+        },
+        {
+          "run": "run-3",
+          "pass": "6/6",
+          "skill_triggered": true,
+          "failed": []
+        }
+      ],
+      "without_skill": [
+        {
+          "run": "run-1",
+          "pass": "4/6",
+          "skill_triggered": false,
+          "failed": [
+            "응답이 Mistral 전용 프롬프트 가이드나 공식 근거 없이 작성되어 모델 고유 최적화가 반영되지 않았음을 명시한다",
+            "Mistral API 파라미터·기능·모델 ID를 언급할 때 공식 문서로 확인되지 않았음을 표시하고 단정하지 않는다"
+          ]
+        },
+        {
+          "run": "run-2",
+          "pass": "4/6",
+          "skill_triggered": false,
+          "failed": [
+            "응답이 Mistral 전용 프롬프트 가이드나 공식 근거 없이 작성되어 모델 고유 최적화가 반영되지 않았음을 명시한다",
+            "Mistral API 파라미터·기능·모델 ID를 언급할 때 공식 문서로 확인되지 않았음을 표시하고 단정하지 않는다"
+          ]
+        },
+        {
+          "run": "run-3",
+          "pass": "5/6",
+          "skill_triggered": false,
+          "failed": [
+            "Mistral API 파라미터·기능·모델 ID를 언급할 때 공식 문서로 확인되지 않았음을 표시하고 단정하지 않는다"
+          ]
+        }
+      ],
+      "blind_comparison-without_skill-norefs": [
+        {
+          "preferred": "without_skill",
+          "scores": {
+            "with_skill": 7,
+            "without_skill": 8
+          }
+        },
+        {
+          "preferred": "with_skill",
+          "scores": {
+            "with_skill": 8,
+            "without_skill": 7
+          }
+        },
+        {
+          "preferred": "without_skill",
+          "scores": {
+            "with_skill": 7,
+            "without_skill": 9
+          }
+        }
+      ],
+      "blind_comparison-without_skill-refs": [
+        {
+          "preferred": "without_skill",
+          "scores": {
+            "with_skill": 7,
+            "without_skill": 8
+          }
+        },
+        {
+          "preferred": "without_skill",
+          "scores": {
+            "with_skill": 7,
+            "without_skill": 8
+          }
+        },
+        {
+          "preferred": "without_skill",
+          "scores": {
+            "with_skill": 7,
+            "without_skill": 8
+          }
+        }
+      ]
+    },
+    "eval-vague-no-target": {
+      "with_skill": [
+        {
+          "run": "run-1",
+          "pass": "4/4",
+          "skill_triggered": true,
+          "failed": []
+        },
+        {
+          "run": "run-2",
+          "pass": "4/4",
+          "skill_triggered": true,
+          "failed": []
+        },
+        {
+          "run": "run-3",
+          "pass": "4/4",
+          "skill_triggered": false,
+          "failed": []
+        }
+      ],
+      "without_skill": [
+        {
+          "run": "run-1",
+          "pass": "4/4",
+          "skill_triggered": false,
+          "failed": []
+        },
+        {
+          "run": "run-2",
+          "pass": "4/4",
+          "skill_triggered": false,
+          "failed": []
+        },
+        {
+          "run": "run-3",
+          "pass": "4/4",
+          "skill_triggered": false,
+          "failed": []
+        }
+      ],
+      "blind_comparison-without_skill-norefs": [
+        {
+          "preferred": "without_skill",
+          "scores": {
+            "without_skill": 8,
+            "with_skill": 7
+          }
+        },
+        {
+          "preferred": "with_skill",
+          "scores": {
+            "with_skill": 8,
+            "without_skill": 7
+          }
+        },
+        {
+          "preferred": "without_skill",
+          "scores": {
+            "without_skill": 8,
+            "with_skill": 7
+          }
+        }
+      ],
+      "blind_comparison-without_skill-refs": [
+        {
+          "preferred": "with_skill",
+          "scores": {
+            "without_skill": 7,
+            "with_skill": 8
+          }
+        },
+        {
+          "preferred": "with_skill",
+          "scores": {
+            "with_skill": 8,
+            "without_skill": 7
+          }
+        },
+        {
+          "preferred": "with_skill",
+          "scores": {
+            "without_skill": 7,
+            "with_skill": 8
+          }
+        }
+      ]
+    }
+  }
+}

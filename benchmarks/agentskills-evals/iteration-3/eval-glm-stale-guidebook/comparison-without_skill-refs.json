@@ -1,0 +1,74 @@
+[
+  {
+    "score_A": 7,
+    "score_B": 8,
+    "preferred": "B",
+    "rationale": "두 응답 모두 목표·환경·범위·검증·완료 조건·보고 형식을 갖춘 에이전트형 프롬프트를 제공하며, 기존 테스트 기대값 수정·DB 스키마·PG 연동·반올림 정책 결정은 보고만 하도록 경계를 잘 그었습니다. A의 실행 설정(glm-5.3 선택, reasoning_effort 기본 max, Coding Plan의 preserved thinking 기본)은 공식 자료와 일치하지만, 'Java의 기본값은 HALF_EVEN'이라는 서술은 부정확합니다(BigDecimal.setScale에는 기본 모드가 없고 Math.round는 HALF_UP). 또 'Z.ai 공식 문서 2026-09 기준'이라고 했지만, 2026-10-27에 확인된 Coding Plan의 OpenAI Chat Completion 프로토콜 제한은 언급하지 않았습니다. B는 조사→재현→원인 확정→수정→검증의 단계 구분, 속성 기반 테스트, 배분 시 나머지 처리, 잔존 위험 보고까지 포함해 실무 완성도가 조금 더 높고 사실 오류가 없어 근소하게 우세합니다.",
+    "mapping": {
+      "A": "with_skill",
+      "B": "without_skill"
+    },
+    "runs": {
+      "with_skill": "run-1",
+      "without_skill": "run-1"
+    },
+    "references": [
+      "guidebooks/z-ai-glm/cards/glm-5.3-availability.yaml",
+      "guidebooks/z-ai-glm/cards/agentic-engineering.yaml",
+      "guidebooks/z-ai-glm/cards/thinking-and-tools.yaml"
+    ],
+    "preferred_config": "without_skill",
+    "scores": {
+      "with_skill": 7,
+      "without_skill": 8
+    }
+  },
+  {
+    "score_A": 9,
+    "score_B": 8,
+    "preferred": "A",
+    "rationale": "두 프롬프트 모두 목표, 탐색, 재현, 수정, 검증, 보고 흐름을 갖췄고, 흔한 원인과 경계값 목록도 구체적이고 정확합니다(Python round의 half-even, Decimal(1.005)의 정밀도 손실 등). A는 반올림 정책 근거가 없거나 충돌하면 멈추고 보고하게 했고, 기대값 수정이나 commit/push 같은 승인 지점도 명확히 나눴습니다. 덧붙인 Coding Plan 설정(reasoning_effort 기본 max, preserved thinking 기본 활성)도 참고 자료와 일치합니다. B는 '동작이 바뀌는 지점' 보고 항목이 실용적이지만, 근거가 없을 때 '가장 많이 쓰인 동작 유지'로 진행하게 해 정책 판단을 모델에 맡기는 위험이 남고, 1M 컨텍스트 모델에 대해 '컨텍스트가 짧게 끊기면'이라는 근거 없는 팁을 덧붙였습니다.",
+    "mapping": {
+      "A": "with_skill",
+      "B": "without_skill"
+    },
+    "runs": {
+      "with_skill": "run-2",
+      "without_skill": "run-2"
+    },
+    "references": [
+      "guidebooks/z-ai-glm/cards/glm-5.3-availability.yaml",
+      "guidebooks/z-ai-glm/cards/agentic-engineering.yaml",
+      "guidebooks/z-ai-glm/cards/thinking-and-tools.yaml"
+    ],
+    "preferred_config": "with_skill",
+    "scores": {
+      "with_skill": 9,
+      "without_skill": 8
+    }
+  },
+  {
+    "score_A": 8,
+    "score_B": 7,
+    "preferred": "A",
+    "rationale": "두 프롬프트 모두 재현 테스트 선작성, float와 반올림 방식의 의심 지점, 정책·스키마·PG 변경 금지, 보고 형식을 갖춰 바로 쓸 수 있는 수준입니다. A는 측정 가능한 완료 조건, 테스트 명령 칸, Decimal(float) 변환 함정을 추가로 담았습니다. A의 실행 설정도 자료와 일치합니다(glm-5.3 선택, reasoning_effort 기본 max, 코딩플랜 구독 이력 계정은 OpenAI Chat 호환 엔드포인트로만 접근). B는 사실 오류는 없지만 '실행 방식' 안내 문장이 앞뒤가 모순되고, 완료 조건과 테스트 명령 명시가 A보다 약해 A를 근소하게 선호합니다.",
+    "mapping": {
+      "A": "with_skill",
+      "B": "without_skill"
+    },
+    "runs": {
+      "with_skill": "run-3",
+      "without_skill": "run-3"
+    },
+    "references": [
+      "guidebooks/z-ai-glm/cards/glm-5.3-availability.yaml",
+      "guidebooks/z-ai-glm/cards/agentic-engineering.yaml",
+      "guidebooks/z-ai-glm/cards/thinking-and-tools.yaml"
+    ],
+    "preferred_config": "with_skill",
+    "scores": {
+      "with_skill": 8,
+      "without_skill": 7
+    }
+  }
+]

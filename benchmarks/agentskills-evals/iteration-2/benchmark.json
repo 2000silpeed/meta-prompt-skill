@@ -12,6 +12,10 @@
       "tokens": {
         "mean": 199989,
         "stddev": 65780.803
+      },
+      "cost_usd": {
+        "mean": 0.247,
+        "stddev": 0.07
       }
     },
     "old_skill": {
@@ -26,17 +30,23 @@
       "tokens": {
         "mean": 245055.6,
         "stddev": 106477.746
+      },
+      "cost_usd": {
+        "mean": 0.282,
+        "stddev": 0.08
       }
     },
     "delta": {
       "pass_rate": 0.156,
       "time_seconds": -8.978,
-      "tokens": -45066.6
+      "tokens": -45066.6,
+      "cost_usd": -0.035
     }
   },
   "per_eval": {
     "eval-claude-long-refactor": {
       "with_skill": {
+        "run": "with_skill",
         "pass": "7/8",
         "skill_triggered": true,
         "failed": [
@@ -44,6 +54,7 @@
         ]
       },
       "old_skill": {
+        "run": "old_skill",
         "pass": "6/8",
         "skill_triggered": true,
         "failed": [
@@ -51,28 +62,34 @@
           "응답이 사용자가 알 수 없는 도구 내부 용어(가이드북, 카드, 슬롯, registry, /meta-prompt 서브커맨드 등)를 노출하지 않는다"
         ]
       },
-      "blind_comparison-old_skill": {
-        "preferred": "with_skill",
-        "scores": {
-          "old_skill": 7,
-          "with_skill": 8
+      "blind_comparison-old_skill": [
+        {
+          "preferred": "with_skill",
+          "scores": {
+            "old_skill": 7,
+            "with_skill": 8
+          }
         }
-      },
-      "blind_comparison-without_skill_iter1": {
-        "preferred": "without_skill_iter1",
-        "scores": {
-          "without_skill_iter1": 8,
-          "with_skill": 7
+      ],
+      "blind_comparison-without_skill_iter1": [
+        {
+          "preferred": "without_skill_iter1",
+          "scores": {
+            "without_skill_iter1": 8,
+            "with_skill": 7
+          }
         }
-      }
+      ]
     },
     "eval-glm-stale-guidebook": {
       "with_skill": {
+        "run": "with_skill",
         "pass": "7/7",
         "skill_triggered": true,
         "failed": []
       },
       "old_skill": {
+        "run": "old_skill",
         "pass": "5/7",
         "skill_triggered": true,
         "failed": [
@@ -80,102 +97,124 @@
           "응답이 사용자가 알 수 없는 도구 내부 용어(가이드북, 카드, 슬롯, registry, /meta-prompt 서브커맨드 등)를 노출하지 않는다"
         ]
       },
-      "blind_comparison-old_skill": {
-        "preferred": "with_skill",
-        "scores": {
-          "with_skill": 8,
-          "old_skill": 7
+      "blind_comparison-old_skill": [
+        {
+          "preferred": "with_skill",
+          "scores": {
+            "with_skill": 8,
+            "old_skill": 7
+          }
         }
-      },
-      "blind_comparison-without_skill_iter1": {
-        "preferred": "without_skill_iter1",
-        "scores": {
-          "with_skill": 6,
-          "without_skill_iter1": 8
+      ],
+      "blind_comparison-without_skill_iter1": [
+        {
+          "preferred": "without_skill_iter1",
+          "scores": {
+            "with_skill": 6,
+            "without_skill_iter1": 8
+          }
         }
-      }
+      ]
     },
     "eval-nanobanana-background-edit": {
       "with_skill": {
+        "run": "with_skill",
         "pass": "5/5",
         "skill_triggered": true,
         "failed": []
       },
       "old_skill": {
+        "run": "old_skill",
         "pass": "4/5",
         "skill_triggered": true,
         "failed": [
           "'프롬프트만 줘' 요청에 맞게 프롬프트 코드블록 밖의 텍스트가 없거나 2문장 이하다"
         ]
       },
-      "blind_comparison-old_skill": {
-        "preferred": "with_skill",
-        "scores": {
-          "with_skill": 8,
-          "old_skill": 5
+      "blind_comparison-old_skill": [
+        {
+          "preferred": "with_skill",
+          "scores": {
+            "with_skill": 8,
+            "old_skill": 5
+          }
         }
-      },
-      "blind_comparison-without_skill_iter1": {
-        "preferred": "without_skill_iter1",
-        "scores": {
-          "with_skill": 7,
-          "without_skill_iter1": 8
+      ],
+      "blind_comparison-without_skill_iter1": [
+        {
+          "preferred": "without_skill_iter1",
+          "scores": {
+            "with_skill": 7,
+            "without_skill_iter1": 8
+          }
         }
-      }
+      ]
     },
     "eval-unregistered-model-fallback": {
       "with_skill": {
+        "run": "with_skill",
         "pass": "6/6",
         "skill_triggered": true,
         "failed": []
       },
       "old_skill": {
+        "run": "old_skill",
         "pass": "5/6",
         "skill_triggered": true,
         "failed": [
           "응답이 사용자가 알 수 없는 도구 내부 용어(가이드북, 카드, 슬롯, registry, /meta-prompt 서브커맨드 등)를 노출하지 않는다"
         ]
       },
-      "blind_comparison-old_skill": {
-        "preferred": "with_skill",
-        "scores": {
-          "with_skill": 8,
-          "old_skill": 6
+      "blind_comparison-old_skill": [
+        {
+          "preferred": "with_skill",
+          "scores": {
+            "with_skill": 8,
+            "old_skill": 6
+          }
         }
-      },
-      "blind_comparison-without_skill_iter1": {
-        "preferred": "without_skill_iter1",
-        "scores": {
-          "with_skill": 7,
-          "without_skill_iter1": 8
+      ],
+      "blind_comparison-without_skill_iter1": [
+        {
+          "preferred": "without_skill_iter1",
+          "scores": {
+            "with_skill": 7,
+            "without_skill_iter1": 8
+          }
         }
-      }
+      ]
     },
     "eval-vague-no-target": {
       "with_skill": {
+        "run": "with_skill",
         "pass": "4/4",
         "skill_triggered": true,
         "failed": []
       },
       "old_skill": {
+        "run": "old_skill",
         "pass": "4/4",
         "skill_triggered": true,
         "failed": []
       },
-      "blind_comparison-old_skill": {
-        "preferred": "with_skill",
-        "scores": {
-          "old_skill": 7,
-          "with_skill": 8
+      "blind_comparison-old_skill": [
+        {
+          "preferred": "with_skill",
+          "scores": {
+            "old_skill": 7,
+            "with_skill": 8
+          }
         }
-      },
-      "blind_comparison-without_skill_iter1": {
-        "preferred": "with_skill",
-        "scores": {
-          "without_skill_iter1": 7,
-          "with_skill": 8
+      ],
+      "blind_comparison-without_skill_iter1": [
+        {
+          "preferred": "with_skill",
+          "scores": {
+            "without_skill_iter1": 7,
+            "with_skill": 8
+          }
         }
-      }
+      ]
     }
   }
 }

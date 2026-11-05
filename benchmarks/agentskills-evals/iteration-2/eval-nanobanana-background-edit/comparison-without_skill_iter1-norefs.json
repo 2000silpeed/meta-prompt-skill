@@ -1,0 +1,11 @@
+{
+  "score_A": 7,
+  "score_B": 8,
+  "preferred": "B",
+  "rationale": "두 응답 모두 요청대로 프롬프트만 제공하고, 병 형태와 '제주 감귤 에이드' 라벨 보존 및 여름 해변 배경을 충실히 담았다. B는 'redraw, retype, translate, blur'를 금지하고 반사광이 라벨을 가리거나 왜곡하지 않도록 명시해, 핵심 제약인 텍스트 보존을 더 견고하게 지킨다. A는 광원 방향(좌상단)과 85mm f/2.8 같은 임의의 세부를 고정해 원본 조명과 충돌할 여지가 있다. 반면 B는 '조명 방향에 맞춘 그림자'처럼 유연하게 지시해 실사용 안정성이 조금 더 높다.",
+  "mapping": {
+    "A": "with_skill",
+    "B": "without_skill_iter1"
+  },
+  "preferred_config": "without_skill_iter1"
+}

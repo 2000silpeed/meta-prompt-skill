@@ -1,0 +1,62 @@
+[
+  {
+    "score_A": 8,
+    "score_B": 7,
+    "preferred": "A",
+    "rationale": "요청이 모호해서 둘 다 정보를 되묻는데, 이것 자체는 적절하다. A는 질문에 더해 바로 채워 쓸 수 있는 프롬프트 템플릿과 타당한 작성 요령(이유 명시, 다양한 예시)을 준다. 그래서 사용자가 답하지 않아도 당장 쓸 결과물이 생긴다. B는 간결하고 질문 부담이 적으며 '나머지는 가정하고 명시하겠다'는 제안이 좋지만, 지금 당장 얻는 것이 없다. A는 다소 길지만 추가된 내용이 대부분 실용적이라 불필요한 장황함으로 보기는 어렵다.",
+    "mapping": {
+      "A": "without_skill",
+      "B": "with_skill"
+    },
+    "runs": {
+      "with_skill": "run-1",
+      "without_skill": "run-1"
+    },
+    "references": [],
+    "preferred_config": "without_skill",
+    "scores": {
+      "without_skill": 8,
+      "with_skill": 7
+    }
+  },
+  {
+    "score_A": 8,
+    "score_B": 7,
+    "preferred": "A",
+    "rationale": "두 응답 모두 요청 내용이 없는 상황에서 추측하지 않고 필요한 정보를 되묻는다는 점에서 적절하다. A는 필수 질문을 두 개로 줄이고, 모르면 '상관없음'으로 진행할 수 있는 선택지를 줘서 사용자 부담이 적다. B는 예시 문장과 결과물 구성(역할·맥락·지시 등)을 제시해 유용하다. 다만 '작업 폴더가 비어 있다'는 확인 근거가 드러나지 않는 단정을 포함하고, 질문 항목도 더 많아 약간 장황하다.",
+    "mapping": {
+      "A": "with_skill",
+      "B": "without_skill"
+    },
+    "runs": {
+      "with_skill": "run-2",
+      "without_skill": "run-2"
+    },
+    "references": [],
+    "preferred_config": "with_skill",
+    "scores": {
+      "with_skill": 8,
+      "without_skill": 7
+    }
+  },
+  {
+    "score_A": 8,
+    "score_B": 7,
+    "preferred": "A",
+    "rationale": "두 응답 모두 정보가 없는 요청에 대해 추측하지 않고 필요한 정보를 되묻는 적절한 방식을 택했습니다. A는 질문 5개를 명확히 정리하고, 1·2번만 답하거나 기존 프롬프트만 붙여도 된다고 해 사용자 부담을 줄였으며, 기존 프롬프트의 문제점까지 묻는 점이 실용적입니다. B는 바로 따라 쓸 수 있는 요청 예시가 좋습니다. 다만 모델·도구 이름을 길게 나열한 부분은 판단에 별 도움이 안 되는 장황함이고, '해당 모델의 가이드에 맞춰 최적화'라는 약속은 근거가 약해 다소 과장되어 보입니다.",
+    "mapping": {
+      "A": "without_skill",
+      "B": "with_skill"
+    },
+    "runs": {
+      "with_skill": "run-3",
+      "without_skill": "run-3"
+    },
+    "references": [],
+    "preferred_config": "without_skill",
+    "scores": {
+      "without_skill": 8,
+      "with_skill": 7
+    }
+  }
+]

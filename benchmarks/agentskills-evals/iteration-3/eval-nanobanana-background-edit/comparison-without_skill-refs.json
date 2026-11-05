@@ -1,0 +1,74 @@
+[
+  {
+    "score_A": 9,
+    "score_B": 7,
+    "preferred": "A",
+    "rationale": "두 프롬프트 모두 편집 대상(배경)만 지목하고, 유지할 요소(병 형태, '제주 감귤 에이드' 문구)를 따옴표로 명시해 편집·텍스트 렌더링 원칙을 잘 따른다. A는 제품의 위치, 크기, 카메라 각도, 프레이밍을 원본대로 고정하고 조명을 기존 병의 빛에 맞추도록 지시해 '배경만 변경'이라는 의도에 더 충실하다. B는 'sand or wooden surface'처럼 선택지를 열어 두어 모호하고, 병 배치를 바꾸거나 유리에 새 반사를 추가하라고 해 원본 보존 제약과 충돌할 여지가 있다. B는 또한 보존 지시를 반복해 다소 장황하다.",
+    "mapping": {
+      "A": "with_skill",
+      "B": "without_skill"
+    },
+    "runs": {
+      "with_skill": "run-1",
+      "without_skill": "run-1"
+    },
+    "references": [
+      "guidebooks/google-nano-banana/cards/editing-and-references.yaml",
+      "guidebooks/google-nano-banana/cards/text-rendering.yaml",
+      "guidebooks/google-nano-banana/cards/photography-direction.yaml"
+    ],
+    "preferred_config": "with_skill",
+    "scores": {
+      "with_skill": 9,
+      "without_skill": 7
+    }
+  },
+  {
+    "score_A": 7,
+    "score_B": 8,
+    "preferred": "B",
+    "rationale": "두 응답 모두 따옴표로 '제주 감귤 에이드'를 고정하고, 유지할 요소와 바꿀 요소를 분리하는 편집 원칙을 잘 따른다. A는 '모래 또는 나무 표면', 'Optional' 소품(감귤 조각·얼음)처럼 선택지를 프롬프트에 그대로 남겨 모델 해석을 모호하게 하고, 요청에 없던 요소를 추가할 여지를 만든다. B는 조명 방향과 그림자 일치, 반사·프레이밍 유지까지 명확한 단일 지시로 구성되어 더 깔끔하다. 다만 B는 '프롬프트만 줘'라는 요청과 달리 후속 수정 안내 한 줄을 덧붙였다. 이 안내는 유용하지만 형식 제약을 약간 어긴 것이다.",
+    "mapping": {
+      "A": "without_skill",
+      "B": "with_skill"
+    },
+    "runs": {
+      "with_skill": "run-2",
+      "without_skill": "run-2"
+    },
+    "references": [
+      "guidebooks/google-nano-banana/cards/editing-and-references.yaml",
+      "guidebooks/google-nano-banana/cards/text-rendering.yaml",
+      "guidebooks/google-nano-banana/cards/photography-direction.yaml"
+    ],
+    "preferred_config": "with_skill",
+    "scores": {
+      "without_skill": 7,
+      "with_skill": 8
+    }
+  },
+  {
+    "score_A": 8,
+    "score_B": 7,
+    "preferred": "A",
+    "rationale": "두 응답 모두 바꿀 것(배경)과 지킬 것(병 형태, 따옴표로 감싼 '제주 감귤 에이드' 문구)을 명확히 나눠 편집 프롬프트의 핵심을 잘 지켰다. A는 사용자의 '프롬프트만 줘' 제약을 그대로 따랐고, 조명·심도·소품 배치까지 구조적으로 정리해 바로 쓸 수 있다. 다만 '고해상도' 같은 비사진적 수식어가 일부 들어 있다. B는 원본 조명 방향에 맞추라는 지시와 가장자리 블렌딩 지시가 좋지만, 프롬프트 뒤에 요청하지 않은 설명을 붙였고 그 문장('먼저 바뀌어야 할 수 있습니다')도 어색해 제약 충실도와 완성도가 조금 떨어진다.",
+    "mapping": {
+      "A": "without_skill",
+      "B": "with_skill"
+    },
+    "runs": {
+      "with_skill": "run-3",
+      "without_skill": "run-3"
+    },
+    "references": [
+      "guidebooks/google-nano-banana/cards/editing-and-references.yaml",
+      "guidebooks/google-nano-banana/cards/text-rendering.yaml",
+      "guidebooks/google-nano-banana/cards/photography-direction.yaml"
+    ],
+    "preferred_config": "without_skill",
+    "scores": {
+      "without_skill": 8,
+      "with_skill": 7
+    }
+  }
+]

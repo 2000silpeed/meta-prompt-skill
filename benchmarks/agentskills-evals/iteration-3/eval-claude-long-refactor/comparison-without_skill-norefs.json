@@ -1,0 +1,62 @@
+[
+  {
+    "score_A": 7,
+    "score_B": 8,
+    "preferred": "B",
+    "rationale": "A는 간결하면서도 Express 에러 핸들러의 인자 개수 함정, CJS/ESM `export default` 상호운용, 중단 규칙과 완료 조건을 구체적으로 담아 실무에 바로 쓰기 좋습니다. 그러나 끝부분의 '실행 설정'은 thinking을 끄면 400 오류가 난다, effort 기본값이 medium이다 같은 API 동작을 '공식 문서 기준'이라며 단정하는데, 확인할 근거가 없고 틀렸을 경우 사용자를 오도할 수 있습니다. B는 더 길지만 원칙마다 이유를 달았고, strict 단계적 강화, 외부 입력의 unknown 처리, 배포 영향 변경의 별도 PR 분리, '보류하고 계속 진행' 같은 판단 기준이 탄탄하며 근거 없는 단정이 없습니다. B에는 에러 핸들러 arity 함정이 빠져 있지만, 전반적인 정확성과 신뢰도에서 B가 약간 낫습니다.",
+    "mapping": {
+      "A": "with_skill",
+      "B": "without_skill"
+    },
+    "runs": {
+      "with_skill": "run-1",
+      "without_skill": "run-1"
+    },
+    "references": [],
+    "preferred_config": "without_skill",
+    "scores": {
+      "with_skill": 7,
+      "without_skill": 8
+    }
+  },
+  {
+    "score_A": 7,
+    "score_B": 8,
+    "preferred": "B",
+    "rationale": "A는 Express 에러 핸들러의 인자 4개 문제, CJS/ESM default interop, jest.mock 불일치처럼 구체적인 함정을 잘 짚었고 금지 범위도 보수적으로 명확하다. 다만 tool_choice·thinking 거부, effort 기본값 같은 API 동작을 '공식 문서 기준'이라며 검증 근거 없이 단정했다. 서두의 불필요한 문장이 있고, 빌드·실행 경로 전환 단계를 사실상 다루지 않는다. B는 빌드·실행 전환과 헬스체크 검증, Git/PR 규칙, 멈춤 조건, 세션별 보고 형식까지 갖춰 장기 무인 작업에 바로 쓰기 좋다. characterization 테스트 제안도 실질적이다. '1시간 안에' 같은 어색한 기준과 push/PR 허용 범위를 사용자가 확인해야 하는 점은 작은 흠이다.",
+    "mapping": {
+      "A": "with_skill",
+      "B": "without_skill"
+    },
+    "runs": {
+      "with_skill": "run-2",
+      "without_skill": "run-2"
+    },
+    "references": [],
+    "preferred_config": "without_skill",
+    "scores": {
+      "with_skill": 7,
+      "without_skill": 8
+    }
+  },
+  {
+    "score_A": 7,
+    "score_B": 8,
+    "preferred": "B",
+    "rationale": "A는 CommonJS export 상호운용, 4인자 에러 핸들러, jest 목 무력화처럼 Express에 특화된 함정을 짚어 실무 가치가 높습니다. 다만 'Anthropic 공식 문서(2026-10 기준)'를 내세워 effort 기본값과 400 오류를 단정하는데, 근거를 확인할 수 없어 사실 정확성 면에서 위험합니다. 사용자가 말하지 않은 '비대화형'을 전제했고, 사용자가 언급한 CI에 타입체크 단계를 넣는 일도 제안 diff로만 막아 두었습니다. B는 테스트를 계약으로 보는 원칙, 바로 쓸 수 있는 MIGRATION.md 템플릿, CI 타입체크 추가, 사람에게 물어야 하는 조건을 명확히 담고 근거 없는 단정이 없지만, Express 특유의 함정이 빠졌고 '30분' 기준과 참고 정보 중복은 다소 아쉽습니다.",
+    "mapping": {
+      "A": "with_skill",
+      "B": "without_skill"
+    },
+    "runs": {
+      "with_skill": "run-3",
+      "without_skill": "run-3"
+    },
+    "references": [],
+    "preferred_config": "without_skill",
+    "scores": {
+      "with_skill": 7,
+      "without_skill": 8
+    }
+  }
+]

@@ -1,0 +1,41 @@
+{
+  "assertion_results": [
+    {
+      "text": "응답이 프롬프트 전달에 그치고, 이미지를 생성·편집했다고 주장하거나 생성 도구를 호출하려 하지 않는다",
+      "passed": true,
+      "evidence": "응답 전체가 코드블록 하나뿐이다. 이미지를 만들었다거나 편집했다는 주장이 없고, 도구 호출 시도도 없다."
+    },
+    {
+      "text": "라벨 문구 '제주 감귤 에이드'가 프롬프트 안에 한 글자도 바뀌지 않고 원문 그대로 들어 있다",
+      "passed": true,
+      "evidence": "\"Its text '제주 감귤 에이드' must stay exactly as in the original\"에 한글 원문이 띄어쓰기까지 그대로 들어 있다."
+    },
+    {
+      "text": "프롬프트가 변경 대상(배경)과 보존 대상(병 형태, 라벨 문구)을 분리해 명시한다",
+      "passed": true,
+      "evidence": "첫 문단은 변경 대상만 다룬다(\"replace only the background with a bright summer beach scene\"). 둘째 문단은 보존 대상을 따로 적는다(\"Keep the glass bottle exactly as it is... same silhouette, proportions...\", \"Keep the label unchanged\")."
+    },
+    {
+      "text": "새 배경이 여름 해변으로 구체적으로(모래·바다·하늘·빛 등 2개 이상 요소) 묘사된다",
+      "passed": true,
+      "evidence": "\"soft white sand, clear turquoise sea with gentle waves, and a sunny blue sky with a few light clouds\"에 모래, 바다, 하늘, 구름 네 요소가 있다."
+    },
+    {
+      "text": "'프롬프트만 줘' 요청에 맞게 프롬프트 코드블록 밖의 텍스트가 없거나 2문장 이하다",
+      "passed": true,
+      "evidence": "코드블록 밖에 텍스트가 전혀 없다."
+    },
+    {
+      "text": "편집 프롬프트가 원본에서 정해지는 조명 방향·렌즈·화각을 새 값으로 고정하지 않는다(원본 기준 지시는 허용)",
+      "passed": true,
+      "evidence": "모두 원본을 기준으로 지시한다: \"Keep the product's position, scale, camera angle, and framing the same as in the original\", \"Match the beach lighting... to the light already on the bottle\", \"follows the original light direction\". 렌즈(mm)나 화각을 새 값으로 정한 부분은 없다. \"slightly out of focus\"는 배경 심도에 대한 지시일 뿐 렌즈나 화각을 고정하는 표현이 아니다."
+    }
+  ],
+  "assertion_feedback": "1번과 5번은 프롬프트만 출력한 응답이라면 쉽게 통과하므로 변별력이 낮다. 6번은 조명·화각을 원본 기준으로 두는지 가려내는 좋은 기준이다. 다만 배경 블러(심도) 지시가 렌즈 고정에 해당하는지 기준을 명확히 해 두면 좋겠다. 2번은 문구 일치 외에 '텍스트를 다시 그리지 말 것' 같은 재렌더링 방지 지시까지 요구하면 변별력이 더 높아진다.",
+  "summary": {
+    "passed": 6,
+    "failed": 0,
+    "total": 6,
+    "pass_rate": 1.0
+  }
+}

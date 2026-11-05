@@ -1,0 +1,41 @@
+{
+  "assertion_results": [
+    {
+      "text": "응답이 프롬프트 전달에 그치고, 이미지를 생성·편집했다고 주장하거나 생성 도구를 호출하려 하지 않는다",
+      "passed": true,
+      "evidence": "응답은 코드블록 안의 프롬프트와 재시도 팁 한 줄로만 이루어져 있다. '이미지를 만들었다', '편집했다' 같은 주장이나 도구 호출 시도가 없다."
+    },
+    {
+      "text": "라벨 문구 '제주 감귤 에이드'가 프롬프트 안에 한 글자도 바뀌지 않고 원문 그대로 들어 있다",
+      "passed": true,
+      "evidence": "프롬프트에 \"the Korean text '제주 감귤 에이드'\"가 원문 그대로 들어 있다. 띄어쓰기도 원문과 같다."
+    },
+    {
+      "text": "프롬프트가 변경 대상(배경)과 보존 대상(병 형태, 라벨 문구)을 분리해 명시한다",
+      "passed": true,
+      "evidence": "첫 문단은 변경 대상을 \"replace only the background with a bright summer beach scene\"로 정한다. 둘째 문단은 보존 대상을 별도로 적는다: \"Keep the glass bottle exactly as it is... Do not change its shape, silhouette...\", \"Keep the label unchanged too... '제주 감귤 에이드'. Every character... must stay identical\"."
+    },
+    {
+      "text": "새 배경이 여름 해변으로 구체적으로(모래·바다·하늘·빛 등 2개 이상 요소) 묘사된다",
+      "passed": true,
+      "evidence": "\"soft white sand, clear turquoise sea, gentle waves, and a sunny sky with a few light clouds\"에 모래, 바다, 파도, 하늘, 햇빛 요소가 모두 들어 있다."
+    },
+    {
+      "text": "'프롬프트만 줘' 요청에 맞게 프롬프트 코드블록 밖의 텍스트가 없거나 2문장 이하다",
+      "passed": true,
+      "evidence": "코드블록 밖 텍스트는 \"먼저 바뀌어야 할 수 있습니다: 결과에서 ... 한 번 더 고치게 하세요.\" 한 단락이다. 콜론으로 이어진 1~2문장이라 기준 이내다. 다만 앞부분 '먼저 바뀌어야 할 수 있습니다'는 문장이 어색하다."
+    },
+    {
+      "text": "편집 프롬프트가 원본에서 정해지는 조명 방향·렌즈·화각을 새 값으로 고정하지 않는다(원본 기준 지시는 허용)",
+      "passed": true,
+      "evidence": "\"Keep the bottle's position and the camera angle the same as in the original\"와 \"Match the new background's lighting to the original lighting direction\"는 모두 원본 기준 지시다. 렌즈나 화각을 새 값(예: 50mm, low angle)으로 고정하는 문구가 없다."
+    }
+  ],
+  "assertion_feedback": "1번은 텍스트만 있는 응답이면 거의 자동으로 PASS가 되므로 변별력이 낮다. 5번은 '2문장 이하'의 기준이 모호하다. 콜론으로 이어진 문장을 몇 문장으로 셀지 정해 두거나 글자 수 기준으로 바꾸면 좋겠다. 코드블록 밖 문장 자체가 어색한 문제('먼저 바뀌어야 할 수 있습니다')는 현재 어느 assertion에서도 잡히지 않는다. 덧붙이는 텍스트의 정확성과 자연스러움을 보는 assertion을 추가할 만하다.",
+  "summary": {
+    "passed": 6,
+    "failed": 0,
+    "total": 6,
+    "pass_rate": 1.0
+  }
+}

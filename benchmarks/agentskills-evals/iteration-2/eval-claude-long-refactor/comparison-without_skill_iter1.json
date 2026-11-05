@@ -1,11 +1,22 @@
 {
-  "score_A": 8,
+  "score_A": 9,
   "score_B": 7,
   "preferred": "A",
-  "rationale": "두 프롬프트 모두 단계 구성, 동작 보존, 테스트 불가침, MIGRATION.md를 통한 세션 간 인계, 멈춤 조건을 갖춰 바로 쓸 만합니다. B는 빌드 후 헬스체크, export 목록 비교, PR별 검증 결과 첨부 같은 검증 장치가 더 구체적이라는 장점이 있습니다. 다만 B는 'Anthropic 공식 문서, 2026-10 기준 Opus 5.5 effort 기본값은 medium' 같은 근거 없는 단정을 넣었고, 사용자가 말하지 않은 '기간 내내 기능 개발이 계속 merge된다'는 전제를 사실처럼 박았습니다. 또 기준선 실패를 허용하면서 목표에는 '120개 전부 통과'라고 써서 서로 어긋납니다. A는 '30분 이상' 같은 에이전트에 어색한 시간 기준이 흠이지만, 사실 정확성과 의도 충실도에서 더 안전해 근소하게 낫습니다.",
+  "rationale": "두 응답 모두 기준선 기록, 테스트 불가침, 동작 보존, MIGRATION.md 상태 파일, 리프부터의 변환 순서 같은 핵심 구조를 잘 갖췄습니다. A는 몇 가지 점에서 더 실용적입니다. 빌드한 서버를 띄워 헬스체크와 export 목록을 대조하는 검증 단계가 있고, 멈춤 조건을 '서로 다른 접근 3회'처럼 모델이 실제로 판단할 수 있는 기준으로 정했습니다. 이어가기 메시지도 바로 쓸 수 있게 제공합니다. 실행 설정 조언(effort 기본 medium, end_turn을 완료로 보지 않기, 자동 continuation 2~3회 제한)도 공식 자료와 일치합니다. B는 ESM 전환 위험, .env 보호, @ts-ignore 대신 @ts-expect-error 사용 같은 좋은 세부가 있지만, '30분 이상'처럼 모델이 측정하기 어려운 조건이 있고 무인 실행 설정 안내가 없으며 문장이 다소 장황합니다.",
   "mapping": {
-    "A": "without_skill_iter1",
-    "B": "with_skill"
+    "A": "with_skill",
+    "B": "without_skill_iter1"
   },
-  "preferred_config": "without_skill_iter1"
+  "runs": {
+    "with_skill": "with_skill",
+    "without_skill_iter1": "without_skill_iter1"
+  },
+  "references": [
+    "guidebooks/anthropic-claude/cards/opus-5-5-runtime.yaml"
+  ],
+  "preferred_config": "with_skill",
+  "scores": {
+    "with_skill": 9,
+    "without_skill_iter1": 7
+  }
 }

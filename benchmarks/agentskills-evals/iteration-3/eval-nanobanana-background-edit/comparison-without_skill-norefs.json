@@ -1,0 +1,62 @@
+[
+  {
+    "score_A": 9,
+    "score_B": 7,
+    "preferred": "A",
+    "rationale": "두 응답 모두 요청대로 프롬프트만 제공하며, 병 형태와 '제주 감귤 에이드' 텍스트 보존을 구체적으로 지시한다. A는 제품 위치·크기·각도까지 고정하고 새 소품 추가를 금지한다. 또 배경 조명을 병에 이미 있는 빛에 맞추도록 해 원본 보존이라는 핵심 제약과 일관된다. 반면 B는 반사를 그대로 유지하라고 한 뒤 다시 유리에 햇빛 반사를 추가하라고 해 지시가 서로 충돌한다. 또 '모래 또는 나무 표면'처럼 선택지를 열어두고 강한 정오 햇빛을 요구해, 모델이 제품 외관까지 손댈 여지를 남긴다.",
+    "mapping": {
+      "A": "with_skill",
+      "B": "without_skill"
+    },
+    "runs": {
+      "with_skill": "run-1",
+      "without_skill": "run-1"
+    },
+    "references": [],
+    "preferred_config": "with_skill",
+    "scores": {
+      "with_skill": 9,
+      "without_skill": 7
+    }
+  },
+  {
+    "score_A": 7,
+    "score_B": 8,
+    "preferred": "B",
+    "rationale": "두 응답 모두 병 형태와 '제주 감귤 에이드' 라벨 문구의 보존, 여름 해변 배경, 조명 방향과 그림자 일치를 잘 담았습니다. A는 감귤 조각·얼음 같은 'Optional' 소품과 '모래 또는 나무 표면' 같은 선택지를 넣어 '배경만 교체'라는 의도가 흐려지고 결과도 예측하기 어려워집니다. B는 반사·투명도 보존과 접촉 그림자를 포함해 지시가 더 일관되고 간결합니다. 다만 B는 '프롬프트만 줘'라는 요청과 달리 프롬프트 밖에 후속 수정 팁 한 줄을 덧붙였으나, 짧고 실용적이어서 감점은 작습니다.",
+    "mapping": {
+      "A": "without_skill",
+      "B": "with_skill"
+    },
+    "runs": {
+      "with_skill": "run-2",
+      "without_skill": "run-2"
+    },
+    "references": [],
+    "preferred_config": "with_skill",
+    "scores": {
+      "without_skill": 7,
+      "with_skill": 8
+    }
+  },
+  {
+    "score_A": 8,
+    "score_B": 6,
+    "preferred": "A",
+    "rationale": "A는 '프롬프트만 달라'는 요청대로 프롬프트 하나만 제시합니다. 병 형태와 라벨 글자 보존 조건을 구체적으로 명시했고, 해변 배경·조명·그림자·소품 제한까지 바로 쓸 수 있게 정리했습니다. B도 경계 블렌딩과 헤일로 방지, 조명 방향 일치 등 실용적인 지시가 좋습니다. 다만 요청을 어기고 프롬프트 밖에 부가 설명을 덧붙였고, 그 설명도 첫 문장이 어색해 완성도를 떨어뜨립니다.",
+    "mapping": {
+      "A": "without_skill",
+      "B": "with_skill"
+    },
+    "runs": {
+      "with_skill": "run-3",
+      "without_skill": "run-3"
+    },
+    "references": [],
+    "preferred_config": "without_skill",
+    "scores": {
+      "without_skill": 8,
+      "with_skill": 6
+    }
+  }
+]

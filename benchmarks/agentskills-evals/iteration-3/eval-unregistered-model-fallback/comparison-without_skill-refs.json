@@ -1,0 +1,62 @@
+[
+  {
+    "score_A": 7,
+    "score_B": 8,
+    "preferred": "B",
+    "rationale": "B가 의도 기반 판단 규칙(구매 전 환불 규정 문의 → other, 파손 후 재발송 요청 → shipping)과 다양한 경계 예시를 제공해 실제 분류 품질에 더 도움이 됩니다. 또 enum을 강제하는 JSON Schema, json_object 폴백, 파싱 실패 대비책까지 담아 JSON 결과를 받는 요구에 바로 쓸 수 있습니다. A는 Medium 4 지원 여부와 권장값을 확인하지 못했다고 명시해 근거 없는 단정을 피한 점이 좋습니다. 그러나 '돈을 돌려받는 문의'로 정의한 refund에 교환을 포함해 정의와 예시가 어긋납니다. B의 숫자형 confidence는 보정이 잘 안 된다는 약점이 있지만 전체 완성도와 실용성은 B가 앞섭니다.",
+    "mapping": {
+      "A": "with_skill",
+      "B": "without_skill"
+    },
+    "runs": {
+      "with_skill": "run-1",
+      "without_skill": "run-1"
+    },
+    "references": [],
+    "preferred_config": "without_skill",
+    "scores": {
+      "with_skill": 7,
+      "without_skill": 8
+    }
+  },
+  {
+    "score_A": 7,
+    "score_B": 8,
+    "preferred": "B",
+    "rationale": "Both responses give a usable system prompt covering category definitions, the refund-vs-shipping boundary rule, injection protection and a JSON format, so they fit the request about equally well. B's example set is more practical: four examples, including the 'shipping delay → payment cancellation' edge case. B also puts reason before category so the model reasons first, and it adds a rule for multilingual mail. A's needs_review flag and Python validation code are useful additions, but its separate sections on assumptions, additions and hedges make it a bit long. B also suggests a concrete validation step (checking accuracy on 50–100 real emails) and is tidier overall.",
+    "mapping": {
+      "A": "with_skill",
+      "B": "without_skill"
+    },
+    "runs": {
+      "with_skill": "run-2",
+      "without_skill": "run-2"
+    },
+    "references": [],
+    "preferred_config": "without_skill",
+    "scores": {
+      "with_skill": 7,
+      "without_skill": 8
+    }
+  },
+  {
+    "score_A": 7,
+    "score_B": 8,
+    "preferred": "B",
+    "rationale": "두 응답 모두 카테고리 정의, 혼합 주제 처리 규칙, 메일 내 지시문 무시, JSON 전용 출력, few-shot 예시를 갖춰 바로 쓸 수 있는 수준이다. B는 enum JSON 스키마, 파싱 실패 시 방어 처리, 실데이터 검증 방법을 더해 실제 운영에 더 가깝다. 예시도 파손 후 환불 요구나 빈 메일 같은 경계 사례를 다룬다. A는 첫 문장이 불필요하게 자기 한계를 앞세운다. 사용자가 요구하지 않은 한글 카테고리 값을 '요청하신 대로'라고 단정한 점과, 우선순위 규칙 1·2와 3이 다소 충돌하는 점도 감점 요인이다. B는 더 길지만 늘어난 분량이 대부분 실용적인 내용이고, Mistral 관련 주장에도 적절히 단서를 달았다.",
+    "mapping": {
+      "A": "with_skill",
+      "B": "without_skill"
+    },
+    "runs": {
+      "with_skill": "run-3",
+      "without_skill": "run-3"
+    },
+    "references": [],
+    "preferred_config": "without_skill",
+    "scores": {
+      "with_skill": 7,
+      "without_skill": 8
+    }
+  }
+]

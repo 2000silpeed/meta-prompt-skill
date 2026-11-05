@@ -1,0 +1,68 @@
+[
+  {
+    "score_A": 9,
+    "score_B": 7,
+    "preferred": "A",
+    "rationale": "A는 무인 장기 작업에 필요한 진행 기록 파일, 중단 조건, 완료 기준을 간결하게 담았습니다. Express 에러 핸들러 인자 개수 문제와 CJS/`export default` 상호운용 같은 실제 함정도 구체적으로 짚습니다. 실행 설정(claude-opus-5-5, effort 기본 medium, thinking 비활성화·budget_tokens 시 400, text-only end_turn을 완료로 보지 않고 continuation 2~3회 제한)도 공식 자료와 일치합니다. B는 원칙마다 이유를 달았고 strict 단계 분리와 외부 입력을 unknown으로 다루는 조언이 좋지만, 더 장황하고 모델 실행 설정이 없습니다. 또 PR·push 권한 범위가 모호하고, '모든 커밋 green'과 'git mv와 수정을 별도 커밋'처럼 서로 긴장하는 지시가 있어 바로 쓰기에는 A가 더 낫습니다.",
+    "mapping": {
+      "A": "with_skill",
+      "B": "without_skill"
+    },
+    "runs": {
+      "with_skill": "run-1",
+      "without_skill": "run-1"
+    },
+    "references": [
+      "guidebooks/anthropic-claude/cards/opus-5-5-runtime.yaml"
+    ],
+    "preferred_config": "with_skill",
+    "scores": {
+      "with_skill": 9,
+      "without_skill": 7
+    }
+  },
+  {
+    "score_A": 8,
+    "score_B": 7,
+    "preferred": "A",
+    "rationale": "A는 기준선 기록, 동작 보존 규칙, 진행 기록 파일, 금지 범위를 갖췄습니다. 여기에 에러 핸들러 인자 4개, `export =` 상호운용, jest.mock 같은 Express·TS 고유의 함정을 구체적으로 짚었습니다. 실행 설정(effort 기본 medium, thinking disabled·budget_tokens 거부, continuation 2~3회 제한)도 참고 자료와 일치합니다. 다만 tool_choice 'auto만'이라는 표현은 none도 허용된다는 점을 빠뜨렸고, 서두 문장은 불필요합니다. B도 구조가 탄탄하고 characterization 테스트 제안이 유용합니다. 그러나 push·PR 생성까지 기본으로 허용해 무인 작업치고 외부 영향 범위가 넓고, '1시간 안에' 같은 모호한 기준이 있으며, Opus 5.5 실행 설정 안내가 없어 바로 쓰기에는 A보다 약간 덜 완성적입니다.",
+    "mapping": {
+      "A": "with_skill",
+      "B": "without_skill"
+    },
+    "runs": {
+      "with_skill": "run-2",
+      "without_skill": "run-2"
+    },
+    "references": [
+      "guidebooks/anthropic-claude/cards/opus-5-5-runtime.yaml"
+    ],
+    "preferred_config": "with_skill",
+    "scores": {
+      "with_skill": 8,
+      "without_skill": 7
+    }
+  },
+  {
+    "score_A": 9,
+    "score_B": 7,
+    "preferred": "A",
+    "rationale": "A는 기준선 확보, 단위별 tsc·jest·커밋, 진행 파일, 3회 실패 시 보류 같은 장기 작업 장치를 갖췄습니다. 여기에 CommonJS export 호환, 인자 4개 에러 핸들러, jest 목 무력화처럼 Express 마이그레이션에서 실제로 깨지는 지점을 구체적으로 담았습니다. 실행 설정 설명(기본 effort medium, adaptive thinking만 허용하고 disabled·budget_tokens는 400, xhigh·max는 측정 후 사용, 자동 continuation은 2~3회 제한)도 참고 자료와 일치합니다. B도 '테스트가 계약' 원칙과 MIGRATION.md 상태 관리가 탄탄하지만, 코드 블록 안에 또 코드 펜스를 넣어 바로 붙여 넣기 어렵고 '30분' 같은 실행 환경에 맞지 않는 기준이 있으며, CI 워크플로 직접 수정과 PR 생성까지 맡겨 외부 영향이 있는 작업의 경계가 A보다 느슨합니다.",
+    "mapping": {
+      "A": "with_skill",
+      "B": "without_skill"
+    },
+    "runs": {
+      "with_skill": "run-3",
+      "without_skill": "run-3"
+    },
+    "references": [
+      "guidebooks/anthropic-claude/cards/opus-5-5-runtime.yaml"
+    ],
+    "preferred_config": "with_skill",
+    "scores": {
+      "with_skill": 9,
+      "without_skill": 7
+    }
+  }
+]

@@ -2,10 +2,23 @@
   "score_A": 7,
   "score_B": 8,
   "preferred": "B",
-  "rationale": "두 응답 모두 요청대로 프롬프트만 제공하고, 병 형태와 '제주 감귤 에이드' 라벨 보존 및 여름 해변 배경을 충실히 담았다. B는 'redraw, retype, translate, blur'를 금지하고 반사광이 라벨을 가리거나 왜곡하지 않도록 명시해, 핵심 제약인 텍스트 보존을 더 견고하게 지킨다. A는 광원 방향(좌상단)과 85mm f/2.8 같은 임의의 세부를 고정해 원본 조명과 충돌할 여지가 있다. 반면 B는 '조명 방향에 맞춘 그림자'처럼 유연하게 지시해 실사용 안정성이 조금 더 높다.",
+  "rationale": "두 응답 모두 의미적 마스킹 방식에 맞춰 바꿀 것(배경)과 지킬 것(병 형태, 라벨, 따옴표로 감싼 '제주 감귤 에이드')을 명시해, 프롬프트만 달라는 요청에 바로 쓸 수 있는 형태로 답했다. A는 85mm f/2.8 렌즈 지정과 컬러 그레이딩으로 사진 디렉션이 더 구체적이다. 반면 조명 방향을 근거 없이 'upper left'로 고정해 원본 조명과 어긋날 위험이 있고, 병을 바꾸지 말라면서 유리에 새 반사를 넣으라고 해 지시가 다소 충돌한다. B도 반사를 추가하라고 하지만 라벨을 가리거나 왜곡하지 말라는 단서를 달았다. 또 다시 그리기·다시 쓰기·번역·흐림을 명시적으로 금지해 텍스트 보존이라는 핵심 제약을 더 충실히 반영했다.",
   "mapping": {
     "A": "with_skill",
     "B": "without_skill_iter1"
   },
-  "preferred_config": "without_skill_iter1"
+  "runs": {
+    "with_skill": "with_skill",
+    "without_skill_iter1": "without_skill_iter1"
+  },
+  "references": [
+    "guidebooks/google-nano-banana/cards/editing-and-references.yaml",
+    "guidebooks/google-nano-banana/cards/text-rendering.yaml",
+    "guidebooks/google-nano-banana/cards/photography-direction.yaml"
+  ],
+  "preferred_config": "without_skill_iter1",
+  "scores": {
+    "with_skill": 7,
+    "without_skill_iter1": 8
+  }
 }

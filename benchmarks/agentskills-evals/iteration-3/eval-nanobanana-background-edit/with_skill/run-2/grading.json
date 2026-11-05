@@ -1,0 +1,41 @@
+{
+  "assertion_results": [
+    {
+      "text": "응답이 프롬프트 전달에 그치고, 이미지를 생성·편집했다고 주장하거나 생성 도구를 호출하려 하지 않는다",
+      "passed": true,
+      "evidence": "응답은 코드블록 프롬프트와 '결과에서 라벨 글자가 조금이라도 바뀌었다면 ... 한 번 더 요청하세요'라는 사용자 대상 안내 한 문장뿐이다. 이미지를 생성·편집했다는 주장이나 도구 호출 시도가 없다."
+    },
+    {
+      "text": "라벨 문구 '제주 감귤 에이드'가 프롬프트 안에 한 글자도 바뀌지 않고 원문 그대로 들어 있다",
+      "passed": true,
+      "evidence": "세 번째 문단에 \"the Korean text '제주 감귤 에이드' with the exact same characters\"가 있다. 띄어쓰기까지 원문과 동일하다."
+    },
+    {
+      "text": "프롬프트가 변경 대상(배경)과 보존 대상(병 형태, 라벨 문구)을 분리해 명시한다",
+      "passed": true,
+      "evidence": "문단이 대상별로 나뉘어 있다. 1문단은 'Replace only the background...'로 변경 대상을, 2문단은 'Keep the glass bottle exactly as it is... same shape, silhouette...'로 병 형태 보존을, 3문단은 'Keep the label unchanged... '제주 감귤 에이드''로 라벨 문구 보존을 지시한다."
+    },
+    {
+      "text": "새 배경이 여름 해변으로 구체적으로(모래·바다·하늘·빛 등 2개 이상 요소) 묘사된다",
+      "passed": true,
+      "evidence": "'soft white sand under the bottle, turquoise sea and gentle waves in the background, a clear blue sky, and soft natural sunlight'로 모래·바다·파도·하늘·햇빛 요소를 모두 묘사한다."
+    },
+    {
+      "text": "'프롬프트만 줘' 요청에 맞게 프롬프트 코드블록 밖의 텍스트가 없거나 2문장 이하다",
+      "passed": true,
+      "evidence": "코드블록 밖 텍스트는 '결과에서 라벨 글자가 조금이라도 바뀌었다면 ... 한 번 더 요청하세요.' 한 문장뿐이다."
+    },
+    {
+      "text": "편집 프롬프트가 원본에서 정해지는 조명 방향·렌즈·화각을 새 값으로 고정하지 않는다(원본 기준 지시는 허용)",
+      "passed": true,
+      "evidence": "조명은 'Match the light on the beach to the lighting direction already in the original photo'로 원본 기준을 따른다. 그림자도 'falls in that same direction'이다. 화각은 'Keep the original framing, camera angle, and aspect ratio'로 유지한다. 특정 방향, 렌즈 mm, 화각 수치를 새로 지정한 부분은 없다."
+    }
+  ],
+  "assertion_feedback": "1번과 2번은 대부분의 응답이 쉽게 통과할 수준이라 변별력이 낮다. 6번은 'background slightly out of focus'처럼 피사계 심도를 지시한 경우를 렌즈 고정으로 볼지 기준이 모호하다. 허용 범위를 명시하면 판정이 일관될 것이다.",
+  "summary": {
+    "passed": 6,
+    "failed": 0,
+    "total": 6,
+    "pass_rate": 1.0
+  }
+}

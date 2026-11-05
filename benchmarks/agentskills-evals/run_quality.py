@@ -50,10 +50,10 @@ def run(prompt: str, cwd: Path):
             "skills_invoked": skills, "files_read": reads, "exit": p.returncode}
 
 
-def job(ev, cfg, it_dir: Path, skill_src, run=None):
+def job(ev, cfg, it_dir: Path, skill_src, run_no=None):
     out = it_dir / f"eval-{ev['name']}" / cfg
-    if run:
-        out = out / f"run-{run}"
+    if run_no:
+        out = out / f"run-{run_no}"
     (out / "outputs").mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory(prefix=f"mp-{cfg}-") as sb:
         sb = Path(sb)
@@ -66,7 +66,7 @@ def job(ev, cfg, it_dir: Path, skill_src, run=None):
     (out / "run_meta.json").write_text(json.dumps(
         {"skills_invoked": r["skills_invoked"], "files_read": [f and f.split(".claude/skills/")[-1] for f in r["files_read"]],
          "exit": r["exit"]}, ensure_ascii=False, indent=2))
-    return ev["name"], cfg, run, r["timing"], r["skills_invoked"]
+    return ev["name"], cfg, run_no, r["timing"], r["skills_invoked"]
 
 
 if __name__ == "__main__":
@@ -84,9 +84,9 @@ if __name__ == "__main__":
     jobs = []
     with cf.ThreadPoolExecutor(4) as ex:
         for k in range(1, a.runs + 1):
-            run = k if a.runs > 1 else None
+            run_no = k if a.runs > 1 else None
             for e in evals:
-                jobs.append(ex.submit(job, e, "with_skill", it, a.skill_src, run))
-                jobs.append(ex.submit(job, e, a.baseline, it, a.old_skill_src if a.baseline == "old_skill" else None, run))
+                jobs.append(ex.submit(job, e, "with_skill", it, a.skill_src, run_no))
+                jobs.append(ex.submit(job, e, a.baseline, it, a.old_skill_src if a.baseline == "old_skill" else None, run_no))
         for f in cf.as_completed(jobs):
             print(json.dumps(f.result(), ensure_ascii=False), flush=True)

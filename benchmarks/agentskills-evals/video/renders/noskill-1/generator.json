@@ -1,0 +1,5 @@
+{
+  "summary": "I made `/tmp/vidgen-bbfw3_x8/index.html`, a 10-second, 720×1280 vertical ad drawn entirely in Canvas 2D. It loops in the browser, and `window.renderFrame(t)` draws the same picture for the same `t`. I rendered sample frames in headless Chrome: no errors, and each frame takes about 1–16 ms. I checked by eye and fixed three things: the stiff milk swirl, gaps between the fingers, and an oversized sparkle.\n\n- **0–2초:** 역광 속에서 딸기 세 알이 슬로모션으로 딸기 퓌레에 떨어집니다. 물방울이 빛나는 크라운 스플래시와 잔물결이 일고, 카메라는 천천히 밀고 들어갑니다.\n- **2–5초:** 원목 카운터 위 유리잔 측면 샷입니다. 우유 줄기가 부어지며 핑크·화이트 그라데이션이 부드럽게 섞이고, 얼음이 떠오르며 부딪히는 순간 반짝임이 납니다. 배경 시차, 잔의 하이라이트, 그림자 방향을 바꿔 90° 오빗을 표현했습니다.\n- **5–7초:** 위에서 내려다보는 샷입니다. 휘핑크림이 흐릿한 상태로 떨어져 출렁이며 자리를 잡고, 동결건조 딸기 조각과 민트 잎이 차례로 올라갑니다. 잔 옆면에는 물방울이 맺혀 흘러내립니다.\n- **7–10초:** 햇살이 드는 창가와 흐릿한 카페 실내를 배경으로 한 완성 샷입니다. 앞쪽에는 딸기를 흩어 놓았습니다. 손이 들어와 잔을 살짝 들어 올리는 동안 카메라가 뒤로 빠지고, 상단 로고 자리를 비운 채 \"NEW Strawberry Latte\" 문구가 나타납니다.\n\n장면 사이는 0.4초 크로스페이드로 이었습니다. 손은 엄지가 잔 뒤에 가려진 채 손가락 네 개만 보이도록 그려 손가락 수가 이상해 보이지 않게 했습니다. 오디오는 생략했고, 1080p 대신 지정된 720×1280 크기를 사용했습니다.",
+  "cost_usd": 2.2591236,
+  "duration_ms": 702309
+}

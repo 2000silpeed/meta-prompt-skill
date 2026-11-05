@@ -1,0 +1,1 @@
+{"ok":true,"frames":240,"errors":["IndexSizeError: Failed to execute 'ellipse' on 'CanvasRenderingContext2D': The major-axis radius provided (-0.04) is negative."]}

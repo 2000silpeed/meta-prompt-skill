@@ -50,7 +50,13 @@
           "응답이 근거로 사용한 가이드의 검증 날짜나 검증 범위(일부 검증 등)를 밝힌다"
         ]
       },
-      "blind_preference": "without_skill"
+      "blind_comparison-without_skill": {
+        "preferred": "without_skill",
+        "scores": {
+          "without_skill": 8,
+          "with_skill": 7
+        }
+      }
     },
     "eval-glm-stale-guidebook": {
       "with_skill": {
@@ -66,7 +72,13 @@
           "프롬프트와 분리해 GLM-5.3/Coding Plan 실행 설정(모델 변형, reasoning effort, 엔드포인트 등) 권고를 제시한다"
         ]
       },
-      "blind_preference": "without_skill"
+      "blind_comparison-without_skill": {
+        "preferred": "without_skill",
+        "scores": {
+          "with_skill": 6,
+          "without_skill": 8
+        }
+      }
     },
     "eval-nanobanana-background-edit": {
       "with_skill": {
@@ -81,7 +93,13 @@
           "결과 검수 방법(라벨 글자 변형 확인 등) 또는 실패 시 이어서 보낼 수정 지시가 제공된다"
         ]
       },
-      "blind_preference": "without_skill"
+      "blind_comparison-without_skill": {
+        "preferred": "without_skill",
+        "scores": {
+          "with_skill": 7,
+          "without_skill": 8
+        }
+      }
     },
     "eval-unregistered-model-fallback": {
       "with_skill": {
@@ -97,7 +115,13 @@
           "Mistral API 파라미터·기능·모델 ID를 언급할 때 공식 문서로 확인되지 않았음을 표시하고 단정하지 않는다"
         ]
       },
-      "blind_preference": "without_skill"
+      "blind_comparison-without_skill": {
+        "preferred": "without_skill",
+        "scores": {
+          "with_skill": 7,
+          "without_skill": 9
+        }
+      }
     },
     "eval-vague-no-target": {
       "with_skill": {
@@ -110,7 +134,13 @@
         "skill_triggered": false,
         "failed": []
       },
-      "blind_preference": "without_skill"
+      "blind_comparison-without_skill": {
+        "preferred": "without_skill",
+        "scores": {
+          "without_skill": 8,
+          "with_skill": 7
+        }
+      }
     }
   }
 }

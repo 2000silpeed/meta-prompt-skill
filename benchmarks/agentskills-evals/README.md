@@ -60,9 +60,9 @@ python3 benchmarks/agentskills-evals/run_trigger.py evals/trigger/train_queries.
 - 채점자가 assertion 자체에 남긴 피드백은 각 `grading.json`의 `assertion_feedback`에 있다.
   요약하면 1~3번 유형은 너무 쉽고, "또는" 조건은 변별력이 약하며, 사실 정확성은 응답만으로 검증할 수 없다는 지적이다.
 
-### 다음 iteration 제안 (아직 SKILL.md에 적용하지 않음)
+### 다음 iteration 제안
 
-가이드의 "사람 리뷰 → 개선" 단계를 위해 제안만 기록한다. `iteration-1/feedback.json`에는 사람 리뷰를 적는다.
+아래 1~4는 iteration-2에서 SKILL.md에 적용했다(4절 참고). 5는 `evals.json` assertion에 반영했다.
 
 1. **사용자에게 보이는 출력에서 스킬 내부 용어를 뺀다.** 신선도·폴백 고지는 끝에 한 줄로 쓰고, "가이드북"이나 서브커맨드 이름 대신 의미를 쓴다.
    예: "이 모델의 공식 프롬프트 지침은 9월 3일 기준이라 최신 변경이 빠졌을 수 있습니다."
@@ -109,3 +109,58 @@ python3 benchmarks/agentskills-evals/run_trigger.py evals/trigger/train_queries.
 한계: 쿼리가 실제 사용자 로그가 아니라 직접 만든 것이다. 그리고 이 환경에 설치된 다른 스킬과만 경쟁시켰다.
 예를 들어 description에 언급된 `humanize-korean`은 설치되어 있지 않았다.
 다른 스킬이 많은 환경에서는 결과가 달라질 수 있다.
+
+## 4. Iteration 2 — 개선 적용 후 재평가
+
+**SKILL.md 변경** (커밋 `Apply iteration-1 eval findings`):
+
+- `## Gotchas` 섹션을 추가했다. 내용은 네 가지다.
+  - 내부 용어를 노출하지 않는다.
+  - "프롬프트만"이면 코드블록만 낸다.
+  - 실행 설정에는 출처와 기준일을 붙인다.
+  - 해설보다 바로 쓸 부속물을 넣는다.
+- 신선도 경고와 폴백 고지를 사용자 언어로 바꿨다. 30일 이내 가이드는 날짜를 알리지 않는다.
+- 산출 템플릿을 줄였다. 진단 차원 이름을 나열하지 않고, "보강한 점 / 채워야 할 것 / 실행 설정"만 쓴다.
+- progressive disclosure를 강화했다. 서브커맨드 절차는 `references/subcommands.md`로, 이미지 분기 세부는 `references/image-prompts.md`로 옮겼다.
+  그 결과 SKILL.md가 약 6,700토큰에서 약 5,800토큰으로, 150줄에서 131줄로 줄었다.
+
+**평가 방법:** 가이드대로 이전 버전 스냅샷(`53d22e8`)을 `old_skill` baseline으로 썼다.
+assertion은 iteration-1 채점자의 피드백으로 보강했기 때문에 iteration-1 수치와 직접 비교할 수 없다.
+추가로 새 버전과 iteration-1의 스킬 미사용 출력을 블라인드로 비교했다.
+이 출력은 `without_skill_iter1`로 연결했고, 이 쌍은 서로 다른 실행이다.
+
+| eval | assertion new | assertion old | 블라인드 new : old | 블라인드 new : 스킬 미사용 |
+|---|---|---|---|---|
+| claude-long-refactor | 7/8 | 6/8 | **8** : 7 | 7 : **8** |
+| glm-stale-guidebook | 7/7 | 5/7 | **8** : 7 | 6 : **8** |
+| nanobanana-background-edit | 5/5 | 4/5 | **8** : 5 | 7 : **8** |
+| unregistered-model-fallback | 6/6 | 5/6 | **8** : 6 | 7 : **8** |
+| vague-no-target | 4/4 | 4/4 | **8** : 7 | **8** : 7 |
+
+`benchmark.json` 평균(new vs old)은 다음과 같다.
+
+| | new | old | Δ |
+|---|---|---|---|
+| pass rate | 0.975 | 0.819 | +0.16 |
+| 시간 | 43.5초 | 52.4초 | −9.0초 |
+| 토큰 | 20.0만 | 24.5만 | −4.5만 |
+
+이번에는 vague-no-target에서도 양쪽 모두 스킬이 발동했다(발동은 비결정적이다).
+
+### 해석
+
+- **이전 버전 대비로는 블라인드 비교 5/5 개선이고, 더 싸고 빠르다.** iteration-1에서 지적된 문제가 사라졌다.
+  내부 용어 노출, "프롬프트만" 위반, 장황한 진단 섹션이 그것이다. 해당 assertion도 old만 실패한다.
+- **스킬 미사용 대비로는 여전히 1승 4패다(점수 차는 대부분 1점).** 남은 감점 이유는 다음과 같다.
+  1. 판정자는 모델·API 사실 주장을 검증할 수 없어서, 출처를 붙여도 "근거 없는 단정"으로 본다.
+     예: "Opus 5.5 effort 기본값", "Coding Plan 엔드포인트 제한".
+     이 주장은 가이드북 카드에서 왔으므로 판정 설계의 한계와 겹친다.
+     다음 평가에서는 판정자에게 해당 카드나 공식 문서 발췌를 근거 자료로 함께 주는 방식을 검토한다.
+  2. 원본에 없는 세부를 고정한 경우다. 편집 프롬프트에 "upper left 광원, 85mm f/2.8"을 넣은 것과,
+     사용자가 말하지 않은 "기능 개발이 계속 merge된다" 전제를 넣은 것이 그렇다. 실제 개선 대상이다.
+     편집 요청에서는 원본 조건과 충돌할 수 있는 촬영 세부를 고정하지 않도록 이미지 카드 pitfalls에 넣을 후보다.
+  3. baseline이 실전 안전장치를 더 많이 넣었다.
+     예: BigDecimal 문자열 생성, 기존 테스트 기대값 변경 금지, commit 금지.
+- 표본이 작고 각 쌍을 1회씩만 판정했다. 점수 차가 대부분 1점이라 반복 실행 없이는 우열을 단정하지 않는다.
+
+description은 바꾸지 않았다. 트리거는 frontmatter만 보고 결정되므로 3절 결과가 그대로 유효하다.

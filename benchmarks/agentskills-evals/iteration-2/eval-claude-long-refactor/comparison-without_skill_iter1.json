@@ -1,0 +1,11 @@
+{
+  "score_A": 8,
+  "score_B": 7,
+  "preferred": "A",
+  "rationale": "두 프롬프트 모두 단계 구성, 동작 보존, 테스트 불가침, MIGRATION.md를 통한 세션 간 인계, 멈춤 조건을 갖춰 바로 쓸 만합니다. B는 빌드 후 헬스체크, export 목록 비교, PR별 검증 결과 첨부 같은 검증 장치가 더 구체적이라는 장점이 있습니다. 다만 B는 'Anthropic 공식 문서, 2026-10 기준 Opus 5.5 effort 기본값은 medium' 같은 근거 없는 단정을 넣었고, 사용자가 말하지 않은 '기간 내내 기능 개발이 계속 merge된다'는 전제를 사실처럼 박았습니다. 또 기준선 실패를 허용하면서 목표에는 '120개 전부 통과'라고 써서 서로 어긋납니다. A는 '30분 이상' 같은 에이전트에 어색한 시간 기준이 흠이지만, 사실 정확성과 의도 충실도에서 더 안전해 근소하게 낫습니다.",
+  "mapping": {
+    "A": "without_skill_iter1",
+    "B": "with_skill"
+  },
+  "preferred_config": "without_skill_iter1"
+}

@@ -82,7 +82,7 @@ def compare_one(ed: Path, base: str):
     j = llm(JUDGE.format(prompt=ev["prompt"], a=x[order[0]], b=x[order[1]]))
     j["mapping"] = {"A": order[0], "B": order[1]}
     j["preferred_config"] = j["mapping"].get(j["preferred"], "tie")
-    (ed / "comparison.json").write_text(json.dumps(j, ensure_ascii=False, indent=2))
+    (ed / f"comparison-{base}.json").write_text(json.dumps(j, ensure_ascii=False, indent=2))
     return ed.name, j["preferred_config"]
 
 
@@ -91,7 +91,7 @@ def ms(v):
 
 
 def aggregate(it: Path, base: str):
-    cfgs = {"with_skill": {}, base: {}}
+    cfgs = {"with_skill": {}, base: {}}  # 다른 디렉토리(예: 이전 iteration 링크)는 비교에만 쓴다
     per_eval = {}
     for ed in sorted(it.glob("eval-*")):
         per_eval[ed.name] = {}
@@ -104,9 +104,10 @@ def aggregate(it: Path, base: str):
             per_eval[ed.name][c] = {"pass": f'{g["summary"]["passed"]}/{g["summary"]["total"]}',
                                     "skill_triggered": "meta-prompt" in meta["skills_invoked"],
                                     "failed": [r["text"] for r in g["assertion_results"] if not r["passed"]]}
-        cp = ed / "comparison.json"
-        if cp.exists():
-            per_eval[ed.name]["blind_preference"] = json.loads(cp.read_text())["preferred_config"]
+        for cp in sorted(ed.glob("comparison*.json")):
+            j = json.loads(cp.read_text())
+            per_eval[ed.name][f"blind_{cp.stem}"] = {"preferred": j["preferred_config"],
+                                                     "scores": {j["mapping"]["A"]: j["score_A"], j["mapping"]["B"]: j["score_B"]}}
     summ = {c: {k: ms(v) for k, v in d.items()} for c, d in cfgs.items()}
     summ["delta"] = {k: round(summ["with_skill"][k]["mean"] - summ[base][k]["mean"], 3) for k in summ[base]}
     out = {"run_summary": summ, "per_eval": per_eval}
@@ -119,7 +120,7 @@ if __name__ == "__main__":
     base = sys.argv[4] if len(sys.argv) > 4 and sys.argv[3] == "--baseline" else "without_skill"
     with cf.ThreadPoolExecutor(5) as ex:
         if cmd == "grade":
-            for r in ex.map(grade_one, sorted(p for p in it.glob("eval-*/*") if (p / "outputs").is_dir())):
+            for r in ex.map(grade_one, sorted(p for p in it.glob("eval-*/*") if (p / "outputs").is_dir() and not p.is_symlink())):
                 print(r)
         elif cmd == "compare":
             for r in ex.map(lambda e: compare_one(e, base), sorted(it.glob("eval-*"))):

@@ -1,0 +1,36 @@
+{
+  "assertion_results": [
+    {
+      "text": "응답이 프롬프트 전달에 그치고, 이미지를 생성·편집했다고 주장하거나 생성 도구를 호출하려 하지 않는다",
+      "passed": true,
+      "evidence": "응답은 코드블록 프롬프트와 설명으로만 이루어져 있다. '결과가 나오면 라벨 글자를 원본과 직접 비교해 보세요'처럼 사용자가 직접 실행한다는 전제로 쓰여 있고, 이미지를 생성·편집했다는 주장이나 도구 호출 시도는 없다."
+    },
+    {
+      "text": "라벨 문구 '제주 감귤 에이드'가 프롬프트 안에 한 글자도 바뀌지 않고 원문 그대로 들어 있다",
+      "passed": true,
+      "evidence": "프롬프트에 \"The Korean text '제주 감귤 에이드' must stay exactly as it appears in the original\"가 있다. 띄어쓰기를 포함해 원문과 동일하다."
+    },
+    {
+      "text": "프롬프트가 변경 대상(배경)과 보존 대상(병 형태, 라벨 문구)을 분리해 명시한다",
+      "passed": true,
+      "evidence": "변경 대상은 'Replace only the background of this product photo…'와 'New background:' 단락으로 따로 적혀 있다. 보존 대상은 'Keep the glass bottle exactly as it is…: the same silhouette, proportions…'와 'Keep the label unchanged…'로 분리해 명시되어 있다."
+    },
+    {
+      "text": "새 배경이 여름 해변으로 구체적으로(모래·바다·하늘·빛 등 2개 이상 요소) 묘사된다",
+      "passed": true,
+      "evidence": "'a sunlit white-sand beach with clear turquoise water and gentle waves, under a bright blue sky with a few soft clouds'와 'warm late-morning summer light'가 있다. 모래, 바다, 하늘, 빛 네 요소가 모두 들어 있다."
+    },
+    {
+      "text": "'프롬프트만 줘' 요청에 맞게 프롬프트 코드블록 밖의 텍스트가 없거나 2문장 이하다",
+      "passed": false,
+      "evidence": "코드블록 뒤에 '진단'(3항목), '적용 규칙'(3항목), '가정'(4항목), 가이드 기준일 안내까지 10문장이 훨씬 넘는 텍스트가 붙어 있다. '프롬프트만 줘'라는 요청에 맞지 않는다."
+    }
+  ],
+  "assertion_feedback": "1번은 텍스트 응답만으로 쉽게 충족되어 변별력이 낮다. 2번은 단순 문자열 포함만 확인하므로, 프롬프트에서 해당 문구를 따옴표로 감싸 보존 대상으로 지정했는지까지 확인하도록 강화하면 좋겠다. 응답에 'Nano Banana 2.1(기본값)', '가이드 2026-10-14 기준' 같은 사실 주장이 있는데, 이 정확성을 검증하는 assertion이 없다. 근거 없는 모델명·버전 주장을 걸러내는 assertion을 추가할 것을 권한다.",
+  "summary": {
+    "passed": 4,
+    "failed": 1,
+    "total": 5,
+    "pass_rate": 0.8
+  }
+}

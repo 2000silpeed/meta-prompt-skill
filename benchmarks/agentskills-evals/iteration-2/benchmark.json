@@ -1,0 +1,181 @@
+{
+  "run_summary": {
+    "with_skill": {
+      "pass_rate": {
+        "mean": 0.975,
+        "stddev": 0.056
+      },
+      "time_seconds": {
+        "mean": 43.457,
+        "stddev": 17.701
+      },
+      "tokens": {
+        "mean": 199989,
+        "stddev": 65780.803
+      }
+    },
+    "old_skill": {
+      "pass_rate": {
+        "mean": 0.819,
+        "stddev": 0.111
+      },
+      "time_seconds": {
+        "mean": 52.435,
+        "stddev": 20.011
+      },
+      "tokens": {
+        "mean": 245055.6,
+        "stddev": 106477.746
+      }
+    },
+    "delta": {
+      "pass_rate": 0.156,
+      "time_seconds": -8.978,
+      "tokens": -45066.6
+    }
+  },
+  "per_eval": {
+    "eval-claude-long-refactor": {
+      "with_skill": {
+        "pass": "7/8",
+        "skill_triggered": true,
+        "failed": [
+          "응답 해설이 원 요청에서 부족했던 점(모호함·측정 기준 부재·맥락 부족 등)을 짚고 무엇을 보강했는지 연결해 설명한다"
+        ]
+      },
+      "old_skill": {
+        "pass": "6/8",
+        "skill_triggered": true,
+        "failed": [
+          "실행 설정에 관한 구체적 사실 주장(기본값, 엔드포인트 제한 등)에 출처나 기준일을 붙이거나 확인 필요로 표시한다. 그런 주장이 없으면 PASS",
+          "응답이 사용자가 알 수 없는 도구 내부 용어(가이드북, 카드, 슬롯, registry, /meta-prompt 서브커맨드 등)를 노출하지 않는다"
+        ]
+      },
+      "blind_comparison-old_skill": {
+        "preferred": "with_skill",
+        "scores": {
+          "old_skill": 7,
+          "with_skill": 8
+        }
+      },
+      "blind_comparison-without_skill_iter1": {
+        "preferred": "without_skill_iter1",
+        "scores": {
+          "without_skill_iter1": 8,
+          "with_skill": 7
+        }
+      }
+    },
+    "eval-glm-stale-guidebook": {
+      "with_skill": {
+        "pass": "7/7",
+        "skill_triggered": true,
+        "failed": []
+      },
+      "old_skill": {
+        "pass": "5/7",
+        "skill_triggered": true,
+        "failed": [
+          "실행 설정에 관한 구체적 사실 주장(기본값, 엔드포인트 제한 등)에 출처나 기준일을 붙이거나 확인 필요로 표시한다. 그런 주장이 없으면 PASS",
+          "응답이 사용자가 알 수 없는 도구 내부 용어(가이드북, 카드, 슬롯, registry, /meta-prompt 서브커맨드 등)를 노출하지 않는다"
+        ]
+      },
+      "blind_comparison-old_skill": {
+        "preferred": "with_skill",
+        "scores": {
+          "with_skill": 8,
+          "old_skill": 7
+        }
+      },
+      "blind_comparison-without_skill_iter1": {
+        "preferred": "without_skill_iter1",
+        "scores": {
+          "with_skill": 6,
+          "without_skill_iter1": 8
+        }
+      }
+    },
+    "eval-nanobanana-background-edit": {
+      "with_skill": {
+        "pass": "5/5",
+        "skill_triggered": true,
+        "failed": []
+      },
+      "old_skill": {
+        "pass": "4/5",
+        "skill_triggered": true,
+        "failed": [
+          "'프롬프트만 줘' 요청에 맞게 프롬프트 코드블록 밖의 텍스트가 없거나 2문장 이하다"
+        ]
+      },
+      "blind_comparison-old_skill": {
+        "preferred": "with_skill",
+        "scores": {
+          "with_skill": 8,
+          "old_skill": 5
+        }
+      },
+      "blind_comparison-without_skill_iter1": {
+        "preferred": "without_skill_iter1",
+        "scores": {
+          "with_skill": 7,
+          "without_skill_iter1": 8
+        }
+      }
+    },
+    "eval-unregistered-model-fallback": {
+      "with_skill": {
+        "pass": "6/6",
+        "skill_triggered": true,
+        "failed": []
+      },
+      "old_skill": {
+        "pass": "5/6",
+        "skill_triggered": true,
+        "failed": [
+          "응답이 사용자가 알 수 없는 도구 내부 용어(가이드북, 카드, 슬롯, registry, /meta-prompt 서브커맨드 등)를 노출하지 않는다"
+        ]
+      },
+      "blind_comparison-old_skill": {
+        "preferred": "with_skill",
+        "scores": {
+          "with_skill": 8,
+          "old_skill": 6
+        }
+      },
+      "blind_comparison-without_skill_iter1": {
+        "preferred": "without_skill_iter1",
+        "scores": {
+          "with_skill": 7,
+          "without_skill_iter1": 8
+        }
+      }
+    },
+    "eval-vague-no-target": {
+      "with_skill": {
+        "pass": "4/4",
+        "skill_triggered": true,
+        "failed": []
+      },
+      "old_skill": {
+        "pass": "4/4",
+        "skill_triggered": true,
+        "failed": []
+      },
+      "blind_comparison-old_skill": {
+        "preferred": "with_skill",
+        "scores": {
+          "old_skill": 7,
+          "with_skill": 8
+        }
+      },
+      "blind_comparison-without_skill_iter1": {
+        "preferred": "with_skill",
+        "scores": {
+          "without_skill_iter1": 7,
+          "with_skill": 8
+        }
+      }
+    }
+  }
+}

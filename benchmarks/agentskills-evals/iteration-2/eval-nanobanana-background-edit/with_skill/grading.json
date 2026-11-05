@@ -1,0 +1,36 @@
+{
+  "assertion_results": [
+    {
+      "text": "응답이 프롬프트 전달에 그치고, 이미지를 생성·편집했다고 주장하거나 생성 도구를 호출하려 하지 않는다",
+      "passed": true,
+      "evidence": "응답 전체가 코드블록 하나뿐이다. 이미지를 생성·편집했다는 주장이 없고, 도구 호출 시도나 결과물 언급도 없다."
+    },
+    {
+      "text": "라벨 문구 '제주 감귤 에이드'가 프롬프트 안에 한 글자도 바뀌지 않고 원문 그대로 들어 있다",
+      "passed": true,
+      "evidence": "\"keep ... the Korean text '제주 감귤 에이드' pixel-identical\". 띄어쓰기까지 원문과 같다."
+    },
+    {
+      "text": "프롬프트가 변경 대상(배경)과 보존 대상(병 형태, 라벨 문구)을 분리해 명시한다",
+      "passed": true,
+      "evidence": "첫 문단에서 \"replace only the background\"로 변경 대상을 한정한다. 이어 \"Treat the glass bottle and its label as a locked element: keep the bottle's exact silhouette, proportions... and the Korean text ... pixel-identical\"로 보존 대상을 따로 적는다. 둘째 문단은 \"New background:\"로 시작해 변경 내용을 별도로 기술한다."
+    },
+    {
+      "text": "새 배경이 여름 해변으로 구체적으로(모래·바다·하늘·빛 등 2개 이상 요소) 묘사된다",
+      "passed": true,
+      "evidence": "\"soft white sand, gently breaking turquoise waves and a clear blue sky with a few light clouds\"와 \"warm, natural sunlight from the upper left\"가 있다. 모래, 바다, 하늘, 빛 4개 요소가 모두 묘사된다."
+    },
+    {
+      "text": "'프롬프트만 줘' 요청에 맞게 프롬프트 코드블록 밖의 텍스트가 없거나 2문장 이하다",
+      "passed": true,
+      "evidence": "코드블록 밖에 텍스트가 전혀 없다."
+    }
+  ],
+  "assertion_feedback": "1번과 5번은 형식만 확인하는 항목이라 너무 쉽게 통과된다. 2번도 문자열 포함 여부만 보므로 변별력이 낮다. 다음 항목을 추가하면 품질을 더 잘 가를 수 있다. ① 라벨 텍스트를 다시 렌더링하지 말라는 지시가 명시적인가(예: 추가·삭제·변형 금지). ② 병과 새 배경 사이의 조명·그림자·반사 일관성을 요구하는가. ③ 경계 할로나 합성 티를 방지하는 지시가 있는가. 이 응답은 세 가지를 모두 충족하지만, 현재 assertion으로는 평가되지 않는다. 한국어 요청에 영어 프롬프트로 답한 것이 적절한지도 판단 기준이 없다.",
+  "summary": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "pass_rate": 1.0
+  }
+}

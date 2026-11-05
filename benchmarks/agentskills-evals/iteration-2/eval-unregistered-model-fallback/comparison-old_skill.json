@@ -1,0 +1,11 @@
+{
+  "score_A": 8,
+  "score_B": 6,
+  "preferred": "A",
+  "rationale": "A는 메일을 <email> 태그로 감싸 프롬프트 주입 방어를 실제로 구현했고, user 템플릿과 파싱·검증까지 포함한 Python 호출 예시를 줘서 바로 쓰기 좋다. 지원 여부가 불확실한 설정은 '확인 필요'로 표시해 근거 없는 단정도 피했다. B는 요청한 한글 라벨을 그대로 쓰고 needs_review 플래그와 경계 사례 예시를 넣은 점은 좋다. 하지만 존재하지 않는 원본 프롬프트를 진단하는 섹션과 근거 없는 '/meta-prompt' 명령 안내 때문에 불필요하게 장황하고, 입력 구분자가 없어 주입 방어가 상대적으로 약하다.",
+  "mapping": {
+    "A": "with_skill",
+    "B": "old_skill"
+  },
+  "preferred_config": "with_skill"
+}

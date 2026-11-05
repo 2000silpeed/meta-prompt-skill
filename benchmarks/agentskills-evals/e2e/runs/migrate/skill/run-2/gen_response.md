@@ -1,0 +1,70 @@
+```
+레거시 Express API 서버(JavaScript)를 TypeScript로 점진적으로 마이그레이션해 줘. 목표는 서버의 런타임 동작을 바꾸지 않고, 매 단계마다 jest 테스트와 GitHub Actions CI가 통과하는 상태를 유지하면서 타입 안전성을 넓혀 가는 거야. 한 번에 전부 바꾸는 방식은 피해 줘. 리뷰하기 어렵고 회귀가 생겼을 때 원인을 찾기 힘들기 때문이야.
+
+<context>
+- 스택: Express(JavaScript), jest 테스트, CI는 GitHub Actions
+- 아래 항목은 직접 확인한 뒤 작업해. 추측으로 정하지 마.
+  - Node 버전, 패키지 매니저(npm/yarn/pnpm), lockfile
+  - 모듈 시스템(CommonJS `require`인지 ESM `import`인지), package.json의 `"type"`
+  - 엔트리포인트, start/build/test 스크립트, 배포가 실행하는 명령
+  - jest 설정(babel-jest 사용 여부, testMatch, moduleNameMapper, setupFiles)
+  - `.github/workflows/*`의 job 구성과 Node 버전 매트릭스
+  - 이미 있는 lint 설정, JSDoc 타입, `@types/*` 패키지
+</context>
+
+<approach>
+1. 먼저 조사부터 해. 위 항목을 확인하고 테스트를 그대로 돌려서 기준 결과(통과/실패/스킵 수)를 기록해. 원래 실패하던 테스트는 마이그레이션 회귀와 구분해야 하니까 따로 적어 둬.
+2. 인프라를 깔아. JS와 TS가 공존할 수 있게 해 줘.
+   - typescript, @types/node, @types/express, 그리고 실제로 쓰는 라이브러리의 @types만 devDependency로 추가해.
+   - tsconfig: `allowJs: true`, `checkJs: false`로 시작하고, 기존 모듈 시스템에 맞는 `module`/`moduleResolution`을 골라. `strict`는 처음엔 끄거나 부분적으로만 켜고, 어떤 이유로 그렇게 정했는지 기록해.
+   - jest가 .ts를 실행할 수 있게 해 줘(ts-jest 또는 기존 babel 설정 확장 중 저장소에 맞는 쪽). 기존 .js 테스트는 지금처럼 그대로 돌아가야 해.
+   - 빌드 산출물 경로와 start 스크립트가 배포 명령과 맞는지 확인해. 배포 방식이 불분명하면 바꾸지 말고 보고해.
+   - CI에 `tsc --noEmit` 타입체크 단계를 추가해. 기존 job은 그대로 두고 단계만 덧붙여.
+3. 파일 단위로 변환해. 의존성이 적은 말단(유틸, 상수, 순수 함수)부터 시작해서 서비스, 미들웨어, 라우터, 앱 엔트리 순으로 올라가.
+   - 묶음 하나는 리뷰 가능한 크기로 유지하고, 묶음마다 typecheck와 테스트를 돌려 통과를 확인한 다음 넘어가.
+   - `req.user` 같은 커스텀 필드는 `declare global { namespace Express { interface Request {...} } }`로 한 곳에 선언해.
+   - 요청 body/query/params는 무조건 `any`로 두지 말고 `unknown`이나 명시적 인터페이스로 타입을 줘. 다만 런타임 검증 로직을 새로 추가하는 건 동작 변경이니까 하지 마.
+   - `any`, `@ts-expect-error`, `as` 단언을 불가피하게 쓴 곳에는 `// TODO(ts-migration): 이유` 주석을 달아 둬.
+4. 엄격도는 범위를 넓혀 가며 올려. 변환된 영역이 안정되면 `noImplicitAny`, `strictNullChecks` 순으로 켤 수 있는지 평가해. 켰을 때 오류가 대량으로 나면 켜지 말고 오류 수와 분포를 보고해.
+</approach>
+
+<pitfalls>
+- CommonJS/ESM interop: `module.exports = fn`을 `export default fn`으로 바꾸면 아직 JS로 남은 파일의 `require('./x')`가 `{ default: fn }`을 받게 돼. 남은 소비자가 있는 동안에는 `export =` / `import x = require()`를 쓰거나, 그 소비자까지 함께 바꿔. `esModuleInterop` 설정 변경도 같은 문제를 일으키니까 영향 범위를 확인해.
+- 확장자를 .js에서 .ts로 바꾸면 jest의 moduleFileExtensions, 경로 별칭, `__dirname` 기준 경로, 동적 `require(path)`, 정적 파일 경로가 깨질 수 있어.
+- 에러 핸들러 미들웨어는 Express가 인자 개수 4개로 판별해. 타입을 붙이다가 사용하지 않는 `next`를 지우면 에러 핸들러로 인식되지 않아.
+- 타입을 맞추려고 로직을 고치고 싶어지면(옵셔널 체이닝 추가, 기본값 변경, 분기 정리 등) 그건 동작 변경이야. 하지 말고 "발견한 잠재 버그" 목록에 적어.
+</pitfalls>
+
+<boundaries>
+아래는 사람이 결정할 일이야. 하지 말고 보고해 줘.
+- 기존 테스트의 기대값이나 단언 수정, 테스트 삭제, 스킵 처리. 변환된 테스트 파일에서 타입만 붙이는 건 허용해.
+- API 응답 형태, 상태 코드, 라우트 경로 같은 외부 계약 변경
+- DB 스키마, 마이그레이션 파일, 환경변수 이름 변경
+- 런타임 의존성 추가나 메이저 업그레이드(Express 버전 포함). devDependency 추가는 허용해.
+- 배포 스크립트, Dockerfile, 기존 CI job의 삭제나 동작 변경
+- git push, PR 생성, main 브랜치 커밋. 작업 브랜치 `<브랜치명>`에 단계별 로컬 커밋까지만 허용해.
+
+아래 행동은 하지 마.
+- 운영/스테이징 DB나 실제 외부 API(결제, 메일, 알림 등) 호출. 테스트가 이런 호출을 요구하면 실행하지 말고 보고해.
+- `.env` 같은 시크릿 파일 읽기 또는 수정
+</boundaries>
+
+<done_when>
+- 기준 결과와 비교해서 새로 실패하는 테스트가 0개다.
+- `tsc --noEmit`이 통과하고, CI 워크플로에 타입체크 단계가 들어가 있다.
+- 빌드 후 기존 start 명령으로 서버가 기동한다. 엔트리 경로가 바뀌었다면 그 사실을 보고한다.
+- 이번 작업 범위: <변환 범위. 예: "인프라 + utils/·services/ 전체" 또는 "가능한 데까지">
+</done_when>
+
+<report>
+작업이 끝나면 아래 형식으로 보고해 줘.
+1. 확인한 저장소 사실(모듈 시스템, Node 버전, jest/CI 구성)과 그에 따라 내린 설정 결정, 그리고 이유
+2. 변환한 파일과 남은 JS 파일 목록, 다음에 변환할 순서 제안
+3. 테스트 결과(기준 대비)와 typecheck 결과. 실제로 실행한 명령과 출력 요약을 함께 적어 줘.
+4. TODO(ts-migration)로 남긴 곳의 개수와 대표 사례
+5. 하지 않고 보류한 결정 사항, 발견한 잠재 버그
+실행하지 못했거나 건너뛴 단계가 있으면 숨기지 말고 그대로 적어 줘.
+</report>
+```
+
+`<브랜치명>`과 `<변환 범위>` 두 곳을 채워서 쓰면 돼.

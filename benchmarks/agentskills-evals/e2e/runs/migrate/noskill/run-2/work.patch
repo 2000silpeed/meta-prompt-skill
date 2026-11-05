@@ -1,0 +1,746 @@
+diff --git a/.github/workflows/ci.yml b/.github/workflows/ci.yml
+index 76f0888..a139218 100644
+--- a/.github/workflows/ci.yml
++++ b/.github/workflows/ci.yml
+@@ -8,4 +8,6 @@ jobs:
+       - uses: actions/setup-node@v4
+         with: { node-version: 22 }
+       - run: npm ci
++      - run: npm run typecheck
+       - run: npm test
++      - run: npm run build
+diff --git a/.gitignore b/.gitignore
+index c2658d7..b947077 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -1 +1,2 @@
+ node_modules/
++dist/
+diff --git a/MIGRATION_PLAN.md b/MIGRATION_PLAN.md
+new file mode 100644
+index 0000000..4316184
+--- /dev/null
++++ b/MIGRATION_PLAN.md
+@@ -0,0 +1,50 @@
++# TypeScript 마이그레이션 계획
++
++## 원칙
++- 점진 변환: 모든 커밋에서 `npm run typecheck`, `npm test`, `npm run build`와 빌드 결과물 실행 스모크 테스트가 통과해야 한다.
++- 런타임 동작 불변(응답 본문·상태 코드·에러 메시지·미들웨어 순서·환경변수 처리). 발견한 버그는 `// TODO(ts-migration): ...`로 표시만 하고 고치지 않는다.
++- 모듈 시스템은 CommonJS 유지. 단일 값을 내보내던 모듈(`module.exports = x`)은 `export = x` / `import x = require(...)`로 변환해서, `require()`가 받는 값과 tsc 출력 코드를 원본과 같게 유지한다.
++- 파일마다 커밋을 두 개로 나눈다. (A) `git mv`로 이름만 바꾸는 커밋(`// @ts-nocheck` 한 줄만 추가), (B) 타입을 적용하는 커밋. 파일이 작아서 한 커밋에 하면 유사도가 50% 아래로 떨어져 git이 rename으로 인식하지 못하기 때문이다. 이렇게 하면 `git log --follow`로 히스토리가 이어진다.
++
++## 현재 상태 (변환 전)
++- 모듈 시스템: CommonJS. 엔트리: `src/server.js` → `src/app.js`.
++- 실행: `npm start` = `node src/server.js`. Dockerfile / Procfile / PM2 설정 없음. `.nvmrc`·`engines` 없음. CI는 Node 22, 패키지 매니저는 npm(`package-lock.json`).
++- 테스트: jest 29(설정 파일 없음, 기본값), supertest. 기준선은 7/7 통과이고, 변경 전부터 실패하던 테스트는 없다.
++
++## 의존성 그래프
++
++```
++server ──> app ──> routes/orders ──> store
++                                ├──> validate
++                                └──> services/pricing
++tests/orders.test ──> app, store
++(types/order, types/http: 타입 전용)
++```
++
++## 진행 상황
++| 단계 | 대상 | 상태 |
++|---|---|---|
++| 0 | 기반 설정 (tsconfig, ts-jest, 빌드/실행 스크립트, CI 타입체크·빌드) | ✅ 완료 |
++| 1 | `src/types/order.ts`(도메인 타입) + `src/store.ts` | ✅ 완료 |
++| 2 | `src/validate.ts` | ✅ 완료 |
++| 3 | `src/services/pricing.ts` + `src/types/http.ts` | ✅ 완료 |
++| 4 | `src/routes/orders.ts` | ✅ 완료 |
++| 5 | `src/app.ts`, `src/server.ts` | ✅ 완료 |
++| 6 | `tests/orders.test.ts` (import·타입만 수정, assertion 불변) | ✅ 완료 |
++| 7 | 정리: `allowJs`와 jest의 `.js` babel-jest 규칙 제거(남은 `.js` 소스가 없음), ESLint + `@typescript-eslint` 도입 검토 | ⏳ 다음 실행 |
++| 8 | 아래 TODO 버그 수정. 마이그레이션과 분리해서 별도 PR로, 테스트를 함께 추가 | ⏳ 별도 작업 |
++
++남은 `.js` 소스/테스트 파일: 없음. 설정 파일 `jest.config.js`만 JS로 남아 있다(의도한 것).
++
++## 운영 배포 시 주의
++`npm start`가 이제 `node dist/server.js`를 실행한다. **배포 파이프라인이 `npm start` 전에 `npm ci`(devDependencies 포함)와 `npm run build`를 실행해야 한다.** 저장소에 배포 설정이 없어서 실제 배포 환경은 확인하지 못했다.
++
++## 발견한 잠재 버그 (TODO(ts-migration))
++| 위치 | 내용 | 재현 (현재 응답) |
++|---|---|---|
++| `src/services/pricing.ts` COUPONS | 프로토타입 키(`toString`, `constructor`)가 쿠폰으로 인정된다 | `coupon:"toString"` → 201, `discount:null, total:null` |
++| `src/services/pricing.ts` quote | 문자열이 아닌 coupon도 문자열로 바뀌어 조회된다 | `coupon:["WELCOME10"]` → 201, 10% 할인, coupon이 배열로 저장됨 |
++| `src/routes/orders.ts` POST / | 위 문제 때문에 `Order.coupon`(string\|null)과 실제로 저장되는 값이 다를 수 있다 | 같은 재현 |
++| `src/validate.ts` | `items`에 null/undefined가 있으면 TypeError가 나서 500 | `items:[null]` → 500, `"Cannot read properties of null (reading 'sku')"` |
++| `src/app.ts` 에러 핸들러 | 500 에러의 내부 메시지를 그대로 응답한다. `err.status`가 유효한 코드인지 검사하지 않는다 | 위 `items:[null]` 사례 |
++| `src/routes/orders.ts` GET / | `?status=a&status=b`(배열)이면 항상 빈 배열을 반환하고, status 값을 검증하지 않는다 | → 200 `[]` |
+diff --git a/dist/app.js b/dist/app.js
+new file mode 100644
+index 0000000..38fcbba
+--- /dev/null
++++ b/dist/app.js
+@@ -0,0 +1,17 @@
++"use strict";
++const express = require("express");
++const orders = require("./routes/orders");
++const app = express();
++app.use(express.json());
++app.get('/health', (req, res) => res.json({ ok: true }));
++app.use('/orders', orders);
++// 인자가 4개여야 Express가 에러 핸들러로 인식한다. next를 쓰지 않아도 지우면 안 된다.
++app.use((err, req, res, next) => {
++    // as: 원래 JS는 err의 형태를 검증하지 않고 status/message를 그대로 읽었다.
++    //     next(err)에는 어떤 값이든 올 수 있지만, 동작을 보존하려고 검증을 추가하지 않고 단언만 한다.
++    // TODO(ts-migration): 500 에러(예: 예상하지 못한 TypeError)도 err.message를 그대로 응답해서 내부 정보가 노출된다.
++    //     err.status가 유효한 HTTP 코드인지도 검사하지 않는다.
++    const e = err;
++    res.status(e.status || 500).json({ error: e.message || 'internal error' });
++});
++module.exports = app;
+diff --git a/dist/routes/orders.js b/dist/routes/orders.js
+new file mode 100644
+index 0000000..c3ef648
+--- /dev/null
++++ b/dist/routes/orders.js
+@@ -0,0 +1,56 @@
++"use strict";
++const express = require("express");
++const store = require("../store");
++const validate_1 = require("../validate");
++const pricing_1 = require("../services/pricing");
++const router = express.Router();
++router.post('/', (req, res, next) => {
++    const { items, coupon } = req.body || {};
++    const msg = (0, validate_1.validateItems)(items);
++    if (msg)
++        return res.status(400).json({ error: msg });
++    // as: validateItems가 null을 반환했으면 모든 항목의 sku/qty/price 타입이 검증된 것이다.
++    //     validateItems는 type predicate가 아니라 메시지를 반환하는 함수라서 여기서 단언한다.
++    const validItems = items;
++    try {
++        const q = (0, pricing_1.quote)(validItems, coupon);
++        // as: quote()를 통과한 coupon은 사실상 COUPONS의 키 문자열이지만, 타입으로는 증명할 수 없다.
++        // TODO(ts-migration): 문자열이 아닌 coupon(예: ["WELCOME10"])도 quote를 통과해서 원래 값 그대로
++        //     저장되고 응답된다. 그래서 Order.coupon 타입(string | null)과 실제 값이 다를 수 있다.
++        const order = store.create({ items: validItems, coupon: (coupon || null), ...q });
++        res.status(201).json(order);
++    }
++    catch (e) {
++        next(e);
++    }
++});
++router.get('/', (req, res) => {
++    // TODO(ts-migration): ?status=a&status=b처럼 배열로 들어오면 어떤 주문과도 일치하지 않아 빈 배열을 반환한다.
++    //     허용하지 않는 status 값도 검증하지 않는다.
++    const { status } = req.query;
++    const all = store.list();
++    res.json(status ? all.filter(o => o.status === status) : all);
++});
++router.get('/:id', (req, res) => {
++    const o = store.get(req.params.id);
++    if (!o)
++        return res.status(404).json({ error: 'order not found' });
++    res.json(o);
++});
++router.post('/:id/cancel', (req, res) => {
++    const o = store.get(req.params.id);
++    if (!o)
++        return res.status(404).json({ error: 'order not found' });
++    if (o.status === 'shipped')
++        return res.status(409).json({ error: 'shipped order cannot be cancelled' });
++    res.json(store.update(o.id, { status: 'cancelled' }));
++});
++router.post('/:id/ship', (req, res) => {
++    const o = store.get(req.params.id);
++    if (!o)
++        return res.status(404).json({ error: 'order not found' });
++    if (o.status !== 'pending')
++        return res.status(409).json({ error: `cannot ship ${o.status} order` });
++    res.json(store.update(o.id, { status: 'shipped' }));
++});
++module.exports = router;
+diff --git a/dist/server.js b/dist/server.js
+new file mode 100644
+index 0000000..79859c3
+--- /dev/null
++++ b/dist/server.js
+@@ -0,0 +1,5 @@
++"use strict";
++Object.defineProperty(exports, "__esModule", { value: true });
++const app = require("./app");
++const port = process.env.PORT || 3000;
++app.listen(port, () => console.log(`shop-api listening on ${port}`));
+diff --git a/dist/services/pricing.js b/dist/services/pricing.js
+new file mode 100644
+index 0000000..4adce94
+--- /dev/null
++++ b/dist/services/pricing.js
+@@ -0,0 +1,33 @@
++"use strict";
++Object.defineProperty(exports, "__esModule", { value: true });
++exports.COUPONS = void 0;
++exports.quote = quote;
++exports.subtotal = subtotal;
++// TODO(ts-migration): 일반 객체라서 COUPONS["toString"]처럼 프로토타입 체인의 키도 조회된다.
++//     coupon이 "toString" 또는 "constructor"면 rate가 함수가 되어 discount/total이 NaN이 되고
++//     (JSON 응답에서는 null) 201로 주문이 생성된다. 고칠 때는 Object.hasOwn 검사나 Map을 쓰면 된다.
++const COUPONS = { WELCOME10: 0.1, VIP20: 0.2 };
++exports.COUPONS = COUPONS;
++function subtotal(items) {
++    return items.reduce((s, it) => s + it.price * it.qty, 0);
++}
++function quote(items, coupon) {
++    const sub = subtotal(items);
++    // 원래 코드: `const rate = coupon ? COUPONS[coupon] : 0; if (coupon && rate === undefined) throw ...`
++    // TS가 rate를 number로 좁힐 수 있게 같은 분기를 if 블록으로 다시 썼다. 동작은 같다.
++    // String(coupon)은 JS가 속성 키를 변환하는 결과(ToPropertyKey)와 같다(심볼은 JSON 입력에 없다).
++    // TODO(ts-migration): 문자열이 아닌 coupon도 문자열로 바뀌어 조회된다. 예를 들어 ["WELCOME10"]도 할인이 적용된다.
++    let rate = 0;
++    if (coupon) {
++        const found = COUPONS[String(coupon)];
++        if (found === undefined) {
++            const err = new Error('unknown coupon');
++            err.status = 400;
++            throw err;
++        }
++        rate = found;
++    }
++    const discount = Math.round(sub * rate);
++    const shipping = sub - discount >= 30000 ? 0 : 3000;
++    return { subtotal: sub, discount, shipping, total: sub - discount + shipping };
++}
+diff --git a/src/store.js b/dist/store.js
+similarity index 52%
+rename from src/store.js
+rename to dist/store.js
+index f05bb9b..5571bb9 100644
+--- a/src/store.js
++++ b/dist/store.js
+@@ -1,10 +1,15 @@
++"use strict";
++Object.defineProperty(exports, "__esModule", { value: true });
++exports.reset = reset;
++exports.create = create;
++exports.get = get;
++exports.update = update;
++exports.list = list;
+ const orders = new Map();
+ let seq = 1;
+-
+ function reset() { orders.clear(); seq = 1; }
+ function create(data) { const id = String(seq++); const o = { id, status: 'pending', ...data }; orders.set(id, o); return o; }
+ function get(id) { return orders.get(String(id)) || null; }
+-function update(id, patch) { const o = get(id); if (!o) return null; Object.assign(o, patch); return o; }
++function update(id, patch) { const o = get(id); if (!o)
++    return null; Object.assign(o, patch); return o; }
+ function list() { return Array.from(orders.values()); }
+-
+-module.exports = { reset, create, get, update, list };
+diff --git a/dist/types/http.js b/dist/types/http.js
+new file mode 100644
+index 0000000..c8ad2e5
+--- /dev/null
++++ b/dist/types/http.js
+@@ -0,0 +1,2 @@
++"use strict";
++Object.defineProperty(exports, "__esModule", { value: true });
+diff --git a/dist/types/order.js b/dist/types/order.js
+new file mode 100644
+index 0000000..c8ad2e5
+--- /dev/null
++++ b/dist/types/order.js
+@@ -0,0 +1,2 @@
++"use strict";
++Object.defineProperty(exports, "__esModule", { value: true });
+diff --git a/dist/validate.js b/dist/validate.js
+new file mode 100644
+index 0000000..8285b92
+--- /dev/null
++++ b/dist/validate.js
+@@ -0,0 +1,27 @@
++"use strict";
++Object.defineProperty(exports, "__esModule", { value: true });
++exports.validateItems = validateItems;
++/**
++ * 오류 메시지를 반환하고, 유효하면 null을 반환한다.
++ * null을 반환했다면 items는 OrderItem[] 형태임이 보장된다.
++ */
++function validateItems(items) {
++    if (!Array.isArray(items) || items.length === 0)
++        return 'items must be a non-empty array';
++    // as: 원래 JS는 각 항목이 객체인지 확인하지 않고 바로 속성을 읽는다.
++    //     null/undefined 항목이면 TypeError가 나서 500 응답이 되는데, 이 동작을 보존하려고
++    //     객체 검사를 추가하지 않고 단언만 한다.
++    // TODO(ts-migration): items에 null/undefined가 있으면 TypeError가 나서 400 대신 500으로 응답하고,
++    //     내부 에러 메시지("Cannot read properties of null ...")가 클라이언트에 노출된다.
++    for (const it of items) {
++        if (typeof it.sku !== 'string' || !it.sku)
++            return 'sku is required';
++        // typeof 검사는 동작을 바꾸지 않는다. 숫자가 아니면 Number.isInteger도 false라서 결과가 같다.
++        // TS가 qty를 number로 좁히도록 추가한 것이다.
++        if (typeof it.qty !== 'number' || !Number.isInteger(it.qty) || it.qty <= 0)
++            return 'qty must be a positive integer';
++        if (typeof it.price !== 'number' || it.price < 0)
++            return 'price must be a non-negative number';
++    }
++    return null;
++}
+diff --git a/jest.config.js b/jest.config.js
+new file mode 100644
+index 0000000..4b3bd81
+--- /dev/null
++++ b/jest.config.js
+@@ -0,0 +1,11 @@
++/** @type {import('jest').Config} */
++module.exports = {
++  transform: {
++    // .ts는 ts-jest(빌드와 같은 TypeScript 컴파일러, tsconfig.json 사용)
++    '^.+\\.tsx?$': ['ts-jest', { tsconfig: 'tsconfig.json' }],
++    // .js는 jest 기본값(babel-jest)을 그대로 유지
++    '\\.[jt]sx?$': 'babel-jest',
++  },
++  // 빌드 결과물을 테스트/모듈 탐색 대상에서 제외
++  modulePathIgnorePatterns: ['<rootDir>/dist/'],
++};
+diff --git a/package.json b/package.json
+index 71920af..dcf4186 100644
+--- a/package.json
++++ b/package.json
+@@ -2,16 +2,27 @@
+   "name": "shop-api",
+   "version": "1.4.2",
+   "private": true,
+-  "main": "src/server.js",
++  "main": "dist/server.js",
+   "scripts": {
+-    "start": "node src/server.js",
++    "prebuild": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\"",
++    "build": "tsc -p tsconfig.build.json",
++    "start": "node dist/server.js",
++    "dev": "tsx watch src/server.ts",
++    "typecheck": "tsc -p tsconfig.json --noEmit",
+     "test": "jest"
+   },
+   "dependencies": {
+     "express": "4.21.2"
+   },
+   "devDependencies": {
++    "@types/express": "4.17.25",
++    "@types/jest": "29.5.14",
++    "@types/node": "22.20.5",
++    "@types/supertest": "7.2.1",
+     "jest": "29.7.0",
+-    "supertest": "7.0.0"
++    "supertest": "7.0.0",
++    "ts-jest": "29.4.15",
++    "tsx": "4.23.15",
++    "typescript": "5.9.3"
+   }
+ }
+diff --git a/src/app.js b/src/app.js
+deleted file mode 100644
+index 09a3a7d..0000000
+--- a/src/app.js
++++ /dev/null
+@@ -1,12 +0,0 @@
+-const express = require('express');
+-const orders = require('./routes/orders');
+-
+-const app = express();
+-app.use(express.json());
+-app.get('/health', (req, res) => res.json({ ok: true }));
+-app.use('/orders', orders);
+-app.use((err, req, res, next) => {
+-  res.status(err.status || 500).json({ error: err.message || 'internal error' });
+-});
+-
+-module.exports = app;
+diff --git a/src/app.ts b/src/app.ts
+new file mode 100644
+index 0000000..5e75cd2
+--- /dev/null
++++ b/src/app.ts
+@@ -0,0 +1,20 @@
++import express = require('express');
++import type { NextFunction, Request, Response } from 'express';
++import orders = require('./routes/orders');
++import type { HttpError } from './types/http';
++
++const app = express();
++app.use(express.json());
++app.get('/health', (req, res) => res.json({ ok: true }));
++app.use('/orders', orders);
++// 인자가 4개여야 Express가 에러 핸들러로 인식한다. next를 쓰지 않아도 지우면 안 된다.
++app.use((err: unknown, req: Request, res: Response, next: NextFunction) => {
++  // as: 원래 JS는 err의 형태를 검증하지 않고 status/message를 그대로 읽었다.
++  //     next(err)에는 어떤 값이든 올 수 있지만, 동작을 보존하려고 검증을 추가하지 않고 단언만 한다.
++  // TODO(ts-migration): 500 에러(예: 예상하지 못한 TypeError)도 err.message를 그대로 응답해서 내부 정보가 노출된다.
++  //     err.status가 유효한 HTTP 코드인지도 검사하지 않는다.
++  const e = err as Partial<HttpError>;
++  res.status(e.status || 500).json({ error: e.message || 'internal error' });
++});
++
++export = app;
+diff --git a/src/routes/orders.js b/src/routes/orders.js
+deleted file mode 100644
+index 5b36c46..0000000
+--- a/src/routes/orders.js
++++ /dev/null
+@@ -1,45 +0,0 @@
+-const express = require('express');
+-const store = require('../store');
+-const { validateItems } = require('../validate');
+-const { quote } = require('../services/pricing');
+-
+-const router = express.Router();
+-
+-router.post('/', (req, res, next) => {
+-  const { items, coupon } = req.body || {};
+-  const msg = validateItems(items);
+-  if (msg) return res.status(400).json({ error: msg });
+-  try {
+-    const q = quote(items, coupon);
+-    const order = store.create({ items, coupon: coupon || null, ...q });
+-    res.status(201).json(order);
+-  } catch (e) { next(e); }
+-});
+-
+-router.get('/', (req, res) => {
+-  const { status } = req.query;
+-  const all = store.list();
+-  res.json(status ? all.filter(o => o.status === status) : all);
+-});
+-
+-router.get('/:id', (req, res) => {
+-  const o = store.get(req.params.id);
+-  if (!o) return res.status(404).json({ error: 'order not found' });
+-  res.json(o);
+-});
+-
+-router.post('/:id/cancel', (req, res) => {
+-  const o = store.get(req.params.id);
+-  if (!o) return res.status(404).json({ error: 'order not found' });
+-  if (o.status === 'shipped') return res.status(409).json({ error: 'shipped order cannot be cancelled' });
+-  res.json(store.update(o.id, { status: 'cancelled' }));
+-});
+-
+-router.post('/:id/ship', (req, res) => {
+-  const o = store.get(req.params.id);
+-  if (!o) return res.status(404).json({ error: 'order not found' });
+-  if (o.status !== 'pending') return res.status(409).json({ error: `cannot ship ${o.status} order` });
+-  res.json(store.update(o.id, { status: 'shipped' }));
+-});
+-
+-module.exports = router;
+diff --git a/src/routes/orders.ts b/src/routes/orders.ts
+new file mode 100644
+index 0000000..9ac6760
+--- /dev/null
++++ b/src/routes/orders.ts
+@@ -0,0 +1,58 @@
++import express = require('express');
++import type { NextFunction, Request, Response } from 'express';
++import store = require('../store');
++import { validateItems } from '../validate';
++import { quote } from '../services/pricing';
++import type { OrderItem } from '../types/order';
++
++/** POST /orders 요청 본문. 외부 입력이므로 필드는 모두 unknown이고 아래에서 검증한다. */
++type CreateOrderBody = { items?: unknown; coupon?: unknown };
++
++const router = express.Router();
++
++router.post('/', (req: Request<Record<string, string>, unknown, CreateOrderBody | undefined>, res: Response, next: NextFunction) => {
++  const { items, coupon } = req.body || {};
++  const msg = validateItems(items);
++  if (msg) return res.status(400).json({ error: msg });
++  // as: validateItems가 null을 반환했으면 모든 항목의 sku/qty/price 타입이 검증된 것이다.
++  //     validateItems는 type predicate가 아니라 메시지를 반환하는 함수라서 여기서 단언한다.
++  const validItems = items as OrderItem[];
++  try {
++    const q = quote(validItems, coupon);
++    // as: quote()를 통과한 coupon은 사실상 COUPONS의 키 문자열이지만, 타입으로는 증명할 수 없다.
++    // TODO(ts-migration): 문자열이 아닌 coupon(예: ["WELCOME10"])도 quote를 통과해서 원래 값 그대로
++    //     저장되고 응답된다. 그래서 Order.coupon 타입(string | null)과 실제 값이 다를 수 있다.
++    const order = store.create({ items: validItems, coupon: (coupon || null) as string | null, ...q });
++    res.status(201).json(order);
++  } catch (e) { next(e); }
++});
++
++router.get('/', (req, res) => {
++  // TODO(ts-migration): ?status=a&status=b처럼 배열로 들어오면 어떤 주문과도 일치하지 않아 빈 배열을 반환한다.
++  //     허용하지 않는 status 값도 검증하지 않는다.
++  const { status } = req.query;
++  const all = store.list();
++  res.json(status ? all.filter(o => o.status === status) : all);
++});
++
++router.get('/:id', (req, res) => {
++  const o = store.get(req.params.id);
++  if (!o) return res.status(404).json({ error: 'order not found' });
++  res.json(o);
++});
++
++router.post('/:id/cancel', (req, res) => {
++  const o = store.get(req.params.id);
++  if (!o) return res.status(404).json({ error: 'order not found' });
++  if (o.status === 'shipped') return res.status(409).json({ error: 'shipped order cannot be cancelled' });
++  res.json(store.update(o.id, { status: 'cancelled' }));
++});
++
++router.post('/:id/ship', (req, res) => {
++  const o = store.get(req.params.id);
++  if (!o) return res.status(404).json({ error: 'order not found' });
++  if (o.status !== 'pending') return res.status(409).json({ error: `cannot ship ${o.status} order` });
++  res.json(store.update(o.id, { status: 'shipped' }));
++});
++
++export = router;
+diff --git a/src/server.js b/src/server.ts
+similarity index 77%
+rename from src/server.js
+rename to src/server.ts
+index 0217a79..0b43f9a 100644
+--- a/src/server.js
++++ b/src/server.ts
+@@ -1,3 +1,3 @@
+-const app = require('./app');
++import app = require('./app');
+ const port = process.env.PORT || 3000;
+ app.listen(port, () => console.log(`shop-api listening on ${port}`));
+diff --git a/src/services/pricing.js b/src/services/pricing.js
+deleted file mode 100644
+index 375a4bc..0000000
+--- a/src/services/pricing.js
++++ /dev/null
+@@ -1,20 +0,0 @@
+-const COUPONS = { WELCOME10: 0.1, VIP20: 0.2 };
+-
+-function subtotal(items) {
+-  return items.reduce((s, it) => s + it.price * it.qty, 0);
+-}
+-
+-function quote(items, coupon) {
+-  const sub = subtotal(items);
+-  const rate = coupon ? COUPONS[coupon] : 0;
+-  if (coupon && rate === undefined) {
+-    const err = new Error('unknown coupon');
+-    err.status = 400;
+-    throw err;
+-  }
+-  const discount = Math.round(sub * rate);
+-  const shipping = sub - discount >= 30000 ? 0 : 3000;
+-  return { subtotal: sub, discount, shipping, total: sub - discount + shipping };
+-}
+-
+-module.exports = { quote, subtotal, COUPONS };
+diff --git a/src/services/pricing.ts b/src/services/pricing.ts
+new file mode 100644
+index 0000000..858a789
+--- /dev/null
++++ b/src/services/pricing.ts
+@@ -0,0 +1,34 @@
++import type { OrderItem, Quote } from '../types/order';
++import type { HttpError } from '../types/http';
++
++// TODO(ts-migration): 일반 객체라서 COUPONS["toString"]처럼 프로토타입 체인의 키도 조회된다.
++//     coupon이 "toString" 또는 "constructor"면 rate가 함수가 되어 discount/total이 NaN이 되고
++//     (JSON 응답에서는 null) 201로 주문이 생성된다. 고칠 때는 Object.hasOwn 검사나 Map을 쓰면 된다.
++const COUPONS: { [code: string]: number | undefined } = { WELCOME10: 0.1, VIP20: 0.2 };
++
++function subtotal(items: OrderItem[]): number {
++  return items.reduce((s, it) => s + it.price * it.qty, 0);
++}
++
++function quote(items: OrderItem[], coupon: unknown): Quote {
++  const sub = subtotal(items);
++  // 원래 코드: `const rate = coupon ? COUPONS[coupon] : 0; if (coupon && rate === undefined) throw ...`
++  // TS가 rate를 number로 좁힐 수 있게 같은 분기를 if 블록으로 다시 썼다. 동작은 같다.
++  // String(coupon)은 JS가 속성 키를 변환하는 결과(ToPropertyKey)와 같다(심볼은 JSON 입력에 없다).
++  // TODO(ts-migration): 문자열이 아닌 coupon도 문자열로 바뀌어 조회된다. 예를 들어 ["WELCOME10"]도 할인이 적용된다.
++  let rate = 0;
++  if (coupon) {
++    const found = COUPONS[String(coupon)];
++    if (found === undefined) {
++      const err: HttpError = new Error('unknown coupon');
++      err.status = 400;
++      throw err;
++    }
++    rate = found;
++  }
++  const discount = Math.round(sub * rate);
++  const shipping = sub - discount >= 30000 ? 0 : 3000;
++  return { subtotal: sub, discount, shipping, total: sub - discount + shipping };
++}
++
++export { quote, subtotal, COUPONS };
+diff --git a/src/store.ts b/src/store.ts
+new file mode 100644
+index 0000000..31c1269
+--- /dev/null
++++ b/src/store.ts
+@@ -0,0 +1,12 @@
++import type { NewOrder, Order } from './types/order';
++
++const orders = new Map<string, Order>();
++let seq = 1;
++
++function reset(): void { orders.clear(); seq = 1; }
++function create(data: NewOrder): Order { const id = String(seq++); const o: Order = { id, status: 'pending', ...data }; orders.set(id, o); return o; }
++function get(id: string | number): Order | null { return orders.get(String(id)) || null; }
++function update(id: string | number, patch: Partial<Order>): Order | null { const o = get(id); if (!o) return null; Object.assign(o, patch); return o; }
++function list(): Order[] { return Array.from(orders.values()); }
++
++export { reset, create, get, update, list };
+diff --git a/src/types/http.ts b/src/types/http.ts
+new file mode 100644
+index 0000000..1eb4a9f
+--- /dev/null
++++ b/src/types/http.ts
+@@ -0,0 +1,4 @@
++/** 상태 코드를 담는 에러. app.ts의 에러 핸들러가 status를 응답 코드로 쓴다. */
++export interface HttpError extends Error {
++  status?: number;
++}
+diff --git a/src/types/order.ts b/src/types/order.ts
+new file mode 100644
+index 0000000..aabd04c
+--- /dev/null
++++ b/src/types/order.ts
+@@ -0,0 +1,24 @@
++export type OrderStatus = 'pending' | 'cancelled' | 'shipped';
++
++export interface OrderItem {
++  sku: string;
++  qty: number;
++  price: number;
++}
++
++export interface Quote {
++  subtotal: number;
++  discount: number;
++  shipping: number;
++  total: number;
++}
++
++export interface Order extends Quote {
++  id: string;
++  status: OrderStatus;
++  items: OrderItem[];
++  coupon: string | null;
++}
++
++/** store.create()에 넘기는 값. id와 status는 store가 채운다. */
++export type NewOrder = Omit<Order, 'id' | 'status'>;
+diff --git a/src/validate.js b/src/validate.js
+deleted file mode 100644
+index b75dee0..0000000
+--- a/src/validate.js
++++ /dev/null
+@@ -1,10 +0,0 @@
+-function validateItems(items) {
+-  if (!Array.isArray(items) || items.length === 0) return 'items must be a non-empty array';
+-  for (const it of items) {
+-    if (typeof it.sku !== 'string' || !it.sku) return 'sku is required';
+-    if (!Number.isInteger(it.qty) || it.qty <= 0) return 'qty must be a positive integer';
+-    if (typeof it.price !== 'number' || it.price < 0) return 'price must be a non-negative number';
+-  }
+-  return null;
+-}
+-module.exports = { validateItems };
+diff --git a/src/validate.ts b/src/validate.ts
+new file mode 100644
+index 0000000..d8663bd
+--- /dev/null
++++ b/src/validate.ts
+@@ -0,0 +1,24 @@
++/** 검증 전 항목. 외부 입력이므로 필드는 모두 unknown. */
++type UnverifiedItem = { sku?: unknown; qty?: unknown; price?: unknown };
++
++/**
++ * 오류 메시지를 반환하고, 유효하면 null을 반환한다.
++ * null을 반환했다면 items는 OrderItem[] 형태임이 보장된다.
++ */
++function validateItems(items: unknown): string | null {
++  if (!Array.isArray(items) || items.length === 0) return 'items must be a non-empty array';
++  // as: 원래 JS는 각 항목이 객체인지 확인하지 않고 바로 속성을 읽는다.
++  //     null/undefined 항목이면 TypeError가 나서 500 응답이 되는데, 이 동작을 보존하려고
++  //     객체 검사를 추가하지 않고 단언만 한다.
++  // TODO(ts-migration): items에 null/undefined가 있으면 TypeError가 나서 400 대신 500으로 응답하고,
++  //     내부 에러 메시지("Cannot read properties of null ...")가 클라이언트에 노출된다.
++  for (const it of items as UnverifiedItem[]) {
++    if (typeof it.sku !== 'string' || !it.sku) return 'sku is required';
++    // typeof 검사는 동작을 바꾸지 않는다. 숫자가 아니면 Number.isInteger도 false라서 결과가 같다.
++    // TS가 qty를 number로 좁히도록 추가한 것이다.
++    if (typeof it.qty !== 'number' || !Number.isInteger(it.qty) || it.qty <= 0) return 'qty must be a positive integer';
++    if (typeof it.price !== 'number' || it.price < 0) return 'price must be a non-negative number';
++  }
++  return null;
++}
++export { validateItems };
+diff --git a/tests/orders.test.js b/tests/orders.test.ts
+similarity index 85%
+rename from tests/orders.test.js
+rename to tests/orders.test.ts
+index 853acfd..7ed894d 100644
+--- a/tests/orders.test.js
++++ b/tests/orders.test.ts
+@@ -1,9 +1,10 @@
+-const request = require('supertest');
+-const app = require('../src/app');
+-const store = require('../src/store');
++import request = require('supertest');
++import app = require('../src/app');
++import store = require('../src/store');
++import type { OrderItem } from '../src/types/order';
+ 
+ beforeEach(() => store.reset());
+-const items = [{ sku: 'A', qty: 2, price: 10000 }, { sku: 'B', qty: 1, price: 5000 }];
++const items: OrderItem[] = [{ sku: 'A', qty: 2, price: 10000 }, { sku: 'B', qty: 1, price: 5000 }];
+ 
+ test('health', async () => {
+   const r = await request(app).get('/health');
+diff --git a/tsconfig.build.json b/tsconfig.build.json
+new file mode 100644
+index 0000000..43c80c0
+--- /dev/null
++++ b/tsconfig.build.json
+@@ -0,0 +1,11 @@
++{
++  // 운영 빌드: src -> dist (테스트·jest 타입 제외)
++  "extends": "./tsconfig.json",
++  "compilerOptions": {
++    "noEmit": false,
++    "rootDir": "src",
++    "outDir": "dist",
++    "types": ["node"]
++  },
++  "include": ["src/**/*", "types/**/*"]
++}
+diff --git a/tsconfig.json b/tsconfig.json
+new file mode 100644
+index 0000000..43aea02
+--- /dev/null
++++ b/tsconfig.json
+@@ -0,0 +1,23 @@
++{
++  // 타입체크용 기본 설정 (src + tests). 빌드는 tsconfig.build.json 사용.
++  "compilerOptions": {
++    "target": "ES2022",
++    "module": "commonjs",
++    "moduleResolution": "node10",
++    "lib": ["ES2022"],
++    "types": ["node", "jest"],
++
++    // JS/TS 혼재 허용. 기존 .js 파일은 타입체크하지 않는다(checkJs 미사용).
++    "allowJs": true,
++    "checkJs": false,
++
++    "strict": true,
++    "esModuleInterop": true,
++    "forceConsistentCasingInFileNames": true,
++    "resolveJsonModule": true,
++    "skipLibCheck": true,
++
++    "noEmit": true
++  },
++  "include": ["src/**/*", "tests/**/*", "types/**/*"]
++}

@@ -1,0 +1,267 @@
+diff --git a/payment/cart.py b/payment/cart.py
+index 4425d7c..1f9b799 100644
+--- a/payment/cart.py
++++ b/payment/cart.py
+@@ -1,9 +1,17 @@
+ """장바구니 합계 계산."""
+-from .money import round_amount, apply_rate
++from .money import round_decimal, to_decimal
++
++
++def _line_total(unit_price, qty, currency):
++    return round_decimal(to_decimal(unit_price) * to_decimal(qty), currency)
++
++
++def _apply_rate(amount, rate, currency):
++    return round_decimal(amount * to_decimal(rate), currency)
+ 
+ 
+ def line_total(unit_price, qty, currency="USD"):
+-    return round_amount(unit_price * qty, currency)
++    return float(_line_total(unit_price, qty, currency))
+ 
+ 
+ def cart_total(items, tax_rate=0.0, discount_rate=0.0, currency="USD"):
+@@ -11,15 +19,15 @@ def cart_total(items, tax_rate=0.0, discount_rate=0.0, currency="USD"):
+ 
+     정책은 docs/PAYMENT_POLICY.md 참고.
+     """
+-    total = 0.0
++    total = to_decimal(0)
+     for unit_price, qty in items:
+-        line = line_total(unit_price, qty, currency)
+-        line = line - apply_rate(line, discount_rate, currency)
+-        line = line + apply_rate(line, tax_rate, currency)
++        line = _line_total(unit_price, qty, currency)
++        line = line - _apply_rate(line, discount_rate, currency)
++        line = line + _apply_rate(line, tax_rate, currency)
+         total += line
+-    return round_amount(total, currency)
++    return float(round_decimal(total, currency))
+ 
+ 
+ def refund_amount(paid, refund_rate, currency="USD"):
+     """부분 환불 금액(음수가 아닌 값)."""
+-    return apply_rate(paid, refund_rate, currency)
++    return float(_apply_rate(to_decimal(paid), refund_rate, currency))
+diff --git a/payment/money.py b/payment/money.py
+index 56163f9..4967bc8 100644
+--- a/payment/money.py
++++ b/payment/money.py
+@@ -1,19 +1,54 @@
+ """금액 계산 유틸리티."""
++from decimal import ROUND_HALF_UP, Decimal
+ 
+ CURRENCY_DECIMALS = {"KRW": 0, "JPY": 0, "USD": 2, "EUR": 2}
+ 
+ 
++def to_decimal(value):
++    """금액·비율을 Decimal로 변환한다.
++
++    float는 Decimal(float)로 바로 만들면 이진 오차(1.005 -> 1.00499999...)가
++    그대로 들어가므로, 최단 왕복 십진 표기(repr)를 거쳐 변환한다.
++    """
++    if isinstance(value, Decimal):
++        return value
++    if isinstance(value, float):
++        return Decimal(repr(value))
++    return Decimal(value)
++
++
++def _quantum(currency):
++    try:
++        decimals = CURRENCY_DECIMALS[currency]
++    except KeyError:
++        raise ValueError(f"unsupported currency: {currency!r}") from None
++    return Decimal(1).scaleb(-decimals)
++
++
++def round_decimal(value, currency="USD"):
++    """금액을 통화 최소 단위로 ROUND_HALF_UP 반올림한 Decimal을 돌려준다."""
++    return to_decimal(value).quantize(_quantum(currency), rounding=ROUND_HALF_UP)
++
++
+ def round_amount(value, currency="USD"):
+     """금액을 통화 최소 단위로 반올림한다."""
+-    return round(float(value), 2)
++    return float(round_decimal(value, currency))
+ 
+ 
+ def apply_rate(amount, rate, currency="USD"):
+     """금액에 비율(세율·할인율 등)을 곱한 값을 반올림해 돌려준다."""
+-    return round_amount(amount * rate, currency)
++    return float(round_decimal(to_decimal(amount) * to_decimal(rate), currency))
+ 
+ 
+ def split_amount(total, parts, currency="USD"):
+-    """total을 parts개로 나눈 금액 목록을 돌려준다."""
+-    each = round_amount(total / parts, currency)
+-    return [each] * parts
++    """total을 parts개로 나눈 금액 목록을 돌려준다.
++
++    합계는 total(최소 단위로 반올림한 값)과 정확히 같고,
++    나머지 최소 단위는 앞 순번부터 1단위씩 더한다.
++    """
++    quantum = _quantum(currency)
++    total_units = int(round_decimal(total, currency) / quantum)
++    sign = -1 if total_units < 0 else 1
++    base, remainder = divmod(abs(total_units), parts)
++    units = [base + 1 if i < remainder else base for i in range(parts)]
++    return [float(sign * u * quantum) for u in units]
+diff --git a/tests/test_rounding_policy.py b/tests/test_rounding_policy.py
+new file mode 100644
+index 0000000..8b3a695
+--- /dev/null
++++ b/tests/test_rounding_policy.py
+@@ -0,0 +1,151 @@
++"""docs/PAYMENT_POLICY.md 의 반올림 정책 회귀 테스트.
++
++- ROUND_HALF_UP (0.5는 0에서 먼 쪽)
++- 소수 자릿수: KRW·JPY 0자리, USD·EUR 2자리
++- 분할 합계 == 원금, 나머지는 앞 순번부터 1단위씩
++"""
++from decimal import Decimal
++
++import pytest
++
++from payment.cart import cart_total, line_total, refund_amount
++from payment.money import apply_rate, round_amount, split_amount
++
++
++def _d(x):
++    """float 결과를 표기된 십진수 그대로 비교하기 위한 헬퍼."""
++    return Decimal(str(x))
++
++
++# --- round_amount: HALF_UP 경계값 (USD, 2자리) ---------------------------------
++@pytest.mark.parametrize(
++    "value, expected",
++    [
++        (0.005, "0.01"),
++        (0.015, "0.02"),   # float 0.01499999... -> 기존 0.01
++        (1.005, "1.01"),   # float 1.00499999... -> 기존 1.0
++        (2.675, "2.68"),   # float 2.67499999... -> 기존 2.67
++        (0.125, "0.13"),   # HALF_EVEN이면 0.12, HALF_UP이면 0.13
++        (0, "0.00"),
++        (9999999999.995, "10000000000.00"),
++    ],
++)
++def test_round_half_up_usd(value, expected):
++    assert _d(round_amount(value, "USD")) == Decimal(expected)
++
++
++@pytest.mark.parametrize(
++    "value, expected",
++    [
++        (-0.005, "-0.01"),
++        (-1.005, "-1.01"),
++        (-2.675, "-2.68"),
++        (-0.125, "-0.13"),
++    ],
++)
++def test_round_half_up_negative_away_from_zero(value, expected):
++    assert _d(round_amount(value, "USD")) == Decimal(expected)
++
++
++def test_round_accepts_str_and_decimal_inputs():
++    assert _d(round_amount("1.005", "USD")) == Decimal("1.01")
++    assert _d(round_amount(Decimal("2.675"), "USD")) == Decimal("2.68")
++
++
++# --- 소수 자릿수 0인 통화 -----------------------------------------------------------
++@pytest.mark.parametrize("currency", ["KRW", "JPY"])
++@pytest.mark.parametrize(
++    "value, expected",
++    [
++        (1000.5, "1001"),
++        (1000.4, "1000"),
++        (2.5, "3"),      # HALF_EVEN이면 2
++        (-2.5, "-3"),    # JS Math.round 류면 -2
++        (0.5, "1"),
++        (0, "0"),
++    ],
++)
++def test_round_zero_decimal_currencies(currency, value, expected):
++    assert _d(round_amount(value, currency)) == Decimal(expected)
++
++
++def test_eur_two_decimals():
++    assert _d(round_amount(1.005, "EUR")) == Decimal("1.01")
++
++
++def test_unknown_currency_rejected():
++    with pytest.raises(ValueError):
++        round_amount(1.0, "XXX")
++
++
++# --- apply_rate / line_total ------------------------------------------------------
++def test_apply_rate_half_up():
++    # 0.20 * 0.075 = 0.015 -> 0.02
++    assert _d(apply_rate(0.2, 0.075, "USD")) == Decimal("0.02")
++    # 1005 * 0.5 = 502.5 -> 503 (KRW)
++    assert _d(apply_rate(1005, 0.5, "KRW")) == Decimal("503")
++
++
++def test_line_total_float_multiplication():
++    # 1.115 * 3 = 3.345 -> 3.35 (float 곱은 3.3449999999999998 -> 기존 3.34)
++    assert _d(line_total(1.115, 3, "USD")) == Decimal("3.35")
++    # 0.005 * 3 = 0.015 -> 0.02 (float 곱은 0.015이지만 이진 표현은 0.01499...)
++    assert _d(line_total(0.005, 3, "USD")) == Decimal("0.02")
++
++
++# --- cart_total -------------------------------------------------------------------
++def test_cart_discount_then_tax_no_float_drift():
++    # 0.21 -> 할인 5% = 0.0105 -> 0.01, 줄 0.20
++    # 세금 7.5% = 0.015 -> 0.02, 줄 0.22
++    # (float: 0.21-0.01 = 0.19999999999999998 -> 세금 0.01 -> 0.21)
++    assert _d(cart_total([(0.21, 1)], tax_rate=0.075, discount_rate=0.05)) == Decimal("0.22")
++
++
++def test_cart_discount_tax_another_case():
++    # 0.35 -> 할인 10% = 0.035 -> 0.04, 줄 0.31; 세금 10% = 0.031 -> 0.03, 합 0.34
++    assert _d(cart_total([(0.35, 1)], tax_rate=0.1, discount_rate=0.1)) == Decimal("0.34")
++
++
++def test_cart_krw():
++    # 줄 1005; 할인 10% = 100.5 -> 101, 904; 세금 10% = 90.4 -> 90, 994
++    assert _d(cart_total([(1005, 1)], tax_rate=0.1, discount_rate=0.1, currency="KRW")) == Decimal("994")
++
++
++# --- refund -----------------------------------------------------------------------
++def test_refund_half_up():
++    # 2.01 * 0.5 = 1.005 -> 1.01
++    assert _d(refund_amount(2.01, 0.5, "USD")) == Decimal("1.01")
++
++
++# --- split_amount -----------------------------------------------------------------
++def test_split_100_by_3_usd():
++    parts = split_amount(100, 3, "USD")
++    assert [_d(p) for p in parts] == [Decimal("33.34"), Decimal("33.33"), Decimal("33.33")]
++    assert sum(_d(p) for p in parts) == Decimal("100")
++
++
++def test_split_100_by_3_krw():
++    parts = split_amount(100, 3, "KRW")
++    assert [_d(p) for p in parts] == [Decimal("34"), Decimal("33"), Decimal("33")]
++
++
++def test_split_remainder_multiple_units():
++    # 0.05 / 3 = 0.0166.. -> [0.02, 0.02, 0.01]
++    parts = split_amount(0.05, 3, "USD")
++    assert [_d(p) for p in parts] == [Decimal("0.02"), Decimal("0.02"), Decimal("0.01")]
++
++
++def test_split_negative_refund_sums_exactly():
++    parts = split_amount(-100, 3, "USD")
++    assert sum(_d(p) for p in parts) == Decimal("-100")
++    assert [_d(p) for p in parts] == [Decimal("-33.34"), Decimal("-33.33"), Decimal("-33.33")]
++
++
++def test_split_zero():
++    assert [_d(p) for p in split_amount(0, 3, "USD")] == [Decimal("0")] * 3
++
++
++def test_split_large_amount_sums_exactly():
++    total = "9999999999.99"
++    parts = split_amount(total, 7, "USD")
++    assert sum(_d(p) for p in parts) == Decimal(total)

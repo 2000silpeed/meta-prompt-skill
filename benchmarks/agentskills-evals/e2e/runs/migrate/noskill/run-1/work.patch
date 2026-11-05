@@ -1,0 +1,564 @@
+diff --git a/.github/workflows/ci.yml b/.github/workflows/ci.yml
+index 76f0888..ad603f2 100644
+--- a/.github/workflows/ci.yml
++++ b/.github/workflows/ci.yml
+@@ -9,3 +9,12 @@ jobs:
+         with: { node-version: 22 }
+       - run: npm ci
+       - run: npm test
++  typecheck:
++    runs-on: ubuntu-latest
++    steps:
++      - uses: actions/checkout@v4
++      - uses: actions/setup-node@v4
++        with: { node-version: 22 }
++      - run: npm ci
++      - run: npm run typecheck
++      - run: npm run build
+diff --git a/.gitignore b/.gitignore
+index c2658d7..b947077 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -1 +1,2 @@
+ node_modules/
++dist/
+diff --git a/MIGRATION.md b/MIGRATION.md
+new file mode 100644
+index 0000000..de03265
+--- /dev/null
++++ b/MIGRATION.md
+@@ -0,0 +1,79 @@
++# TypeScript 점진 마이그레이션 계획
++
++JS와 TS가 섞인 상태에서도 테스트, `tsc --noEmit`, 빌드가 모두 통과하는 상태를 유지하면서 파일을 조금씩 옮깁니다.
++변환은 타입을 붙이는 작업이며, 로직, 에러 메시지, 응답 형태, 상태 코드는 바꾸지 않습니다.
++
++## 현재 구조
++
++| 항목 | 설정 |
++|---|---|
++| 빌드 | `npm run build` (`tsc`): `src/**/*.{ts,js}`를 `dist/`로 출력 (CommonJS, ES2022) |
++| 실행 | `npm start`는 `node dist/server.js`를 실행합니다. **먼저 빌드해야 합니다.** 런타임 트랜스파일은 쓰지 않습니다. |
++| 타입 체크 | `npm run typecheck` (`tsc --noEmit`). CI의 `typecheck` job이 빌드와 함께 실행합니다. |
++| 테스트 | jest. `.ts`는 ts-jest(빌드와 같은 tsconfig)로, `.js`는 기존처럼 babel-jest로 변환합니다. |
++| JS 처리 | `allowJs: true`, `checkJs: false`. `alwaysStrict: false`이므로 레거시 JS 출력에 `"use strict"`가 붙지 않습니다. |
++
++## 진행 상황
++
++| 단계 | 파일 | 상태 |
++|---|---|---|
++| 1. 말단 (유틸/상수/순수 함수/모델) | `src/store.ts`, `src/validate.ts`, `src/services/pricing.ts` | ✅ 완료 (phase 1) |
++| 2. 라우트 핸들러 | `src/routes/orders.js` | ⏳ 다음 |
++| 3. 앱 엔트리 | `src/app.js`, `src/server.js` | ⏳ |
++| 4. (선택) 테스트 | `tests/orders.test.js` | ⏳ |
++| 5. 마무리 | 설정 정리 | ⏳ |
++
++미들웨어 단계는 별도 파일이 없어서 건너뜁니다. 현재 미들웨어는 `app.js` 안의 `express.json()`과 에러 핸들러뿐이므로 3단계에서 함께 옮깁니다.
++
++## 다음 묶음
++
++### 2단계: `src/routes/orders.js` → `.ts` (PR 1개)
++
++- **export 형태 주의:** `app.js`가 `require('./routes/orders')`의 반환값을 라우터로 바로 사용합니다. 그래서 반드시 `export = router`를 써야 합니다. `export default`로 바꾸면 `{ default: router }`가 반환되어 서버가 깨집니다.
++- 경계 값은 이렇게 받습니다.
++  - `req.body`는 Express 타입상 `any`이므로 `const body: unknown = req.body`로 받습니다. 구조 분해는 `(body || {}) as { items?: unknown; coupon?: unknown }`처럼 명시적으로 단언합니다. 원본의 `req.body || {}` 동작을 그대로 유지해야 합니다.
++  - `validateItems()`는 타입 가드가 아니므로, 검증을 통과한 뒤 `items as LineItem[]`로 단언해야 합니다. 타입 가드로 바꿀지는 리팩터링 판단이므로 별도 PR에서 다룹니다.
++  - `req.query.status`의 타입은 `string | string[] | ParsedQs | ...`입니다. `?status=a&status=b`처럼 배열로 오면 `===` 비교가 항상 false가 되어 빈 배열이 반환됩니다. 현재 동작을 그대로 두고 타입만 정직하게 붙입니다.
++- `store.update()`의 반환 타입은 `Order | null`입니다. 라우트에서는 바로 앞에서 `get()`으로 존재를 확인하므로 null이 나오지 않지만, 타입상으로는 null이 남습니다. `res.json()`은 null도 받으므로 단언하지 않고 그대로 둡니다.
++
++### 3단계: `src/app.js`, `src/server.js` → `.ts` (PR 1개)
++
++- `app.js`는 `export = app`으로 내보냅니다. `tests/orders.test.js`와 `server.js`가 `require('./app')`의 반환값을 앱으로 바로 사용합니다.
++- 에러 핸들러의 `err`는 `unknown`으로 받습니다. `services/pricing.ts`의 `HttpError` 타입을 재사용하되, 필요하면 `src/errors.ts`로 옮깁니다. 에러 핸들러로 들어오는 값이 Error가 아닐 수도 있다는 점(`err.message`가 undefined이면 `'internal error'`)을 타입에 반영합니다.
++- 에러 핸들러는 인자가 4개여야 Express가 에러 핸들러로 인식합니다. 사용하지 않는 `next`를 지우면 동작이 바뀝니다. 이름을 `_next`로 바꾸는 것은 괜찮지만 인자를 지우면 안 됩니다.
++- `server.ts`: `process.env.PORT || 3000`은 `string | number`입니다. `listen()`이 둘 다 받으므로 그대로 둡니다.
++- 이 단계가 끝나면 `src/`에 JS 파일이 남지 않습니다.
++
++### 4단계 (선택): 테스트를 `.ts`로
++
++- `@types/supertest`를 추가해야 합니다(supertest 7.0.0에 맞는 버전).
++- assertion은 바꾸지 않고 `require`를 `import`로 바꾸는 수준에서 끝냅니다.
++
++### 5단계: 마무리
++
++- `src/`에 JS가 남지 않으면 `allowJs`를 제거합니다. `alwaysStrict: false`도 제거해서 strict 기본값으로 되돌립니다(TS 모듈은 원래 strict입니다).
++- `noUncheckedIndexedAccess` 도입을 검토합니다. `COUPONS[coupon]`처럼 인덱스 조회가 undefined일 수 있는 코드가 드러납니다.
++- `@ts-expect-error`와 `TODO(ts-migration)`가 남아 있지 않은지 확인합니다.
++
++## 규칙 (모든 단계 공통)
++
++- 한 PR에는 `git mv`만 하는 커밋과 타입을 붙이는 커밋을 따로 둡니다.
++- 경계 값(요청 body/query, 외부 응답, DB 결과)은 `unknown`이나 명시적인 타입으로 받습니다.
++- `any`를 쓰려면 `// TODO(ts-migration): 이유` 주석을 붙입니다. `@ts-ignore`는 금지이고, 꼭 필요하면 `@ts-expect-error`에 이유를 붙입니다.
++- 의심스러운 동작은 고치지 말고 `// NOTE(ts-migration): ...` 주석과 PR 설명에 남깁니다.
++- `req.user` 같은 커스텀 Request 속성이 생기면 `src/types/express.d.ts` 한 곳에서 declaration merging으로 정의합니다(현재는 그런 속성이 없어 파일이 없습니다).
++- CommonJS를 유지합니다. 아직 JS 파일이 `require`하는 모듈이면 export 형태가 바뀌지 않는지 확인합니다. 단일 값을 내보내는 모듈은 `export =`, 객체를 내보내는 모듈은 named export를 씁니다.
++- 각 PR에서 아래를 확인합니다: `npm test`, `npm run typecheck`, `npm run build`, 그리고 빌드 결과물을 기동한 뒤 대표 요청을 보내 응답이 이전과 같은지 비교.
++
++## 발견된 의심 동작 (수정하지 않음, 팀 판단 필요)
++
++| 위치 | 내용 |
++|---|---|
++| `src/services/pricing.ts` (`COUPONS` 조회) | `coupon: "toString"` 같은 Object.prototype 키를 넣으면 rate가 함수가 됩니다. 그 결과 201 응답에 `discount: null, total: null`이 담깁니다(실제로 재현됨). |
++| `src/services/pricing.ts` (`quote`) | coupon이 문자열이 아니어도 프로퍼티 키로 강제 변환됩니다. `["VIP20"]`은 VIP20 할인이 적용되고, 응답의 `coupon`도 배열로 저장됩니다. |
++| `src/validate.ts` | `items: [null]`이면 TypeError가 나서 500이 반환되고, 내부 에러 메시지(`Cannot read properties of null...`)가 응답에 노출됩니다(실제로 재현됨). |
++| `src/validate.ts` | price에 NaN이나 Infinity가 들어오면 검증을 통과합니다. JSON 요청으로는 NaN을 보낼 수 없지만, 내부 호출에서는 가능합니다. |
++| `src/store.ts` (`create`) | data에 `id`나 `status`가 있으면 그 값이 덮어씁니다. 현재 호출부에서는 해당 키가 들어오지 않습니다. |
++| `src/store.ts` (`update`) | `patch.id`가 반영되면 Map 키와 `o.id`가 어긋납니다. `get`/`list`가 내부 객체 참조를 그대로 반환하므로 호출자가 값을 바꿀 수 있습니다. |
++| `src/app.js` (에러 핸들러) | `err.message`를 그대로 응답합니다. 500 에러의 내부 메시지와 body-parser의 JSON 파싱 메시지가 외부로 노출됩니다. |
++| `src/routes/orders.js` (`GET /`) | `status` 쿼리가 배열(`?status=a&status=b`)이면 항상 빈 배열을 반환합니다. |
+diff --git a/dist/app.js b/dist/app.js
+new file mode 100644
+index 0000000..91b33d7
+--- /dev/null
++++ b/dist/app.js
+@@ -0,0 +1,11 @@
++const express = require('express');
++const orders = require('./routes/orders');
++const app = express();
++app.use(express.json());
++app.get('/health', (req, res) => res.json({ ok: true }));
++app.use('/orders', orders);
++app.use((err, req, res, next) => {
++    res.status(err.status || 500).json({ error: err.message || 'internal error' });
++});
++module.exports = app;
++//# sourceMappingURL=app.js.map
+\ No newline at end of file
+diff --git a/dist/app.js.map b/dist/app.js.map
+new file mode 100644
+index 0000000..18c15a2
+--- /dev/null
++++ b/dist/app.js.map
+@@ -0,0 +1 @@
++{"version":3,"file":"app.js","sourceRoot":"","sources":["../src/app.js"],"names":[],"mappings":"AAAA,MAAM,OAAO,GAAG,OAAO,CAAC,SAAS,CAAC,CAAC;AACnC,MAAM,MAAM,GAAG,OAAO,CAAC,iBAAiB,CAAC,CAAC;AAE1C,MAAM,GAAG,GAAG,OAAO,EAAE,CAAC;AACtB,GAAG,CAAC,GAAG,CAAC,OAAO,CAAC,IAAI,EAAE,CAAC,CAAC;AACxB,GAAG,CAAC,GAAG,CAAC,SAAS,EAAE,CAAC,GAAG,EAAE,GAAG,EAAE,EAAE,CAAC,GAAG,CAAC,IAAI,CAAC,EAAE,EAAE,EAAE,IAAI,EAAE,CAAC,CAAC,CAAC;AACzD,GAAG,CAAC,GAAG,CAAC,SAAS,EAAE,MAAM,CAAC,CAAC;AAC3B,GAAG,CAAC,GAAG,CAAC,CAAC,GAAG,EAAE,GAAG,EAAE,GAAG,EAAE,IAAI,EAAE,EAAE;IAC9B,GAAG,CAAC,MAAM,CAAC,GAAG,CAAC,MAAM,IAAI,GAAG,CAAC,CAAC,IAAI,CAAC,EAAE,KAAK,EAAE,GAAG,CAAC,OAAO,IAAI,gBAAgB,EAAE,CAAC,CAAC;AACjF,CAAC,CAAC,CAAC;AAEH,MAAM,CAAC,OAAO,GAAG,GAAG,CAAC"}
+\ No newline at end of file
+diff --git a/dist/routes/orders.js b/dist/routes/orders.js
+new file mode 100644
+index 0000000..e4b3bff
+--- /dev/null
++++ b/dist/routes/orders.js
+@@ -0,0 +1,48 @@
++const express = require('express');
++const store = require('../store');
++const { validateItems } = require('../validate');
++const { quote } = require('../services/pricing');
++const router = express.Router();
++router.post('/', (req, res, next) => {
++    const { items, coupon } = req.body || {};
++    const msg = validateItems(items);
++    if (msg)
++        return res.status(400).json({ error: msg });
++    try {
++        const q = quote(items, coupon);
++        const order = store.create({ items, coupon: coupon || null, ...q });
++        res.status(201).json(order);
++    }
++    catch (e) {
++        next(e);
++    }
++});
++router.get('/', (req, res) => {
++    const { status } = req.query;
++    const all = store.list();
++    res.json(status ? all.filter(o => o.status === status) : all);
++});
++router.get('/:id', (req, res) => {
++    const o = store.get(req.params.id);
++    if (!o)
++        return res.status(404).json({ error: 'order not found' });
++    res.json(o);
++});
++router.post('/:id/cancel', (req, res) => {
++    const o = store.get(req.params.id);
++    if (!o)
++        return res.status(404).json({ error: 'order not found' });
++    if (o.status === 'shipped')
++        return res.status(409).json({ error: 'shipped order cannot be cancelled' });
++    res.json(store.update(o.id, { status: 'cancelled' }));
++});
++router.post('/:id/ship', (req, res) => {
++    const o = store.get(req.params.id);
++    if (!o)
++        return res.status(404).json({ error: 'order not found' });
++    if (o.status !== 'pending')
++        return res.status(409).json({ error: `cannot ship ${o.status} order` });
++    res.json(store.update(o.id, { status: 'shipped' }));
++});
++module.exports = router;
++//# sourceMappingURL=orders.js.map
+\ No newline at end of file
+diff --git a/dist/routes/orders.js.map b/dist/routes/orders.js.map
+new file mode 100644
+index 0000000..afaab78
+--- /dev/null
++++ b/dist/routes/orders.js.map
+@@ -0,0 +1 @@
++{"version":3,"file":"orders.js","sourceRoot":"","sources":["../../src/routes/orders.js"],"names":[],"mappings":"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"}
+\ No newline at end of file
+diff --git a/dist/server.js b/dist/server.js
+new file mode 100644
+index 0000000..5d77ddb
+--- /dev/null
++++ b/dist/server.js
+@@ -0,0 +1,4 @@
++const app = require('./app');
++const port = process.env.PORT || 3000;
++app.listen(port, () => console.log(`shop-api listening on ${port}`));
++//# sourceMappingURL=server.js.map
+\ No newline at end of file
+diff --git a/dist/server.js.map b/dist/server.js.map
+new file mode 100644
+index 0000000..036d73a
+--- /dev/null
++++ b/dist/server.js.map
+@@ -0,0 +1 @@
++{"version":3,"file":"server.js","sourceRoot":"","sources":["../src/server.js"],"names":[],"mappings":"AAAA,MAAM,GAAG,GAAG,OAAO,CAAC,OAAO,CAAC,CAAC;AAC7B,MAAM,IAAI,GAAG,OAAO,CAAC,GAAG,CAAC,IAAI,IAAI,IAAI,CAAC;AACtC,GAAG,CAAC,MAAM,CAAC,IAAI,EAAE,GAAG,EAAE,CAAC,OAAO,CAAC,GAAG,CAAC,yBAAyB,IAAI,EAAE,CAAC,CAAC,CAAC"}
+\ No newline at end of file
+diff --git a/dist/services/pricing.js b/dist/services/pricing.js
+new file mode 100644
+index 0000000..47f30a1
+--- /dev/null
++++ b/dist/services/pricing.js
+@@ -0,0 +1,28 @@
++"use strict";
++Object.defineProperty(exports, "__esModule", { value: true });
++exports.COUPONS = void 0;
++exports.subtotal = subtotal;
++exports.quote = quote;
++// NOTE(ts-migration): 일반 객체 리터럴이라 'toString', 'constructor' 같은 Object.prototype 키도
++// 조회된다. 이 경우 rate가 함수가 되어 discount/total이 NaN(JSON에서는 null)이 된다. 원본 동작 그대로 둔다.
++exports.COUPONS = { WELCOME10: 0.1, VIP20: 0.2 };
++function subtotal(items) {
++    return items.reduce((s, it) => s + it.price * it.qty, 0);
++}
++// coupon은 routes/orders.js가 요청 body 값을 검증 없이 넘기므로 unknown으로 받는다.
++function quote(items, coupon) {
++    const sub = subtotal(items);
++    // NOTE(ts-migration): coupon이 문자열이 아니어도 프로퍼티 키로 강제 변환되어 조회된다
++    // (예: ["VIP20"] -> "VIP20"으로 할인 적용, 123 -> "123" -> unknown coupon).
++    const rate = coupon ? exports.COUPONS[coupon] : 0;
++    if (coupon && rate === undefined) {
++        const err = new Error('unknown coupon');
++        err.status = 400;
++        throw err;
++    }
++    // 위 분기 때문에 여기서 rate는 undefined가 아니지만(coupon이 falsy면 0) TS가 좁히지 못해 단언한다.
++    const discount = Math.round(sub * rate);
++    const shipping = sub - discount >= 30000 ? 0 : 3000;
++    return { subtotal: sub, discount, shipping, total: sub - discount + shipping };
++}
++//# sourceMappingURL=pricing.js.map
+\ No newline at end of file
+diff --git a/dist/services/pricing.js.map b/dist/services/pricing.js.map
+new file mode 100644
+index 0000000..668ca64
+--- /dev/null
++++ b/dist/services/pricing.js.map
+@@ -0,0 +1 @@
++{"version":3,"file":"pricing.js","sourceRoot":"","sources":["../../src/services/pricing.ts"],"names":[],"mappings":";;;AAYA,4BAEC;AAGD,sBAcC;AAvBD,mFAAmF;AACnF,+EAA+E;AAClE,QAAA,OAAO,GAAuC,EAAE,SAAS,EAAE,GAAG,EAAE,KAAK,EAAE,GAAG,EAAE,CAAC;AAE1F,SAAgB,QAAQ,CAAC,KAA0B;IACjD,OAAO,KAAK,CAAC,MAAM,CAAC,CAAC,CAAC,EAAE,EAAE,EAAE,EAAE,CAAC,CAAC,GAAG,EAAE,CAAC,KAAK,GAAG,EAAE,CAAC,GAAG,EAAE,CAAC,CAAC,CAAC;AAC3D,CAAC;AAED,iEAAiE;AACjE,SAAgB,KAAK,CAAC,KAA0B,EAAE,MAAgB;IAChE,MAAM,GAAG,GAAG,QAAQ,CAAC,KAAK,CAAC,CAAC;IAC5B,6DAA6D;IAC7D,qEAAqE;IACrE,MAAM,IAAI,GAAG,MAAM,CAAC,CAAC,CAAC,eAAO,CAAC,MAAgB,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;IACpD,IAAI,MAAM,IAAI,IAAI,KAAK,SAAS,EAAE,CAAC;QACjC,MAAM,GAAG,GAAc,IAAI,KAAK,CAAC,gBAAgB,CAAC,CAAC;QACnD,GAAG,CAAC,MAAM,GAAG,GAAG,CAAC;QACjB,MAAM,GAAG,CAAC;IACZ,CAAC;IACD,wEAAwE;IACxE,MAAM,QAAQ,GAAG,IAAI,CAAC,KAAK,CAAC,GAAG,GAAG,IAAK,CAAC,CAAC;IACzC,MAAM,QAAQ,GAAG,GAAG,GAAG,QAAQ,IAAI,KAAK,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,IAAI,CAAC;IACpD,OAAO,EAAE,QAAQ,EAAE,GAAG,EAAE,QAAQ,EAAE,QAAQ,EAAE,KAAK,EAAE,GAAG,GAAG,QAAQ,GAAG,QAAQ,EAAE,CAAC;AACjF,CAAC"}
+\ No newline at end of file
+diff --git a/dist/store.js b/dist/store.js
+new file mode 100644
+index 0000000..55a7616
+--- /dev/null
++++ b/dist/store.js
+@@ -0,0 +1,18 @@
++"use strict";
++Object.defineProperty(exports, "__esModule", { value: true });
++exports.reset = reset;
++exports.create = create;
++exports.get = get;
++exports.update = update;
++exports.list = list;
++const orders = new Map();
++let seq = 1;
++// NOTE(ts-migration): create()는 data를 마지막에 펼치므로 data에 id/status가 있으면 그 값이 덮어쓴다.
++// update()도 patch.id를 그대로 반영해 Map 키와 o.id가 어긋날 수 있다. 원본 동작 그대로 둔다.
++function reset() { orders.clear(); seq = 1; }
++function create(data) { const id = String(seq++); const o = { id, status: 'pending', ...data }; orders.set(id, o); return o; }
++function get(id) { return orders.get(String(id)) || null; }
++function update(id, patch) { const o = get(id); if (!o)
++    return null; Object.assign(o, patch); return o; }
++function list() { return Array.from(orders.values()); }
++//# sourceMappingURL=store.js.map
+\ No newline at end of file
+diff --git a/dist/store.js.map b/dist/store.js.map
+new file mode 100644
+index 0000000..2ad06a4
+--- /dev/null
++++ b/dist/store.js.map
+@@ -0,0 +1 @@
++{"version":3,"file":"store.js","sourceRoot":"","sources":["../src/store.ts"],"names":[],"mappings":";;AAgBA,sBAA0D;AAC1D,wBAA4K;AAC5K,kBAAiG;AACjG,wBAAwK;AACxK,oBAAuE;AATvE,MAAM,MAAM,GAAG,IAAI,GAAG,EAAiB,CAAC;AACxC,IAAI,GAAG,GAAG,CAAC,CAAC;AAEZ,gFAAgF;AAChF,mEAAmE;AACnE,SAAgB,KAAK,KAAW,MAAM,CAAC,KAAK,EAAE,CAAC,CAAC,GAAG,GAAG,CAAC,CAAC,CAAC,CAAC;AAC1D,SAAgB,MAAM,CAAC,IAA6B,IAAW,MAAM,EAAE,GAAG,MAAM,CAAC,GAAG,EAAE,CAAC,CAAC,CAAC,MAAM,CAAC,GAAU,EAAE,EAAE,EAAE,MAAM,EAAE,SAAS,EAAE,GAAG,IAAI,EAAE,CAAC,CAAC,MAAM,CAAC,GAAG,CAAC,EAAE,EAAE,CAAC,CAAC,CAAC,CAAC,OAAO,CAAC,CAAC,CAAC,CAAC;AAC5K,SAAgB,GAAG,CAAC,EAAmB,IAAkB,OAAO,MAAM,CAAC,GAAG,CAAC,MAAM,CAAC,EAAE,CAAC,CAAC,IAAI,IAAI,CAAC,CAAC,CAAC;AACjG,SAAgB,MAAM,CAAC,EAAmB,EAAE,KAA8B,IAAkB,MAAM,CAAC,GAAG,GAAG,CAAC,EAAE,CAAC,CAAC,CAAC,IAAI,CAAC,CAAC;IAAE,OAAO,IAAI,CAAC,CAAC,MAAM,CAAC,MAAM,CAAC,CAAC,EAAE,KAAK,CAAC,CAAC,CAAC,OAAO,CAAC,CAAC,CAAC,CAAC;AACxK,SAAgB,IAAI,KAAc,OAAO,KAAK,CAAC,IAAI,CAAC,MAAM,CAAC,MAAM,EAAE,CAAC,CAAC,CAAC,CAAC"}
+\ No newline at end of file
+diff --git a/dist/validate.js b/dist/validate.js
+new file mode 100644
+index 0000000..ebe1cc4
+--- /dev/null
++++ b/dist/validate.js
+@@ -0,0 +1,22 @@
++"use strict";
++Object.defineProperty(exports, "__esModule", { value: true });
++exports.validateItems = validateItems;
++// items는 요청 body에서 그대로 들어오는 값이므로 unknown으로 받는다.
++function validateItems(items) {
++    if (!Array.isArray(items) || items.length === 0)
++        return 'items must be a non-empty array';
++    // NOTE(ts-migration): 요소가 null/undefined이면 `it.sku`에서 TypeError가 나서 500으로 응답된다.
++    // 원본 동작을 보존하기 위해 요소를 검사 없이 UncheckedItem으로 단언한다.
++    for (const it of items) {
++        if (typeof it.sku !== 'string' || !it.sku)
++            return 'sku is required';
++        // Number.isInteger는 타입을 좁히지 않으므로, 통과한 뒤의 비교를 위해 number로 단언한다.
++        if (!Number.isInteger(it.qty) || it.qty <= 0)
++            return 'qty must be a positive integer';
++        // NOTE(ts-migration): NaN/Infinity는 typeof가 'number'이고 `< 0`이 false라서 통과한다.
++        if (typeof it.price !== 'number' || it.price < 0)
++            return 'price must be a non-negative number';
++    }
++    return null;
++}
++//# sourceMappingURL=validate.js.map
+\ No newline at end of file
+diff --git a/dist/validate.js.map b/dist/validate.js.map
+new file mode 100644
+index 0000000..a36ca01
+--- /dev/null
++++ b/dist/validate.js.map
+@@ -0,0 +1 @@
++{"version":3,"file":"validate.js","sourceRoot":"","sources":["../src/validate.ts"],"names":[],"mappings":";;AAIA,sCAYC;AAbD,gDAAgD;AAChD,SAAgB,aAAa,CAAC,KAAc;IAC1C,IAAI,CAAC,KAAK,CAAC,OAAO,CAAC,KAAK,CAAC,IAAI,KAAK,CAAC,MAAM,KAAK,CAAC;QAAE,OAAO,iCAAiC,CAAC;IAC1F,gFAAgF;IAChF,iDAAiD;IACjD,KAAK,MAAM,EAAE,IAAI,KAAwB,EAAE,CAAC;QAC1C,IAAI,OAAO,EAAE,CAAC,GAAG,KAAK,QAAQ,IAAI,CAAC,EAAE,CAAC,GAAG;YAAE,OAAO,iBAAiB,CAAC;QACpE,8DAA8D;QAC9D,IAAI,CAAC,MAAM,CAAC,SAAS,CAAC,EAAE,CAAC,GAAG,CAAC,IAAK,EAAE,CAAC,GAAc,IAAI,CAAC;YAAE,OAAO,gCAAgC,CAAC;QAClG,4EAA4E;QAC5E,IAAI,OAAO,EAAE,CAAC,KAAK,KAAK,QAAQ,IAAI,EAAE,CAAC,KAAK,GAAG,CAAC;YAAE,OAAO,qCAAqC,CAAC;IACjG,CAAC;IACD,OAAO,IAAI,CAAC;AACd,CAAC"}
+\ No newline at end of file
+diff --git a/jest.config.js b/jest.config.js
+new file mode 100644
+index 0000000..9017e0a
+--- /dev/null
++++ b/jest.config.js
+@@ -0,0 +1,13 @@
++/** @type {import('jest').Config} */
++module.exports = {
++  transform: {
++    // .ts 파일만 ts-jest(= 빌드와 같은 tsc, 같은 tsconfig.json)로 변환한다.
++    '^.+\\.tsx?$': 'ts-jest',
++    // 기존 .js 파일은 지금까지와 똑같이 jest 기본 변환기(babel-jest)를 그대로 쓴다.
++    // `transform`을 지정하면 jest 기본값이 통째로 대체되므로 명시적으로 남겨 둔다.
++    '^.+\\.[jt]sx?$': 'babel-jest',
++  },
++  // 빌드 산출물이 테스트/모듈 해석에 섞이지 않게 한다.
++  testPathIgnorePatterns: ['/node_modules/', '/dist/'],
++  modulePathIgnorePatterns: ['<rootDir>/dist/'],
++};
+diff --git a/package.json b/package.json
+index 71920af..8233b79 100644
+--- a/package.json
++++ b/package.json
+@@ -2,16 +2,23 @@
+   "name": "shop-api",
+   "version": "1.4.2",
+   "private": true,
+-  "main": "src/server.js",
++  "main": "dist/server.js",
+   "scripts": {
+-    "start": "node src/server.js",
+-    "test": "jest"
++    "start": "node dist/server.js",
++    "test": "jest",
++    "build": "tsc",
++    "typecheck": "tsc --noEmit"
+   },
+   "dependencies": {
+     "express": "4.21.2"
+   },
+   "devDependencies": {
++    "@types/express": "4.17.25",
++    "@types/jest": "29.5.14",
++    "@types/node": "22.20.5",
+     "jest": "29.7.0",
+-    "supertest": "7.0.0"
++    "supertest": "7.0.0",
++    "ts-jest": "29.4.15",
++    "typescript": "5.9.3"
+   }
+ }
+diff --git a/src/services/pricing.js b/src/services/pricing.js
+deleted file mode 100644
+index 375a4bc..0000000
+--- a/src/services/pricing.js
++++ /dev/null
+@@ -1,20 +0,0 @@
+-const COUPONS = { WELCOME10: 0.1, VIP20: 0.2 };
+-
+-function subtotal(items) {
+-  return items.reduce((s, it) => s + it.price * it.qty, 0);
+-}
+-
+-function quote(items, coupon) {
+-  const sub = subtotal(items);
+-  const rate = coupon ? COUPONS[coupon] : 0;
+-  if (coupon && rate === undefined) {
+-    const err = new Error('unknown coupon');
+-    err.status = 400;
+-    throw err;
+-  }
+-  const discount = Math.round(sub * rate);
+-  const shipping = sub - discount >= 30000 ? 0 : 3000;
+-  return { subtotal: sub, discount, shipping, total: sub - discount + shipping };
+-}
+-
+-module.exports = { quote, subtotal, COUPONS };
+diff --git a/src/services/pricing.ts b/src/services/pricing.ts
+new file mode 100644
+index 0000000..836c883
+--- /dev/null
++++ b/src/services/pricing.ts
+@@ -0,0 +1,32 @@
++/** validateItems()를 통과한 주문 품목. */
++export interface LineItem { sku: string; qty: number; price: number }
++
++export interface Quote { subtotal: number; discount: number; shipping: number; total: number }
++
++/** status를 실어 나르는 Error. app.js의 에러 핸들러가 err.status를 응답 코드로 쓴다. */
++export type HttpError = Error & { status?: number };
++
++// NOTE(ts-migration): 일반 객체 리터럴이라 'toString', 'constructor' 같은 Object.prototype 키도
++// 조회된다. 이 경우 rate가 함수가 되어 discount/total이 NaN(JSON에서는 null)이 된다. 원본 동작 그대로 둔다.
++export const COUPONS: Record<string, number | undefined> = { WELCOME10: 0.1, VIP20: 0.2 };
++
++export function subtotal(items: readonly LineItem[]): number {
++  return items.reduce((s, it) => s + it.price * it.qty, 0);
++}
++
++// coupon은 routes/orders.js가 요청 body 값을 검증 없이 넘기므로 unknown으로 받는다.
++export function quote(items: readonly LineItem[], coupon?: unknown): Quote {
++  const sub = subtotal(items);
++  // NOTE(ts-migration): coupon이 문자열이 아니어도 프로퍼티 키로 강제 변환되어 조회된다
++  // (예: ["VIP20"] -> "VIP20"으로 할인 적용, 123 -> "123" -> unknown coupon).
++  const rate = coupon ? COUPONS[coupon as string] : 0;
++  if (coupon && rate === undefined) {
++    const err: HttpError = new Error('unknown coupon');
++    err.status = 400;
++    throw err;
++  }
++  // 위 분기 때문에 여기서 rate는 undefined가 아니지만(coupon이 falsy면 0) TS가 좁히지 못해 단언한다.
++  const discount = Math.round(sub * rate!);
++  const shipping = sub - discount >= 30000 ? 0 : 3000;
++  return { subtotal: sub, discount, shipping, total: sub - discount + shipping };
++}
+diff --git a/src/store.js b/src/store.js
+deleted file mode 100644
+index f05bb9b..0000000
+--- a/src/store.js
++++ /dev/null
+@@ -1,10 +0,0 @@
+-const orders = new Map();
+-let seq = 1;
+-
+-function reset() { orders.clear(); seq = 1; }
+-function create(data) { const id = String(seq++); const o = { id, status: 'pending', ...data }; orders.set(id, o); return o; }
+-function get(id) { return orders.get(String(id)) || null; }
+-function update(id, patch) { const o = get(id); if (!o) return null; Object.assign(o, patch); return o; }
+-function list() { return Array.from(orders.values()); }
+-
+-module.exports = { reset, create, get, update, list };
+diff --git a/src/store.ts b/src/store.ts
+new file mode 100644
+index 0000000..9001c3d
+--- /dev/null
++++ b/src/store.ts
+@@ -0,0 +1,21 @@
++/**
++ * 저장된 주문. 저장소가 보장하는 것은 id와 status뿐이고, 나머지 필드는 create()/update()에
++ * 넘긴 데이터가 그대로 들어간다(현재는 routes/orders.js가 items, coupon, quote 결과를 넣는다).
++ * status는 코드상 'pending' | 'cancelled' | 'shipped'만 쓰지만 저장소가 강제하지 않으므로 string으로 둔다.
++ */
++export interface Order {
++  id: string;
++  status: string;
++  [key: string]: unknown;
++}
++
++const orders = new Map<string, Order>();
++let seq = 1;
++
++// NOTE(ts-migration): create()는 data를 마지막에 펼치므로 data에 id/status가 있으면 그 값이 덮어쓴다.
++// update()도 patch.id를 그대로 반영해 Map 키와 o.id가 어긋날 수 있다. 원본 동작 그대로 둔다.
++export function reset(): void { orders.clear(); seq = 1; }
++export function create(data: Record<string, unknown>): Order { const id = String(seq++); const o: Order = { id, status: 'pending', ...data }; orders.set(id, o); return o; }
++export function get(id: string | number): Order | null { return orders.get(String(id)) || null; }
++export function update(id: string | number, patch: Record<string, unknown>): Order | null { const o = get(id); if (!o) return null; Object.assign(o, patch); return o; }
++export function list(): Order[] { return Array.from(orders.values()); }
+diff --git a/src/validate.js b/src/validate.js
+deleted file mode 100644
+index b75dee0..0000000
+--- a/src/validate.js
++++ /dev/null
+@@ -1,10 +0,0 @@
+-function validateItems(items) {
+-  if (!Array.isArray(items) || items.length === 0) return 'items must be a non-empty array';
+-  for (const it of items) {
+-    if (typeof it.sku !== 'string' || !it.sku) return 'sku is required';
+-    if (!Number.isInteger(it.qty) || it.qty <= 0) return 'qty must be a positive integer';
+-    if (typeof it.price !== 'number' || it.price < 0) return 'price must be a non-negative number';
+-  }
+-  return null;
+-}
+-module.exports = { validateItems };
+diff --git a/src/validate.ts b/src/validate.ts
+new file mode 100644
+index 0000000..160141d
+--- /dev/null
++++ b/src/validate.ts
+@@ -0,0 +1,17 @@
++/** 검증 전 요소를 읽을 때의 모양. 원본은 요소가 객체인지 확인하지 않는다(아래 NOTE). */
++type UncheckedItem = { sku?: unknown; qty?: unknown; price?: unknown };
++
++// items는 요청 body에서 그대로 들어오는 값이므로 unknown으로 받는다.
++export function validateItems(items: unknown): string | null {
++  if (!Array.isArray(items) || items.length === 0) return 'items must be a non-empty array';
++  // NOTE(ts-migration): 요소가 null/undefined이면 `it.sku`에서 TypeError가 나서 500으로 응답된다.
++  // 원본 동작을 보존하기 위해 요소를 검사 없이 UncheckedItem으로 단언한다.
++  for (const it of items as UncheckedItem[]) {
++    if (typeof it.sku !== 'string' || !it.sku) return 'sku is required';
++    // Number.isInteger는 타입을 좁히지 않으므로, 통과한 뒤의 비교를 위해 number로 단언한다.
++    if (!Number.isInteger(it.qty) || (it.qty as number) <= 0) return 'qty must be a positive integer';
++    // NOTE(ts-migration): NaN/Infinity는 typeof가 'number'이고 `< 0`이 false라서 통과한다.
++    if (typeof it.price !== 'number' || it.price < 0) return 'price must be a non-negative number';
++  }
++  return null;
++}
+diff --git a/tsconfig.json b/tsconfig.json
+new file mode 100644
+index 0000000..dcb9a8a
+--- /dev/null
++++ b/tsconfig.json
+@@ -0,0 +1,31 @@
++{
++  "compilerOptions": {
++    /* 출력: Node 22 + CommonJS (모듈 시스템은 바꾸지 않는다) */
++    "target": "ES2022",
++    "lib": ["ES2022"],
++    "module": "commonjs",
++    "moduleResolution": "node10",
++    "esModuleInterop": true,
++    "outDir": "dist",
++    "rootDir": "src",
++    "sourceMap": true,
++    "noEmitOnError": true,
++
++    /* JS/TS 공존: 레거시 JS는 빌드에 포함하되 타입 검사는 하지 않는다 */
++    "allowJs": true,
++    "checkJs": false,
++
++    /* TS 파일은 처음부터 strict */
++    "strict": true,
++    /*
++     * strict는 alwaysStrict를 켜고, alwaysStrict는 출력 JS 파일 맨 위에 "use strict"를 붙인다.
++     * 레거시 .js 파일(sloppy mode)이 빌드 후 strict mode로 바뀌면 런타임 의미가 달라질 수 있으므로 끈다.
++     * .ts 파일은 ES 모듈 문법을 쓰므로 이 설정과 무관하게 strict mode로 파싱/출력된다.
++     */
++    "alwaysStrict": false,
++
++    "forceConsistentCasingInFileNames": true,
++    "skipLibCheck": true
++  },
++  "include": ["src"]
++}

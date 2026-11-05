@@ -1,0 +1,1 @@
+우리 레거시 Express(자바스크립트) API 서버를 TypeScript로 점진 마이그레이션해줘. jest 테스트가 있고 CI는 GitHub Actions야.

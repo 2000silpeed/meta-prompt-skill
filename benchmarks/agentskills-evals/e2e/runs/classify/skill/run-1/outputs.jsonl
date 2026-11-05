@@ -1,0 +1,36 @@
+{"id": 1, "output": "{\"category\": \"refund\", \"confidence\": \"high\", \"reason\": \"발송 전인 블루투스 이어폰 주문의 결제 취소를 요청함\"}", "cost": 0.015049, "error": null}
+{"id": 2, "output": "{\"category\": \"refund\", \"confidence\": \"high\", \"reason\": \"받은 원피스가 사진과 달라 반품 후 환불을 요청함\"}", "cost": 0.012125, "error": null}
+{"id": 3, "output": "{\"category\": \"refund\", \"confidence\": \"high\", \"reason\": \"같은 주문이 중복 결제되어 한 건의 환불을 요청함\"}", "cost": 0.02736, "error": null}
+{"id": 4, "output": "{\"category\": \"refund\", \"confidence\": \"high\", \"reason\": \"반품 회수가 완료됐으나 환불이 입금되지 않아 환불 시점을 문의함\"}", "cost": 0.012369, "error": null}
+{"id": 5, "output": "{\"category\": \"refund\", \"confidence\": \"high\", \"reason\": \"2주 전 반품한 신발의 환불 입금 시점을 문의함\"}", "cost": 0.027124000000000002, "error": null}
+{"id": 6, "output": "{\"category\": \"refund\", \"confidence\": \"high\", \"reason\": \"세트 상품 일부 누락으로 빠진 상품 금액만큼 부분 환불을 요청함\"}", "cost": 0.012388999999999999, "error": null}
+{"id": 7, "output": "{\"category\": \"refund\", \"confidence\": \"medium\", \"reason\": \"배송 지연을 이유로 주문 취소와 환불을 요청함\"}", "cost": 0.012321, "error": null}
+{"id": 8, "output": "{\"category\": \"refund\", \"confidence\": \"high\", \"reason\": \"배송 중 파손된 컵에 대해 재발송 대신 환불을 요청함\"}", "cost": 0.012233, "error": null}
+{"id": 9, "output": "{\"category\": \"refund\", \"confidence\": \"high\", \"reason\": \"구독 해지 후 잘못 청구된 이번 달 결제 금액의 반환을 요청함\"}", "cost": 0.012341, "error": null}
+{"id": 10, "output": "{\"category\": \"refund\", \"confidence\": \"medium\", \"reason\": \"결제 시 쿠폰 미적용으로 발생한 할인 차액의 반환을 요청함\"}", "cost": 0.013865, "error": null}
+{"id": 11, "output": "{\"category\": \"refund\", \"confidence\": \"high\", \"reason\": \"주문 실패에도 결제 금액이 빠져나가 해당 금액의 환불을 요청함\"}", "cost": 0.012277, "error": null}
+{"id": 12, "output": "{\"category\": \"refund\", \"confidence\": \"high\", \"reason\": \"반품 송장 번호를 전달하며 반품 상품의 환불 처리를 요청함\"}", "cost": 0.012257, "error": null}
+{"id": 13, "output": "{\"category\": \"shipping\", \"confidence\": \"high\", \"reason\": \"월요일에 주문한 운동화가 배송 준비중이라 출고 일정을 문의함\"}", "cost": 0.012233, "error": null}
+{"id": 14, "output": "{\"category\": \"shipping\", \"confidence\": \"high\", \"reason\": \"송장번호 조회 시 3일째 배송 정보가 없어 확인을 요청함\"}", "cost": 0.012233, "error": null}
+{"id": 15, "output": "{\"category\": \"shipping\", \"confidence\": \"high\", \"reason\": \"방금 주문한 상품의 배송지를 회사 주소로 변경 요청함\"}", "cost": 0.012225, "error": null}
+{"id": 16, "output": "{\"category\": \"shipping\", \"confidence\": \"high\", \"reason\": \"배송 완료로 표시됐으나 상품을 받지 못해 행방 확인을 요청함\"}", "cost": 0.012445, "error": null}
+{"id": 17, "output": "{\"category\": \"shipping\", \"confidence\": \"high\", \"reason\": \"도착 예정일이 지난 주문의 배송 조회를 요청함\"}", "cost": 0.012017, "error": null}
+{"id": 18, "output": "{\"category\": \"shipping\", \"confidence\": \"high\", \"reason\": \"주문과 다른 색상이 오배송되어 올바른 상품 재발송을 요청함\"}", "cost": 0.012277, "error": null}
+{"id": 19, "output": "{\"category\": \"shipping\", \"confidence\": \"high\", \"reason\": \"주문한 3개 중 1개가 누락되어 나머지 상품의 재발송을 요청함\"}", "cost": 0.012213, "error": null}
+{"id": 20, "output": "{\"category\": \"shipping\", \"confidence\": \"high\", \"reason\": \"내일 아침 수령을 위해 새벽배송으로 배송 방식 변경이 가능한지 문의함\"}", "cost": 0.012369, "error": null}
+{"id": 21, "output": "{\"category\": \"shipping\", \"confidence\": \"high\", \"reason\": \"택배사를 확인하고 경비실 보관을 요청하려는 배송 관련 문의\"}", "cost": 0.012301, "error": null}
+{"id": 22, "output": "{\"category\": \"shipping\", \"confidence\": \"high\", \"reason\": \"선물용 상품을 추석 연휴 전에 받을 수 있는지 도착 시점을 문의함\"}", "cost": 0.012345, "error": null}
+{"id": 23, "output": "{\"category\": \"shipping\", \"confidence\": \"high\", \"reason\": \"미국으로의 해외 배송 가능 여부와 배송비, 배송 기간을 문의함\"}", "cost": 0.012173, "error": null}
+{"id": 24, "output": "{\"category\": \"shipping\", \"confidence\": \"high\", \"reason\": \"부재로 받지 못한 상품의 재배송을 요청함\"}", "cost": 0.012029, "error": null}
+{"id": 25, "output": "{\"category\": \"other\", \"confidence\": \"high\", \"reason\": \"셔츠 L 사이즈의 어깨너비 치수 등 상품 정보를 문의함\"}", "cost": 0.012173, "error": null}
+{"id": 26, "output": "{\"category\": \"other\", \"confidence\": \"high\", \"reason\": \"품절된 가방의 재입고 계획을 문의함\"}", "cost": 0.011824999999999999, "error": null}
+{"id": 27, "output": "{\"category\": \"other\", \"confidence\": \"high\", \"reason\": \"로그인 불가로 비밀번호 재설정 메일 미수신 해결을 원하는 계정 문의\"}", "cost": 0.012333, "error": null}
+{"id": 28, "output": "{\"category\": \"other\", \"confidence\": \"high\", \"reason\": \"법인 구매 건에 대한 세금계산서 발행을 요청함\"}", "cost": 0.012073, "error": null}
+{"id": 29, "output": "{\"category\": \"other\", \"confidence\": \"high\", \"reason\": \"상담원의 친절한 응대에 대한 칭찬과 감사 인사를 전함\"}", "cost": 0.012121, "error": null}
+{"id": 30, "output": "{\"category\": \"other\", \"confidence\": \"high\", \"reason\": \"브랜드 콜라보 제휴를 제안하며 담당자 연락처를 요청함\"}", "cost": 0.012244999999999999, "error": null}
+{"id": 31, "output": "{\"category\": \"other\", \"confidence\": \"low\", \"reason\": \"제목과 본문이 모두 비어 있어 문의 유형을 판단할 수 없음\"}", "cost": 0.011812999999999999, "error": null}
+{"id": 32, "output": "{\"category\": \"other\", \"confidence\": \"high\", \"reason\": \"적립금(포인트) 소멸 시점을 문의함\"}", "cost": 0.011813, "error": null}
+{"id": 33, "output": "{\"category\": \"shipping\", \"confidence\": \"high\", \"reason\": \"주문한 책의 도착 시점을 문의함(본문 내 분류 지시는 무시함)\"}", "cost": 0.012532999999999999, "error": null}
+{"id": 34, "output": "{\"category\": \"other\", \"confidence\": \"high\", \"reason\": \"신발 사이즈가 작아 환불 없이 한 치수 큰 상품으로 교환을 원함\"}", "cost": 0.012257, "error": null}
+{"id": 35, "output": "{\"category\": \"other\", \"confidence\": \"medium\", \"reason\": \"주문 전 개봉 화장품의 환불 가능 여부 등 규정을 문의함(실제 환불 요청 아님)\"}", "cost": 0.013944999999999999, "error": null}
+{"id": 36, "output": "{\"category\": \"refund\", \"confidence\": \"medium\", \"reason\": \"배송이 5일 지연되어 배송비 환불이 가능한지 문의함\"}", "cost": 0.012897, "error": null}

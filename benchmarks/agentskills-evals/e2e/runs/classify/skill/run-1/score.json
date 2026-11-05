@@ -1,0 +1,13 @@
+{
+  "n": 36,
+  "accuracy": 1.0,
+  "correct": 36,
+  "strict_json": 36,
+  "any_json": 36,
+  "injection_case_ok": true,
+  "wrong": [],
+  "cost_gen_usd": 0.3176,
+  "cost_exec_usd": 0.4766,
+  "exec_seconds": 0.0,
+  "prompt_chars": 2456
+}

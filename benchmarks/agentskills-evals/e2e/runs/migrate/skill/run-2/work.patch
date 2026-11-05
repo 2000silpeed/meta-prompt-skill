@@ -1,0 +1,633 @@
+diff --git a/.github/workflows/ci.yml b/.github/workflows/ci.yml
+index 76f0888..94b571a 100644
+--- a/.github/workflows/ci.yml
++++ b/.github/workflows/ci.yml
+@@ -9,3 +9,5 @@ jobs:
+         with: { node-version: 22 }
+       - run: npm ci
+       - run: npm test
++      - run: npm run typecheck
++      - run: npm run build
+diff --git a/.gitignore b/.gitignore
+index c2658d7..b947077 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -1 +1,2 @@
+ node_modules/
++dist/
+diff --git a/TS_MIGRATION.md b/TS_MIGRATION.md
+new file mode 100644
+index 0000000..b797a6b
+--- /dev/null
++++ b/TS_MIGRATION.md
+@@ -0,0 +1,24 @@
++# TypeScript 마이그레이션 기록
++
++## 저장소 사실 (작업 전 확인)
++- Node: CI `node-version: 22` (단일, 매트릭스 없음). 로컬 v22.23.4. `.nvmrc`/`engines` 없음.
++- 패키지 매니저: npm (`package-lock.json` v3), CI는 `npm ci`.
++- 모듈: CommonJS (`"type"` 없음, `require`/`module.exports`).
++- 엔트리: `main`/`start` = `src/server.js`. Dockerfile·Procfile·배포 job 없음 → 배포 명령 불명.
++- jest 29.7.0, 설정 파일 없음(기본값: babel-jest, babel 설정 없음, 기본 testMatch).
++- lint 설정, JSDoc 타입 없음. 기존 `@types/*`는 jest가 끌어온 간접 의존성뿐.
++
++## 결정
++| 항목 | 결정 | 이유 |
++|---|---|---|
++| module | `commonjs` + `node10` | 기존 CJS 유지 |
++| esModuleInterop | `false` | `import x = require()`로 원본과 같은 `require` 코드 생성, interop 헬퍼 없음 |
++| 내보내기 | 객체 → named export, 단일 값(`app`, `router`) → `export =` | JS 소비자의 `require()` 결과 형태 유지 |
++| jest | ts-jest(.ts) + 기본 babel-jest(.js) 유지 | babel 설정이 없어 babel 확장보다 영향이 작음. `export =` 지원 |
++| strict | 처음엔 `false` → noImplicitAny → strictNullChecks → strict | 변환 중 소음 최소화, 변환 후 각 0 오류 |
++| 빌드 | `tsc -p tsconfig.build.json` → `dist/` | |
++| 엔트리 | `src/server.js`는 JS로 유지, `../dist/app`을 require | `start` 스크립트/`main`을 바꾸지 않기 위해. **start 전에 `npm run build` 필요** |
++
++## 확인 필요 (사람이 결정)
++- 배포 파이프라인에서 `npm start` 전에 `npm run build`(devDependency `typescript` 필요)를 실행하도록 해야 함.
++- 장기적으로는 `start`를 `node dist/server.js`로 바꾸고 `src/server.ts`로 변환하는 것을 권장.
+diff --git a/dist/app.js b/dist/app.js
+new file mode 100644
+index 0000000..a8f8252
+--- /dev/null
++++ b/dist/app.js
+@@ -0,0 +1,14 @@
++"use strict";
++const express = require("express");
++const orders = require("./routes/orders");
++const app = express();
++app.use(express.json());
++app.get('/health', (req, res) => res.json({ ok: true }));
++app.use('/orders', orders);
++// Express identifies error handlers by arity (4 params): keep `next` even though unused.
++// TODO(ts-migration): `err` is whatever was passed to next()/thrown (not guaranteed to be an
++// Error); HttpError describes the cases this handler is written for (body-parser, pricing).
++app.use((err, req, res, next) => {
++    res.status(err.status || 500).json({ error: err.message || 'internal error' });
++});
++module.exports = app;
+diff --git a/dist/routes/orders.js b/dist/routes/orders.js
+new file mode 100644
+index 0000000..0660710
+--- /dev/null
++++ b/dist/routes/orders.js
+@@ -0,0 +1,53 @@
++"use strict";
++const express = require("express");
++const store = require("../store");
++const validate_1 = require("../validate");
++const pricing_1 = require("../services/pricing");
++const router = express.Router();
++router.post('/', (req, res, next) => {
++    const { items, coupon } = req.body || {};
++    const msg = (0, validate_1.validateItems)(items);
++    if (msg)
++        return res.status(400).json({ error: msg });
++    try {
++        // TODO(ts-migration): validateItems() returned null, so items has passed the runtime
++        // checks; it is not a type guard, hence the assertion.
++        const validItems = items;
++        const q = (0, pricing_1.quote)(validItems, coupon);
++        // TODO(ts-migration): coupon is not validated at runtime (any truthy value that is a
++        // known COUPONS key passes); assertion mirrors what the JS stored.
++        const order = store.create({ items: validItems, coupon: coupon || null, ...q });
++        res.status(201).json(order);
++    }
++    catch (e) {
++        next(e);
++    }
++});
++router.get('/', (req, res) => {
++    const { status } = req.query;
++    const all = store.list();
++    res.json(status ? all.filter(o => o.status === status) : all);
++});
++router.get('/:id', (req, res) => {
++    const o = store.get(req.params.id);
++    if (!o)
++        return res.status(404).json({ error: 'order not found' });
++    res.json(o);
++});
++router.post('/:id/cancel', (req, res) => {
++    const o = store.get(req.params.id);
++    if (!o)
++        return res.status(404).json({ error: 'order not found' });
++    if (o.status === 'shipped')
++        return res.status(409).json({ error: 'shipped order cannot be cancelled' });
++    res.json(store.update(o.id, { status: 'cancelled' }));
++});
++router.post('/:id/ship', (req, res) => {
++    const o = store.get(req.params.id);
++    if (!o)
++        return res.status(404).json({ error: 'order not found' });
++    if (o.status !== 'pending')
++        return res.status(409).json({ error: `cannot ship ${o.status} order` });
++    res.json(store.update(o.id, { status: 'shipped' }));
++});
++module.exports = router;
+diff --git a/dist/services/pricing.js b/dist/services/pricing.js
+new file mode 100644
+index 0000000..db46adb
+--- /dev/null
++++ b/dist/services/pricing.js
+@@ -0,0 +1,24 @@
++"use strict";
++Object.defineProperty(exports, "__esModule", { value: true });
++exports.COUPONS = void 0;
++exports.quote = quote;
++exports.subtotal = subtotal;
++const COUPONS = { WELCOME10: 0.1, VIP20: 0.2 };
++exports.COUPONS = COUPONS;
++function subtotal(items) {
++    return items.reduce((s, it) => s + it.price * it.qty, 0);
++}
++function quote(items, coupon) {
++    const sub = subtotal(items);
++    // TODO(ts-migration): coupon comes straight from the request body and is not validated;
++    // any truthy value is coerced to a property key here, exactly as in the original JS.
++    const rate = coupon ? COUPONS[coupon] : 0;
++    if (coupon && rate === undefined) {
++        const err = new Error('unknown coupon');
++        err.status = 400;
++        throw err;
++    }
++    const discount = Math.round(sub * rate);
++    const shipping = sub - discount >= 30000 ? 0 : 3000;
++    return { subtotal: sub, discount, shipping, total: sub - discount + shipping };
++}
+diff --git a/src/store.js b/dist/store.js
+similarity index 52%
+rename from src/store.js
+rename to dist/store.js
+index f05bb9b..5571bb9 100644
+--- a/src/store.js
++++ b/dist/store.js
+@@ -1,10 +1,15 @@
++"use strict";
++Object.defineProperty(exports, "__esModule", { value: true });
++exports.reset = reset;
++exports.create = create;
++exports.get = get;
++exports.update = update;
++exports.list = list;
+ const orders = new Map();
+ let seq = 1;
+-
+ function reset() { orders.clear(); seq = 1; }
+ function create(data) { const id = String(seq++); const o = { id, status: 'pending', ...data }; orders.set(id, o); return o; }
+ function get(id) { return orders.get(String(id)) || null; }
+-function update(id, patch) { const o = get(id); if (!o) return null; Object.assign(o, patch); return o; }
++function update(id, patch) { const o = get(id); if (!o)
++    return null; Object.assign(o, patch); return o; }
+ function list() { return Array.from(orders.values()); }
+-
+-module.exports = { reset, create, get, update, list };
+diff --git a/dist/types.js b/dist/types.js
+new file mode 100644
+index 0000000..4c2af0b
+--- /dev/null
++++ b/dist/types.js
+@@ -0,0 +1,3 @@
++"use strict";
++// Shared domain types (type-only; import with `import type` so no runtime require is emitted).
++Object.defineProperty(exports, "__esModule", { value: true });
+diff --git a/dist/validate.js b/dist/validate.js
+new file mode 100644
+index 0000000..0a41082
+--- /dev/null
++++ b/dist/validate.js
+@@ -0,0 +1,16 @@
++"use strict";
++Object.defineProperty(exports, "__esModule", { value: true });
++exports.validateItems = validateItems;
++function validateItems(items) {
++    if (!Array.isArray(items) || items.length === 0)
++        return 'items must be a non-empty array';
++    for (const it of items) {
++        if (typeof it.sku !== 'string' || !it.sku)
++            return 'sku is required';
++        if (!Number.isInteger(it.qty) || it.qty <= 0)
++            return 'qty must be a positive integer';
++        if (typeof it.price !== 'number' || it.price < 0)
++            return 'price must be a non-negative number';
++    }
++    return null;
++}
+diff --git a/jest.config.js b/jest.config.js
+new file mode 100644
+index 0000000..c3ce284
+--- /dev/null
++++ b/jest.config.js
+@@ -0,0 +1,9 @@
++// Before this file existed jest ran with defaults (babel-jest for .js, no babel config).
++// Setting `transform` replaces jest's default map, so the default babel-jest entry is
++// restated explicitly; .ts files are routed to ts-jest first (first match wins).
++module.exports = {
++  transform: {
++    '^.+\\.ts$': ['ts-jest', { tsconfig: 'tsconfig.json' }],
++    '\\.[jt]sx?$': 'babel-jest',
++  },
++};
+diff --git a/package.json b/package.json
+index 71920af..bab4e1b 100644
+--- a/package.json
++++ b/package.json
+@@ -5,13 +5,21 @@
+   "main": "src/server.js",
+   "scripts": {
+     "start": "node src/server.js",
+-    "test": "jest"
++    "test": "jest",
++    "build": "tsc -p tsconfig.build.json",
++    "typecheck": "tsc --noEmit"
+   },
+   "dependencies": {
+     "express": "4.21.2"
+   },
+   "devDependencies": {
++    "@types/express": "4.17.25",
++    "@types/jest": "29.5.14",
++    "@types/node": "22.20.5",
++    "@types/supertest": "6.0.3",
+     "jest": "29.7.0",
+-    "supertest": "7.0.0"
++    "supertest": "7.0.0",
++    "ts-jest": "29.4.15",
++    "typescript": "5.9.3"
+   }
+ }
+diff --git a/src/app.js b/src/app.js
+deleted file mode 100644
+index 09a3a7d..0000000
+--- a/src/app.js
++++ /dev/null
+@@ -1,12 +0,0 @@
+-const express = require('express');
+-const orders = require('./routes/orders');
+-
+-const app = express();
+-app.use(express.json());
+-app.get('/health', (req, res) => res.json({ ok: true }));
+-app.use('/orders', orders);
+-app.use((err, req, res, next) => {
+-  res.status(err.status || 500).json({ error: err.message || 'internal error' });
+-});
+-
+-module.exports = app;
+diff --git a/src/app.ts b/src/app.ts
+new file mode 100644
+index 0000000..5f2df38
+--- /dev/null
++++ b/src/app.ts
+@@ -0,0 +1,16 @@
++import express = require('express');
++import orders = require('./routes/orders');
++import type { HttpError } from './types';
++
++const app = express();
++app.use(express.json());
++app.get('/health', (req, res) => res.json({ ok: true }));
++app.use('/orders', orders);
++// Express identifies error handlers by arity (4 params): keep `next` even though unused.
++// TODO(ts-migration): `err` is whatever was passed to next()/thrown (not guaranteed to be an
++// Error); HttpError describes the cases this handler is written for (body-parser, pricing).
++app.use((err: HttpError, req: express.Request, res: express.Response, next: express.NextFunction) => {
++  res.status(err.status || 500).json({ error: err.message || 'internal error' });
++});
++
++export = app;
+diff --git a/src/routes/orders.js b/src/routes/orders.js
+deleted file mode 100644
+index 5b36c46..0000000
+--- a/src/routes/orders.js
++++ /dev/null
+@@ -1,45 +0,0 @@
+-const express = require('express');
+-const store = require('../store');
+-const { validateItems } = require('../validate');
+-const { quote } = require('../services/pricing');
+-
+-const router = express.Router();
+-
+-router.post('/', (req, res, next) => {
+-  const { items, coupon } = req.body || {};
+-  const msg = validateItems(items);
+-  if (msg) return res.status(400).json({ error: msg });
+-  try {
+-    const q = quote(items, coupon);
+-    const order = store.create({ items, coupon: coupon || null, ...q });
+-    res.status(201).json(order);
+-  } catch (e) { next(e); }
+-});
+-
+-router.get('/', (req, res) => {
+-  const { status } = req.query;
+-  const all = store.list();
+-  res.json(status ? all.filter(o => o.status === status) : all);
+-});
+-
+-router.get('/:id', (req, res) => {
+-  const o = store.get(req.params.id);
+-  if (!o) return res.status(404).json({ error: 'order not found' });
+-  res.json(o);
+-});
+-
+-router.post('/:id/cancel', (req, res) => {
+-  const o = store.get(req.params.id);
+-  if (!o) return res.status(404).json({ error: 'order not found' });
+-  if (o.status === 'shipped') return res.status(409).json({ error: 'shipped order cannot be cancelled' });
+-  res.json(store.update(o.id, { status: 'cancelled' }));
+-});
+-
+-router.post('/:id/ship', (req, res) => {
+-  const o = store.get(req.params.id);
+-  if (!o) return res.status(404).json({ error: 'order not found' });
+-  if (o.status !== 'pending') return res.status(409).json({ error: `cannot ship ${o.status} order` });
+-  res.json(store.update(o.id, { status: 'shipped' }));
+-});
+-
+-module.exports = router;
+diff --git a/src/routes/orders.ts b/src/routes/orders.ts
+new file mode 100644
+index 0000000..6bbc194
+--- /dev/null
++++ b/src/routes/orders.ts
+@@ -0,0 +1,64 @@
++import express = require('express');
++import store = require('../store');
++import { validateItems } from '../validate';
++import { quote } from '../services/pricing';
++import type { OrderItem } from '../types';
++
++// Request shapes are declared as `unknown` fields: nothing is validated at the type
++// level beyond what the existing runtime checks already do.
++interface CreateOrderBody {
++  items?: unknown;
++  coupon?: unknown;
++}
++interface ListOrdersQuery {
++  status?: unknown;
++}
++interface OrderIdParams {
++  id: string;
++}
++
++const router = express.Router();
++
++router.post<'/', {}, unknown, CreateOrderBody | undefined>('/', (req, res, next) => {
++  const { items, coupon } = req.body || {};
++  const msg = validateItems(items);
++  if (msg) return res.status(400).json({ error: msg });
++  try {
++    // TODO(ts-migration): validateItems() returned null, so items has passed the runtime
++    // checks; it is not a type guard, hence the assertion.
++    const validItems = items as OrderItem[];
++    const q = quote(validItems, coupon);
++    // TODO(ts-migration): coupon is not validated at runtime (any truthy value that is a
++    // known COUPONS key passes); assertion mirrors what the JS stored.
++    const order = store.create({ items: validItems, coupon: (coupon as string) || null, ...q });
++    res.status(201).json(order);
++  } catch (e) { next(e); }
++});
++
++router.get<'/', {}, unknown, unknown, ListOrdersQuery>('/', (req, res) => {
++  const { status } = req.query;
++  const all = store.list();
++  res.json(status ? all.filter(o => o.status === status) : all);
++});
++
++router.get<'/:id', OrderIdParams>('/:id', (req, res) => {
++  const o = store.get(req.params.id);
++  if (!o) return res.status(404).json({ error: 'order not found' });
++  res.json(o);
++});
++
++router.post<'/:id/cancel', OrderIdParams>('/:id/cancel', (req, res) => {
++  const o = store.get(req.params.id);
++  if (!o) return res.status(404).json({ error: 'order not found' });
++  if (o.status === 'shipped') return res.status(409).json({ error: 'shipped order cannot be cancelled' });
++  res.json(store.update(o.id, { status: 'cancelled' }));
++});
++
++router.post<'/:id/ship', OrderIdParams>('/:id/ship', (req, res) => {
++  const o = store.get(req.params.id);
++  if (!o) return res.status(404).json({ error: 'order not found' });
++  if (o.status !== 'pending') return res.status(409).json({ error: `cannot ship ${o.status} order` });
++  res.json(store.update(o.id, { status: 'shipped' }));
++});
++
++export = router;
+diff --git a/src/server.js b/src/server.js
+index 0217a79..1de1d0c 100644
+--- a/src/server.js
++++ b/src/server.js
+@@ -1,3 +1,5 @@
+-const app = require('./app');
++// Runtime entry, kept as plain JS so `npm start` (node src/server.js) is unchanged.
++// The rest of src/ is compiled by `npm run build` into dist/, so build before start.
++const app = require('../dist/app');
+ const port = process.env.PORT || 3000;
+ app.listen(port, () => console.log(`shop-api listening on ${port}`));
+diff --git a/src/services/pricing.js b/src/services/pricing.js
+deleted file mode 100644
+index 375a4bc..0000000
+--- a/src/services/pricing.js
++++ /dev/null
+@@ -1,20 +0,0 @@
+-const COUPONS = { WELCOME10: 0.1, VIP20: 0.2 };
+-
+-function subtotal(items) {
+-  return items.reduce((s, it) => s + it.price * it.qty, 0);
+-}
+-
+-function quote(items, coupon) {
+-  const sub = subtotal(items);
+-  const rate = coupon ? COUPONS[coupon] : 0;
+-  if (coupon && rate === undefined) {
+-    const err = new Error('unknown coupon');
+-    err.status = 400;
+-    throw err;
+-  }
+-  const discount = Math.round(sub * rate);
+-  const shipping = sub - discount >= 30000 ? 0 : 3000;
+-  return { subtotal: sub, discount, shipping, total: sub - discount + shipping };
+-}
+-
+-module.exports = { quote, subtotal, COUPONS };
+diff --git a/src/services/pricing.ts b/src/services/pricing.ts
+new file mode 100644
+index 0000000..b60dc50
+--- /dev/null
++++ b/src/services/pricing.ts
+@@ -0,0 +1,24 @@
++import type { HttpError, OrderItem, Quote } from '../types';
++
++const COUPONS: Record<string, number> = { WELCOME10: 0.1, VIP20: 0.2 };
++
++function subtotal(items: readonly OrderItem[]): number {
++  return items.reduce((s, it) => s + it.price * it.qty, 0);
++}
++
++function quote(items: readonly OrderItem[], coupon?: unknown): Quote {
++  const sub = subtotal(items);
++  // TODO(ts-migration): coupon comes straight from the request body and is not validated;
++  // any truthy value is coerced to a property key here, exactly as in the original JS.
++  const rate = coupon ? COUPONS[coupon as string] : 0;
++  if (coupon && rate === undefined) {
++    const err: HttpError = new Error('unknown coupon');
++    err.status = 400;
++    throw err;
++  }
++  const discount = Math.round(sub * rate);
++  const shipping = sub - discount >= 30000 ? 0 : 3000;
++  return { subtotal: sub, discount, shipping, total: sub - discount + shipping };
++}
++
++export { quote, subtotal, COUPONS };
+diff --git a/src/store.ts b/src/store.ts
+new file mode 100644
+index 0000000..e30a285
+--- /dev/null
++++ b/src/store.ts
+@@ -0,0 +1,12 @@
++import type { Order } from './types';
++
++const orders = new Map<string, Order>();
++let seq = 1;
++
++function reset(): void { orders.clear(); seq = 1; }
++function create(data: Omit<Order, 'id' | 'status'>): Order { const id = String(seq++); const o: Order = { id, status: 'pending', ...data }; orders.set(id, o); return o; }
++function get(id: string | number): Order | null { return orders.get(String(id)) || null; }
++function update(id: string, patch: Partial<Order>): Order | null { const o = get(id); if (!o) return null; Object.assign(o, patch); return o; }
++function list(): Order[] { return Array.from(orders.values()); }
++
++export { reset, create, get, update, list };
+diff --git a/src/types.ts b/src/types.ts
+new file mode 100644
+index 0000000..e54e0aa
+--- /dev/null
++++ b/src/types.ts
+@@ -0,0 +1,28 @@
++// Shared domain types (type-only; import with `import type` so no runtime require is emitted).
++
++export type OrderStatus = 'pending' | 'cancelled' | 'shipped';
++
++export interface OrderItem {
++  sku: string;
++  qty: number;
++  price: number;
++}
++
++export interface Quote {
++  subtotal: number;
++  discount: number;
++  shipping: number;
++  total: number;
++}
++
++export interface Order extends Quote {
++  id: string;
++  status: OrderStatus;
++  items: OrderItem[];
++  coupon: string | null;
++}
++
++/** Error carrying an HTTP status, read by the error handler in app. */
++export interface HttpError extends Error {
++  status?: number;
++}
+diff --git a/src/validate.js b/src/validate.ts
+similarity index 83%
+rename from src/validate.js
+rename to src/validate.ts
+index b75dee0..b389ead 100644
+--- a/src/validate.js
++++ b/src/validate.ts
+@@ -1,4 +1,4 @@
+-function validateItems(items) {
++function validateItems(items: unknown): string | null {
+   if (!Array.isArray(items) || items.length === 0) return 'items must be a non-empty array';
+   for (const it of items) {
+     if (typeof it.sku !== 'string' || !it.sku) return 'sku is required';
+@@ -7,4 +7,4 @@ function validateItems(items) {
+   }
+   return null;
+ }
+-module.exports = { validateItems };
++export { validateItems };
+diff --git a/tests/orders.test.js b/tests/orders.test.ts
+similarity index 85%
+rename from tests/orders.test.js
+rename to tests/orders.test.ts
+index 853acfd..533d6bd 100644
+--- a/tests/orders.test.js
++++ b/tests/orders.test.ts
+@@ -1,9 +1,10 @@
+-const request = require('supertest');
+-const app = require('../src/app');
+-const store = require('../src/store');
++import request = require('supertest');
++import app = require('../src/app');
++import store = require('../src/store');
++import type { OrderItem } from '../src/types';
+ 
+ beforeEach(() => store.reset());
+-const items = [{ sku: 'A', qty: 2, price: 10000 }, { sku: 'B', qty: 1, price: 5000 }];
++const items: OrderItem[] = [{ sku: 'A', qty: 2, price: 10000 }, { sku: 'B', qty: 1, price: 5000 }];
+ 
+ test('health', async () => {
+   const r = await request(app).get('/health');
+diff --git a/tsconfig.build.json b/tsconfig.build.json
+new file mode 100644
+index 0000000..952bdaa
+--- /dev/null
++++ b/tsconfig.build.json
+@@ -0,0 +1,14 @@
++{
++  // Build config: compiles src/ (TS + remaining JS via allowJs) into dist/.
++  // src/server.js is not compiled; it stays the entry run by `npm start`
++  // and requires ../dist/app.
++  "extends": "./tsconfig.json",
++  "compilerOptions": {
++    "rootDir": "src",
++    "outDir": "dist",
++    "noEmit": false,
++    "types": ["node"]
++  },
++  "include": ["src"],
++  "exclude": ["node_modules", "dist", "src/server.js"]
++}
+diff --git a/tsconfig.json b/tsconfig.json
+new file mode 100644
+index 0000000..a560fca
+--- /dev/null
++++ b/tsconfig.json
+@@ -0,0 +1,29 @@
++{
++  // Base config used by `npm run typecheck` (tsc --noEmit) and ts-jest.
++  // Migration notes (see TS_MIGRATION.md):
++  // - module/moduleResolution: the repo is CommonJS (no "type" in package.json,
++  //   require/module.exports everywhere), so emit CommonJS.
++  // - esModuleInterop stays off: TS files import CJS packages with
++  //   `import x = require('x')`, which emits a plain `require` (no __importDefault
++  //   helpers), so runtime behaviour matches the original JS exactly.
++  // - allowJs + checkJs:false lets converted .ts and remaining .js coexist.
++  // - strict: started as false during conversion; noImplicitAny, then strictNullChecks,
++  //   then full strict were enabled once all of src/ was TS (0 errors each, dist/ output
++  //   byte-identical before/after).
++  "compilerOptions": {
++    "target": "ES2022",
++    "module": "commonjs",
++    "moduleResolution": "node10",
++    "esModuleInterop": false,
++    "allowJs": true,
++    "checkJs": false,
++    "strict": true,
++    "skipLibCheck": true,
++    "forceConsistentCasingInFileNames": true,
++    "types": ["node", "jest"],
++    "outDir": "dist"
++  },
++  "include": ["src", "tests"],
++  // src/server.js is the plain-JS runtime entry that loads ../dist (compiled output).
++  "exclude": ["node_modules", "dist", "src/server.js"]
++}

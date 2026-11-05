@@ -1,0 +1,241 @@
+diff --git a/.github/workflows/ci.yml b/.github/workflows/ci.yml
+index 76f0888..6ef0b69 100644
+--- a/.github/workflows/ci.yml
++++ b/.github/workflows/ci.yml
+@@ -9,3 +9,6 @@ jobs:
+         with: { node-version: 22 }
+       - run: npm ci
+       - run: npm test
++      - run: npm run typecheck
++      - run: npm run build
++      - run: npm run test:dist
+diff --git a/.gitignore b/.gitignore
+index c2658d7..b947077 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -1 +1,2 @@
+ node_modules/
++dist/
+diff --git a/jest.config.js b/jest.config.js
+new file mode 100644
+index 0000000..4fb2669
+--- /dev/null
++++ b/jest.config.js
+@@ -0,0 +1,11 @@
++/** @type {import('jest').Config} */
++module.exports = {
++  testEnvironment: 'node',
++  transform: {
++    // Specifying `transform` disables jest's implicit babel-jest default,
++    // so keep it explicitly for .js files (preserves jest.mock hoisting).
++    '^.+\\.jsx?$': 'babel-jest',
++    '^.+\\.tsx?$': 'ts-jest',
++  },
++  modulePathIgnorePatterns: ['<rootDir>/dist/'],
++};
+diff --git a/jest.dist.config.js b/jest.dist.config.js
+new file mode 100644
+index 0000000..8088616
+--- /dev/null
++++ b/jest.dist.config.js
+@@ -0,0 +1,9 @@
++// Runs the unchanged test suite against the tsc build output (dist/)
++// instead of src/, to verify the compiled JS behaves identically.
++/** @type {import('jest').Config} */
++module.exports = {
++  testEnvironment: 'node',
++  moduleNameMapper: {
++    '^\\.\\./src/(.*)$': '<rootDir>/dist/$1',
++  },
++};
+diff --git a/package.json b/package.json
+index 71920af..f41c9c5 100644
+--- a/package.json
++++ b/package.json
+@@ -2,16 +2,23 @@
+   "name": "shop-api",
+   "version": "1.4.2",
+   "private": true,
+-  "main": "src/server.js",
++  "main": "dist/server.js",
+   "scripts": {
+-    "start": "node src/server.js",
+-    "test": "jest"
++    "start": "node dist/server.js",
++    "test": "jest",
++    "typecheck": "tsc --noEmit",
++    "build": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\" && tsc",
++    "test:dist": "jest --config jest.dist.config.js"
+   },
+   "dependencies": {
+     "express": "4.21.2"
+   },
+   "devDependencies": {
++    "@types/express": "4.17.25",
++    "@types/node": "22.20.5",
+     "jest": "29.7.0",
+-    "supertest": "7.0.0"
++    "supertest": "7.0.0",
++    "ts-jest": "29.4.15",
++    "typescript": "5.9.3"
+   }
+ }
+diff --git a/src/services/pricing.js b/src/services/pricing.ts
+similarity index 50%
+rename from src/services/pricing.js
+rename to src/services/pricing.ts
+index 375a4bc..dfa2217 100644
+--- a/src/services/pricing.js
++++ b/src/services/pricing.ts
+@@ -1,14 +1,17 @@
+-const COUPONS = { WELCOME10: 0.1, VIP20: 0.2 };
++import type { HttpError } from '../types/http';
++import type { OrderItem, Quote } from '../types/order';
+ 
+-function subtotal(items) {
++const COUPONS: Record<string, number> = { WELCOME10: 0.1, VIP20: 0.2 };
++
++function subtotal(items: OrderItem[]): number {
+   return items.reduce((s, it) => s + it.price * it.qty, 0);
+ }
+ 
+-function quote(items, coupon) {
++function quote(items: OrderItem[], coupon?: string | null): Quote {
+   const sub = subtotal(items);
+   const rate = coupon ? COUPONS[coupon] : 0;
+   if (coupon && rate === undefined) {
+-    const err = new Error('unknown coupon');
++    const err: HttpError = new Error('unknown coupon');
+     err.status = 400;
+     throw err;
+   }
+@@ -17,4 +20,4 @@ function quote(items, coupon) {
+   return { subtotal: sub, discount, shipping, total: sub - discount + shipping };
+ }
+ 
+-module.exports = { quote, subtotal, COUPONS };
++export = { quote, subtotal, COUPONS };
+diff --git a/src/store.js b/src/store.js
+deleted file mode 100644
+index f05bb9b..0000000
+--- a/src/store.js
++++ /dev/null
+@@ -1,10 +0,0 @@
+-const orders = new Map();
+-let seq = 1;
+-
+-function reset() { orders.clear(); seq = 1; }
+-function create(data) { const id = String(seq++); const o = { id, status: 'pending', ...data }; orders.set(id, o); return o; }
+-function get(id) { return orders.get(String(id)) || null; }
+-function update(id, patch) { const o = get(id); if (!o) return null; Object.assign(o, patch); return o; }
+-function list() { return Array.from(orders.values()); }
+-
+-module.exports = { reset, create, get, update, list };
+diff --git a/src/store.ts b/src/store.ts
+new file mode 100644
+index 0000000..f3a603d
+--- /dev/null
++++ b/src/store.ts
+@@ -0,0 +1,12 @@
++import type { NewOrder, Order } from './types/order';
++
++const orders = new Map<string, Order>();
++let seq = 1;
++
++function reset(): void { orders.clear(); seq = 1; }
++function create(data: NewOrder): Order { const id = String(seq++); const o: Order = { id, status: 'pending', ...data }; orders.set(id, o); return o; }
++function get(id: string | number): Order | null { return orders.get(String(id)) || null; }
++function update(id: string | number, patch: Partial<Order>): Order | null { const o = get(id); if (!o) return null; Object.assign(o, patch); return o; }
++function list(): Order[] { return Array.from(orders.values()); }
++
++export = { reset, create, get, update, list };
+diff --git a/src/types/http.ts b/src/types/http.ts
+new file mode 100644
+index 0000000..46beba1
+--- /dev/null
++++ b/src/types/http.ts
+@@ -0,0 +1,4 @@
++// Errors carrying an HTTP status; read by the error handler in app.js (`err.status || 500`).
++export interface HttpError extends Error {
++  status?: number;
++}
+diff --git a/src/types/order.ts b/src/types/order.ts
+new file mode 100644
+index 0000000..f620bc6
+--- /dev/null
++++ b/src/types/order.ts
+@@ -0,0 +1,26 @@
++// Shared domain types for the TypeScript migration. Type-only module.
++
++export interface OrderItem {
++  sku: string;
++  qty: number;
++  price: number;
++}
++
++export interface Quote {
++  subtotal: number;
++  discount: number;
++  shipping: number;
++  total: number;
++}
++
++export type OrderStatus = 'pending' | 'cancelled' | 'shipped';
++
++export interface Order extends Quote {
++  id: string;
++  status: OrderStatus;
++  items: OrderItem[];
++  coupon: string | null;
++}
++
++/** Fields supplied by the caller of store.create(); id and status are assigned by the store. */
++export type NewOrder = Omit<Order, 'id' | 'status'>;
+diff --git a/src/validate.js b/src/validate.ts
+similarity index 59%
+rename from src/validate.js
+rename to src/validate.ts
+index b75dee0..795f9c2 100644
+--- a/src/validate.js
++++ b/src/validate.ts
+@@ -1,5 +1,7 @@
+-function validateItems(items) {
++function validateItems(items: unknown): string | null {
+   if (!Array.isArray(items) || items.length === 0) return 'items must be a non-empty array';
++  // TODO(ts-migration): `it` is `any` (Array.isArray narrows unknown to any[]); elements are
++  // unvalidated request input, and a null element is not guarded here (behaviour kept as-is).
+   for (const it of items) {
+     if (typeof it.sku !== 'string' || !it.sku) return 'sku is required';
+     if (!Number.isInteger(it.qty) || it.qty <= 0) return 'qty must be a positive integer';
+@@ -7,4 +9,4 @@ function validateItems(items) {
+   }
+   return null;
+ }
+-module.exports = { validateItems };
++export = { validateItems };
+diff --git a/tsconfig.json b/tsconfig.json
+new file mode 100644
+index 0000000..58476c4
+--- /dev/null
++++ b/tsconfig.json
+@@ -0,0 +1,20 @@
++{
++  "compilerOptions": {
++    "target": "ES2022",
++    "lib": ["ES2022"],
++    "module": "node16",
++    "moduleResolution": "node16",
++    "esModuleInterop": true,
++    "isolatedModules": true,
++    "allowJs": true,
++    "checkJs": false,
++    "strict": true,
++    "skipLibCheck": true,
++    "forceConsistentCasingInFileNames": true,
++    "types": ["node"],
++    "rootDir": "src",
++    "outDir": "dist",
++    "sourceMap": true
++  },
++  "include": ["src"]
++}

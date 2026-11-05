@@ -1,0 +1,494 @@
+diff --git a/.pytest_cache/.gitignore b/.pytest_cache/.gitignore
+new file mode 100644
+index 0000000..bc1a1f6
+--- /dev/null
++++ b/.pytest_cache/.gitignore
+@@ -0,0 +1,2 @@
++# Created by pytest automatically.
++*
+diff --git a/.pytest_cache/CACHEDIR.TAG b/.pytest_cache/CACHEDIR.TAG
+new file mode 100644
+index 0000000..fce15ad
+--- /dev/null
++++ b/.pytest_cache/CACHEDIR.TAG
+@@ -0,0 +1,4 @@
++Signature: 8a477f597d28d172789f06886806bc55
++# This file is a cache directory tag created by pytest.
++# For information about cache directory tags, see:
++#	https://bford.info/cachedir/spec.html
+diff --git a/.pytest_cache/README.md b/.pytest_cache/README.md
+new file mode 100644
+index 0000000..b89018c
+--- /dev/null
++++ b/.pytest_cache/README.md
+@@ -0,0 +1,8 @@
++# pytest cache directory #
++
++This directory contains data from the pytest's cache plugin,
++which provides the `--lf` and `--ff` options, as well as the `cache` fixture.
++
++**Do not** commit this to version control.
++
++See [the docs](https://docs.pytest.org/en/stable/how-to/cache.html) for more information.
+diff --git a/.pytest_cache/v/cache/lastfailed b/.pytest_cache/v/cache/lastfailed
+new file mode 100644
+index 0000000..9e26dfe
+--- /dev/null
++++ b/.pytest_cache/v/cache/lastfailed
+@@ -0,0 +1 @@
++{}
+\ No newline at end of file
+diff --git a/.pytest_cache/v/cache/nodeids b/.pytest_cache/v/cache/nodeids
+new file mode 100644
+index 0000000..d5dfd34
+--- /dev/null
++++ b/.pytest_cache/v/cache/nodeids
+@@ -0,0 +1,58 @@
++[
++  "tests/test_money.py::test_cart_basic",
++  "tests/test_money.py::test_round_simple",
++  "tests/test_money.py::test_split_even",
++  "tests/test_rounding_boundaries.py::test_accepts_exact_types",
++  "tests/test_rounding_boundaries.py::test_apply_rate_boundary",
++  "tests/test_rounding_boundaries.py::test_cart_float_accumulation",
++  "tests/test_rounding_boundaries.py::test_cart_hand_computed",
++  "tests/test_rounding_boundaries.py::test_cart_krw",
++  "tests/test_rounding_boundaries.py::test_cart_lines_sum_equals_total",
++  "tests/test_rounding_boundaries.py::test_exhaustive_half_values_krw",
++  "tests/test_rounding_boundaries.py::test_exhaustive_split_sums",
++  "tests/test_rounding_boundaries.py::test_exhaustive_three_decimal_values_usd",
++  "tests/test_rounding_boundaries.py::test_large_amounts[-12345678.905--12345678.91-USD]",
++  "tests/test_rounding_boundaries.py::test_large_amounts[12345678.905-12345678.91-USD]",
++  "tests/test_rounding_boundaries.py::test_large_amounts[99999999.994-99999999.99-USD]",
++  "tests/test_rounding_boundaries.py::test_large_amounts[99999999.995-100000000.0-USD]",
++  "tests/test_rounding_boundaries.py::test_large_amounts[999999999999.5-1000000000000-KRW]",
++  "tests/test_rounding_boundaries.py::test_line_total_multiplication_boundary",
++  "tests/test_rounding_boundaries.py::test_negative_half_away_from_zero[-0.125--0.13-USD]",
++  "tests/test_rounding_boundaries.py::test_negative_half_away_from_zero[-1.005--1.01-USD]",
++  "tests/test_rounding_boundaries.py::test_negative_half_away_from_zero[-100.5--101-KRW]",
++  "tests/test_rounding_boundaries.py::test_negative_half_away_from_zero[-2.675--2.68-USD]",
++  "tests/test_rounding_boundaries.py::test_refund_amount_boundary",
++  "tests/test_rounding_boundaries.py::test_split_invalid_parts",
++  "tests/test_rounding_boundaries.py::test_split_negative_refund_UNCONFIRMED_POLICY",
++  "tests/test_rounding_boundaries.py::test_split_sum_matches_total[0-2-expected6-USD]",
++  "tests/test_rounding_boundaries.py::test_split_sum_matches_total[0.01-3-expected4-USD]",
++  "tests/test_rounding_boundaries.py::test_split_sum_matches_total[100-3-expected0-USD]",
++  "tests/test_rounding_boundaries.py::test_split_sum_matches_total[100-3-expected2-KRW]",
++  "tests/test_rounding_boundaries.py::test_split_sum_matches_total[100.0-7-expected1-USD]",
++  "tests/test_rounding_boundaries.py::test_split_sum_matches_total[10000-3-expected3-KRW]",
++  "tests/test_rounding_boundaries.py::test_split_sum_matches_total[9.0-3-expected5-USD]",
++  "tests/test_rounding_boundaries.py::test_two_decimal_currencies[EUR]",
++  "tests/test_rounding_boundaries.py::test_two_decimal_currencies[USD]",
++  "tests/test_rounding_boundaries.py::test_unsupported_currency_rejected",
++  "tests/test_rounding_boundaries.py::test_usd_half_up_boundaries[0.125-0.13]",
++  "tests/test_rounding_boundaries.py::test_usd_half_up_boundaries[0.135-0.14]",
++  "tests/test_rounding_boundaries.py::test_usd_half_up_boundaries[0.145-0.15]",
++  "tests/test_rounding_boundaries.py::test_usd_half_up_boundaries[1.005-1.01]",
++  "tests/test_rounding_boundaries.py::test_usd_half_up_boundaries[1.015-1.02]",
++  "tests/test_rounding_boundaries.py::test_usd_half_up_boundaries[10.123-10.12]",
++  "tests/test_rounding_boundaries.py::test_usd_half_up_boundaries[10.125-10.13]",
++  "tests/test_rounding_boundaries.py::test_usd_half_up_boundaries[2.675-2.68]",
++  "tests/test_rounding_boundaries.py::test_zero_and_minimum_units",
++  "tests/test_rounding_boundaries.py::test_zero_decimal_currencies[JPY-0.5-1]",
++  "tests/test_rounding_boundaries.py::test_zero_decimal_currencies[JPY-1-1]",
++  "tests/test_rounding_boundaries.py::test_zero_decimal_currencies[JPY-100.4-100]",
++  "tests/test_rounding_boundaries.py::test_zero_decimal_currencies[JPY-100.5-101]",
++  "tests/test_rounding_boundaries.py::test_zero_decimal_currencies[JPY-101.5-102]",
++  "tests/test_rounding_boundaries.py::test_zero_decimal_currencies[JPY-99.49-99]",
++  "tests/test_rounding_boundaries.py::test_zero_decimal_currencies[KRW-0.5-1]",
++  "tests/test_rounding_boundaries.py::test_zero_decimal_currencies[KRW-1-1]",
++  "tests/test_rounding_boundaries.py::test_zero_decimal_currencies[KRW-100.4-100]",
++  "tests/test_rounding_boundaries.py::test_zero_decimal_currencies[KRW-100.5-101]",
++  "tests/test_rounding_boundaries.py::test_zero_decimal_currencies[KRW-101.5-102]",
++  "tests/test_rounding_boundaries.py::test_zero_decimal_currencies[KRW-99.49-99]"
++]
+\ No newline at end of file
+diff --git a/payment/__pycache__/__init__.cpython-313.pyc b/payment/__pycache__/__init__.cpython-313.pyc
+new file mode 100644
+index 0000000..3ec292a
+Binary files /dev/null and b/payment/__pycache__/__init__.cpython-313.pyc differ
+diff --git a/payment/__pycache__/cart.cpython-313.pyc b/payment/__pycache__/cart.cpython-313.pyc
+new file mode 100644
+index 0000000..3ceaf20
+Binary files /dev/null and b/payment/__pycache__/cart.cpython-313.pyc differ
+diff --git a/payment/__pycache__/money.cpython-313.pyc b/payment/__pycache__/money.cpython-313.pyc
+new file mode 100644
+index 0000000..afb1d1a
+Binary files /dev/null and b/payment/__pycache__/money.cpython-313.pyc differ
+diff --git a/payment/cart.py b/payment/cart.py
+index 4425d7c..26570bb 100644
+--- a/payment/cart.py
++++ b/payment/cart.py
+@@ -1,9 +1,14 @@
+ """장바구니 합계 계산."""
+-from .money import round_amount, apply_rate
++from .money import apply_rate_decimal, quantize, to_decimal
++
++
++def _line_total_decimal(unit_price, qty, currency):
++    # 곱셈을 float로 하면 1.005 * 3 = 3.0149999999999997 처럼 경계가 깨진다.
++    return quantize(to_decimal(unit_price) * to_decimal(qty), currency)
+ 
+ 
+ def line_total(unit_price, qty, currency="USD"):
+-    return round_amount(unit_price * qty, currency)
++    return float(_line_total_decimal(unit_price, qty, currency))
+ 
+ 
+ def cart_total(items, tax_rate=0.0, discount_rate=0.0, currency="USD"):
+@@ -11,15 +16,16 @@ def cart_total(items, tax_rate=0.0, discount_rate=0.0, currency="USD"):
+ 
+     정책은 docs/PAYMENT_POLICY.md 참고.
+     """
+-    total = 0.0
++    total = quantize(0, currency)
+     for unit_price, qty in items:
+-        line = line_total(unit_price, qty, currency)
+-        line = line - apply_rate(line, discount_rate, currency)
+-        line = line + apply_rate(line, tax_rate, currency)
++        line = _line_total_decimal(unit_price, qty, currency)
++        line = line - apply_rate_decimal(line, discount_rate, currency)
++        line = line + apply_rate_decimal(line, tax_rate, currency)
+         total += line
+-    return round_amount(total, currency)
++    # 줄 금액이 모두 최소 단위로 반올림돼 있으므로 Decimal 합은 정확하다.
++    return float(quantize(total, currency))
+ 
+ 
+ def refund_amount(paid, refund_rate, currency="USD"):
+     """부분 환불 금액(음수가 아닌 값)."""
+-    return apply_rate(paid, refund_rate, currency)
++    return float(apply_rate_decimal(paid, refund_rate, currency))
+diff --git a/payment/money.py b/payment/money.py
+index 56163f9..42d5755 100644
+--- a/payment/money.py
++++ b/payment/money.py
+@@ -1,19 +1,79 @@
+-"""금액 계산 유틸리티."""
++"""금액 계산 유틸리티.
++
++정책: docs/PAYMENT_POLICY.md
++- 반올림은 사사오입(ROUND_HALF_UP, 0.5는 0에서 먼 쪽). 환불(음수)도 동일.
++- 통화별 소수 자릿수는 CURRENCY_DECIMALS를 따른다.
++
++내부 계산은 모두 Decimal로 한다. float 입력은 repr(최단 왕복 표현)을 거쳐
++Decimal로 바꾼다(예: 2.675 → Decimal("2.675")). Decimal(float)을 직접 쓰면
++2.67499999999999982236431605997495353221893310546875 같은 이진 근사값이
++그대로 들어와 사사오입 경계가 깨진다.
++
++공개 함수의 반환형은 기존 호출부·테스트 호환을 위해 float을 유지한다.
++반환되는 float은 반올림된 십진 금액에 가장 가까운 double이며, 다시
++round_amount 등에 넣으면 같은 십진 금액으로 복원된다.
++"""
++from decimal import ROUND_HALF_UP, Decimal
+ 
+ CURRENCY_DECIMALS = {"KRW": 0, "JPY": 0, "USD": 2, "EUR": 2}
+ 
+ 
++def to_decimal(value):
++    """금액/비율 값을 정밀도 손실 없이 Decimal로 변환한다."""
++    if isinstance(value, Decimal):
++        return value
++    if isinstance(value, bool):
++        raise TypeError("bool is not a valid amount")
++    if isinstance(value, int):
++        return Decimal(value)
++    if isinstance(value, float):
++        # repr(float)은 같은 double로 되돌아오는 가장 짧은 십진 표현이다.
++        return Decimal(repr(value))
++    if isinstance(value, str):
++        return Decimal(value)
++    raise TypeError(f"unsupported amount type: {type(value).__name__}")
++
++
++def _exponent(currency):
++    try:
++        decimals = CURRENCY_DECIMALS[currency]
++    except KeyError:
++        raise ValueError(f"unsupported currency: {currency!r}") from None
++    return Decimal(1).scaleb(-decimals)  # 0 → 1, 2 → 0.01
++
++
++def quantize(value, currency="USD"):
++    """Decimal 결과로 통화 최소 단위 사사오입(0에서 먼 쪽)."""
++    return to_decimal(value).quantize(_exponent(currency), rounding=ROUND_HALF_UP)
++
++
+ def round_amount(value, currency="USD"):
+     """금액을 통화 최소 단위로 반올림한다."""
+-    return round(float(value), 2)
++    return float(quantize(value, currency))
++
++
++def apply_rate_decimal(amount, rate, currency="USD"):
++    return quantize(to_decimal(amount) * to_decimal(rate), currency)
+ 
+ 
+ def apply_rate(amount, rate, currency="USD"):
+     """금액에 비율(세율·할인율 등)을 곱한 값을 반올림해 돌려준다."""
+-    return round_amount(amount * rate, currency)
++    return float(apply_rate_decimal(amount, rate, currency))
+ 
+ 
+ def split_amount(total, parts, currency="USD"):
+-    """total을 parts개로 나눈 금액 목록을 돌려준다."""
+-    each = round_amount(total / parts, currency)
+-    return [each] * parts
++    """total을 parts개로 나눈 금액 목록을 돌려준다.
++
++    조각의 합은 (최소 단위로 반올림한) total과 정확히 같다. 나머지 최소 단위는
++    앞 순번부터 1단위씩 더한다. 음수 total은 절댓값 기준으로 같은 방식으로
++    나눈 뒤 부호를 붙인다(정책 문서에 음수 분할 방향은 명시되지 않음).
++    """
++    if not isinstance(parts, int) or isinstance(parts, bool) or parts <= 0:
++        raise ValueError("parts must be a positive integer")
++    exp = _exponent(currency)
++    total_dec = quantize(total, currency)
++    units = int(total_dec / exp)  # 최소 단위 정수(정확히 나눠떨어짐)
++    sign = -1 if units < 0 else 1
++    base, remainder = divmod(abs(units), parts)
++    pieces = [base + 1 if i < remainder else base for i in range(parts)]
++    return [float(sign * p * exp) for p in pieces]
+diff --git a/tests/__pycache__/test_money.cpython-313-pytest-9.2.0.pyc b/tests/__pycache__/test_money.cpython-313-pytest-9.2.0.pyc
+new file mode 100644
+index 0000000..f9a0f99
+Binary files /dev/null and b/tests/__pycache__/test_money.cpython-313-pytest-9.2.0.pyc differ
+diff --git a/tests/__pycache__/test_rounding_boundaries.cpython-313-pytest-9.2.0.pyc b/tests/__pycache__/test_rounding_boundaries.cpython-313-pytest-9.2.0.pyc
+new file mode 100644
+index 0000000..c98cc04
+Binary files /dev/null and b/tests/__pycache__/test_rounding_boundaries.cpython-313-pytest-9.2.0.pyc differ
+diff --git a/tests/test_rounding_boundaries.py b/tests/test_rounding_boundaries.py
+new file mode 100644
+index 0000000..912a10a
+--- /dev/null
++++ b/tests/test_rounding_boundaries.py
+@@ -0,0 +1,229 @@
++"""반올림 경계값 테스트.
++
++정책 근거: docs/PAYMENT_POLICY.md
++- 사사오입(ROUND_HALF_UP, 0.5는 0에서 먼 쪽), 환불도 같은 규칙
++- 소수 자릿수: KRW·JPY 0, USD·EUR 2
++- 분할: 합이 원금과 정확히 같고, 나머지는 앞 순번부터 1단위씩
++
++PG(payment.gateway)는 호출하지 않는다.
++"""
++from decimal import Decimal
++
++import pytest
++
++from payment.cart import cart_total, line_total, refund_amount
++from payment.money import apply_rate, round_amount, split_amount
++
++
++# --- 반올림 경계: x.xx5 (float로는 x.xx4999... 로 저장되는 값들) ---
++@pytest.mark.parametrize(
++    "value, expected",
++    [
++        (1.005, 1.01),    # float: 1.00499999999999989...
++        (2.675, 2.68),    # float: 2.67499999999999982...
++        (0.125, 0.13),    # float로 정확히 표현됨 → round()의 half-even 때문에 0.12
++        (0.135, 0.14),
++        (0.145, 0.15),
++        (1.015, 1.02),
++        (10.123, 10.12),
++        (10.125, 10.13),
++    ],
++)
++def test_usd_half_up_boundaries(value, expected):
++    assert round_amount(value, "USD") == expected
++
++
++@pytest.mark.parametrize("currency", ["USD", "EUR"])
++def test_two_decimal_currencies(currency):
++    assert round_amount(2.675, currency) == 2.68
++    assert round_amount(0.004, currency) == 0.0
++
++
++@pytest.mark.parametrize(
++    "value, expected",
++    [
++        (100.5, 101),
++        (100.4, 100),
++        (101.5, 102),   # half-even이면 102, 100.5에서 차이가 드러남
++        (0.5, 1),
++        (99.49, 99),
++        (1, 1),
++    ],
++)
++@pytest.mark.parametrize("currency", ["KRW", "JPY"])
++def test_zero_decimal_currencies(value, expected, currency):
++    assert round_amount(value, currency) == expected
++
++
++# --- 음수(환불): 0에서 먼 쪽으로 ---
++@pytest.mark.parametrize(
++    "value, expected, currency",
++    [
++        (-1.005, -1.01, "USD"),
++        (-2.675, -2.68, "USD"),
++        (-0.125, -0.13, "USD"),
++        (-100.5, -101, "KRW"),
++    ],
++)
++def test_negative_half_away_from_zero(value, expected, currency):
++    assert round_amount(value, currency) == expected
++    # 대칭성: round(-x) == -round(x)
++    assert round_amount(-value, currency) == -expected
++
++
++# --- 0과 최소 단위 ---
++def test_zero_and_minimum_units():
++    assert round_amount(0, "USD") == 0
++    assert round_amount(0.0, "KRW") == 0
++    assert round_amount(0.01, "USD") == 0.01
++    assert round_amount(0.005, "USD") == 0.01
++    assert round_amount(0.0049, "USD") == 0.0
++    assert round_amount(1, "KRW") == 1
++
++
++# --- 큰 금액 ---
++@pytest.mark.parametrize(
++    "value, expected, currency",
++    [
++        (99999999.995, 100000000.00, "USD"),
++        (99999999.994, 99999999.99, "USD"),
++        (12345678.905, 12345678.91, "USD"),
++        (-12345678.905, -12345678.91, "USD"),
++        (999999999999.5, 1000000000000, "KRW"),
++    ],
++)
++def test_large_amounts(value, expected, currency):
++    assert round_amount(value, currency) == expected
++
++
++def test_accepts_exact_types():
++    assert round_amount(Decimal("2.675"), "USD") == 2.68
++    assert round_amount("1.005", "USD") == 1.01
++    assert round_amount(3, "USD") == 3
++
++
++def test_unsupported_currency_rejected():
++    with pytest.raises(ValueError):
++        round_amount(1.0, "XXX")
++
++
++# --- 비율 적용 / 줄 금액: 곱셈이 float로 이뤄지면 경계가 깨진다 ---
++def test_apply_rate_boundary():
++    # 0.7 * 1.5 = 1.05 (float 곱은 1.0499999999999998 → 1.04로 틀림)
++    assert apply_rate(0.7, 1.5, "USD") == 1.05
++    assert apply_rate(1005, 0.1, "KRW") == 101  # 100.5 → 101 (float: 100.5, half-even이면 100)
++
++
++def test_line_total_multiplication_boundary():
++    # 1.005 * 3 = 3.015, float 곱은 3.0149999999999997
++    assert line_total(1.005, 3, "USD") == 3.02
++    assert line_total(0.335, 3, "USD") == 1.01  # 1.005
++
++
++def test_refund_amount_boundary():
++    # 2.01 * 0.5 = 1.005 → 1.01 (float 곱의 실제 값은 1.00499999..., round()는 1.0)
++    assert refund_amount(2.01, 0.5, "USD") == 1.01
++    assert refund_amount(201, 0.5, "KRW") == 101
++
++
++# --- 합계 일관성 ---
++def test_cart_lines_sum_equals_total():
++    """정책: 장바구니 합계 = (줄별 반올림 → 할인 반올림 → 세금 반올림) 줄 합계의 합."""
++    items = [(19.99, 3), (0.335, 3), (2.675, 1), (0.1, 7)]
++    discount, tax = 0.15, 0.1
++    expected_lines = []
++    for price, qty in items:
++        line = Decimal(str(price)) * qty
++        line = line.quantize(Decimal("0.01"), "ROUND_HALF_UP")
++        d = (line * Decimal("0.15")).quantize(Decimal("0.01"), "ROUND_HALF_UP")
++        line -= d
++        t = (line * Decimal("0.1")).quantize(Decimal("0.01"), "ROUND_HALF_UP")
++        expected_lines.append(line + t)
++    expected = float(sum(expected_lines))
++    assert cart_total(items, tax_rate=tax, discount_rate=discount, currency="USD") == expected
++
++
++def test_cart_hand_computed():
++    # 줄: 1.005*3=3.015→3.02, 할인 10%: 0.302→0.30 → 2.72, 세금 10%: 0.272→0.27 → 2.99
++    # 줄: 0.1*3=0.3 → 할인 0.03 → 0.27, 세금 0.027→0.03 → 0.30
++    assert cart_total([(1.005, 3), (0.1, 3)], tax_rate=0.1, discount_rate=0.1, currency="USD") == 3.29
++
++
++def test_cart_krw():
++    # 줄: 1005*1 = 1005, 할인 10% = 100.5 → 101 → 904, 세금 10% = 90.4 → 90 → 994
++    assert cart_total([(1005, 1)], tax_rate=0.1, discount_rate=0.1, currency="KRW") == 994
++
++
++def test_cart_float_accumulation():
++    # 0.1을 10번 float로 더하면 0.9999999999999999
++    assert cart_total([(0.1, 1)] * 10, currency="USD") == 1.0
++
++
++# --- 분할 ---
++@pytest.mark.parametrize(
++    "total, parts, expected, currency",
++    [
++        (100, 3, [33.34, 33.33, 33.33], "USD"),
++        (100.00, 7, [14.29, 14.29, 14.29, 14.29, 14.28, 14.28, 14.28], "USD"),
++        (100, 3, [34, 33, 33], "KRW"),
++        (10000, 3, [3334, 3333, 3333], "KRW"),
++        (0.01, 3, [0.01, 0.0, 0.0], "USD"),
++        (9.0, 3, [3.0, 3.0, 3.0], "USD"),
++        (0, 2, [0, 0], "USD"),
++    ],
++)
++def test_split_sum_matches_total(total, parts, expected, currency):
++    result = split_amount(total, parts, currency)
++    assert result == expected
++    assert len(result) == parts
++    exp = 0 if currency in ("KRW", "JPY") else 2
++    scale = 10 ** exp
++    # 최소 단위 정수로 합 비교(float 합산 오차 배제)
++    assert sum(round(x * scale) for x in result) == round(total * scale)
++
++
++def test_split_negative_refund_UNCONFIRMED_POLICY():
++    """정책 미확인: 음수 분할 시 '앞 순번부터 1단위 더함'의 방향이 문서에 없음.
++    현재 구현은 절댓값 기준으로 앞 순번이 더 큰 크기를 가지는 대칭 방식.
++    합이 원금과 같다는 것만 정책으로 확정된 사항이다."""
++    result = split_amount(-100, 3, "USD")
++    assert sum(round(x * 100) for x in result) == -10000
++    assert result == [-33.34, -33.33, -33.33]  # 미확인 정책
++
++
++def test_split_invalid_parts():
++    with pytest.raises(ValueError):
++        split_amount(100, 0, "USD")
++
++
++# --- 전수 검사: 0.000 ~ 1000.000 의 모든 3자리 십진수 (양수·음수) ---
++def test_exhaustive_three_decimal_values_usd():
++    """float 리터럴로 들어온 모든 x.xxx 값이 십진 사사오입 결과와 일치하는지."""
++    q = Decimal("0.01")
++    mismatches = []
++    for n in range(0, 1_000_001):
++        s = f"{n // 1000}.{n % 1000:03d}"
++        ref = Decimal(s).quantize(q, "ROUND_HALF_UP")
++        f = float(s)
++        if round_amount(f, "USD") != float(ref) or round_amount(-f, "USD") != -float(ref):
++            mismatches.append(s)
++            if len(mismatches) > 5:
++                break
++    assert mismatches == []
++
++
++def test_exhaustive_half_values_krw():
++    for n in range(0, 200_001):
++        s = f"{n // 10}.{n % 10}"
++        ref = Decimal(s).quantize(Decimal("1"), "ROUND_HALF_UP")
++        assert round_amount(float(s), "KRW") == float(ref), s
++        assert round_amount(-float(s), "KRW") == -float(ref), s
++
++
++def test_exhaustive_split_sums():
++    for cents in list(range(0, 2001)) + [9999999999]:
++        total = cents / 100
++        for parts in range(1, 13):
++            pieces = split_amount(total, parts, "USD")
++            assert sum(round(p * 100) for p in pieces) == cents, (total, parts)
++            assert max(pieces) - min(pieces) <= 0.0100001

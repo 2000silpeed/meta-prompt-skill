@@ -1,0 +1,396 @@
+diff --git a/.github/workflows/ci.yml b/.github/workflows/ci.yml
+index 76f0888..2cd37f0 100644
+--- a/.github/workflows/ci.yml
++++ b/.github/workflows/ci.yml
+@@ -6,6 +6,8 @@ jobs:
+     steps:
+       - uses: actions/checkout@v4
+       - uses: actions/setup-node@v4
+-        with: { node-version: 22 }
++        with: { node-version: 22, cache: npm }
+       - run: npm ci
++      - run: npm run typecheck
+       - run: npm test
++      - run: npm run build
+diff --git a/.gitignore b/.gitignore
+index c2658d7..9ebfc2d 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -1 +1,3 @@
+ node_modules/
++dist/
++coverage/
+diff --git a/jest.config.js b/jest.config.js
+new file mode 100644
+index 0000000..824be2d
+--- /dev/null
++++ b/jest.config.js
+@@ -0,0 +1,10 @@
++/** @type {import('jest').Config} */
++module.exports = {
++  testEnvironment: 'node',
++  roots: ['<rootDir>/tests'],
++  // .ts/.js 모두 ts-jest 로 변환 → 마이그레이션 중 혼재 상태에서도 동작
++  transform: {
++    '^.+\\.[tj]s$': ['ts-jest', { tsconfig: '<rootDir>/tsconfig.test.json', isolatedModules: true }],
++  },
++  moduleFileExtensions: ['ts', 'js', 'json'],
++};
+diff --git a/package.json b/package.json
+index 71920af..62d589c 100644
+--- a/package.json
++++ b/package.json
+@@ -2,16 +2,25 @@
+   "name": "shop-api",
+   "version": "1.4.2",
+   "private": true,
+-  "main": "src/server.js",
++  "main": "dist/server.js",
+   "scripts": {
+-    "start": "node src/server.js",
++    "build": "tsc -p tsconfig.json",
++    "typecheck": "tsc -p tsconfig.test.json",
++    "prestart": "npm run build",
++    "start": "node dist/server.js",
+     "test": "jest"
+   },
+   "dependencies": {
+     "express": "4.21.2"
+   },
+   "devDependencies": {
++    "@types/express": "4.17.25",
++    "@types/jest": "29.5.14",
++    "@types/node": "22.20.5",
++    "@types/supertest": "6.0.3",
+     "jest": "29.7.0",
+-    "supertest": "7.0.0"
++    "supertest": "7.0.0",
++    "ts-jest": "29.4.15",
++    "typescript": "5.9.3"
+   }
+ }
+diff --git a/src/app.js b/src/app.js
+deleted file mode 100644
+index 09a3a7d..0000000
+--- a/src/app.js
++++ /dev/null
+@@ -1,12 +0,0 @@
+-const express = require('express');
+-const orders = require('./routes/orders');
+-
+-const app = express();
+-app.use(express.json());
+-app.get('/health', (req, res) => res.json({ ok: true }));
+-app.use('/orders', orders);
+-app.use((err, req, res, next) => {
+-  res.status(err.status || 500).json({ error: err.message || 'internal error' });
+-});
+-
+-module.exports = app;
+diff --git a/src/app.ts b/src/app.ts
+new file mode 100644
+index 0000000..c806da4
+--- /dev/null
++++ b/src/app.ts
+@@ -0,0 +1,18 @@
++import express, { type ErrorRequestHandler } from 'express';
++import orders from './routes/orders';
++import type { HttpError } from './types';
++
++const app = express();
++app.use(express.json());
++app.get('/health', (req, res) => res.json({ ok: true }));
++app.use('/orders', orders);
++
++// Express identifies error handlers by arity, so all 4 params must stay.
++// eslint-disable-next-line @typescript-eslint/no-unused-vars
++const errorHandler: ErrorRequestHandler = (err: HttpError, req, res, next) => {
++  res.status(err.status || 500).json({ error: err.message || 'internal error' });
++};
++app.use(errorHandler);
++
++// `export =` keeps `require('./app')` returning the app itself for JS callers.
++export = app;
+diff --git a/src/routes/orders.js b/src/routes/orders.ts
+similarity index 82%
+rename from src/routes/orders.js
+rename to src/routes/orders.ts
+index 5b36c46..d7821f5 100644
+--- a/src/routes/orders.js
++++ b/src/routes/orders.ts
+@@ -1,14 +1,14 @@
+-const express = require('express');
+-const store = require('../store');
+-const { validateItems } = require('../validate');
+-const { quote } = require('../services/pricing');
++import express from 'express';
++import * as store from '../store';
++import { isValidItems, validateItems } from '../validate';
++import { quote } from '../services/pricing';
+ 
+ const router = express.Router();
+ 
+ router.post('/', (req, res, next) => {
+   const { items, coupon } = req.body || {};
+   const msg = validateItems(items);
+-  if (msg) return res.status(400).json({ error: msg });
++  if (msg || !isValidItems(items)) return res.status(400).json({ error: msg });
+   try {
+     const q = quote(items, coupon);
+     const order = store.create({ items, coupon: coupon || null, ...q });
+@@ -42,4 +42,4 @@ router.post('/:id/ship', (req, res) => {
+   res.json(store.update(o.id, { status: 'shipped' }));
+ });
+ 
+-module.exports = router;
++export default router;
+diff --git a/src/server.js b/src/server.ts
+similarity index 78%
+rename from src/server.js
+rename to src/server.ts
+index 0217a79..c48e63b 100644
+--- a/src/server.js
++++ b/src/server.ts
+@@ -1,3 +1,4 @@
+-const app = require('./app');
++import app from './app';
++
+ const port = process.env.PORT || 3000;
+ app.listen(port, () => console.log(`shop-api listening on ${port}`));
+diff --git a/src/services/pricing.js b/src/services/pricing.js
+deleted file mode 100644
+index 375a4bc..0000000
+--- a/src/services/pricing.js
++++ /dev/null
+@@ -1,20 +0,0 @@
+-const COUPONS = { WELCOME10: 0.1, VIP20: 0.2 };
+-
+-function subtotal(items) {
+-  return items.reduce((s, it) => s + it.price * it.qty, 0);
+-}
+-
+-function quote(items, coupon) {
+-  const sub = subtotal(items);
+-  const rate = coupon ? COUPONS[coupon] : 0;
+-  if (coupon && rate === undefined) {
+-    const err = new Error('unknown coupon');
+-    err.status = 400;
+-    throw err;
+-  }
+-  const discount = Math.round(sub * rate);
+-  const shipping = sub - discount >= 30000 ? 0 : 3000;
+-  return { subtotal: sub, discount, shipping, total: sub - discount + shipping };
+-}
+-
+-module.exports = { quote, subtotal, COUPONS };
+diff --git a/src/services/pricing.ts b/src/services/pricing.ts
+new file mode 100644
+index 0000000..904832f
+--- /dev/null
++++ b/src/services/pricing.ts
+@@ -0,0 +1,20 @@
++import type { HttpError, OrderItem, Quote } from '../types';
++
++export const COUPONS: Record<string, number> = { WELCOME10: 0.1, VIP20: 0.2 };
++
++export function subtotal(items: OrderItem[]): number {
++  return items.reduce((s, it) => s + it.price * it.qty, 0);
++}
++
++export function quote(items: OrderItem[], coupon?: string | null): Quote {
++  const sub = subtotal(items);
++  const rate: number | undefined = coupon ? COUPONS[coupon] : 0;
++  if (coupon && rate === undefined) {
++    const err: HttpError = new Error('unknown coupon');
++    err.status = 400;
++    throw err;
++  }
++  const discount = Math.round(sub * (rate as number));
++  const shipping = sub - discount >= 30000 ? 0 : 3000;
++  return { subtotal: sub, discount, shipping, total: sub - discount + shipping };
++}
+diff --git a/src/store.js b/src/store.js
+deleted file mode 100644
+index f05bb9b..0000000
+--- a/src/store.js
++++ /dev/null
+@@ -1,10 +0,0 @@
+-const orders = new Map();
+-let seq = 1;
+-
+-function reset() { orders.clear(); seq = 1; }
+-function create(data) { const id = String(seq++); const o = { id, status: 'pending', ...data }; orders.set(id, o); return o; }
+-function get(id) { return orders.get(String(id)) || null; }
+-function update(id, patch) { const o = get(id); if (!o) return null; Object.assign(o, patch); return o; }
+-function list() { return Array.from(orders.values()); }
+-
+-module.exports = { reset, create, get, update, list };
+diff --git a/src/store.ts b/src/store.ts
+new file mode 100644
+index 0000000..a210677
+--- /dev/null
++++ b/src/store.ts
+@@ -0,0 +1,26 @@
++import type { Order } from './types';
++
++export type NewOrder = Omit<Order, 'id' | 'status'>;
++
++const orders = new Map<string, Order>();
++let seq = 1;
++
++export function reset(): void { orders.clear(); seq = 1; }
++
++export function create(data: NewOrder): Order {
++  const id = String(seq++);
++  const o: Order = { id, status: 'pending', ...data };
++  orders.set(id, o);
++  return o;
++}
++
++export function get(id: string | number): Order | null { return orders.get(String(id)) || null; }
++
++export function update(id: string | number, patch: Partial<Order>): Order | null {
++  const o = get(id);
++  if (!o) return null;
++  Object.assign(o, patch);
++  return o;
++}
++
++export function list(): Order[] { return Array.from(orders.values()); }
+diff --git a/src/types.ts b/src/types.ts
+new file mode 100644
+index 0000000..75d17fe
+--- /dev/null
++++ b/src/types.ts
+@@ -0,0 +1,26 @@
++export interface OrderItem {
++  sku: string;
++  qty: number;
++  price: number;
++}
++
++export type OrderStatus = 'pending' | 'cancelled' | 'shipped';
++
++export interface Quote {
++  subtotal: number;
++  discount: number;
++  shipping: number;
++  total: number;
++}
++
++export interface Order extends Quote {
++  id: string;
++  status: OrderStatus;
++  items: OrderItem[];
++  coupon: string | null;
++}
++
++/** Error carrying an HTTP status, consumed by the error handler in app.ts. */
++export interface HttpError extends Error {
++  status?: number;
++}
+diff --git a/src/validate.js b/src/validate.js
+deleted file mode 100644
+index b75dee0..0000000
+--- a/src/validate.js
++++ /dev/null
+@@ -1,10 +0,0 @@
+-function validateItems(items) {
+-  if (!Array.isArray(items) || items.length === 0) return 'items must be a non-empty array';
+-  for (const it of items) {
+-    if (typeof it.sku !== 'string' || !it.sku) return 'sku is required';
+-    if (!Number.isInteger(it.qty) || it.qty <= 0) return 'qty must be a positive integer';
+-    if (typeof it.price !== 'number' || it.price < 0) return 'price must be a non-negative number';
+-  }
+-  return null;
+-}
+-module.exports = { validateItems };
+diff --git a/src/validate.ts b/src/validate.ts
+new file mode 100644
+index 0000000..4c2cc19
+--- /dev/null
++++ b/src/validate.ts
+@@ -0,0 +1,19 @@
++import type { OrderItem } from './types';
++
++/**
++ * Returns an error message, or null when `items` is a valid OrderItem[].
++ * Input is untrusted request body, so it is typed as unknown.
++ */
++export function validateItems(items: unknown): string | null {
++  if (!Array.isArray(items) || items.length === 0) return 'items must be a non-empty array';
++  for (const it of items as Array<Record<string, unknown>>) {
++    if (typeof it.sku !== 'string' || !it.sku) return 'sku is required';
++    if (!Number.isInteger(it.qty) || (it.qty as number) <= 0) return 'qty must be a positive integer';
++    if (typeof it.price !== 'number' || it.price < 0) return 'price must be a non-negative number';
++  }
++  return null;
++}
++
++export function isValidItems(items: unknown): items is OrderItem[] {
++  return validateItems(items) === null;
++}
+diff --git a/tests/orders.test.js b/tests/orders.test.ts
+similarity index 93%
+rename from tests/orders.test.js
+rename to tests/orders.test.ts
+index 853acfd..f97926c 100644
+--- a/tests/orders.test.js
++++ b/tests/orders.test.ts
+@@ -1,6 +1,6 @@
+-const request = require('supertest');
+-const app = require('../src/app');
+-const store = require('../src/store');
++import request from 'supertest';
++import app from '../src/app';
++import * as store from '../src/store';
+ 
+ beforeEach(() => store.reset());
+ const items = [{ sku: 'A', qty: 2, price: 10000 }, { sku: 'B', qty: 1, price: 5000 }];
+diff --git a/tsconfig.json b/tsconfig.json
+new file mode 100644
+index 0000000..0ba98aa
+--- /dev/null
++++ b/tsconfig.json
+@@ -0,0 +1,27 @@
++{
++  "compilerOptions": {
++    "target": "ES2022",
++    "module": "commonjs",
++    "moduleResolution": "node",
++    "lib": ["ES2022"],
++    "types": ["node", "jest"],
++    "rootDir": "src",
++    "outDir": "dist",
++
++    // 점진 마이그레이션: .js 와 .ts 공존. 아직 남은 .js 는 타입체크하지 않는다.
++    // 파일 단위로 체크를 켜고 싶으면 해당 .js 상단에 `// @ts-check` 를 추가.
++    "allowJs": true,
++    "checkJs": false,
++
++    // 새로 작성/변환하는 .ts 는 처음부터 strict.
++    "strict": true,
++    "noImplicitOverride": true,
++    "noFallthroughCasesInSwitch": true,
++
++    "esModuleInterop": true,
++    "forceConsistentCasingInFileNames": true,
++    "skipLibCheck": true,
++    "sourceMap": true
++  },
++  "include": ["src"]
++}
+diff --git a/tsconfig.test.json b/tsconfig.test.json
+new file mode 100644
+index 0000000..3004a28
+--- /dev/null
++++ b/tsconfig.test.json
+@@ -0,0 +1,8 @@
++{
++  "extends": "./tsconfig.json",
++  "compilerOptions": {
++    "rootDir": ".",
++    "noEmit": true
++  },
++  "include": ["src", "tests"]
++}

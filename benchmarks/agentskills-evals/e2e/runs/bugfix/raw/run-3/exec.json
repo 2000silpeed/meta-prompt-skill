@@ -1,0 +1,8 @@
+{
+  "total_cost_usd": 0.31136700000000006,
+  "duration_ms": 57483,
+  "num_turns": 10,
+  "_wall_ms": 61511,
+  "error": null,
+  "terminal_reason": "completed"
+}

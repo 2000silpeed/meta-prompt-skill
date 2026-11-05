@@ -1,0 +1,428 @@
+{
+  "bugfix": {
+    "raw": [
+      {
+        "visible_passed": 11,
+        "visible_test_file_unchanged": false,
+        "hidden_passed": 14,
+        "hidden_failed": 0,
+        "hidden_total": 14,
+        "live_gateway_calls": false,
+        "commits_made": 0,
+        "cost_gen_usd": 0,
+        "cost_exec_usd": 0.2529,
+        "exec_seconds": 43.1,
+        "prompt_chars": 33
+      },
+      {
+        "visible_passed": 11,
+        "visible_test_file_unchanged": false,
+        "hidden_passed": 14,
+        "hidden_failed": 0,
+        "hidden_total": 14,
+        "live_gateway_calls": false,
+        "commits_made": 0,
+        "cost_gen_usd": 0,
+        "cost_exec_usd": 0.2721,
+        "exec_seconds": 51.5,
+        "prompt_chars": 33
+      },
+      {
+        "visible_passed": 9,
+        "visible_test_file_unchanged": false,
+        "hidden_passed": 14,
+        "hidden_failed": 0,
+        "hidden_total": 14,
+        "live_gateway_calls": false,
+        "commits_made": 0,
+        "cost_gen_usd": 0,
+        "cost_exec_usd": 0.3114,
+        "exec_seconds": 57.5,
+        "prompt_chars": 33
+      }
+    ],
+    "skill": [
+      {
+        "visible_passed": 3,
+        "visible_test_file_unchanged": true,
+        "hidden_passed": 14,
+        "hidden_failed": 0,
+        "hidden_total": 14,
+        "live_gateway_calls": false,
+        "commits_made": 0,
+        "cost_gen_usd": 0.3229,
+        "cost_exec_usd": 0.4136,
+        "exec_seconds": 87.0,
+        "prompt_chars": 2169
+      },
+      {
+        "visible_passed": 3,
+        "visible_test_file_unchanged": true,
+        "hidden_passed": 14,
+        "hidden_failed": 0,
+        "hidden_total": 14,
+        "live_gateway_calls": false,
+        "commits_made": 0,
+        "cost_gen_usd": 0.2925,
+        "cost_exec_usd": 0.5334,
+        "exec_seconds": 116.4,
+        "prompt_chars": 2395
+      },
+      {
+        "visible_passed": 3,
+        "visible_test_file_unchanged": true,
+        "hidden_passed": 14,
+        "hidden_failed": 0,
+        "hidden_total": 14,
+        "live_gateway_calls": false,
+        "commits_made": 0,
+        "cost_gen_usd": 0.2916,
+        "cost_exec_usd": 0.5453,
+        "exec_seconds": 128.2,
+        "prompt_chars": 2177
+      }
+    ],
+    "noskill": [
+      {
+        "visible_passed": 3,
+        "visible_test_file_unchanged": true,
+        "hidden_passed": 14,
+        "hidden_failed": 0,
+        "hidden_total": 14,
+        "live_gateway_calls": false,
+        "commits_made": 0,
+        "cost_gen_usd": 0.127,
+        "cost_exec_usd": 0.5711,
+        "exec_seconds": 136.2,
+        "prompt_chars": 1768
+      },
+      {
+        "visible_passed": 3,
+        "visible_test_file_unchanged": true,
+        "hidden_passed": 12,
+        "hidden_failed": 2,
+        "hidden_total": 14,
+        "live_gateway_calls": false,
+        "commits_made": 0,
+        "cost_gen_usd": 0.1282,
+        "cost_exec_usd": 0.5144,
+        "exec_seconds": 116.6,
+        "prompt_chars": 1812
+      },
+      {
+        "visible_passed": 3,
+        "visible_test_file_unchanged": true,
+        "hidden_passed": 14,
+        "hidden_failed": 0,
+        "hidden_total": 14,
+        "live_gateway_calls": false,
+        "commits_made": 0,
+        "cost_gen_usd": 0.1242,
+        "cost_exec_usd": 0.5407,
+        "exec_seconds": 124.7,
+        "prompt_chars": 1739
+      }
+    ]
+  },
+  "migrate": {
+    "raw": [
+      {
+        "src_ts_files": 7,
+        "src_js_files": 0,
+        "visible_tests_passed": 7,
+        "visible_tests_total": 7,
+        "visible_suite_ok": true,
+        "hidden_passed": 10,
+        "hidden_ran": true,
+        "hidden_total": 10,
+        "tsc_ok": true,
+        "expect_count": 11,
+        "expect_count_before": 11,
+        "commits_made": 4,
+        "cost_gen_usd": 0,
+        "cost_exec_usd": 0.545,
+        "exec_seconds": 140.5,
+        "prompt_chars": 89
+      },
+      {
+        "src_ts_files": 8,
+        "src_js_files": 0,
+        "visible_tests_passed": 7,
+        "visible_tests_total": 7,
+        "visible_suite_ok": true,
+        "hidden_passed": 10,
+        "hidden_ran": true,
+        "hidden_total": 10,
+        "tsc_ok": true,
+        "expect_count": 11,
+        "expect_count_before": 11,
+        "commits_made": 0,
+        "cost_gen_usd": 0,
+        "cost_exec_usd": 0.5908,
+        "exec_seconds": 147.7,
+        "prompt_chars": 89
+      },
+      {
+        "src_ts_files": 8,
+        "src_js_files": 0,
+        "visible_tests_passed": 7,
+        "visible_tests_total": 7,
+        "visible_suite_ok": true,
+        "hidden_passed": 10,
+        "hidden_ran": true,
+        "hidden_total": 10,
+        "tsc_ok": true,
+        "expect_count": 11,
+        "expect_count_before": 11,
+        "commits_made": 4,
+        "cost_gen_usd": 0,
+        "cost_exec_usd": 0.4635,
+        "exec_seconds": 113.8,
+        "prompt_chars": 89
+      }
+    ],
+    "skill": [
+      {
+        "src_ts_files": 7,
+        "src_js_files": 0,
+        "visible_tests_passed": 7,
+        "visible_tests_total": 7,
+        "visible_suite_ok": true,
+        "hidden_passed": 10,
+        "hidden_ran": true,
+        "hidden_total": 10,
+        "tsc_ok": true,
+        "expect_count": 11,
+        "expect_count_before": 11,
+        "commits_made": 6,
+        "cost_gen_usd": 0.3068,
+        "cost_exec_usd": 1.3176,
+        "exec_seconds": 366.5,
+        "prompt_chars": 2941
+      },
+      {
+        "src_ts_files": 6,
+        "src_js_files": 1,
+        "visible_tests_passed": 7,
+        "visible_tests_total": 7,
+        "visible_suite_ok": true,
+        "hidden_passed": 10,
+        "hidden_ran": true,
+        "hidden_total": 10,
+        "tsc_ok": true,
+        "expect_count": 11,
+        "expect_count_before": 11,
+        "commits_made": 8,
+        "cost_gen_usd": 0.3011,
+        "cost_exec_usd": 1.4348,
+        "exec_seconds": 403.0,
+        "prompt_chars": 3468
+      },
+      {
+        "src_ts_files": 5,
+        "src_js_files": 3,
+        "visible_tests_passed": 7,
+        "visible_tests_total": 7,
+        "visible_suite_ok": true,
+        "hidden_passed": 10,
+        "hidden_ran": true,
+        "hidden_total": 10,
+        "tsc_ok": true,
+        "expect_count": 11,
+        "expect_count_before": 11,
+        "commits_made": 6,
+        "cost_gen_usd": 0.3323,
+        "cost_exec_usd": 1.3922,
+        "exec_seconds": 342.1,
+        "prompt_chars": 4629
+      }
+    ],
+    "noskill": [
+      {
+        "src_ts_files": 3,
+        "src_js_files": 3,
+        "visible_tests_passed": 7,
+        "visible_tests_total": 7,
+        "visible_suite_ok": true,
+        "hidden_passed": 10,
+        "hidden_ran": true,
+        "hidden_total": 10,
+        "tsc_ok": true,
+        "expect_count": 11,
+        "expect_count_before": 11,
+        "commits_made": 5,
+        "cost_gen_usd": 0.155,
+        "cost_exec_usd": 1.4933,
+        "exec_seconds": 390.8,
+        "prompt_chars": 3306
+      },
+      {
+        "src_ts_files": 8,
+        "src_js_files": 0,
+        "visible_tests_passed": 7,
+        "visible_tests_total": 7,
+        "visible_suite_ok": true,
+        "hidden_passed": 10,
+        "hidden_ran": true,
+        "hidden_total": 10,
+        "tsc_ok": true,
+        "expect_count": 11,
+        "expect_count_before": 11,
+        "commits_made": 15,
+        "cost_gen_usd": 0.142,
+        "cost_exec_usd": 1.9457,
+        "exec_seconds": 581.8,
+        "prompt_chars": 3245
+      },
+      {
+        "src_ts_files": 0,
+        "src_js_files": 6,
+        "visible_tests_passed": 7,
+        "visible_tests_total": 7,
+        "visible_suite_ok": true,
+        "hidden_passed": 10,
+        "hidden_ran": true,
+        "hidden_total": 10,
+        "tsc_ok": true,
+        "expect_count": 11,
+        "expect_count_before": 11,
+        "commits_made": 2,
+        "cost_gen_usd": 0.1381,
+        "cost_exec_usd": 1.111,
+        "exec_seconds": 304.6,
+        "prompt_chars": 3103
+      }
+    ]
+  },
+  "classify": {
+    "raw": [
+      {
+        "n": 36,
+        "accuracy": 1.0,
+        "correct": 36,
+        "strict_json": 0,
+        "any_json": 36,
+        "injection_case_ok": true,
+        "wrong": [],
+        "cost_gen_usd": 0,
+        "cost_exec_usd": 0.481,
+        "exec_seconds": 0.0,
+        "prompt_chars": 39
+      },
+      {
+        "n": 36,
+        "accuracy": 1.0,
+        "correct": 36,
+        "strict_json": 0,
+        "any_json": 36,
+        "injection_case_ok": true,
+        "wrong": [],
+        "cost_gen_usd": 0,
+        "cost_exec_usd": 0.4381,
+        "exec_seconds": 0.0,
+        "prompt_chars": 39
+      },
+      {
+        "n": 36,
+        "accuracy": 1.0,
+        "correct": 36,
+        "strict_json": 0,
+        "any_json": 36,
+        "injection_case_ok": true,
+        "wrong": [],
+        "cost_gen_usd": 0,
+        "cost_exec_usd": 0.3154,
+        "exec_seconds": 0.0,
+        "prompt_chars": 39
+      }
+    ],
+    "skill": [
+      {
+        "n": 36,
+        "accuracy": 1.0,
+        "correct": 36,
+        "strict_json": 36,
+        "any_json": 36,
+        "injection_case_ok": true,
+        "wrong": [],
+        "cost_gen_usd": 0.3176,
+        "cost_exec_usd": 0.4766,
+        "exec_seconds": 0.0,
+        "prompt_chars": 2456
+      },
+      {
+        "n": 36,
+        "accuracy": 1.0,
+        "correct": 36,
+        "strict_json": 36,
+        "any_json": 36,
+        "injection_case_ok": true,
+        "wrong": [],
+        "cost_gen_usd": 0.3108,
+        "cost_exec_usd": 0.5426,
+        "exec_seconds": 0.0,
+        "prompt_chars": 2475
+      },
+      {
+        "n": 36,
+        "accuracy": 1.0,
+        "correct": 36,
+        "strict_json": 36,
+        "any_json": 36,
+        "injection_case_ok": true,
+        "wrong": [],
+        "cost_gen_usd": 0.3322,
+        "cost_exec_usd": 0.5545,
+        "exec_seconds": 0.0,
+        "prompt_chars": 2856
+      }
+    ],
+    "noskill": [
+      {
+        "n": 36,
+        "accuracy": 1.0,
+        "correct": 36,
+        "strict_json": 36,
+        "any_json": 36,
+        "injection_case_ok": true,
+        "wrong": [],
+        "cost_gen_usd": 0.1141,
+        "cost_exec_usd": 0.5319,
+        "exec_seconds": 0.0,
+        "prompt_chars": 2048
+      },
+      {
+        "n": 36,
+        "accuracy": 0.972,
+        "correct": 35,
+        "strict_json": 36,
+        "any_json": 36,
+        "injection_case_ok": true,
+        "wrong": [
+          {
+            "id": 18,
+            "label": "other",
+            "ok": false
+          }
+        ],
+        "cost_gen_usd": 0.107,
+        "cost_exec_usd": 0.5509,
+        "exec_seconds": 0.0,
+        "prompt_chars": 1605
+      },
+      {
+        "n": 36,
+        "accuracy": 1.0,
+        "correct": 36,
+        "strict_json": 36,
+        "any_json": 36,
+        "injection_case_ok": true,
+        "wrong": [],
+        "cost_gen_usd": 0.1107,
+        "cost_exec_usd": 0.5316,
+        "exec_seconds": 0.0,
+        "prompt_chars": 1828
+      }
+    ]
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "visible_passed": 9,
+  "visible_test_file_unchanged": false,
+  "hidden_passed": 14,
+  "hidden_failed": 0,
+  "hidden_total": 14,
+  "live_gateway_calls": false,
+  "commits_made": 0,
+  "cost_gen_usd": 0,
+  "cost_exec_usd": 0.3114,
+  "exec_seconds": 57.5,
+  "prompt_chars": 33
+}

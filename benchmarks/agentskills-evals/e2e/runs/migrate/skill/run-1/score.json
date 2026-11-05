@@ -1,0 +1,18 @@
+{
+  "src_ts_files": 7,
+  "src_js_files": 0,
+  "visible_tests_passed": 7,
+  "visible_tests_total": 7,
+  "visible_suite_ok": true,
+  "hidden_passed": 10,
+  "hidden_ran": true,
+  "hidden_total": 10,
+  "tsc_ok": true,
+  "expect_count": 11,
+  "expect_count_before": 11,
+  "commits_made": 6,
+  "cost_gen_usd": 0.3068,
+  "cost_exec_usd": 1.3176,
+  "exec_seconds": 366.5,
+  "prompt_chars": 2941
+}

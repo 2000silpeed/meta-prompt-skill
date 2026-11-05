@@ -1,0 +1,283 @@
+diff --git a/.github/workflows/ci.yml b/.github/workflows/ci.yml
+index 76f0888..88af7bc 100644
+--- a/.github/workflows/ci.yml
++++ b/.github/workflows/ci.yml
+@@ -8,4 +8,5 @@ jobs:
+       - uses: actions/setup-node@v4
+         with: { node-version: 22 }
+       - run: npm ci
++      - run: npm run typecheck
+       - run: npm test
+diff --git a/.gitignore b/.gitignore
+index c2658d7..b947077 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -1 +1,2 @@
+ node_modules/
++dist/
+diff --git a/MIGRATION.md b/MIGRATION.md
+new file mode 100644
+index 0000000..cf25c1b
+--- /dev/null
++++ b/MIGRATION.md
+@@ -0,0 +1,157 @@
++# TypeScript 점진 전환 계획 (shop-api)
++
++> 상태 (2026-11-05): **0단계(조사) 완료, 1단계(기반 설정) 완료.**
++> **2단계(파일 변환)는 시작하지 않고 보류 중**입니다. 시작하려면 실행 방식에 대한 결정이 필요합니다. 아래 [§7 차단 이슈](#7-차단-이슈-파일을-ts로-바꾸면-npm-start가-깨진다)를 참고하세요.
++
++---
++
++## 1. 현황 조사
++
++| 항목 | 내용 |
++|---|---|
++| 런타임 | Node 22 (CI `node-version: 22`, 로컬 v22.23.4) |
++| 모듈 방식 | CommonJS (`package.json`에 `"type"` 없음, `require`/`module.exports`) |
++| 프레임워크 | express 4.21.2 |
++| 진입점 | `src/server.js` (`package.json`의 `main`, `start: node src/server.js`) |
++| 테스트 | jest 29.7.0 + supertest 7.0.0, `npm test`(= `jest`), 설정 파일 없이 기본값 사용 |
++| CI | `.github/workflows/ci.yml`: `npm ci` → (추가) `npm run typecheck` → `npm test` |
++| 배포 | 저장소 안에 Dockerfile, PM2 설정, 배포 워크플로가 **없음**. 확인되는 시작 명령은 `npm start` = `node src/server.js`뿐 |
++| Lint | **설정 없음** (eslint 등 미설치, lint 스크립트 없음) |
++
++### 디렉터리와 의존 관계
++
++```
++src/server.js            ← 진입점. process.env.PORT 읽음
++  └─ src/app.js          ← express 앱, JSON 파서, /health, 에러 핸들러(인라인)
++       └─ src/routes/orders.js
++            ├─ src/store.js            (leaf, 모듈 상태: Map + seq)
++            ├─ src/validate.js         (leaf)
++            └─ src/services/pricing.js (leaf)
++tests/orders.test.js → src/app, src/store
++```
++
++- 말단(leaf, 로컬 모듈을 import하지 않음): `store.js`, `validate.js`, `services/pricing.js`
++- middleware 디렉터리는 없습니다. 에러 핸들러는 `app.js` 안에 인라인으로 있습니다.
++- `src/utils`, `src/lib` 디렉터리는 없습니다.
++
++## 2. 변환을 어렵게 하는 패턴
++
++| 패턴 | 위치 | 대응 |
++|---|---|---|
++| 동적 `require` | 없음 | — |
++| `module.exports = X` (단일 값 export) | `app.js`(app), `routes/orders.js`(router) | TS에서는 **`export =`**를 쓴다. `export default`를 쓰면 JS 쪽 `require()`가 `{ default }`를 받게 되어 동작이 깨진다. |
++| `module.exports = { a, b }` | `store.js`, `validate.js`, `services/pricing.js` | named export(`export function …`)로 바꾼다. 결과는 `exports.a = …` 형태로 emit되므로 JS 쪽 `require().a`가 그대로 동작한다. |
++| `module.exports` 재할당(나중에 다시 덮어쓰기) | 없음 | — |
++| req/res 커스텀 속성 | 없음 | `src/types/express.d.ts`에 자리만 만들어 둠 |
++| Error 객체 커스텀 속성 `err.status` | `services/pricing.js`(대입), `app.js`(읽기) | 전역 augmentation 대신 `interface HttpError extends Error { status?: number }` 타입을 둔다. 런타임 코드는 바꾸지 않는다. |
++| 인자 4개짜리 에러 미들웨어 | `app.js` | Express는 `fn.length === 4`로 에러 핸들러를 구분한다. 쓰지 않는 `next` 인자를 지우면 안 된다. 이름은 `_next`로 바꿔도 된다. |
++| 검증되지 않은 입력 (`req.body`, `req.query`) | `routes/orders.js`, `validate.js` | `unknown`으로 받고 타입 가드로 좁힌다(§5 참고). |
++
++## 3. 작업 전 기준 결과 (baseline, 커밋 `b1f6a22`)
++
++- `jest`: **7/7 통과**. 6번 연속 실행해도 결과가 같았다(flaky 없음).
++- 이미 실패하는 테스트: 없음
++- lint: 설정이 없어 실행할 수 없음
++- `npm audit`: 기존 의존성(express 4.21.2 계열의 body-parser, path-to-regexp, qs와 jest 계열의 deepmerge)에 알려진 취약점이 있다. 이번 작업 범위 밖이라 손대지 않았다.
++
++### 테스트가 다루지 않는 동작
++아래 동작은 지금 테스트가 없다. 변환하다가 회귀가 생겨도 잡히지 않으므로, **routes를 변환하기 전에 테스트를 *추가*할 것을 권한다.** 기존 assertion은 바꾸지 않는다.
++- `GET /orders` 목록 조회와 `?status=` 필터
++- `POST /orders/:id/ship` 성공(200), shipped 주문 cancel(409)
++- `GET /orders/:id` 성공(200)
++- 잘못된 JSON 본문(400, body-parser 에러 메시지)
++- 에러 핸들러의 500 경로
++
++## 4. 변환 순서
++
++| 묶음 | 파일 | 비고 |
++|---|---|---|
++| A. 말단 | `src/store.ts`, `src/validate.ts`, `src/services/pricing.ts` (+ 새 파일 `src/types/order.ts`, `src/types/http-error.ts`) | 도메인 타입 `OrderItem`, `Quote`, `Order`, `OrderStatus`를 정의 |
++| B. routes | `src/routes/orders.ts` | `Request<Params, ResBody, ReqBody, Query>` 제네릭 사용. 검증 라이브러리가 없으므로 interface로 정의 |
++| C. 앱 / 진입점 | `src/app.ts`, `src/server.ts` | 에러 핸들러 인자 4개 유지 |
++| D. 테스트 | `tests/orders.test.ts` | 별도 단계. assertion은 그대로 둔다 |
++
++묶음마다 진행 방식:
++1. `git mv`로 이름만 바꾸는 커밋
++2. 타입을 붙이는 커밋 (`refactor(ts): convert <경로> to TypeScript`)
++3. `npm run typecheck`, `npm test`, (lint가 생기면) lint를 모두 통과시킨다
++4. `npm start`로 `/health`를 확인한다
++
++## 5. 묶음별 타입 설계 메모 (런타임 동작은 그대로 유지)
++
++- **validate**: `validateItems(items: unknown): string | null`. 요소 `it`에서 속성을 읽는 부분은 현재 `null` 요소가 들어오면 TypeError가 난다(버그 #1). null 검사를 추가하면 응답이 400으로 바뀌므로 넣지 않는다. 대신 `it as Record<string, unknown>` 캐스트에 `TODO(ts-migration)`를 붙여 현재 동작을 그대로 둔다.
++- **routes**: `validateItems`는 type predicate가 아니어서, 검증을 통과한 뒤에도 `items`의 타입이 좁혀지지 않는다. 방법은 두 가지다.
++  - `items as OrderItem[]` 캐스트를 쓰고 이유를 주석으로 단다.
++  - 런타임 로직은 그대로 두고, 타입만 좁혀 주는 래퍼 `isValidItems(x): x is OrderItem[]`(`validateItems(x) === null`)를 추가한다.
++  - 권장: 두 번째. 판단은 사용자에게 맡긴다.
++- **pricing**: `coupon`의 실제 런타임 타입은 `unknown`이다. JSON body라서 배열이나 숫자도 들어올 수 있다(버그 #3). 시그니처를 `string | undefined`로 적으면 사실과 다르므로 `unknown`으로 받고, `COUPONS[coupon]` 인덱싱 부분만 좁혀서 처리한다. `COUPONS`는 `Record<string, number>`로 둔다. 프로토타입 키 조회(버그 #2)는 그대로 남는다.
++- **query**: `req.query.status`는 qs가 파싱한 값이라 실제 타입이 `string | string[] | ParsedQs | ...`이다(버그 #5). `{ status?: string }`로 적으면 사실과 다르므로 `ParsedQs`의 값 타입을 그대로 쓴다.
++
++## 6. 1단계 설정 내역과 결정 이유
++
++- `typescript@6.0.3`: 최신 7.x(네이티브 컴파일러)는 ts-jest 29의 peer 범위(`<7`) 밖이라 6.x를 선택했다.
++- `@types/express@4.17.25`(Express 4에 맞춤. 5.x 타입은 Express 5용), `@types/jest@29.5.14`(jest 29), `@types/node@22.20.5`(Node 22), `@types/supertest@7.2.1`(테스트를 TS로 바꿀 때 사용)
++- `tsconfig.json`: `allowJs: true`, `checkJs: false`, `strict: true`, `module/moduleResolution: node16`(package.json의 type에 따라 CJS로 해석되므로 모듈 방식이 바뀌지 않음), `esModuleInterop`, `isolatedModules`, `outDir: dist`
++- **jest 변환기는 ts-jest를 선택했다.** 이유:
++  1. 실제 빌드에 쓸 `tsc`와 같은 컴파일러로 트랜스파일한다. 그래서 이 저장소에서 위험한 CJS interop(`export =`, `import x = require()`, `esModuleInterop`)이 테스트와 운영에서 똑같이 처리된다. @swc/jest는 CJS interop을 처리하는 방식이 tsc와 다를 수 있다.
++  2. 테스트가 7개뿐이라 swc의 속도 이점이 의미 없다. ts-jest는 네이티브 바이너리(@swc/core)를 받을 필요도 없다.
++  3. `isolatedModules: true`이므로 ts-jest는 트랜스파일만 하고, 타입 검사는 `npm run typecheck`에 맡긴다(중복 없음).
++  - `.js` 파일은 jest 기본값과 같이 계속 babel-jest가 처리하도록 명시했다.
++- CI: `npm run typecheck` 단계를 `npm test` 앞에 추가했다.
++- `.gitignore`에 `dist/`를 추가했다.
++
++## 7. 차단 이슈: 파일을 TS로 바꾸면 `npm start`가 깨진다
++
++`src/` 아래 파일은 모두 `node src/server.js`의 런타임 경로에 있다. 일반 `node`로 실행하면 다음과 같다.
++
++- `require('./store')`(확장자 없음)는 `store.ts`를 찾지 못해 **MODULE_NOT_FOUND**로 실패한다. 실제로 확인했다.
++- `require('./store.ts')`처럼 확장자를 명시하면 Node 22.18 이상의 type stripping으로 동작은 한다. 하지만 이 방법은 JS 쪽 require 경로를 고쳐야 하고, 운영 Node 버전에 기대야 하며, `export =`나 `import = require` 같은 문법을 쓸 수 없다.
++
++따라서 "진입점을 변환하기 전까지는 기존 시작 명령을 그대로 둔다"는 조건과 "src 파일을 `.ts`로 바꾼다"는 작업은 **함께 성립하지 않는다.** 실행 방식을 바꾸는 일은 이번 범위에서 금지되어 있으므로 2단계는 보류했다.
++
++### 선택지
++
++| 안 | 내용 | 장점 | 단점 |
++|---|---|---|---|
++| **A (권장)** | 변환을 시작하기 *전에* `tsc` 빌드로 실행 방식을 먼저 바꾼다. `allowJs`라서 JS 파일도 `dist/`로 복사되므로, 아직 아무 파일도 변환하지 않은 상태에서 전환하고 운영에서 검증할 수 있다. 그 뒤에 변환은 실행 방식과 무관하게 진행된다. | 운영에 영향을 주는 변경을 한 번에, 코드 변경 없이 따로 검증할 수 있다 | 원래 계획(진입점 변환 후 전환)과 순서가 반대다. 배포 설정을 변경해야 한다. |
++| B | Node 기본 type stripping을 쓴다(`require('./x.ts')`, `erasableSyntaxOnly`) | 빌드 단계가 없다 | 운영 Node 버전이 22.18 이상이어야 한다. 22.x에서는 experimental이다. `export =`를 쓸 수 없어 CJS 단일 export 처리가 어색하다. JS 쪽 require 경로를 고쳐야 한다. |
++| C | 런타임 로더를 쓴다(`node -r @swc-node/register`, tsx 등) | 코드를 거의 바꾸지 않는다 | 운영 환경에서 실시간 트랜스파일을 하게 되고, 운영 의존성이 늘어난다 |
++| D | 결정 전까지 할 수 있는 작업: 런타임에 영향이 없는 일만 한다. §3의 누락 테스트를 추가하고, 도메인 타입 파일(`src/types/*.ts`)을 미리 만든다. | 실행 방식을 바꾸지 않는다 | 실제 `.js` → `.ts` 변환은 진행되지 않는다 |
++
++## 8. 빌드/배포 전환 계획 (계획만, 실행하지 않음)
++
++A안 기준:
++1. `tsconfig.build.json`을 추가한다. `extends ./tsconfig.json`, `rootDir: src`, `include: ["src"]`, 테스트는 제외, `noEmit: false`로 두어 결과물이 `dist/server.js`가 되게 한다.
++2. 스크립트를 추가한다. `"build": "tsc -p tsconfig.build.json"`. CI에도 build 단계를 넣는다.
++3. 운영에서 검증한다. `npm run build && node dist/server.js`로 `/health`와 주요 API를 확인하고, 기존 `node src/server.js`와 응답을 비교한다.
++4. 바꾸는 항목(**사용자 승인이 필요**):
++   - `package.json`: `start` → `node dist/server.js`, `main` → `dist/server.js`
++   - 저장소 밖의 배포 설정(Dockerfile, PM2 등). 이 저장소에서는 찾지 못했다. 이미지를 만들 때 `npm ci && npm run build`(devDependencies 필요) 후 `npm prune --omit=dev` 순서로 진행한다.
++   - 소스맵이 필요하면 `node --enable-source-maps dist/server.js`
++5. 롤백: `start`를 `node src/server.js`로 되돌린다. 변환 전이라면 원본 JS가 그대로 남아 있어 바로 롤백할 수 있다.
++
++## 9. 발견한 잠재 버그 (고치지 않음, 모두 재현 확인)
++
++| # | 위치 | 재현 | 현재 결과 |
++|---|---|---|---|
++| 1 | `validate.js:4` | `POST /orders {items:[null]}` | **500** `"Cannot read properties of null (reading 'sku')"`. 400이어야 할 입력이 500이 되고, 내부 에러 메시지까지 노출된다. |
++| 2 | `services/pricing.js:9` | `coupon: "toString"` 또는 `"__proto__"` | **201**이 나오고 `discount`와 `total`이 `null`(NaN)이다. 프로토타입 키가 쿠폰으로 인정된다. |
++| 3 | `services/pricing.js:9`, `routes/orders.js:14` | `coupon: ["WELCOME10"]` | 할인이 적용되고 `coupon`이 배열 그대로 저장된다. 쿠폰 타입을 검증하지 않는다. `0`, `""`, `false`는 쿠폰이 없는 것으로 처리된다. |
++| 4 | `app.js:9` | 처리되지 않은 예외 | 500 응답에 `err.message`가 그대로 나간다(내부 정보 노출). |
++| 5 | `routes/orders.js:20-22` | `GET /orders?status=pending&status=pending` | `status`가 배열이 되어 항상 `[]`가 나온다. |
++| 6 | `services/pricing.js:4` | `price: 0.1, qty: 3` | `subtotal: 0.30000000000000004`, `total: 3000.3`. 소수 가격을 허용하고 반올림하지 않는다. |
++| 7 | `routes/orders.js:31-36` | 이미 cancelled인 주문을 다시 cancel | 200(아무것도 바뀌지 않음). 의도한 동작인지 확인이 필요하다. |
++| 8 | `store.js` | `get`/`list`/`create`/`update` | 내부 객체를 참조로 그대로 돌려준다(외부에서 수정 가능). `create`가 `...data`를 `id`/`status` 뒤에 펼치므로 data에 같은 키가 있으면 덮어쓴다. 지금 route에서는 이런 data가 들어올 경로가 없다. |
++| 9 | `validate.js:5-6` | 매우 큰 `qty`/`price` | 안전한 정수 범위나 상한을 검사하지 않는다. |
++
++## 10. `any` / `TODO(ts-migration)` / `@ts-expect-error` 현황
++
++현재 **0건**. TS로 바꾼 소스 파일이 아직 없다. 생길 것으로 예상되는 위치는 §5의 `validate`에 있는 캐스트 1건이다.
++
++## 11. 결정이 필요한 사항
++
++1. **실행 방식 전환 시점과 방법** (§7의 A/B/C/D 중 선택). 이게 정해지기 전에는 2단계를 시작할 수 없다.
++2. Lint 도입 여부. 지금은 lint가 없어서 "lint 통과" 조건을 확인할 수 없다. 넣는다면 `eslint` + `typescript-eslint`가 후보다. 다만 규칙을 처음 적용하면 기존 JS에서 위반이 나올 수 있으므로 별도 작업으로 진행하는 것이 좋다.
++3. routes 변환 전에 누락 테스트(§3)를 추가할지
++4. §5에서 `items` 타입을 좁히는 방법(캐스트 또는 type-guard 래퍼)
++5. 운영 Node 버전과 배포 방식(저장소 밖의 설정) 확인
+diff --git a/jest.config.js b/jest.config.js
+new file mode 100644
+index 0000000..5dfe9c8
+--- /dev/null
++++ b/jest.config.js
+@@ -0,0 +1,10 @@
++/** @type {import('jest').Config} */
++module.exports = {
++  testEnvironment: 'node',
++  transform: {
++    // .ts → ts-jest (tsconfig.json 사용, isolatedModules라 트랜스파일만 수행. 타입 검사는 `npm run typecheck`가 담당)
++    '^.+\\.ts$': 'ts-jest',
++    // .js → 기존과 동일하게 babel-jest (jest 기본 동작 유지)
++    '^.+\\.jsx?$': 'babel-jest',
++  },
++};
+diff --git a/package.json b/package.json
+index 71920af..b058570 100644
+--- a/package.json
++++ b/package.json
+@@ -5,13 +5,20 @@
+   "main": "src/server.js",
+   "scripts": {
+     "start": "node src/server.js",
+-    "test": "jest"
++    "test": "jest",
++    "typecheck": "tsc --noEmit"
+   },
+   "dependencies": {
+     "express": "4.21.2"
+   },
+   "devDependencies": {
++    "@types/express": "4.17.25",
++    "@types/jest": "29.5.14",
++    "@types/node": "22.20.5",
++    "@types/supertest": "7.2.1",
+     "jest": "29.7.0",
+-    "supertest": "7.0.0"
++    "supertest": "7.0.0",
++    "ts-jest": "29.4.15",
++    "typescript": "6.0.3"
+   }
+ }
+diff --git a/src/types/express.d.ts b/src/types/express.d.ts
+new file mode 100644
+index 0000000..f70ad37
+--- /dev/null
++++ b/src/types/express.d.ts
+@@ -0,0 +1,16 @@
++// req / res 커스텀 속성 정의 (declaration merging)
++//
++// 0단계 조사 결과: 현재 코드에는 req/res에 붙이는 커스텀 속성이 없다.
++// (`err.status`는 Error 객체에 붙이는 속성이라 여기서 다루지 않는다. MIGRATION.md의 "HttpError" 항목 참고)
++//
++// 새 커스텀 속성이 생기면 아래처럼 추가한다.
++//
++// declare global {
++//   namespace Express {
++//     interface Request {
++//       user?: { id: string };
++//     }
++//   }
++// }
++
++export {};
+diff --git a/tsconfig.json b/tsconfig.json
+new file mode 100644
+index 0000000..a9029a4
+--- /dev/null
++++ b/tsconfig.json
+@@ -0,0 +1,32 @@
++{
++  "compilerOptions": {
++    // 런타임: Node 22, CommonJS (package.json에 "type" 없음 → node16 모드에서 CJS로 해석)
++    "target": "ES2022",
++    "lib": ["ES2022"],
++    "module": "node16",
++    "moduleResolution": "node16",
++    "esModuleInterop": true,
++    "isolatedModules": true,
++    "resolveJsonModule": true,
++
++    // JS/TS 공존: 레거시 JS는 컴파일 입력에는 포함하되 타입 검사는 하지 않는다.
++    "allowJs": true,
++    "checkJs": false,
++
++    // 새 TS 파일은 strict로 검사
++    "strict": true,
++    "noImplicitOverride": true,
++    "noFallthroughCasesInSwitch": true,
++    "forceConsistentCasingInFileNames": true,
++    "skipLibCheck": true,
++
++    "types": ["node", "jest"],
++
++    // 빌드 산출물 위치 (현재는 typecheck만 하며 emit하지 않음. 빌드 전환 계획은 MIGRATION.md 참고)
++    "rootDir": ".",
++    "outDir": "dist",
++    "sourceMap": true
++  },
++  "include": ["src/**/*", "tests/**/*"],
++  "exclude": ["node_modules", "dist"]
++}

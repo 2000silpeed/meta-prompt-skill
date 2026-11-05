@@ -1,0 +1,728 @@
+diff --git a/.github/workflows/ci.yml b/.github/workflows/ci.yml
+index 76f0888..2cd37f0 100644
+--- a/.github/workflows/ci.yml
++++ b/.github/workflows/ci.yml
+@@ -6,6 +6,8 @@ jobs:
+     steps:
+       - uses: actions/checkout@v4
+       - uses: actions/setup-node@v4
+-        with: { node-version: 22 }
++        with: { node-version: 22, cache: npm }
+       - run: npm ci
++      - run: npm run typecheck
+       - run: npm test
++      - run: npm run build
+diff --git a/.gitignore b/.gitignore
+index c2658d7..9ebfc2d 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -1 +1,3 @@
+ node_modules/
++dist/
++coverage/
+diff --git a/dist/app.js b/dist/app.js
+new file mode 100644
+index 0000000..6cf876f
+--- /dev/null
++++ b/dist/app.js
+@@ -0,0 +1,19 @@
++"use strict";
++var __importDefault = (this && this.__importDefault) || function (mod) {
++    return (mod && mod.__esModule) ? mod : { "default": mod };
++};
++Object.defineProperty(exports, "__esModule", { value: true });
++const express_1 = __importDefault(require("express"));
++const orders_1 = __importDefault(require("./routes/orders"));
++const app = (0, express_1.default)();
++app.use(express_1.default.json());
++app.get('/health', (req, res) => {
++    res.json({ ok: true });
++});
++app.use('/orders', orders_1.default);
++const errorHandler = (err, req, res, next) => {
++    res.status(err.status || 500).json({ error: err.message || 'internal error' });
++};
++app.use(errorHandler);
++exports.default = app;
++//# sourceMappingURL=app.js.map
+\ No newline at end of file
+diff --git a/dist/app.js.map b/dist/app.js.map
+new file mode 100644
+index 0000000..ac097f5
+--- /dev/null
++++ b/dist/app.js.map
+@@ -0,0 +1 @@
++{"version":3,"file":"app.js","sourceRoot":"","sources":["../src/app.ts"],"names":[],"mappings":";;;;;AAAA,sDAA4D;AAC5D,6DAAqC;AAErC,MAAM,GAAG,GAAG,IAAA,iBAAO,GAAE,CAAC;AACtB,GAAG,CAAC,GAAG,CAAC,iBAAO,CAAC,IAAI,EAAE,CAAC,CAAC;AACxB,GAAG,CAAC,GAAG,CAAC,SAAS,EAAE,CAAC,GAAG,EAAE,GAAG,EAAE,EAAE;IAC9B,GAAG,CAAC,IAAI,CAAC,EAAE,EAAE,EAAE,IAAI,EAAE,CAAC,CAAC;AACzB,CAAC,CAAC,CAAC;AACH,GAAG,CAAC,GAAG,CAAC,SAAS,EAAE,gBAAM,CAAC,CAAC;AAE3B,MAAM,YAAY,GAAwB,CAAC,GAAG,EAAE,GAAG,EAAE,GAAG,EAAE,IAAI,EAAE,EAAE;IAChE,GAAG,CAAC,MAAM,CAAC,GAAG,CAAC,MAAM,IAAI,GAAG,CAAC,CAAC,IAAI,CAAC,EAAE,KAAK,EAAE,GAAG,CAAC,OAAO,IAAI,gBAAgB,EAAE,CAAC,CAAC;AACjF,CAAC,CAAC;AACF,GAAG,CAAC,GAAG,CAAC,YAAY,CAAC,CAAC;AAEtB,kBAAe,GAAG,CAAC"}
+\ No newline at end of file
+diff --git a/dist/errors.js b/dist/errors.js
+new file mode 100644
+index 0000000..eb9fac6
+--- /dev/null
++++ b/dist/errors.js
+@@ -0,0 +1,14 @@
++"use strict";
++Object.defineProperty(exports, "__esModule", { value: true });
++exports.HttpError = void 0;
++/** Error carrying an HTTP status; picked up by the error handler in app.ts. */
++class HttpError extends Error {
++    status;
++    constructor(status, message) {
++        super(message);
++        this.status = status;
++        this.name = 'HttpError';
++    }
++}
++exports.HttpError = HttpError;
++//# sourceMappingURL=errors.js.map
+\ No newline at end of file
+diff --git a/dist/errors.js.map b/dist/errors.js.map
+new file mode 100644
+index 0000000..b3ecc1a
+--- /dev/null
++++ b/dist/errors.js.map
+@@ -0,0 +1 @@
++{"version":3,"file":"errors.js","sourceRoot":"","sources":["../src/errors.ts"],"names":[],"mappings":";;;AAAA,+EAA+E;AAC/E,MAAa,SAAU,SAAQ,KAAK;IACN;IAA5B,YAA4B,MAAc,EAAE,OAAe;QACzD,KAAK,CAAC,OAAO,CAAC,CAAC;QADW,WAAM,GAAN,MAAM,CAAQ;QAExC,IAAI,CAAC,IAAI,GAAG,WAAW,CAAC;IAC1B,CAAC;CACF;AALD,8BAKC"}
+\ No newline at end of file
+diff --git a/dist/routes/orders.js b/dist/routes/orders.js
+new file mode 100644
+index 0000000..78ab34e
+--- /dev/null
++++ b/dist/routes/orders.js
+@@ -0,0 +1,72 @@
++"use strict";
++var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
++    if (k2 === undefined) k2 = k;
++    var desc = Object.getOwnPropertyDescriptor(m, k);
++    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
++      desc = { enumerable: true, get: function() { return m[k]; } };
++    }
++    Object.defineProperty(o, k2, desc);
++}) : (function(o, m, k, k2) {
++    if (k2 === undefined) k2 = k;
++    o[k2] = m[k];
++}));
++var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
++    Object.defineProperty(o, "default", { enumerable: true, value: v });
++}) : function(o, v) {
++    o["default"] = v;
++});
++var __importStar = (this && this.__importStar) || function (mod) {
++    if (mod && mod.__esModule) return mod;
++    var result = {};
++    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
++    __setModuleDefault(result, mod);
++    return result;
++};
++Object.defineProperty(exports, "__esModule", { value: true });
++const express_1 = require("express");
++const store = __importStar(require("../store"));
++const validate_1 = require("../validate");
++const pricing_1 = require("../services/pricing");
++const router = (0, express_1.Router)();
++router.post('/', (req, res, next) => {
++    const { items, coupon } = (req.body || {});
++    if (!(0, validate_1.isValidItems)(items))
++        return res.status(400).json({ error: (0, validate_1.validateItems)(items) });
++    try {
++        const q = (0, pricing_1.quote)(items, coupon);
++        const order = store.create({ items, coupon: coupon || null, ...q });
++        res.status(201).json(order);
++    }
++    catch (e) {
++        next(e);
++    }
++});
++router.get('/', (req, res) => {
++    const { status } = req.query;
++    const all = store.list();
++    res.json(status ? all.filter((o) => o.status === status) : all);
++});
++router.get('/:id', (req, res) => {
++    const o = store.get(req.params.id);
++    if (!o)
++        return res.status(404).json({ error: 'order not found' });
++    res.json(o);
++});
++router.post('/:id/cancel', (req, res) => {
++    const o = store.get(req.params.id);
++    if (!o)
++        return res.status(404).json({ error: 'order not found' });
++    if (o.status === 'shipped')
++        return res.status(409).json({ error: 'shipped order cannot be cancelled' });
++    res.json(store.update(o.id, { status: 'cancelled' }));
++});
++router.post('/:id/ship', (req, res) => {
++    const o = store.get(req.params.id);
++    if (!o)
++        return res.status(404).json({ error: 'order not found' });
++    if (o.status !== 'pending')
++        return res.status(409).json({ error: `cannot ship ${o.status} order` });
++    res.json(store.update(o.id, { status: 'shipped' }));
++});
++exports.default = router;
++//# sourceMappingURL=orders.js.map
+\ No newline at end of file
+diff --git a/dist/routes/orders.js.map b/dist/routes/orders.js.map
+new file mode 100644
+index 0000000..aa494e7
+--- /dev/null
++++ b/dist/routes/orders.js.map
+@@ -0,0 +1 @@
++{"version":3,"file":"orders.js","sourceRoot":"","sources":["../../src/routes/orders.ts"],"names":[],"mappings":"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"}
+\ No newline at end of file
+diff --git a/dist/server.js b/dist/server.js
+new file mode 100644
+index 0000000..7bc2147
+--- /dev/null
++++ b/dist/server.js
+@@ -0,0 +1,9 @@
++"use strict";
++var __importDefault = (this && this.__importDefault) || function (mod) {
++    return (mod && mod.__esModule) ? mod : { "default": mod };
++};
++Object.defineProperty(exports, "__esModule", { value: true });
++const app_1 = __importDefault(require("./app"));
++const port = process.env.PORT || 3000;
++app_1.default.listen(port, () => console.log(`shop-api listening on ${port}`));
++//# sourceMappingURL=server.js.map
+\ No newline at end of file
+diff --git a/dist/server.js.map b/dist/server.js.map
+new file mode 100644
+index 0000000..eaf4bf4
+--- /dev/null
++++ b/dist/server.js.map
+@@ -0,0 +1 @@
++{"version":3,"file":"server.js","sourceRoot":"","sources":["../src/server.ts"],"names":[],"mappings":";;;;;AAAA,gDAAwB;AAExB,MAAM,IAAI,GAAG,OAAO,CAAC,GAAG,CAAC,IAAI,IAAI,IAAI,CAAC;AACtC,aAAG,CAAC,MAAM,CAAC,IAAI,EAAE,GAAG,EAAE,CAAC,OAAO,CAAC,GAAG,CAAC,yBAAyB,IAAI,EAAE,CAAC,CAAC,CAAC"}
+\ No newline at end of file
+diff --git a/dist/services/pricing.js b/dist/services/pricing.js
+new file mode 100644
+index 0000000..cf1ce33
+--- /dev/null
++++ b/dist/services/pricing.js
+@@ -0,0 +1,21 @@
++"use strict";
++Object.defineProperty(exports, "__esModule", { value: true });
++exports.COUPONS = void 0;
++exports.subtotal = subtotal;
++exports.quote = quote;
++const errors_1 = require("../errors");
++exports.COUPONS = { WELCOME10: 0.1, VIP20: 0.2 };
++function subtotal(items) {
++    return items.reduce((s, it) => s + it.price * it.qty, 0);
++}
++function quote(items, coupon) {
++    const sub = subtotal(items);
++    const rate = coupon ? exports.COUPONS[coupon] : 0;
++    if (coupon && rate === undefined) {
++        throw new errors_1.HttpError(400, 'unknown coupon');
++    }
++    const discount = Math.round(sub * rate);
++    const shipping = sub - discount >= 30000 ? 0 : 3000;
++    return { subtotal: sub, discount, shipping, total: sub - discount + shipping };
++}
++//# sourceMappingURL=pricing.js.map
+\ No newline at end of file
+diff --git a/dist/services/pricing.js.map b/dist/services/pricing.js.map
+new file mode 100644
+index 0000000..88d7364
+--- /dev/null
++++ b/dist/services/pricing.js.map
+@@ -0,0 +1 @@
++{"version":3,"file":"pricing.js","sourceRoot":"","sources":["../../src/services/pricing.ts"],"names":[],"mappings":";;;AAKA,4BAEC;AAED,sBASC;AAlBD,sCAAsC;AAGzB,QAAA,OAAO,GAAqC,EAAE,SAAS,EAAE,GAAG,EAAE,KAAK,EAAE,GAAG,EAAE,CAAC;AAExF,SAAgB,QAAQ,CAAC,KAAkB;IACzC,OAAO,KAAK,CAAC,MAAM,CAAC,CAAC,CAAC,EAAE,EAAE,EAAE,EAAE,CAAC,CAAC,GAAG,EAAE,CAAC,KAAK,GAAG,EAAE,CAAC,GAAG,EAAE,CAAC,CAAC,CAAC;AAC3D,CAAC;AAED,SAAgB,KAAK,CAAC,KAAkB,EAAE,MAAsB;IAC9D,MAAM,GAAG,GAAG,QAAQ,CAAC,KAAK,CAAC,CAAC;IAC5B,MAAM,IAAI,GAAG,MAAM,CAAC,CAAC,CAAC,eAAO,CAAC,MAAM,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;IAC1C,IAAI,MAAM,IAAI,IAAI,KAAK,SAAS,EAAE,CAAC;QACjC,MAAM,IAAI,kBAAS,CAAC,GAAG,EAAE,gBAAgB,CAAC,CAAC;IAC7C,CAAC;IACD,MAAM,QAAQ,GAAG,IAAI,CAAC,KAAK,CAAC,GAAG,GAAG,IAAI,CAAC,CAAC;IACxC,MAAM,QAAQ,GAAG,GAAG,GAAG,QAAQ,IAAI,KAAK,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,IAAI,CAAC;IACpD,OAAO,EAAE,QAAQ,EAAE,GAAG,EAAE,QAAQ,EAAE,QAAQ,EAAE,KAAK,EAAE,GAAG,GAAG,QAAQ,GAAG,QAAQ,EAAE,CAAC;AACjF,CAAC"}
+\ No newline at end of file
+diff --git a/dist/store.js b/dist/store.js
+new file mode 100644
+index 0000000..a59ef24
+--- /dev/null
++++ b/dist/store.js
+@@ -0,0 +1,33 @@
++"use strict";
++Object.defineProperty(exports, "__esModule", { value: true });
++exports.reset = reset;
++exports.create = create;
++exports.get = get;
++exports.update = update;
++exports.list = list;
++const orders = new Map();
++let seq = 1;
++function reset() {
++    orders.clear();
++    seq = 1;
++}
++function create(data) {
++    const id = String(seq++);
++    const o = { id, status: 'pending', ...data };
++    orders.set(id, o);
++    return o;
++}
++function get(id) {
++    return orders.get(String(id)) || null;
++}
++function update(id, patch) {
++    const o = get(id);
++    if (!o)
++        return null;
++    Object.assign(o, patch);
++    return o;
++}
++function list() {
++    return Array.from(orders.values());
++}
++//# sourceMappingURL=store.js.map
+\ No newline at end of file
+diff --git a/dist/store.js.map b/dist/store.js.map
+new file mode 100644
+index 0000000..2e36336
+--- /dev/null
++++ b/dist/store.js.map
+@@ -0,0 +1 @@
++{"version":3,"file":"store.js","sourceRoot":"","sources":["../src/store.ts"],"names":[],"mappings":";;AAKA,sBAGC;AAED,wBAKC;AAED,kBAEC;AAED,wBAKC;AAED,oBAEC;AA5BD,MAAM,MAAM,GAAG,IAAI,GAAG,EAAiB,CAAC;AACxC,IAAI,GAAG,GAAG,CAAC,CAAC;AAEZ,SAAgB,KAAK;IACnB,MAAM,CAAC,KAAK,EAAE,CAAC;IACf,GAAG,GAAG,CAAC,CAAC;AACV,CAAC;AAED,SAAgB,MAAM,CAAC,IAAc;IACnC,MAAM,EAAE,GAAG,MAAM,CAAC,GAAG,EAAE,CAAC,CAAC;IACzB,MAAM,CAAC,GAAU,EAAE,EAAE,EAAE,MAAM,EAAE,SAAS,EAAE,GAAG,IAAI,EAAE,CAAC;IACpD,MAAM,CAAC,GAAG,CAAC,EAAE,EAAE,CAAC,CAAC,CAAC;IAClB,OAAO,CAAC,CAAC;AACX,CAAC;AAED,SAAgB,GAAG,CAAC,EAAmB;IACrC,OAAO,MAAM,CAAC,GAAG,CAAC,MAAM,CAAC,EAAE,CAAC,CAAC,IAAI,IAAI,CAAC;AACxC,CAAC;AAED,SAAgB,MAAM,CAAC,EAAU,EAAE,KAAiC;IAClE,MAAM,CAAC,GAAG,GAAG,CAAC,EAAE,CAAC,CAAC;IAClB,IAAI,CAAC,CAAC;QAAE,OAAO,IAAI,CAAC;IACpB,MAAM,CAAC,MAAM,CAAC,CAAC,EAAE,KAAK,CAAC,CAAC;IACxB,OAAO,CAAC,CAAC;AACX,CAAC;AAED,SAAgB,IAAI;IAClB,OAAO,KAAK,CAAC,IAAI,CAAC,MAAM,CAAC,MAAM,EAAE,CAAC,CAAC;AACrC,CAAC"}
+\ No newline at end of file
+diff --git a/dist/types/order.js b/dist/types/order.js
+new file mode 100644
+index 0000000..cfd5595
+--- /dev/null
++++ b/dist/types/order.js
+@@ -0,0 +1,3 @@
++"use strict";
++Object.defineProperty(exports, "__esModule", { value: true });
++//# sourceMappingURL=order.js.map
+\ No newline at end of file
+diff --git a/dist/types/order.js.map b/dist/types/order.js.map
+new file mode 100644
+index 0000000..4e5d07c
+--- /dev/null
++++ b/dist/types/order.js.map
+@@ -0,0 +1 @@
++{"version":3,"file":"order.js","sourceRoot":"","sources":["../../src/types/order.ts"],"names":[],"mappings":""}
+\ No newline at end of file
+diff --git a/dist/validate.js b/dist/validate.js
+new file mode 100644
+index 0000000..c71d917
+--- /dev/null
++++ b/dist/validate.js
+@@ -0,0 +1,26 @@
++"use strict";
++Object.defineProperty(exports, "__esModule", { value: true });
++exports.validateItems = validateItems;
++exports.isValidItems = isValidItems;
++/**
++ * Validates an untrusted request payload.
++ * Returns an error message, or null when `items` is a valid OrderItem[].
++ */
++function validateItems(items) {
++    if (!Array.isArray(items) || items.length === 0)
++        return 'items must be a non-empty array';
++    for (const it of items) {
++        if (typeof it.sku !== 'string' || !it.sku)
++            return 'sku is required';
++        if (!Number.isInteger(it.qty) || it.qty <= 0)
++            return 'qty must be a positive integer';
++        if (typeof it.price !== 'number' || it.price < 0)
++            return 'price must be a non-negative number';
++    }
++    return null;
++}
++/** Type guard wrapper around validateItems. */
++function isValidItems(items) {
++    return validateItems(items) === null;
++}
++//# sourceMappingURL=validate.js.map
+\ No newline at end of file
+diff --git a/dist/validate.js.map b/dist/validate.js.map
+new file mode 100644
+index 0000000..316971c
+--- /dev/null
++++ b/dist/validate.js.map
+@@ -0,0 +1 @@
++{"version":3,"file":"validate.js","sourceRoot":"","sources":["../src/validate.ts"],"names":[],"mappings":";;AAMA,sCAQC;AAGD,oCAEC;AAjBD;;;GAGG;AACH,SAAgB,aAAa,CAAC,KAAc;IAC1C,IAAI,CAAC,KAAK,CAAC,OAAO,CAAC,KAAK,CAAC,IAAI,KAAK,CAAC,MAAM,KAAK,CAAC;QAAE,OAAO,iCAAiC,CAAC;IAC1F,KAAK,MAAM,EAAE,IAAI,KAA6B,EAAE,CAAC;QAC/C,IAAI,OAAO,EAAE,CAAC,GAAG,KAAK,QAAQ,IAAI,CAAC,EAAE,CAAC,GAAG;YAAE,OAAO,iBAAiB,CAAC;QACpE,IAAI,CAAC,MAAM,CAAC,SAAS,CAAC,EAAE,CAAC,GAAG,CAAC,IAAK,EAAE,CAAC,GAAc,IAAI,CAAC;YAAE,OAAO,gCAAgC,CAAC;QAClG,IAAI,OAAO,EAAE,CAAC,KAAK,KAAK,QAAQ,IAAI,EAAE,CAAC,KAAK,GAAG,CAAC;YAAE,OAAO,qCAAqC,CAAC;IACjG,CAAC;IACD,OAAO,IAAI,CAAC;AACd,CAAC;AAED,+CAA+C;AAC/C,SAAgB,YAAY,CAAC,KAAc;IACzC,OAAO,aAAa,CAAC,KAAK,CAAC,KAAK,IAAI,CAAC;AACvC,CAAC"}
+\ No newline at end of file
+diff --git a/jest.config.js b/jest.config.js
+new file mode 100644
+index 0000000..489e547
+--- /dev/null
++++ b/jest.config.js
+@@ -0,0 +1,6 @@
++/** @type {import('jest').Config} */
++module.exports = {
++  testEnvironment: 'node',
++  roots: ['<rootDir>/tests'],
++  preset: 'ts-jest',
++};
+diff --git a/package.json b/package.json
+index 71920af..95929af 100644
+--- a/package.json
++++ b/package.json
+@@ -2,16 +2,24 @@
+   "name": "shop-api",
+   "version": "1.4.2",
+   "private": true,
+-  "main": "src/server.js",
++  "main": "dist/server.js",
+   "scripts": {
+-    "start": "node src/server.js",
++    "build": "tsc -p tsconfig.build.json",
++    "start": "node dist/server.js",
++    "typecheck": "tsc -p tsconfig.json",
+     "test": "jest"
+   },
+   "dependencies": {
+     "express": "4.21.2"
+   },
+   "devDependencies": {
++    "@types/express": "4.17.21",
++    "@types/jest": "29.5.14",
++    "@types/node": "22.9.0",
++    "@types/supertest": "6.0.2",
+     "jest": "29.7.0",
+-    "supertest": "7.0.0"
++    "supertest": "7.0.0",
++    "ts-jest": "29.2.5",
++    "typescript": "5.6.3"
+   }
+ }
+diff --git a/src/app.js b/src/app.js
+deleted file mode 100644
+index 09a3a7d..0000000
+--- a/src/app.js
++++ /dev/null
+@@ -1,12 +0,0 @@
+-const express = require('express');
+-const orders = require('./routes/orders');
+-
+-const app = express();
+-app.use(express.json());
+-app.get('/health', (req, res) => res.json({ ok: true }));
+-app.use('/orders', orders);
+-app.use((err, req, res, next) => {
+-  res.status(err.status || 500).json({ error: err.message || 'internal error' });
+-});
+-
+-module.exports = app;
+diff --git a/src/app.ts b/src/app.ts
+new file mode 100644
+index 0000000..d34933e
+--- /dev/null
++++ b/src/app.ts
+@@ -0,0 +1,16 @@
++import express, { type ErrorRequestHandler } from 'express';
++import orders from './routes/orders';
++
++const app = express();
++app.use(express.json());
++app.get('/health', (req, res) => {
++  res.json({ ok: true });
++});
++app.use('/orders', orders);
++
++const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
++  res.status(err.status || 500).json({ error: err.message || 'internal error' });
++};
++app.use(errorHandler);
++
++export default app;
+diff --git a/src/errors.ts b/src/errors.ts
+new file mode 100644
+index 0000000..5df4556
+--- /dev/null
++++ b/src/errors.ts
+@@ -0,0 +1,7 @@
++/** Error carrying an HTTP status; picked up by the error handler in app.ts. */
++export class HttpError extends Error {
++  constructor(public readonly status: number, message: string) {
++    super(message);
++    this.name = 'HttpError';
++  }
++}
+diff --git a/src/routes/orders.js b/src/routes/orders.ts
+similarity index 66%
+rename from src/routes/orders.js
+rename to src/routes/orders.ts
+index 5b36c46..dc964c3 100644
+--- a/src/routes/orders.js
++++ b/src/routes/orders.ts
+@@ -1,25 +1,31 @@
+-const express = require('express');
+-const store = require('../store');
+-const { validateItems } = require('../validate');
+-const { quote } = require('../services/pricing');
++import { Router } from 'express';
++import * as store from '../store';
++import { isValidItems, validateItems } from '../validate';
++import { quote } from '../services/pricing';
+ 
+-const router = express.Router();
++interface CreateOrderBody {
++  items?: unknown;
++  coupon?: string | null;
++}
++
++const router = Router();
+ 
+ router.post('/', (req, res, next) => {
+-  const { items, coupon } = req.body || {};
+-  const msg = validateItems(items);
+-  if (msg) return res.status(400).json({ error: msg });
++  const { items, coupon } = (req.body || {}) as CreateOrderBody;
++  if (!isValidItems(items)) return res.status(400).json({ error: validateItems(items) });
+   try {
+     const q = quote(items, coupon);
+     const order = store.create({ items, coupon: coupon || null, ...q });
+     res.status(201).json(order);
+-  } catch (e) { next(e); }
++  } catch (e) {
++    next(e);
++  }
+ });
+ 
+ router.get('/', (req, res) => {
+   const { status } = req.query;
+   const all = store.list();
+-  res.json(status ? all.filter(o => o.status === status) : all);
++  res.json(status ? all.filter((o) => o.status === status) : all);
+ });
+ 
+ router.get('/:id', (req, res) => {
+@@ -42,4 +48,4 @@ router.post('/:id/ship', (req, res) => {
+   res.json(store.update(o.id, { status: 'shipped' }));
+ });
+ 
+-module.exports = router;
++export default router;
+diff --git a/src/server.js b/src/server.ts
+similarity index 78%
+rename from src/server.js
+rename to src/server.ts
+index 0217a79..c48e63b 100644
+--- a/src/server.js
++++ b/src/server.ts
+@@ -1,3 +1,4 @@
+-const app = require('./app');
++import app from './app';
++
+ const port = process.env.PORT || 3000;
+ app.listen(port, () => console.log(`shop-api listening on ${port}`));
+diff --git a/src/services/pricing.js b/src/services/pricing.ts
+similarity index 50%
+rename from src/services/pricing.js
+rename to src/services/pricing.ts
+index 375a4bc..f1cef34 100644
+--- a/src/services/pricing.js
++++ b/src/services/pricing.ts
+@@ -1,20 +1,19 @@
+-const COUPONS = { WELCOME10: 0.1, VIP20: 0.2 };
++import { HttpError } from '../errors';
++import type { OrderItem, Quote } from '../types/order';
+ 
+-function subtotal(items) {
++export const COUPONS: Readonly<Record<string, number>> = { WELCOME10: 0.1, VIP20: 0.2 };
++
++export function subtotal(items: OrderItem[]): number {
+   return items.reduce((s, it) => s + it.price * it.qty, 0);
+ }
+ 
+-function quote(items, coupon) {
++export function quote(items: OrderItem[], coupon?: string | null): Quote {
+   const sub = subtotal(items);
+   const rate = coupon ? COUPONS[coupon] : 0;
+   if (coupon && rate === undefined) {
+-    const err = new Error('unknown coupon');
+-    err.status = 400;
+-    throw err;
++    throw new HttpError(400, 'unknown coupon');
+   }
+   const discount = Math.round(sub * rate);
+   const shipping = sub - discount >= 30000 ? 0 : 3000;
+   return { subtotal: sub, discount, shipping, total: sub - discount + shipping };
+ }
+-
+-module.exports = { quote, subtotal, COUPONS };
+diff --git a/src/store.js b/src/store.js
+deleted file mode 100644
+index f05bb9b..0000000
+--- a/src/store.js
++++ /dev/null
+@@ -1,10 +0,0 @@
+-const orders = new Map();
+-let seq = 1;
+-
+-function reset() { orders.clear(); seq = 1; }
+-function create(data) { const id = String(seq++); const o = { id, status: 'pending', ...data }; orders.set(id, o); return o; }
+-function get(id) { return orders.get(String(id)) || null; }
+-function update(id, patch) { const o = get(id); if (!o) return null; Object.assign(o, patch); return o; }
+-function list() { return Array.from(orders.values()); }
+-
+-module.exports = { reset, create, get, update, list };
+diff --git a/src/store.ts b/src/store.ts
+new file mode 100644
+index 0000000..e23a13d
+--- /dev/null
++++ b/src/store.ts
+@@ -0,0 +1,31 @@
++import type { NewOrder, Order } from './types/order';
++
++const orders = new Map<string, Order>();
++let seq = 1;
++
++export function reset(): void {
++  orders.clear();
++  seq = 1;
++}
++
++export function create(data: NewOrder): Order {
++  const id = String(seq++);
++  const o: Order = { id, status: 'pending', ...data };
++  orders.set(id, o);
++  return o;
++}
++
++export function get(id: string | number): Order | null {
++  return orders.get(String(id)) || null;
++}
++
++export function update(id: string, patch: Partial<Omit<Order, 'id'>>): Order | null {
++  const o = get(id);
++  if (!o) return null;
++  Object.assign(o, patch);
++  return o;
++}
++
++export function list(): Order[] {
++  return Array.from(orders.values());
++}
+diff --git a/src/types/order.ts b/src/types/order.ts
+new file mode 100644
+index 0000000..b415580
+--- /dev/null
++++ b/src/types/order.ts
+@@ -0,0 +1,23 @@
++export interface OrderItem {
++  sku: string;
++  qty: number;
++  price: number;
++}
++
++export type OrderStatus = 'pending' | 'cancelled' | 'shipped';
++
++export interface Quote {
++  subtotal: number;
++  discount: number;
++  shipping: number;
++  total: number;
++}
++
++export interface Order extends Quote {
++  id: string;
++  status: OrderStatus;
++  items: OrderItem[];
++  coupon: string | null;
++}
++
++export type NewOrder = Omit<Order, 'id' | 'status'> & Partial<Pick<Order, 'status'>>;
+diff --git a/src/validate.js b/src/validate.js
+deleted file mode 100644
+index b75dee0..0000000
+--- a/src/validate.js
++++ /dev/null
+@@ -1,10 +0,0 @@
+-function validateItems(items) {
+-  if (!Array.isArray(items) || items.length === 0) return 'items must be a non-empty array';
+-  for (const it of items) {
+-    if (typeof it.sku !== 'string' || !it.sku) return 'sku is required';
+-    if (!Number.isInteger(it.qty) || it.qty <= 0) return 'qty must be a positive integer';
+-    if (typeof it.price !== 'number' || it.price < 0) return 'price must be a non-negative number';
+-  }
+-  return null;
+-}
+-module.exports = { validateItems };
+diff --git a/src/validate.ts b/src/validate.ts
+new file mode 100644
+index 0000000..a644fbf
+--- /dev/null
++++ b/src/validate.ts
+@@ -0,0 +1,20 @@
++import type { OrderItem } from './types/order';
++
++/**
++ * Validates an untrusted request payload.
++ * Returns an error message, or null when `items` is a valid OrderItem[].
++ */
++export function validateItems(items: unknown): string | null {
++  if (!Array.isArray(items) || items.length === 0) return 'items must be a non-empty array';
++  for (const it of items as Partial<OrderItem>[]) {
++    if (typeof it.sku !== 'string' || !it.sku) return 'sku is required';
++    if (!Number.isInteger(it.qty) || (it.qty as number) <= 0) return 'qty must be a positive integer';
++    if (typeof it.price !== 'number' || it.price < 0) return 'price must be a non-negative number';
++  }
++  return null;
++}
++
++/** Type guard wrapper around validateItems. */
++export function isValidItems(items: unknown): items is OrderItem[] {
++  return validateItems(items) === null;
++}
+diff --git a/tests/orders.test.js b/tests/orders.test.ts
+similarity index 85%
+rename from tests/orders.test.js
+rename to tests/orders.test.ts
+index 853acfd..d9f046d 100644
+--- a/tests/orders.test.js
++++ b/tests/orders.test.ts
+@@ -1,9 +1,10 @@
+-const request = require('supertest');
+-const app = require('../src/app');
+-const store = require('../src/store');
++import request from 'supertest';
++import app from '../src/app';
++import * as store from '../src/store';
++import type { OrderItem } from '../src/types/order';
+ 
+ beforeEach(() => store.reset());
+-const items = [{ sku: 'A', qty: 2, price: 10000 }, { sku: 'B', qty: 1, price: 5000 }];
++const items: OrderItem[] = [{ sku: 'A', qty: 2, price: 10000 }, { sku: 'B', qty: 1, price: 5000 }];
+ 
+ test('health', async () => {
+   const r = await request(app).get('/health');
+diff --git a/tsconfig.build.json b/tsconfig.build.json
+new file mode 100644
+index 0000000..7c32fd8
+--- /dev/null
++++ b/tsconfig.build.json
+@@ -0,0 +1,10 @@
++{
++  "extends": "./tsconfig.json",
++  "compilerOptions": {
++    "rootDir": "src",
++    "outDir": "dist",
++    "noEmit": false,
++    "types": ["node"]
++  },
++  "include": ["src"]
++}
+diff --git a/tsconfig.json b/tsconfig.json
+new file mode 100644
+index 0000000..94e6d5a
+--- /dev/null
++++ b/tsconfig.json
+@@ -0,0 +1,21 @@
++{
++  "compilerOptions": {
++    "target": "ES2022",
++    "module": "node16",
++    "moduleResolution": "node16",
++    "lib": ["ES2022"],
++    "types": ["node", "jest"],
++    "rootDir": ".",
++    "outDir": "dist",
++    "allowJs": false,
++    "strict": true,
++    "noImplicitOverride": true,
++    "noFallthroughCasesInSwitch": true,
++    "esModuleInterop": true,
++    "forceConsistentCasingInFileNames": true,
++    "skipLibCheck": true,
++    "sourceMap": true,
++    "noEmit": true
++  },
++  "include": ["src", "tests"]
++}

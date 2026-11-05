@@ -1,0 +1,21 @@
+# 이미지 생성·편집 프롬프트 세부 규칙
+
+SKILL.md의 이미지 분기에 해당할 때(이미지 모델·`imagegen`·Higgsfield 대상) 읽는다. `$GB`는 스킬 베이스 디렉토리의 `guidebooks/`다.
+
+- 해당 모델 index와 `$GB/_shared/index.yaml`에서 `image-production` 카드를 함께 읽는다.
+  단순 요청에 모든 템플릿 항목을 강제로 채우지 않는다.
+- Higgsfield에서 사용할 이미지 모델까지 지정됐으면 플랫폼 라우팅과 그 모델의 등록된
+  이미지 가이드를 함께 적용한다. 예: **Higgsfield + GPT Image 2.5 → `higgsfield/index.yaml`과
+  `openai-gpt-image/index.yaml`**, Higgsfield + 나노바나나 → `higgsfield/index.yaml`과
+  `google-nano-banana/index.yaml`. FLUX·Seedream도 같은 방식으로 해당 모델 index를 함께 읽는다.
+  버전명이 별도 디렉토리로 없더라도 registry 별칭에
+  등록돼 있으면 해당 계열의 가이드가 있는 것이다. 실행 경로·설정은 Higgsfield가 우선하고,
+  장면·편집 작성법은 선택한 모델 카드에서 가져온다. 미등록 모델에는 공용 지침만 적용한다.
+- `imagegen`은 실행 스킬/도구 경로이고 GPT Image는 모델 계열이다. 실행할 때만 현재
+  세션의 `imagegen` 스킬이 있으면 읽고 도구 스키마를 확인한다. 없으면 존재를 가정하지 않는다.
+- 프롬프트, 참조 이미지의 역할, 실행 설정을 구분한다. API 파라미터를 내장 도구에 복사하지 않는다.
+- “프롬프트만/가이드만”은 이미지 생성 요청이 아니다. 실행 요청과 이미 승인된 범위는 보존하고,
+  별도 유료 API 전환·추가 생성이 필요할 때만 해당 경로의 승인 절차를 적용한다.
+
+이미지 A/B 평가는 공용 카드의 비교 기준을 사용한다. 구조 검증이나 프롬프트 작성만으로
+이미지 품질 향상을 검증했다고 보고하지 않는다.

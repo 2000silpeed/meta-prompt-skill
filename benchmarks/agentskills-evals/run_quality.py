@@ -7,7 +7,8 @@
 - without_skill: 스킬이 없는 빈 샌드박스에서 같은 요청을 보낸다.
 양쪽에 같은 비대화형 안내(질문이 필요하면 질문을 쓰고 멈춤)와 같은 도구 허용 목록을 준다.
 
-usage: run_quality.py <iteration-dir> [--only NAME ...] [--skill-src DIR]
+usage: run_quality.py <iteration-dir> [--only NAME ...] [--skill-src DIR] [--runs N]
+                      [--baseline old_skill --old-skill-src DIR]
 """
 import argparse, concurrent.futures as cf, json, os, shutil, subprocess, tempfile, time
 from pathlib import Path
@@ -49,8 +50,10 @@ def run(prompt: str, cwd: Path):
             "skills_invoked": skills, "files_read": reads, "exit": p.returncode}
 
 
-def job(ev, cfg, it_dir: Path, skill_src):
+def job(ev, cfg, it_dir: Path, skill_src, run=None):
     out = it_dir / f"eval-{ev['name']}" / cfg
+    if run:
+        out = out / f"run-{run}"
     (out / "outputs").mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory(prefix=f"mp-{cfg}-") as sb:
         sb = Path(sb)
@@ -63,7 +66,7 @@ def job(ev, cfg, it_dir: Path, skill_src):
     (out / "run_meta.json").write_text(json.dumps(
         {"skills_invoked": r["skills_invoked"], "files_read": [f and f.split(".claude/skills/")[-1] for f in r["files_read"]],
          "exit": r["exit"]}, ensure_ascii=False, indent=2))
-    return ev["name"], cfg, r["timing"], r["skills_invoked"]
+    return ev["name"], cfg, run, r["timing"], r["skills_invoked"]
 
 
 if __name__ == "__main__":
@@ -73,14 +76,17 @@ if __name__ == "__main__":
     ap.add_argument("--skill-src", type=Path, help="스냅샷 대신 이 디렉토리를 스킬로 설치")
     ap.add_argument("--baseline", default="without_skill", help="without_skill 또는 old_skill")
     ap.add_argument("--old-skill-src", type=Path)
+    ap.add_argument("--runs", type=int, default=1, help="구성별 반복 횟수 (>1이면 run-N 하위 디렉토리)")
     a = ap.parse_args()
     evals = json.loads((ROOT / "evals/evals.json").read_text())["evals"]
     evals = [e for e in evals if not a.only or e["name"] in a.only]
     it = Path(a.iteration_dir); it.mkdir(parents=True, exist_ok=True)
     jobs = []
     with cf.ThreadPoolExecutor(4) as ex:
-        for e in evals:
-            jobs.append(ex.submit(job, e, "with_skill", it, a.skill_src))
-            jobs.append(ex.submit(job, e, a.baseline, it, a.old_skill_src if a.baseline == "old_skill" else None))
+        for k in range(1, a.runs + 1):
+            run = k if a.runs > 1 else None
+            for e in evals:
+                jobs.append(ex.submit(job, e, "with_skill", it, a.skill_src, run))
+                jobs.append(ex.submit(job, e, a.baseline, it, a.old_skill_src if a.baseline == "old_skill" else None, run))
         for f in cf.as_completed(jobs):
             print(json.dumps(f.result(), ensure_ascii=False), flush=True)

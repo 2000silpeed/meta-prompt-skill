@@ -10,8 +10,9 @@ BASE = (HERE / "site/index.html").read_text()
 STYLE = re.search(r"<style>.*?</style>", BASE, re.S).group(0)
 SCRIPT = re.search(r"<script>.*?</script>", BASE, re.S).group(0)
 
-ORDER = [("A", "skill"), ("B", "noskill"), ("C", "raw")]  # 블라인드 순서 고정(무작위로 정함)
-LABEL = {"raw": "원래 요청 그대로", "skill": "meta-prompt 스킬(짧은 프롬프트 + 추가 질문)", "noskill": "스킬 없이 만든 프롬프트"}
+ORDER = [("A", "skill"), ("B", "noskill"), ("C", "raw"), ("D", "skill_pretendard")]  # A~C 블라인드 순서 고정(무작위로 정함), D는 후속 요청
+LABEL = {"raw": "원래 요청 그대로", "skill": "meta-prompt 스킬(짧은 프롬프트 + 추가 질문)", "noskill": "스킬 없이 만든 프롬프트",
+         "skill_pretendard": "스킬 + 추가 요청(프리텐다드, 상업 광고 느낌)"}
 NOTES = json.loads((EXP / "notes.json").read_text()) if (EXP / "notes.json").exists() else {}
 
 
@@ -66,7 +67,7 @@ def main(takes=2):
 <li>모든 조건에 같은 제출 형식 안내를 덧붙임</li>
 </ul>
 </header>
-<div class="bar"><p id="status">조건 이름이 가려져 있습니다. A·B·C 순서는 무작위입니다.</p><button id="playall" class="ghost" type="button">전체 재생</button><button id="reveal" type="button">조건 공개</button></div>
+<div class="bar"><p id="status">조건 이름이 가려져 있습니다. A·B·C 순서는 무작위이고, D는 스킬에 추가 요청을 붙여 나중에 만든 것입니다.</p><button id="playall" class="ghost" type="button">전체 재생</button><button id="reveal" type="button">조건 공개</button></div>
 {chr(10).join(secs)}
 <section class="caveats">
 <h2>이 비교에서 볼 수 없는 것</h2>

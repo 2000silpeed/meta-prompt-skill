@@ -1,1 +1,1 @@
-{"ok": false, "note": "frame capture stalled at frame 128/240 (~5.3s) for 20+ min; killed and recorded as failed render"}
+{"ok":true,"frames":240,"errors":[]}

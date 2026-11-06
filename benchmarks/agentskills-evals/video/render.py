@@ -39,17 +39,20 @@ const { chromium } = require('playwright');
   const [,, html, outDir, fps, secs] = process.argv;
   const browser = await chromium.launch();
   const page = await browser.newPage({ viewport: { width: 1400, height: 1400 } });
+  // 페이지 자체 재생 루프가 캔버스를 덮어쓰지 못하게 requestAnimationFrame을 막는다.
+  // (이전 캡처는 이 루프가 실제 시계 기준으로 다시 그린 화면을 찍어 프레임 순서가 뒤섞였다)
+  await page.addInitScript(() => { window.requestAnimationFrame = () => 0; window.cancelAnimationFrame = () => {}; });
   const errors = [];
   page.on('pageerror', e => errors.push(String(e)));
   await page.goto('file://' + html);
   await page.waitForTimeout(500);
   const ok = await page.evaluate(() => typeof window.renderFrame === 'function');
   if (!ok) { console.log(JSON.stringify({ ok: false, errors: ['renderFrame missing', ...errors] })); await browser.close(); return; }
-  const canvas = await page.$('#c') || await page.$('canvas');
   const n = Math.round(Number(fps) * Number(secs));
   for (let i = 0; i < n; i++) {
-    await page.evaluate(t => { window.__stop = true; window.renderFrame(t); }, i / Number(fps));
-    await canvas.screenshot({ path: `${outDir}/f${String(i).padStart(4, '0')}.png` });
+    // 같은 동기 구간에서 그리고 바로 읽어 의도한 t의 화면만 저장한다
+    const data = await page.evaluate(t => { window.renderFrame(t); return document.querySelector('canvas').toDataURL('image/png'); }, i / Number(fps));
+    require('fs').writeFileSync(`${outDir}/f${String(i).padStart(4, '0')}.png`, Buffer.from(data.split(',')[1], 'base64'));
   }
   console.log(JSON.stringify({ ok: true, frames: n, errors }));
   await browser.close();
@@ -57,9 +60,11 @@ const { chromium } = require('playwright');
 """
 
 
-def make(cond, take, prompt):
+def make(cond, take, prompt, recapture=False):
     d = OUT / f"{cond}-{take}"
     d.mkdir(parents=True, exist_ok=True)
+    if recapture:
+        return capture(cond, take, d)
     with tempfile.TemporaryDirectory(prefix="vidgen-") as sb:
         r = e2e.claude(["--allowedTools", "Write Read Edit Bash", "--max-turns", "30"],
                        GENERATOR.format(sec=SECONDS, prompt=prompt), cwd=sb, timeout=1800)
@@ -68,6 +73,10 @@ def make(cond, take, prompt):
             shutil.copy(html, d / "index.html")
     (d / "generator.json").write_text(json.dumps({"summary": r.get("result", ""), "cost_usd": r.get("total_cost_usd"),
                                                   "duration_ms": r.get("duration_ms")}, ensure_ascii=False, indent=2))
+    return capture(cond, take, d)
+
+
+def capture(cond, take, d):
     if not (d / "index.html").exists():
         return cond, take, "no index.html"
     with tempfile.TemporaryDirectory(prefix="frames-") as fr:
@@ -90,9 +99,10 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--takes", type=int, default=2)
     ap.add_argument("--only", nargs="*", default=["raw", "skill", "noskill"])
+    ap.add_argument("--recapture", action="store_true", help="저장된 index.html로 프레임만 다시 캡처")
     a = ap.parse_args()
     P = json.loads((HERE / "prompts.json").read_text())
     jobs = [(c, k, P[c]["prompt"]) for c in a.only for k in range(1, a.takes + 1)]
-    with cf.ThreadPoolExecutor(6) as ex:
-        for r in ex.map(lambda j: make(*j), jobs):
+    with cf.ThreadPoolExecutor(4) as ex:
+        for r in ex.map(lambda j: make(*j, recapture=a.recapture), jobs):
             print(r, flush=True)

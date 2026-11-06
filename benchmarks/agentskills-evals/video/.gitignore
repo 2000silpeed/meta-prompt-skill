@@ -1,3 +1,5 @@
 renders/*/video.mp4
 renders/*/poster.png
 __pycache__/
+canvas/renders/*/video.mp4
+canvas/renders/*/poster.png

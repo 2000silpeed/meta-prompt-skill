@@ -46,6 +46,8 @@ const { chromium } = require('playwright');
   page.on('pageerror', e => errors.push(String(e)));
   await page.goto('file://' + html);
   await page.waitForTimeout(500);
+  // 웹폰트를 쓰는 페이지는 폰트가 다 올라온 뒤에 찍는다 (window.ready가 있으면 그것도 기다림)
+  await page.evaluate(async () => { if (window.ready && window.ready.then) await window.ready; await document.fonts.ready; });
   const ok = await page.evaluate(() => typeof window.renderFrame === 'function');
   if (!ok) { console.log(JSON.stringify({ ok: false, errors: ['renderFrame missing', ...errors] })); await browser.close(); return; }
   const n = Math.round(Number(fps) * Number(secs));

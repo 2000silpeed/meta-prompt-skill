@@ -11,8 +11,12 @@ sources:
     note: "시각 이해·컴퓨터 사용·글쓰기, none 포함 effort와 medium 기본값, 툴 호출은 Responses API 필수"
   - url: https://developers.openai.com/api/docs/changelog
     covers: [gpt-6]
-    fetched: "2026-10-28"
-    note: "2026-10-26 GPT-6.1 Terra 출시 확인; 다른 API 변경 전체를 가이드에 반영한 것은 아님"
+    fetched: "2026-11-09"
+    note: "2026-10-26 GPT-6.1 Terra 출시 확인. 11/09 재확인: 10/30 gpt-6-rosalind, 11/05 gpt-6-cyber 출시 항목만 반영; 다른 API 변경 전체를 가이드에 반영한 것은 아님"
+  - url: https://developers.openai.com/api/docs/models/gpt-6-cyber
+    covers: [gpt-6]
+    fetched: "2026-11-09"
+    note: "용도, Daybreak Red 접근 요건, Responses·Chat Completions 지원, 1.05M 컨텍스트/128K 출력. effort 값·프롬프팅 지침은 없음. gpt-6-rosalind 모델 페이지는 404라 changelog만 근거"
   - url: https://learn.chatgpt.com/docs/models
     covers: [gpt-6]
     fetched: "2026-10-28"

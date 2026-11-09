@@ -70,7 +70,7 @@ GPT Image·Codex `imagegen`, 나노바나나, FLUX, Ideogram, Seedream, Higgsfie
 ```text
 imagegen용 프롬프트만 만들어줘. 카페 메뉴 사진에 "오늘의 커피"를 정확히 넣고 싶어.
 나노바나나로 제품 사진 배경만 바꿀 프롬프트. 병 모양과 한글 라벨은 유지해줘.
-Higgsfield의 GPT Image 2.5로 의상 A/B 프롬프트. 같은 얼굴·자세·배경에서 재킷만 바꿔줘.
+Higgsfield의 GPT Image 2.6으로 의상 A/B 프롬프트. 같은 얼굴·자세·배경에서 재킷만 바꿔줘.
 Higgsfield의 FLUX 3 Image용 제품 광고 프롬프트만 만들어줘. 참조 1은 병 형태, 참조 2는 배경 색이야.
 Ideogram 4.5 포스터 프롬프트. 한글 제목 "오늘의 커피"를 그대로 유지하고 Magic Prompt 설정도 구분해줘.
 Seedream 5.0 Pro로 표시한 소파 색만 바꿀 편집 프롬프트. 나머지 구도와 가구는 유지해줘.
@@ -128,7 +128,7 @@ $meta-prompt를 적용해서 이 요청을 Codex용으로 최적화한 뒤 구�
 |---|---|---|
 | `openai-gpt-5` | GPT-6 Astra · GPT-6.1 Sol · GPT-6.1 Terra · GPT-6 Luna / GPT-5.x | 텍스트 LLM |
 | `openai-codex` | Codex CLI/IDE (태스크 프롬프트·AGENTS.md; GPT-6.1 Sol 권장; Terra는 시각 이해·글쓰기·화면 조작, CLI 0.159.0+) | 코딩 에이전트 |
-| `anthropic-claude` | Claude Opus 5.5 / Sonnet 5.5 / Haiku 5.5 / Fable 5.1 | 텍스트 LLM |
+| `anthropic-claude` | Claude Opus 5.5 / Sonnet 5.5 / Haiku 5.5 / Fable 5.2 (5.1 유지) | 텍스트 LLM |
 | `z-ai-glm` | GLM-5.3 / GLM-5.3-Flash (MIT 오픈웨이트) | 텍스트 LLM / 코딩 에이전트 |
 | `google-gemini` | Gemini 4 Argon / 3.8 Flash / 3.1 Pro / 3.1 Flash-Lite | 텍스트 LLM |
 | `alibaba-qwen` | Qwen3.8-Max / Flash / 오픈웨이트 | 텍스트 LLM |
@@ -136,7 +136,7 @@ $meta-prompt를 적용해서 이 요청을 Codex용으로 최적화한 뒤 구�
 | `deepseek` | DeepSeek V4.1-Flash (`deepseek-flash`; 이전 V4 ID는 호환 경로) | 텍스트 LLM |
 | `moonshot-kimi` | Kimi K3.1 Pro / Highspeed (이전 별칭 유지, 설정은 버전별 확인) | 텍스트 LLM |
 | `google-nano-banana` | 나노바나나2.1 / Pro / Lite / 이전 2 | 이미지 생성 |
-| `openai-gpt-image` | GPT Image 2.5 Flare·Sunburst / 2 / imagegen 경로 | 이미지 생성·편집 |
+| `openai-gpt-image` | GPT Image 2.6 Flare·Sunburst (SVG·GIF·markup 편집) / 2.5 / 2 / imagegen 경로 | 이미지 생성·편집 |
 | `black-forest-flux` | FLUX 3 Image / FLUX.2 pro·max (버전별 작성법·참조·설정) | 이미지 생성·편집 |
 | `ideogram` | Ideogram 4.0 / 4.5 (문구·Magic Prompt·JSON·편집 경로) | 이미지 생성·편집 |
 | `bytedance-seedream` | Seedream 5.0 Pro / Flash (참조·영역 편집·출력 제약) | 이미지 생성·편집 |

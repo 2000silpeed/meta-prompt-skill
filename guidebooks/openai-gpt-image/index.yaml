@@ -1,5 +1,5 @@
 model: openai-gpt-image
-label: "OpenAI GPT Image / imagegen"
+label: "OpenAI GPT Image (2.6 Flare·Sunburst / 2.5 / 2) / imagegen"
 output_language: follow-target   # 영어 강제 없음. 프레임 안 문구는 요청 언어 그대로
 slots:
   required:
@@ -17,6 +17,7 @@ slots:
       default: "요청에 있을 때만 포함"
     - id: output_spec
       default: "사용처에서 추론; 숫자 해상도·품질은 자동 강제하지 않음"
+      note: "정지 이미지가 기본. 벡터(SVG)·루프 GIF는 요청에 있을 때만, 실행 경로가 GPT Image 2.6을 지원할 때 사용"
 cards:
   - id: prompt-composition
     when: "항상 로드 (장면·구도·문구 작성)"

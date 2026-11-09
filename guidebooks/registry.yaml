@@ -1,6 +1,6 @@
 # meta-prompt 가이드북 레지스트리 — 항상 로드되는 유일한 파일. 극소로 유지할 것.
 version: 1
-updated: "2026-10-28"
+updated: "2026-11-09"
 staleness_days: 30   # last_verified가 이보다 오래되면 사용 시 경고 (차단 아님)
 fallback: _generic   # 미등록 모델 요청 시 사용할 범용 가이드북 디렉토리
 
@@ -9,9 +9,9 @@ models:
     label: "OpenAI GPT-6 (Astra / 6.1 Sol / 6.1 Terra / Luna) / GPT-5.x"
     type: text-llm
     provider: OpenAI
-    aliases: [gpt-6.1, gpt6.1, gpt-6.1-sol, gpt6.1-sol, gpt-6.1-terra, gpt6.1-terra, 테라, gpt-6, gpt6, gpt-6-astra, astra, 아스트라, gpt-6-sol, gpt-6-luna, gpt, gpt-5, gpt5, gpt-5.1, gpt-5.4, gpt-5.5, gpt-5.6, gpt-5.6-sol, gpt5.6-sol, sol, gpt-5.6-terra, terra, gpt-5.6-luna, luna, chatgpt, openai]
+    aliases: [gpt-6.1, gpt6.1, gpt-6.1-sol, gpt6.1-sol, gpt-6.1-terra, gpt6.1-terra, 테라, gpt-6, gpt6, gpt-6-astra, astra, 아스트라, gpt-6-sol, gpt-6-luna, gpt-6-cyber, gpt-6-rosalind, gpt, gpt-5, gpt5, gpt-5.1, gpt-5.4, gpt-5.5, gpt-5.6, gpt-5.6-sol, gpt5.6-sol, sol, gpt-5.6-terra, terra, gpt-5.6-luna, luna, chatgpt, openai]
     last_verified: "2026-10-12"
-    verification: partial   # 10/28 Terra 추가·GPT-6 호환성 확인; 전체 검증일과 기존 GPT-5.x 검증은 유지
+    verification: partial   # 10/28 Terra 추가·GPT-6 호환성 확인, 11/09 접근 제한 모델(Cyber·Rosalind) 별칭만 추가; 전체 검증일과 기존 GPT-5.x 검증은 유지
 
   - id: openai-codex
     label: "OpenAI Codex (CLI/IDE 코딩 에이전트 / GPT-6.1 Sol 권장)"
@@ -22,12 +22,12 @@ models:
     verification: partial   # 태스크 모델 선택 카드 검증; 다른 카드는 이전 검증 유지
 
   - id: anthropic-claude
-    label: "Anthropic Claude (Opus 5.5 / Sonnet 5.5 / Haiku 5.5 / Fable 5.1 / Opus 5)"
+    label: "Anthropic Claude (Opus 5.5 / Sonnet 5.5 / Haiku 5.5 / Fable 5.2 / Fable 5.1)"
     type: text-llm
     provider: Anthropic
-    aliases: [sonnet-5.5, sonnet5.5, sonnet-5-5, claude-sonnet-5-5, claude-sonnet-5.5, haiku-5.5, haiku5.5, haiku-5-5, claude-haiku-5-5, claude-haiku-5.5, opus-5.5, opus5.5, opus-5-5, claude-opus-5-5, claude-opus-5.5, claude, opus, opus-5, sonnet, haiku, fable, claude-fable, fable-5, fable5, fable-5.1, fable5.1, claude-fable-5-1, mythos, mythos-5-1, anthropic]
+    aliases: [sonnet-5.5, sonnet5.5, sonnet-5-5, claude-sonnet-5-5, claude-sonnet-5.5, haiku-5.5, haiku5.5, haiku-5-5, claude-haiku-5-5, claude-haiku-5.5, opus-5.5, opus5.5, opus-5-5, claude-opus-5-5, claude-opus-5.5, claude, opus, opus-5, sonnet, haiku, fable, claude-fable, fable-5.2, fable5.2, fable-5-2, claude-fable-5-2, claude-fable-5.2, fable-5, fable5, fable-5.1, fable5.1, claude-fable-5-1, mythos, mythos-5.2, mythos-5-2, claude-mythos-5-2, mythos-5-1, 페이블, 미토스, anthropic]
     last_verified: "2026-10-12"
-    verification: partial   # 5.5 최신 모델 카드 검증; 기존 공통 카드는 이전 검증 유지
+    verification: partial   # 11/09 Fable 5.2 런타임·증상 처방 카드 검증; 5.5 카드는 10/12, 공통 카드는 이전 검증 유지
 
   - id: z-ai-glm
     label: "Z.ai GLM (GLM-5.3 / GLM-5.3-Flash — agentic coding)"
@@ -78,12 +78,12 @@ models:
     verification: partial   # 두 카드의 K3.1 API 사실 갱신; 운영 템플릿은 일반 권장, 구버전 설정은 별도 확인
 
   - id: openai-gpt-image
-    label: "OpenAI GPT Image / Codex imagegen (내장 도구와 API 구분)"
+    label: "OpenAI GPT Image (2.6 Flare·Sunburst / 2.5 / 2) / Codex imagegen"
     type: media-image
     provider: OpenAI
-    aliases: [gpt-image, gpt-image-2.5, gpt-image-2.5-flare, gpt-image-2.5-sunburst, gpt-image-2, gpt-image-1.5, gpt-image-1, chatgpt-image-latest, imagegen, image_gen, gpt이미지, 챗지피티이미지, 코덱스이미지]
+    aliases: [gpt-image, gpt-image-2.6, gpt-image-2.6-flare, gpt-image-2.6-sunburst, gpt_image_2_6, gpt_image_2_6_flare, gpt-image-2.5, gpt-image-2.5-flare, gpt-image-2.5-sunburst, gpt-image-2, gpt-image-1.5, gpt-image-1, chatgpt-image-latest, imagegen, image_gen, gpt이미지, 챗지피티이미지, 코덱스이미지]
     last_verified: "2026-10-27"
-    verification: partial   # 공식 API/프롬프팅 대조; 내장 도구는 실행 시 스키마 확인, 생성 품질 A/B 미실행
+    verification: partial   # 11/09 GPT Image 2.6 API 규칙 대조; 그 밖은 10/27 검증, 내장 도구는 실행 시 스키마 확인, 생성 품질 A/B 미실행
 
   - id: google-nano-banana
     label: "Google Nano Banana (2.1 / Pro / Lite / 이전 2)"
@@ -131,4 +131,4 @@ models:
     provider: Higgsfield
     aliases: [higgsfield, 힉스필드, cinema-studio]
     last_verified: "2026-10-14"
-    verification: partial   # 모델 라인업·편집 경로 확인; 전용 프롬프트 카드는 검증 범위 별도
+    verification: partial   # 11/09 신규 모델(GPT Image 2.6·Gemini Omni Flash 1.2·Kling 4.0 계열)과 MCP 도구 이름만 추가 확인; 전체 라인업은 10/14 검증, 전용 프롬프트 카드는 검증 범위 별도

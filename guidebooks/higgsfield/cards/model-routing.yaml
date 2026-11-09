@@ -1,24 +1,27 @@
 id: model-routing
 model: higgsfield
 topic: "모델·툴 라우팅 — 생성 전에 올바른 경로부터"
-verification: partial   # 공식 플랫폼 공지와 현재 읽기 전용 models_search 결과를 2026-10-14 대조; 모델 카탈로그/도구는 연결 환경에 따라 다름
+verification: partial   # 2026-11-09 공식 changelog와 연결 MCP의 읽기 전용 models_explore 검색으로 신규 모델(GPT Image 2.6, Gemini Omni Flash 1.2, Kling 4.0 계열)과 도구 이름만 대조; 나머지 규칙은 2026-10-14 검증 유지. 모델 카탈로그/도구는 연결 환경에 따라 다름
+last_verified: "2026-11-09"
 rules:
-  - "Higgsfield는 멀티모델 플랫폼. 현재 연결 도구 카탈로그에는 읽기 전용 models_search, models_get, models_recommend가 있다. 모델이 불명확하면 models_recommend에 목표를 전달하고, 특정 모델은 models_search/get으로 연결 카탈로그 등록 여부와 제약을 확인한 다음 고른다. models_explore는 현재 카탈로그에 없다."
-  - "생성인지 기존 자산 편집인지 먼저 분류한다. 업스케일, 확장, 리프레임, 배경 제거는 Higgsfield UI의 해당 편집 도구로 라우팅하고, 일반 generate_image/video 프롬프트로 다시 만들지 않는다. 현재 연결 MCP에는 각 기능의 독립 `upscale_image`, `outpaint_image`, `reframe`, `remove_background` 도구가 노출되지 않는다."
-  - "광고·UGC·내레이션 영상 등 완성형 서사 워크플로는 요청 형식에 맞는 Higgsfield 워크플로/프리셋을 확인한다. 현재 연결 카탈로그에서는 get_preset_instructions와 get_faceless_channel_presets가 확인되며, get_workflow_instructions와 get_game_creation_instructions는 확인되지 않는다."
-  - "2026-10-14 플랫폼 후보 라인업: 영상 Seedance 2.5, Kling 3.0/Turbo, Veo 3.1, Sora 2, Wan 3.0/3.0 Prime, Grok Imagine Video 1.5(현재 MCP 표시명 Grok Video 1.5), Gemini Omni 1.1 Flash, MiniMax H3 Max; 이미지 Nano Banana Pro, GPT Image 2.5(Flare 기본·Sunburst 정밀 편집), Seedream 5.0 Pro/Flash, FLUX 3 Image. 이 목록은 공식 Higgsfield 게시물 및 모델 검색으로 확인한 후보이며, 실제 호출 전 현재 models_search/get 결과를 우선한다."
+  - "Higgsfield는 멀티모델 플랫폼이고 모델 탐색 도구의 이름은 연결에 따라 다르다. 2026-11-09 확인한 MCP는 models_explore 하나에 action(list/search/get/recommend)을 두고, 2026-10-14 확인한 연결은 models_search/models_get/models_recommend로 나뉘어 있었다. 현재 세션에 노출된 이름을 쓴다. 모델이 불명확하면 recommend에 목표와 입력 맥락을 전달하고, 특정 모델은 search/get으로 연결 카탈로그 등록 여부와 제약을 확인한 다음 고른다."
+  - "생성인지 기존 자산 편집인지 먼저 분류한다. 업스케일, 확장, 리프레임, 배경 제거는 해당 전용 편집 도구로 라우팅하고, 일반 generate_image/video 프롬프트로 다시 만들지 않는다. 2026-11-09 확인한 MCP는 `upscale_image`·`upscale_video`·`outpaint_image`·`reframe`·`remove_background`를 독립 도구로 노출한다(10/14 연결에는 없었다). 노출되지 않는 연결에서는 Higgsfield UI의 편집 기능으로 안내한다."
+  - "광고·UGC·내레이션 영상 등 완성형 서사 워크플로는 요청 형식에 맞는 Higgsfield 워크플로/프리셋을 확인한다. 2026-11-09 확인한 MCP에는 get_preset_instructions·get_presets·get_workflow_instructions가 있고, 10/14 연결에서 보이던 get_faceless_channel_presets는 확인되지 않는다. 도구 목록은 연결마다 다시 확인한다."
+  - "플랫폼 후보 라인업(2026-10-14 확인분에 11/09 신규만 추가): 영상 Seedance 2.5, Kling 4.0/4.0 Flash(신규), Kling 3.0/Turbo, Veo 3.1, Sora 2, Wan 3.0/3.0 Prime, Grok Imagine Video 1.5(MCP 표시명 Grok Video 1.5), Gemini Omni Flash 1.2(신규)/1.1, MiniMax H3 Max; 이미지 Nano Banana Pro, GPT Image 2.6(신규)/2.5, Seedream 5.0 Pro/Flash, FLUX 3 Image. 이 목록은 공식 Higgsfield 게시물 및 모델 검색으로 확인한 후보이며, 기존 항목의 현재 제공 여부는 11/09에 다시 확인하지 않았다. 실제 호출 전 현재 모델 검색 결과를 우선한다."
+  - "Gemini Omni Flash 1.2(2026-11-05 공지)는 3~15초, 360p/720p/1080p/4K, 네이티브 오디오를 지원하고 References·Frames·Extend 모드를 쓴다. 참조는 이미지 6개·짧은 영상 3개까지 외형용이며 참조 영상의 오디오는 무시된다. Frames는 시작 프레임 필수·끝 프레임 선택, Extend는 3~10초씩 총 30초까지다. 연결 MCP 항목은 gemini_omni_flash_1_2(mode: text-to-video/image-to-video/reference-to-video/edit/extend, 16:9·9:16)다."
+  - "Kling 4.0(2026-10 공지)은 3~30초, 720p/1080p, 21:9~9:16, 스테레오 사운드, 키프레임 10개, 참조 15개(영상 5개 포함)와 완성 클립의 요소 교체 편집을 안내한다. Kling 4.0 Flash(2026-11-04 공지)는 3~20초·720p 전용이고 시작 프레임만 받으며(끝 프레임·키프레임 없음) 참조는 이미지 10개·영상 5개와 @ Elements다. 11/09 MCP 검색에서는 Kling 4.0 계열의 직접 생성 모델이 나오지 않았고 Kling 4.0 기반 Genjutsu Lite(오브젝트 교체)만 확인됐으므로, 연결에서 쓸 수 있는지 먼저 검색한다."
   - "Seedance 2.5는 Higgsfield Draft Mode에서 먼저 480p 미리보기를 만들고 선택한 안을 1080p로 확정할 수 있다. 프롬프트·참조·seed·비율·길이는 최종화 때 유지되고, 최대 30초이며 초안은 7일 안에 확정한다. 시작/끝 프레임과 오디오를 초안에서 검토할 수 있다. 공식 공지상 미국에서는 제공되지 않는다."
   - "Grok Imagine Video 1.5는 사운드를 영상과 함께 만들며 text/image/reference-to-video와 연장 기능을 안내한다. 플랫폼 공지는 1~15초·최대 1080p·참조 이미지 7개를 명시한다. 연결 MCP 모델 항목은 `Grok Video 1.5`로 표시되고 시작 이미지/이미지·오디오 참조, 2~15초를 노출하므로 세부 입력은 현재 models_get 결과를 따른다."
   - "Wan 3.0/Prime은 기존 Wan 2.6 라인업 표기를 갱신한다. 공식 플랫폼은 최대 30초, 480p/720p/1080p 및 오디오 동기화를 안내하며 Prime은 더 빠른 대신 더 비싸다고 안내한다."
   - "Genjutsu Restyle은 원본 영상의 움직임·샷 구성·오디오를 유지하며 스타일을 바꾸는 별도 편집 경로다. 모션 전이·오브젝트 교체와 같은 기능으로 뭉뚱그리지 말고 해당 Restyle 스타일 선택을 명시한다. 공식 API 문서에는 별도 restyle 모델이 있으나 현재 연결 MCP 모델 검색에는 항목이 없다."
-  - "GPT Image 2.5에서 Flare는 일반 작업 기본, Sunburst는 편집 정밀 제어용이다. 현재 연결 카탈로그는 두 변형을 함께 노출하며 1K/2K/4K와 이미지 참조 입력을 지원한다."
+  - "GPT Image 2.6(2026-11-05 공지)은 Flare(일상 콘텐츠·연작용, 플랫폼 공지상 기본)와 Sunburst(세밀한 편집, 더 느림)가 있고 quality Low~Max, 1K/2K/4K, 불투명/투명 배경, PNG·GIF·SVG 출력을 지원한다. 연결 MCP에서는 gpt_image_2_6이 Sunburst, gpt_image_2_6_flare가 Flare이며 MCP 지침의 generate_image 기본은 gpt_image_2_6이다 — 플랫폼 UI 기본(Flare)과 다르므로 변형을 명시해 고른다. MCP 스키마: quality 기본 low, batch_size 1~4, output_format png/jpeg/webp/gif/svg(SVG는 참조 이미지 불가), GIF는 frame_count 2~64·frame_duration_ms 20~2000·기본 크기 288x288(프레임이 클수록 프레임 수 상한이 줄어든다). OpenAI API의 한도(frame_count 2~16 등)와 다르므로 실행 경로의 스키마를 따른다. 사용자가 지정한 GPT Image 2.5는 유지한다."
   - "Seedream 5.0 Flash는 빠른 생성·지시형 편집을 한 모델에서 제공하고 1K/1.5K/2K를 지원한다. 현재 연결 카탈로그는 이미지 참조를 노출한다. FLUX 3 Image는 생성/이미지 편집 모델로 공식 공지상 768p/1K/1.5K/2K/4K를 제공한다."
   - "영상 편집형 요청은 실제 기능을 구분한다: Genjutsu Restyle은 스타일 변환, Genjutsu Motion Transfer는 움직임 전이, Object Swap은 대상 교체. 하나의 광고 영상에서 여러 요소를 독립 변형하는 요청은 Ad Multiplier 워크플로우."
 routing_table:
-  discover: "models_search → 필요하면 models_get; 모호한 요청은 models_recommend"
+  discover: "연결된 모델 탐색 도구(models_explore의 search/get/recommend, 또는 models_search/get/recommend)"
   generate: "generate_image / generate_video / generate_audio; 3D는 현재 노출된 전용 도구를 확인"
-  edit: "Higgsfield UI/API의 전용 편집 기능; Genjutsu Restyle·Motion Transfer·Object Swap은 기능별로 구분"
-  narrative_video: "요청에 맞는 공식 프리셋/워크플로 확인 → 연결 시 get_preset_instructions 등으로 지침 로드"
+  edit: "노출된 전용 편집 도구(upscale/outpaint/reframe/remove_background) 또는 Higgsfield UI/API의 편집 기능; Genjutsu Restyle·Motion Transfer·Object Swap은 기능별로 구분"
+  narrative_video: "요청에 맞는 공식 프리셋/워크플로 확인 → 연결 시 get_preset_instructions·get_workflow_instructions 등 노출된 도구로 지침 로드"
 pitfalls:
   - "업스케일이면 될 것을 재생성 프롬프트로 만드는 것 — 비용 낭비 + 원본 유실"
   - "과거 MCP 도구명이나 플랫폼 전체 라인업을 현재 연결에서 사용 가능하다고 가정하는 것"

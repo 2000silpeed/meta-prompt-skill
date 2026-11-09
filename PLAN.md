@@ -123,3 +123,23 @@ meta-prompt-skill/                 # 레포 루트 = 스킬 디렉토리 (통째
 
 **메타데이터 규약 추가**: `verification: partial` — 스펙·라인업은 공식 대조했지만 프롬프트 문법 카드는
 지식 기반 초안인 상태(현재 Seedance, Higgsfield). SKILL.md의 신선도 표기 규칙에 반영했다.
+
+## 2026-11-09 모델 갱신
+
+10월 말 이후 릴리스 가운데 등록된 가이드북에 해당하는 것만 반영했다.
+
+- **Claude**: Fable 5.2(2026-11-09) 반영. `fable-5-runtime`을 5.2 기준으로 다시 썼다 — 모델 ID
+  `claude-fable-5-2`/`claude-mythos-5-2`, 가격 인하($8/$40), 모든 계정에 적용되는 prefix check,
+  5.2 전용 thinking 블록, `computer_toolset_20260801` 전환, advisor 짝, 허용 fallback 대상(Opus 4.8·Opus 5).
+  5.2에서 달라진 동작의 증상→처방은 `fable-5-2-behaviors` 카드로 신설했다(중도 종료, 승인 규칙,
+  코드 소유권 문장, 진행 업데이트, 서브에이전트, 누적된 주의 지시, 보고문). 버전 없는 Fable은 5.2로
+  해석하고, `fable-5-1-behaviors`는 5.1을 명시한 요청용으로 남겼다.
+- **GPT Image**: 2.6 Flare/Sunburst(2026-11-04) 반영. `complexity`, SVG·루프 GIF 출력, markup 편집,
+  이전 출발점(2/2.5 Flare → 2.6 Flare, 2.5 Sunburst → 2.6 Sunburst)을 추가했다.
+- **Higgsfield**: GPT Image 2.6, Gemini Omni Flash 1.2, Kling 4.0/4.0 Flash를 라우팅 카드에 추가하고,
+  연결마다 다른 MCP 도구 이름(models_explore 등)을 고정 사실로 적지 않도록 고쳤다.
+- **GPT-6**: 접근 제한 모델 `gpt-6-cyber`·`gpt-6-rosalind`를 별칭으로 등록하고 자동 라우팅 금지 규칙만 추가했다.
+
+검증 범위: 위 항목만 공식 문서와 대조했다. Claude 5.5 카드·공통 카드, GPT Image의 내장 imagegen 규칙,
+Higgsfield의 기존 라인업은 이전 검증일을 유지한다. 이미지·영상 생성 품질 A/B와 Fable 5.2 대상
+`/meta-prompt eval`은 실행하지 않았다.

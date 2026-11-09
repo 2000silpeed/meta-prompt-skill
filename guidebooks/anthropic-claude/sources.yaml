@@ -1,9 +1,25 @@
 model: anthropic-claude
 sources:
   - url: https://platform.claude.com/docs/en/models/overview
-    covers: [opus-5-5-runtime]
-    fetched: "2026-10-12"
-    note: "최신 Claude 모델 라인업·권장 용도·모델 ID·컨텍스트/출력 한도"
+    covers: [opus-5-5-runtime, fable-5-runtime]
+    fetched: "2026-11-09"
+    note: "최신 Claude 모델 라인업·권장 용도·모델 ID·컨텍스트/출력 한도. 11/09에는 Fable 5.2 행과 선택 기준만 대조"
+  - url: https://platform.claude.com/docs/en/models/fable-5-2/overview
+    covers: [fable-5-runtime]
+    fetched: "2026-11-09"
+    note: "Fable 5.2 출시일·모델 ID·가격·데이터 보존 요건·Mythos 5.2 관계"
+  - url: https://platform.claude.com/docs/en/models/fable-5-2/whats-new-fable-5-2
+    covers: [fable-5-runtime, fable-5-2-behaviors, thinking-and-cot, system-role-tools]
+    fetched: "2026-11-09"
+    note: "5.1 대비 breaking change 4건, thinking 블록 바인딩, effort 권장, refusal·fallback 대상, fast mode"
+  - url: https://platform.claude.com/docs/en/models/fable-5-2/migration-guide
+    covers: [fable-5-runtime]
+    fetched: "2026-11-09"
+    note: "Fable 5.1·Opus 5.5에서의 이전 절만 대조. Fable 5·Opus 5·Opus 4.8 이하 절은 미검토"
+  - url: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5-2
+    covers: [fable-5-2-behaviors, fable-5-core, thinking-and-cot]
+    fetched: "2026-11-09"
+    note: "effort 보정, 중도 종료, 승인, 코드 소유권, 진행 업데이트, 서브에이전트, 누적된 주의 지시, 이전 모델용 지시 점검, 보고문, refusal"
   - url: https://platform.claude.com/docs/en/models/opus-5-5/overview
     covers: [opus-5-5-runtime]
     fetched: "2026-10-12"
@@ -36,12 +52,14 @@ sources:
   - url: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5-1
     covers: [fable-5-1-behaviors, fable-5-core, thinking-and-cot, system-role-tools]
     fetched: "2026-09-03"
+    note: "Fable 5.1(레거시)용. 11/09에는 재확인하지 않음"
   - url: https://platform.claude.com/docs/en/models/fable-5-1/whats-new-fable-5-1
-    covers: [fable-5-runtime]
+    covers: [fable-5-1-behaviors]
     fetched: "2026-09-03"
+    note: "fable-5-runtime은 11/09부터 5.2 문서를 근거로 한다. 5.1 전용 사실이 필요하면 이 문서를 다시 확인"
   - url: https://platform.claude.com/docs/en/models/fable-5-1/migration-guide
-    covers: [fable-5-runtime]
-    note: "Fable 5 / Opus 5에서의 이전 절차 — refresh 시 breaking change 목록 재확인"
+    covers: []
+    note: "Fable 5 / Opus 5에서 5.1로의 이전 절차 — 현재 카드의 근거로 쓰지 않음"
   - url: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5
     covers: [fable-5-core, fable-5-runtime]
     fetched: "2026-09-03"

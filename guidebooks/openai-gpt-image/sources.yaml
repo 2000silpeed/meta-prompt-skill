@@ -2,16 +2,20 @@ model: openai-gpt-image
 sources:
   - url: https://developers.openai.com/api/docs/guides/image-prompting
     covers: [prompt-composition, editing-and-references, runtime-routing]
-    fetched: "2026-10-27"
-    note: "GPT Image 2.5 선택, 편집 보존, 문자, API 설정과 이전 모델 상태"
+    fetched: "2026-11-09"
+    note: "GPT Image 2.6 Flare/Sunburst 선택, complexity, SVG·루프 GIF·markup 편집, API 설정과 이전 모델 상태. 11/09에는 2.6 관련 절만 대조"
   - url: https://developers.openai.com/cookbook/examples/multimodal/image-gen-models-prompting-guide
     covers: [prompt-composition, editing-and-references]
     fetched: "2026-10-27"
     note: "용도·구도·매체와 참조 역할. 최신 모델 선택은 위 API 가이드 우선"
   - url: https://developers.openai.com/api/docs/guides/image-generation
     covers: [editing-and-references, runtime-routing]
-    fetched: "2026-10-27"
-    note: "Images API, 마스크, 투명 출력. Codex 내장 도구의 스키마와는 별개"
+    fetched: "2026-11-09"
+    note: "Images API, 마스크·markup, 투명 출력, SVG/GIF 한도, 사용자 지정 크기. Codex 내장 도구의 스키마와는 별개. 입력 이미지 최대 개수는 확인하지 못함"
+  - url: https://developers.openai.com/api/docs/changelog
+    covers: [runtime-routing]
+    fetched: "2026-11-09"
+    note: "2026-11-04 gpt-image-2.6-sunburst / gpt-image-2.6-flare 출시, 2.5·2.6 markup 편집 추가"
   - url: https://developers.openai.com/api/docs/guides/tools-image-generation
     covers: [runtime-routing]
     fetched: "2026-10-27"

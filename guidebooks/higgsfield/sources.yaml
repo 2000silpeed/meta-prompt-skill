@@ -5,8 +5,8 @@ sources:
     note: "공식 문서 — refresh 시 모델 라인업·워크플로우 카탈로그 변경 확인"
   - url: https://higgsfield.ai/creator-hub/changelog
     covers: [model-routing]
-    fetched: "2026-10-14"
-    note: "플랫폼 공지 대조: GPT Image 2.5, Seedream 5.0 Flash, Wan 3.0/Prime, Grok Imagine Video 1.5, FLUX 3 Image, Genjutsu Restyle, Seedance 2.5 Draft Mode 등"
+    fetched: "2026-11-09"
+    note: "11/09: GPT Image 2.6(11/05), Gemini Omni Flash 1.2(11/05), Kling 4.0 Flash(11/04), Kling 4.0(10월) 공지만 대조 — 페이지 앞부분만 읽었고 뒤쪽 과거 항목은 미확인. 10/14 대조: GPT Image 2.5, Seedream 5.0 Flash, Wan 3.0/Prime, Grok Imagine Video 1.5, FLUX 3 Image, Genjutsu Restyle, Seedance 2.5 Draft Mode 등"
   - url: https://open.higgsfield.ai/models/xai/grok-imagine-video/v1.5/reference-to-video/api-reference
     covers: [model-routing]
     fetched: "2026-10-14"
@@ -24,4 +24,5 @@ sources:
     note: "로컬 필름메이킹 스킬셋 — Six Decisions 프레임 원본"
   - url: local:claude.ai-higgsfield-mcp-instructions
     covers: [model-routing]
-    note: "Claude 세션의 힉스필드 MCP 지침 (models_explore, 전용 편집 툴, workflow 카탈로그)"
+    fetched: "2026-11-09"
+    note: "Claude 세션의 힉스필드 MCP 지침과 읽기 전용 models_explore 검색(GPT Image 2.6, Gemini Omni, Kling 4.0) — 도구 이름·generate_image 기본 모델(gpt_image_2_6)·2.6 스키마 확인. 생성 호출은 하지 않음"

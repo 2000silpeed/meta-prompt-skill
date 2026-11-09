@@ -37,7 +37,7 @@ Higgsfield는 `higgsfield`로 연결한다. Seedream 이미지와 Seedance 영�
 - 해당 모델 index와 `$GB/_shared/index.yaml`에서 `image-production` 카드를 함께 읽는다.
   단순 요청에 모든 템플릿 항목을 강제로 채우지 않는다.
 - Higgsfield에서 사용할 이미지 모델까지 지정됐으면 플랫폼 라우팅과 그 모델의 등록된
-  이미지 가이드를 함께 적용한다. 예: **Higgsfield + GPT Image 2.5 → `higgsfield/index.yaml`과
+  이미지 가이드를 함께 적용한다. 예: **Higgsfield + GPT Image 2.6 → `higgsfield/index.yaml`과
   `openai-gpt-image/index.yaml`**, Higgsfield + 나노바나나 → `higgsfield/index.yaml`과
   `google-nano-banana/index.yaml`. FLUX·Seedream도 같은 방식으로 해당 모델 index를 함께 읽는다.
   버전명이 별도 디렉토리로 없더라도 registry 별칭에

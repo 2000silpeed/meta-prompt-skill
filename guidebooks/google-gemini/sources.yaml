@@ -1,17 +1,42 @@
 model: google-gemini
 sources:
-  - url: https://ai.google.dev/gemini-api/docs/latest-model
+# 2026-11-16 기준 ai.google.dev/gemini-api/docs/* 는 aistudio.google.com/docs/* 로 301 이동한다.
+  - url: https://aistudio.google.com/docs/latest-model
     covers: [gemini-3-runtime, iteration-parameters]
-    fetched: "2026-10-14"
-    note: "Gemini 4 Argon의 API 변경·migration checklist·thinking·long decode"
-  - url: https://ai.google.dev/gemini-api/docs/models/gemini-4-argon
-    covers: [gemini-3-runtime, iteration-parameters]
-    fetched: "2026-10-14"
-    note: "Argon stable ID, 입출력 한도와 기능표"
-  - url: https://ai.google.dev/gemini-api/docs/models
+    fetched: "2026-11-16"
+    note: "권장 출발 모델이 Gemini 4 Hydrogen으로 바뀜. Hydrogen·Carbon 가격·thinking 단계 요약. 10/14에 본 Argon migration checklist는 이 페이지에 더 이상 없음"
+  - url: https://aistudio.google.com/docs/whats-new-gemini-4-hydrogen
+    covers: [gemini-3-runtime, iteration-parameters, long-context-multimodal]
+    fetched: "2026-11-16"
+    note: "모델 간 위치, thinking 단계와 기본 high, 3.8 Flash 대비 API 변경, 샘플링·caching 제거, long decode, migration checklist, Carbon+Hydrogen 조합"
+  - url: https://aistudio.google.com/docs/whats-new-gemini-4-carbon
     covers: [gemini-3-runtime]
-    fetched: "2026-10-14"
-    note: "공식 전체 모델 목록과 Gemini 3 모델 상태"
+    fetched: "2026-11-16"
+    note: "Carbon과 Argon 선택 기준, 기본 medium, 출력 상한 권고, Argon·Gemini 3에서의 이전. 프롬프팅 지침은 외부 개발자 가이드 링크만 있고 본문에는 없음(미확인)"
+  - url: https://aistudio.google.com/docs/thinking
+    covers: [gemini-3-runtime, iteration-parameters]
+    fetched: "2026-11-16"
+    note: "Gemini 4·3.x 모델별 thinking 단계·기본값 표와 단계별 용도"
+  - url: https://aistudio.google.com/docs/models/gemini-4-hydrogen
+    covers: [gemini-3-runtime]
+    fetched: "2026-11-16"
+    note: "stable ID, 한도, 기능표"
+  - url: https://aistudio.google.com/docs/models/gemini-4-carbon
+    covers: [gemini-3-runtime]
+    fetched: "2026-11-16"
+    note: "stable ID, 한도, 기능표"
+  - url: https://aistudio.google.com/docs/models/gemini-4-argon
+    covers: [gemini-3-runtime, iteration-parameters]
+    fetched: "2026-11-16"
+    note: "Argon stable ID, 입출력 한도와 기능표. 샘플링 파라미터와 기본 thinking 단계는 이 페이지에 없음"
+  - url: https://aistudio.google.com/docs/models
+    covers: [gemini-3-runtime]
+    fetched: "2026-11-16"
+    note: "전체 모델 목록, Gemini 3 모델 상태, 2.5 Pro·Flash의 12/01 라우팅"
+  - url: https://aistudio.google.com/docs/changelog
+    covers: [gemini-3-runtime]
+    fetched: "2026-11-16"
+    note: "11/10 Carbon GA, 11/12 Hydrogen GA, 2.5 라우팅 공지. 다른 API 변경 전체를 카드에 반영한 것은 아님"
   - url: https://ai.google.dev/gemini-api/docs/generate-content/long-decode
     covers: [gemini-3-runtime, long-context-multimodal]
     fetched: "2026-10-14"

@@ -143,3 +143,20 @@ meta-prompt-skill/                 # 레포 루트 = 스킬 디렉토리 (통째
 검증 범위: 위 항목만 공식 문서와 대조했다. Claude 5.5 카드·공통 카드, GPT Image의 내장 imagegen 규칙,
 Higgsfield의 기존 라인업은 이전 검증일을 유지한다. 이미지·영상 생성 품질 A/B와 Fable 5.2 대상
 `/meta-prompt eval`은 실행하지 않았다.
+
+## 2026-11-16 모델 갱신
+
+Gemini·Claude·Codex의 신모델을 공식 문서로 확인했다.
+
+- **Gemini**: 4 Carbon(2026-11-10 GA)과 4 Hydrogen(2026-11-12 GA) 반영. `gemini-3-runtime`을 Gemini 4
+  세 모델 기준으로 다시 썼다 — 모델 선택 기준, 모델별 `thinking_level`(Hydrogen은 기본 high에 `xhigh` 추가,
+  Carbon·Argon은 기본 medium), 샘플링·explicit caching 제거가 Gemini 4 공통이라는 점, 툴 선언, thought
+  signature 보존, Carbon 계획 + Hydrogen 실행 조합, 2.5 Pro·Flash의 12/01 라우팅. 공식 권장 출발점이
+  바뀌어 `model_variant` 기본값을 `gemini-4-argon`에서 `gemini-4-hydrogen`으로 옮겼다. 문서 주소는
+  `aistudio.google.com/docs`로 이동했다.
+- **Claude**: Fable 5.2 이후 신규 모델 없음. 모델 개요의 현행 4종이 카드와 일치해 변경하지 않았다.
+- **Codex**: 권장 모델 4종(Astra·6.1 Sol·6.1 Terra·Luna) 그대로, 신규 모델 없음. 카드는 변경하지 않았다.
+
+검증 범위: Gemini는 런타임·파라미터 카드만 대조했고 구조·구조화 출력·롱 컨텍스트 카드는 이전 검증을
+유지한다. Carbon의 프롬프팅 지침은 외부 개발자 가이드에만 있어 확인하지 못했다. Codex 체인지로그의
+10/14~10/26 구간은 읽지 못했다. Gemini 4 대상 `/meta-prompt eval`은 실행하지 않았다.

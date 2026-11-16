@@ -54,7 +54,7 @@ Claude Code, Gemini CLI 또는 Codex에서 자연어로 부르면 자동 발동�
 나노바나나2.1로 종이 공예 스타일 고양이 이미지 프롬프트 뽑아줘
 이 요청을 GPT-6.1 Sol용 프롬프트로 최적화해줘
 Claude Opus 5.5로 장시간 리팩터링을 맡길 프롬프트 만들어줘
-Gemini 4 Argon으로 긴 코드 맥락의 버그를 수정할 프롬프트 만들어줘
+Gemini 4 Carbon으로 긴 코드 맥락의 버그를 수정할 프롬프트 만들어줘
 Qwen3.8-Max로 이 저장소의 버그를 수정하고 검증할 프롬프트를 만들어줘
 Kimi K3.1 Pro로 도구 호출을 이어가는 코딩 에이전트 프롬프트를 만들어줘
 ```
@@ -130,7 +130,7 @@ $meta-prompt를 적용해서 이 요청을 Codex용으로 최적화한 뒤 구�
 | `openai-codex` | Codex CLI/IDE (태스크 프롬프트·AGENTS.md; GPT-6.1 Sol 권장; Terra는 시각 이해·글쓰기·화면 조작, CLI 0.159.0+) | 코딩 에이전트 |
 | `anthropic-claude` | Claude Opus 5.5 / Sonnet 5.5 / Haiku 5.5 / Fable 5.2 (5.1 유지) | 텍스트 LLM |
 | `z-ai-glm` | GLM-5.3 / GLM-5.3-Flash (MIT 오픈웨이트) | 텍스트 LLM / 코딩 에이전트 |
-| `google-gemini` | Gemini 4 Argon / 3.8 Flash / 3.1 Pro / 3.1 Flash-Lite | 텍스트 LLM |
+| `google-gemini` | Gemini 4 Hydrogen / 4 Carbon / 4 Argon / 3.8 Flash / 3.5 Flash-Lite | 텍스트 LLM |
 | `alibaba-qwen` | Qwen3.8-Max / Flash / 오픈웨이트 | 텍스트 LLM |
 | `xai-grok` | Grok 4.7 / 기존 4.6·4.20 계열 | 텍스트 LLM |
 | `deepseek` | DeepSeek V4.1-Flash (`deepseek-flash`; 이전 V4 ID는 호환 경로) | 텍스트 LLM |

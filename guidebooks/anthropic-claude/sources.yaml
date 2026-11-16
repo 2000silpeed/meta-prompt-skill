@@ -2,8 +2,8 @@ model: anthropic-claude
 sources:
   - url: https://platform.claude.com/docs/en/models/overview
     covers: [opus-5-5-runtime, fable-5-runtime]
-    fetched: "2026-11-09"
-    note: "최신 Claude 모델 라인업·권장 용도·모델 ID·컨텍스트/출력 한도. 11/09에는 Fable 5.2 행과 선택 기준만 대조"
+    fetched: "2026-11-16"
+    note: "최신 Claude 모델 라인업·권장 용도·모델 ID·컨텍스트/출력 한도. 11/16 재확인: Fable 5.2 이후 신규 모델 없음, 현행 4종(Fable 5.2·Opus 5.5·Sonnet 5.5·Haiku 5.5)의 ID·기본 effort·한도가 카드와 일치. 카드 본문 전체 재검증은 아님"
   - url: https://platform.claude.com/docs/en/models/fable-5-2/overview
     covers: [fable-5-runtime]
     fetched: "2026-11-09"

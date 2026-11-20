@@ -1,5 +1,5 @@
 model: openai-codex
-label: "OpenAI Codex (CLI/IDE 코딩 에이전트 / GPT-6.1 Sol 권장)"
+label: "OpenAI Codex (CLI/IDE 코딩 에이전트 / GPT-6.2 Sol 권장)"
 output_language: follow-target   # 태스크 프롬프트는 대상 코드베이스의 언어 관례를 따름
 
 slots:
@@ -21,7 +21,7 @@ slots:
       note: "완료 기준 — 명시할수록 결과가 예측 가능"
     - id: reasoning_effort
       default: "현재 클라이언트 기본값"
-      note: "계정·클라이언트가 지원하는 모델별 값을 사용. GPT-6.1 Sol은 클라이언트 기본부터, Luna는 high, Astra는 low부터 과제별 비교. API와 Codex의 지원값을 혼동하지 않는다"
+      note: "계정·클라이언트가 지원하는 모델별 값을 사용. GPT-6.2 Sol(없으면 GPT-6.1 Sol)은 클라이언트 기본부터, 여러 패키지에 걸친 변경은 GPT-6.2 Astra, GPT-6 Luna는 high, GPT-6 Astra는 low부터 과제별 비교. API와 Codex의 지원값을 혼동하지 않는다"
 
 cards:
   - id: task-prompt-4-elements

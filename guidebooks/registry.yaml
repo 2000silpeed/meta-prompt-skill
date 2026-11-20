@@ -1,25 +1,25 @@
 # meta-prompt 가이드북 레지스트리 — 항상 로드되는 유일한 파일. 극소로 유지할 것.
 version: 1
-updated: "2026-11-16"
+updated: "2026-11-21"
 staleness_days: 30   # last_verified가 이보다 오래되면 사용 시 경고 (차단 아님)
 fallback: _generic   # 미등록 모델 요청 시 사용할 범용 가이드북 디렉토리
 
 models:
   - id: openai-gpt-5
-    label: "OpenAI GPT-6 (Astra / 6.1 Sol / 6.1 Terra / Luna) / GPT-5.x"
+    label: "OpenAI GPT-6.2 (Astra / Sol) / GPT-6.1 (Sol / Terra) / GPT-6 Luna / GPT-5.x"
     type: text-llm
     provider: OpenAI
-    aliases: [gpt-6.1, gpt6.1, gpt-6.1-sol, gpt6.1-sol, gpt-6.1-terra, gpt6.1-terra, 테라, gpt-6, gpt6, gpt-6-astra, astra, 아스트라, gpt-6-sol, gpt-6-luna, gpt-6-cyber, gpt-6-rosalind, gpt, gpt-5, gpt5, gpt-5.1, gpt-5.4, gpt-5.5, gpt-5.6, gpt-5.6-sol, gpt5.6-sol, sol, gpt-5.6-terra, terra, gpt-5.6-luna, luna, chatgpt, openai]
+    aliases: [gpt-6.2, gpt6.2, gpt-6.2-astra, gpt6.2-astra, gpt-6.2-sol, gpt6.2-sol, gpt-6.1, gpt6.1, gpt-6.1-sol, gpt6.1-sol, gpt-6.1-terra, gpt6.1-terra, 테라, gpt-6, gpt6, gpt-6-astra, astra, 아스트라, gpt-6-sol, gpt-6-luna, gpt-6-cyber, gpt-6-rosalind, gpt, gpt-5, gpt5, gpt-5.1, gpt-5.4, gpt-5.5, gpt-5.6, gpt-5.6-sol, gpt5.6-sol, sol, gpt-5.6-terra, terra, gpt-5.6-luna, luna, chatgpt, openai]
     last_verified: "2026-10-12"
-    verification: partial   # 10/28 Terra 추가·GPT-6 호환성 확인, 11/09 접근 제한 모델(Cyber·Rosalind) 별칭만 추가; 전체 검증일과 기존 GPT-5.x 검증은 유지
+    verification: partial   # 11/21 GPT-6.2 Astra·Sol(11/17) 모델 페이지·changelog·reasoning·latest-model 대조; 10/28 Terra, 11/09 Cyber·Rosalind 별칭. 6.1 Terra·Luna와 기존 GPT-5.x는 이전 검증 유지
 
   - id: openai-codex
-    label: "OpenAI Codex (CLI/IDE 코딩 에이전트 / GPT-6.1 Sol 권장)"
+    label: "OpenAI Codex (CLI/IDE 코딩 에이전트 / GPT-6.2 Sol 권장)"
     type: coding-agent
     provider: OpenAI
     aliases: [codex, codex-cli, 코덱스, agents-md, agents.md]
     last_verified: "2026-10-14"
-    verification: partial   # 태스크 모델 선택 카드 검증; 다른 카드는 이전 검증 유지
+    verification: partial   # 11/21 GPT-6.2 Sol 기본·Astra 선택 기준(best-practices·models·whats-new) 대조; 다른 카드는 이전 검증 유지
 
   - id: anthropic-claude
     label: "Anthropic Claude (Opus 5.5 / Sonnet 5.5 / Haiku 5.5 / Fable 5.2 / Fable 5.1)"
@@ -30,28 +30,28 @@ models:
     verification: partial   # 11/09 Fable 5.2 런타임·증상 처방 카드 검증; 5.5 카드는 10/12, 공통 카드는 이전 검증 유지
 
   - id: z-ai-glm
-    label: "Z.ai GLM (GLM-5.3 / GLM-5.3-Flash — agentic coding)"
+    label: "Z.ai GLM (GLM-5.3 / GLM-5.3-Flash / GLM-5.3-FlashX — agentic coding)"
     type: text-llm
     provider: Z.ai
-    aliases: [glm, glm-5, glm5, glm-5.3, glm5.3, glm-5.3-flash, gml, gml-5.3, gml5.3, z.ai, zai, zhipu, chatglm]
+    aliases: [glm, glm-5, glm5, glm-5.3, glm5.3, glm-5.3-flash, glm-5.3-flashx, glm5.3-flashx, glm-5.3-flashx-legal, gml, gml-5.3, gml5.3, z.ai, zai, zhipu, chatglm]
     last_verified: "2026-09-03"
-    verification: partial   # 10/27 GLM-5.3 Coding Plan 프로토콜 제한만 재확인; 다른 규칙은 기존 검증 유지
+    verification: partial   # 11/21 FlashX 추가·5.3 계열 thinking 비활성 불가 재확인; 10/27 Coding Plan 제한; 함수 호출·구조화 출력은 기존 검증 유지
 
   - id: google-gemini
-    label: "Google Gemini (4 Hydrogen / 4 Carbon / 4 Argon / 3.8 Flash)"
+    label: "Google Gemini (4 Neon / 4 Hydrogen / 4 Carbon / 4 Argon / 3.8 Flash)"
     type: text-llm
     provider: Google
-    aliases: [gemini-4-hydrogen, gemini4-hydrogen, hydrogen, 하이드로젠, gemini-4-carbon, gemini4-carbon, carbon, 카본, gemini-4-argon, gemini4-argon, gemini-4, gemini4, argon, 아르곤, gemini, gemini-3.8, gemini-3.8-flash, gemini-3.7, gemini-3.6, gemini-3.5, gemini-3.1-pro, gemini-3, google, vertex]
+    aliases: [gemini-4-neon, gemini4-neon, neon, 네온, gemini-4-hydrogen, gemini4-hydrogen, hydrogen, 하이드로젠, gemini-4-carbon, gemini4-carbon, carbon, 카본, gemini-4-argon, gemini4-argon, gemini-4, gemini4, argon, 아르곤, gemini, gemini-3.8, gemini-3.8-flash, gemini-3.7, gemini-3.6, gemini-3.5, gemini-3.1-pro, gemini-3, google, vertex]
     last_verified: "2026-10-14"
-    verification: partial   # 11/16 Gemini 4 Carbon·Hydrogen 런타임·파라미터 카드 검증; 구조·구조화 출력·롱 컨텍스트 카드는 이전 검증 유지
+    verification: partial   # 11/21 Gemini 4 Neon(11/18 GA) 모델 페이지·thinking·changelog 대조(샘플링 미확인); 11/16 Carbon·Hydrogen 런타임·파라미터 카드; 구조·구조화 출력은 이전 검증 유지
 
   - id: alibaba-qwen
-    label: "Alibaba Qwen (Qwen3.8-Max / Flash — hybrid thinking, 에이전트·코딩)"
+    label: "Alibaba Qwen (Qwen4-Max / Qwen3.8-Max / Flash — hybrid thinking, 에이전트·코딩)"
     type: text-llm
     provider: Alibaba
-    aliases: [qwen, qwen3, qwen3.8, qwen3.8-max, qwen-max, qwen3.8-flash, 큐원, 통이, tongyi, dashscope, model-studio]
+    aliases: [qwen4-max, qwen4, qwen-4-max, qwen4-max-preview, qwen3.8-max-0902, qwen, qwen3, qwen3.8, qwen3.8-max, qwen-max, qwen3.8-flash, 큐원, 통이, tongyi, dashscope, model-studio]
     last_verified: "2026-09-03"
-    verification: verified
+    verification: partial   # 11/21 Qwen4-Max(11/16) 모델 페이지·발표와 3.8-max 0902 스냅샷 전환 대조; 3.8 카드의 나머지 규칙은 09/03 검증 유지
 
   - id: xai-grok
     label: "xAI Grok (Grok 4.7 — 모델 선택·추론·서버측 툴)"
@@ -59,15 +59,15 @@ models:
     provider: xAI
     aliases: [grok-4.7, grok4.7, grok, grok-4, grok-4.5, grok-4.6, grok4.6, grok-4.20, xai, x.ai, 그록]
     last_verified: "2026-10-14"
-    verification: partial   # 4.7 모델·API 갱신; 개별 카드의 검증 상태 참조
+    verification: partial   # 11/21 모델 목록·릴리스 노트 재확인: 신규 텍스트 모델 없음(grok-build-0.1 EOL 표기 상충은 미반영); 4.7 모델·API는 10/14 검증
 
   - id: deepseek
     label: "DeepSeek (V4.1-Flash / deepseek-flash)"
     type: text-llm
     provider: DeepSeek
-    aliases: [deepseek-v4.1, deepseek-v4.1-flash, deepseek-flash, deepseek, deepseek-v4, deepseek-v4-pro, deepseek-v4-flash, deepseek-chat, deepseek-reasoner, 딥시크]
+    aliases: [deepseek-v4.1, deepseek-v4.1-flash, deepseek-v4.1-flash-1017, deepseek-flash, deepseek, deepseek-v4, deepseek-v4-pro, deepseek-v4-flash, deepseek-chat, deepseek-reasoner, 딥시크]
     last_verified: "2026-10-14"
-    verification: partial   # V4.1 모델·API 갱신; 개별 카드의 검증 상태 참조
+    verification: partial   # 11/21 V4.1-Flash-1017 스냅샷과 11/13 웹 검색·URL 읽기 도구 반영; V4-Pro 라우팅 상충은 런타임 카드 참조
 
   - id: moonshot-kimi
     label: "Moonshot Kimi (K3.1 Pro / Highspeed — API·에이전트)"
@@ -75,7 +75,7 @@ models:
     provider: Moonshot AI
     aliases: [kimi-k3.1-pro, kimi-k3.1-pro-highspeed, kimi-k3.1, k3.1, kimi, kimi-k3, k3, kimi-k2.7, moonshot, 키미, 문샷]
     last_verified: "2026-10-27"
-    verification: partial   # 두 카드의 K3.1 API 사실 갱신; 운영 템플릿은 일반 권장, 구버전 설정은 별도 확인
+    verification: partial   # 11/21 모델 목록·Quickstart 재확인: 신모델 없음, K2.x 은퇴 일정·캐시 TTL 추가, K3.1 웨이트 상태는 확인 불가; 운영 템플릿은 일반 권장
 
   - id: openai-gpt-image
     label: "OpenAI GPT Image (2.6 Flare·Sunburst / 2.5 / 2) / Codex imagegen"
@@ -83,7 +83,7 @@ models:
     provider: OpenAI
     aliases: [gpt-image, gpt-image-2.6, gpt-image-2.6-flare, gpt-image-2.6-sunburst, gpt_image_2_6, gpt_image_2_6_flare, gpt-image-2.5, gpt-image-2.5-flare, gpt-image-2.5-sunburst, gpt-image-2, gpt-image-1.5, gpt-image-1, chatgpt-image-latest, imagegen, image_gen, gpt이미지, 챗지피티이미지, 코덱스이미지]
     last_verified: "2026-10-27"
-    verification: partial   # 11/09 GPT Image 2.6 API 규칙 대조; 그 밖은 10/27 검증, 내장 도구는 실행 시 스키마 확인, 생성 품질 A/B 미실행
+    verification: partial   # 11/21 changelog·image-prompting 재확인: 신모델 없음; 11/09 GPT Image 2.6 API 규칙 대조; 그 밖은 10/27 검증, 내장 도구는 실행 시 스키마 확인, 생성 품질 A/B 미실행
 
   - id: google-nano-banana
     label: "Google Nano Banana (2.1 / Pro / Lite / 이전 2)"
@@ -91,39 +91,39 @@ models:
     provider: Google
     aliases: [gemini-3.1-flash-lite-image, nano-banana-2-lite, 나노바나나2라이트, nano-banana-2.1, nanobanana2.1, 나노바나나2.1, gemini-nano-banana-2.1, nano-banana, nano-banana-2, nano-banana-pro, 나노바나나, 나노바나나2, nanobanana, gemini-image, gemini-3.1-flash-image, gemini-3-pro-image]
     last_verified: "2026-10-14"
-    verification: partial   # 10/27 프롬프트·편집·문구·영상 입력 보강; 기존 스펙 검증일 10/14 유지, 개별 카드 참조
+    verification: partial   # 11/21 changelog·스펙 카드 재대조: 신모델 없음; 10/27 프롬프트·편집 보강; 기존 스펙 검증일 10/14 유지, 개별 카드 참조
 
   - id: black-forest-flux
-    label: "Black Forest Labs FLUX (3 Image / 2 pro·max)"
+    label: "Black Forest Labs FLUX (3 Image / 3 Image Klein / 2 pro·max)"
     type: media-image
     provider: Black Forest Labs
-    aliases: [flux, flux.2, flux-2, flux.2-pro, flux-2-pro, flux.2-max, flux-2-max, flux-3, flux-3-image, flux3, black forest labs, bfl, 플럭스, 플럭스3]
+    aliases: [flux, flux.2, flux-2, flux.2-pro, flux-2-pro, flux.2-max, flux-2-max, flux-3, flux-3-image, flux3, flux-3-image-klein, flux3-image-klein, flux-3-klein, black forest labs, bfl, 플럭스, 플럭스3]
     last_verified: "2026-10-27"
-    verification: partial   # 공식 버전별 작성법·API 대조; 플랫폼 가용성과 생성 품질 A/B 미확인
+    verification: partial   # 11/21 FLUX 3 Image Klein(10/15)·크기 옵션(10/22)·바운딩 박스 대조, Klein 요청 형식은 릴리스 노트와 API 레퍼런스가 상충; FLUX.2는 10/27 유지, 품질 A/B 미확인
 
   - id: ideogram
-    label: "Ideogram (4.0 / 4.5)"
+    label: "Ideogram (4.0 / 4.5 / 4.6)"
     type: media-image
     provider: Ideogram
-    aliases: [ideogram, ideogram-4, ideogram-4.0, ideogram4, ideogram-4.5, ideogram-4-5, ideogram4.5, 이디오그램, 아이디오그램]
+    aliases: [ideogram-4.6, ideogram-4-6, ideogram4.6, ideogram, ideogram-4, ideogram-4.0, ideogram4, ideogram-4.5, ideogram-4-5, ideogram4.5, 이디오그램, 아이디오그램]
     last_verified: "2026-10-27"
-    verification: partial   # 4.0 프롬프팅과 4.0/4.5 API 대조; 계정·생성 품질 A/B 미확인
+    verification: partial   # 11/21 Ideogram 4.6 generate·precise-edit 레퍼런스 대조(출시일 확인 불가); 4.0 프롬프팅과 4.0/4.5 API는 10/27, 계정·생성 품질 A/B 미확인
 
   - id: bytedance-seedream
-    label: "ByteDance Seedream (5.0 Pro / Flash — 이미지 생성·편집)"
+    label: "ByteDance Seedream (5.5 / 5.0 Pro / Flash — 이미지 생성·편집)"
     type: media-image
     provider: ByteDance
-    aliases: [seedream, seedream-5, seedream-5.0, seedream-5.0-pro, seedream-5.0-flash, seedream-5.0-lite, seedream-4, seedream-4.0, seedream-4.5, dola-seedream-5-0-pro-260628, dola-seedream-5-0-flash-260915, 시드림, 씨드림, 시드림5]
+    aliases: [seedream-5.5, seedream5.5, seedream-5-5, dola-seedream-5-5-261028, 시드림5.5, seedream, seedream-5, seedream-5.0, seedream-5.0-pro, seedream-5.0-flash, seedream-5.0-lite, seedream-4, seedream-4.0, seedream-4.5, dola-seedream-5-0-pro-260628, dola-seedream-5-0-flash-260915, 시드림, 씨드림, 시드림5]
     last_verified: "2026-10-27"
-    verification: partial   # Pro/Flash 공식 작성법·API 대조; 구버전은 출력 차이만, 플랫폼·품질 A/B 미확인
+    verification: partial   # 11/21 Seedream 5.5(11/09) 발표·BytePlus 튜토리얼 대조, 5.5 Pro는 미출시; 5.0 Pro/Flash는 10/27 유지, 품질 A/B 미확인
 
   - id: bytedance-seedance-2
-    label: "Seedance 2.x (2.5 최신 — 30초 원테이크 + 네이티브 오디오 / 2.0)"
+    label: "Seedance 2.x (2.5 / 2.5 Flash — 30초 원테이크 + 네이티브 오디오 / 2.0)"
     type: media-video
     provider: ByteDance
-    aliases: [seedance, seedance-2, seedance-2.5, 시댄스, jimeng, 즉몽, dreamina]
+    aliases: [seedance, seedance-2, seedance-2.5, seedance-2.5-flash, seedance2.5-flash, seedance-2-5-flash, 시댄스, jimeng, 즉몽, dreamina]
     last_verified: "2026-09-03"
-    verification: partial   # 2.5 스펙은 공식 발표 대조, 프롬프트 문법 카드는 2.0 기반 지식 초안
+    verification: partial   # 11/21 BytePlus 2.5 가이드로 참조 상한·편집·연장·타임스탬프 대조, 2.5 Flash는 Higgsfield 공지·카탈로그 기준(공급자 ID·출시일 확인 불가); 나머지 문법 카드는 2.0 기반 초안
 
   - id: higgsfield
     label: "Higgsfield (이미지/영상 플랫폼 — 최신 모델·편집 경로)"
@@ -131,4 +131,4 @@ models:
     provider: Higgsfield
     aliases: [higgsfield, 힉스필드, cinema-studio]
     last_verified: "2026-10-14"
-    verification: partial   # 11/09 신규 모델(GPT Image 2.6·Gemini Omni Flash 1.2·Kling 4.0 계열)과 MCP 도구 이름만 추가 확인; 전체 라인업은 10/14 검증, 전용 프롬프트 카드는 검증 범위 별도
+    verification: partial   # 11/21 changelog·카탈로그 목록으로 신규 영상·이미지 항목(Seedance 2.5 Flash·Kling Image 4.0 등) 추가; 카탈로그 전 항목 대조는 아님. 전용 프롬프트 카드는 검증 범위 별도

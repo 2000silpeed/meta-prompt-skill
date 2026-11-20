@@ -2,9 +2,13 @@ id: editing-and-runtime
 model: bytedance-seedream
 topic: "Pro/Flash 버전·선택 영역 편집·출력 제약"
 verification: partial
-last_verified: "2026-10-27"
-note: "BytePlus 공식 튜토리얼의 기능·설정 확인. 현재 계정·외부 플랫폼 지원과 실제 실행 결과는 미확인."
+last_verified: "2026-11-21"
+note: "5.0 Pro/Flash 규칙은 BytePlus 5.0 튜토리얼(10/27) 기준 그대로 유지. 11-21에는 Seedream 5.5 발표문(11-09)과 BytePlus 5.5 튜토리얼(2026-11-19 갱신)을 대조해 5.5 규칙만 추가했다. 현재 계정·외부 플랫폼 지원과 실제 실행 결과는 미확인."
 rules:
+  - "Seedream 5.5(공식 발표 2026-11-09, BytePlus 튜토리얼 갱신 2026-11-19)의 공식 API ID는 dola-seedream-5-5-261028이다. 5.0 Pro/Flash의 dola-seedream-5-0-pro-260628, dola-seedream-5-0-flash-260915와 별개이므로 5.5 요청을 5.0 ID로 바꾸거나 그 반대로 쓰지 않는다. 5.5 Pro는 발표 예고만 있고 ID가 없다."
+  - "Seedream 5.5 공식 튜토리얼 기준 기능: 텍스트·단일 이미지·다중 참조(최대 10장) 생성, 다중 턴 편집 일관성(이전 출력을 다음 입력으로 사용), 네이티브 RGBA 출력, 레이어 분해 1 베이스 + 최대 99 레이어(max_images 2~100, 기본 30), 일반 텍스트 레이어의 rich-text OCR. 해상도 프리셋 1K/1.5K/2K 또는 WIDTHxHEIGHT, 기본 출력은 png, background 기본값 auto, watermark 기본 true, prompt optimization은 standard만 지원한다."
+  - "Seedream 5.5 투명 출력은 텍스트→RGBA와 이미지→RGBA 모두 지원하며 알파 채널이 있는 입력 PNG가 필요 없다(이미지→RGBA는 참조 최대 10장). background=transparent일 때 output_format은 png여야 한다. 반대로 5.0 Pro/Flash는 텍스트→RGBA를 지원하지 않고 알파 PNG 입력 1장만 허용하므로, 아래 5.0 규칙을 5.5에 옮기거나 5.5 기능을 5.0에 소급하지 않는다."
+  - "Seedream 5.5 다중 턴 편집은 RGB(알파 없는) 입력과 background=opaque를 권장한다(공식 튜토리얼 팁). 바꿀 것과 보존할 것을 매 턴 명시하고, 여러 턴 후의 색 변화·열화는 결과에서 직접 확인한다. 5.5의 layer_decomposition은 max_images와 text_recognition 옵션을 쓰며, 레이어 분해는 background 파라미터를 받지 않는다(넘기면 오류)."
   - "사용자가 지정한 버전과 플랫폼을 먼저 유지한다. BytePlus 직접 API의 5.0 Pro ID는 dola-seedream-5-0-pro-260628, Flash ID는 dola-seedream-5-0-flash-260915다. 이름에 5.0이 같아도 Lite나 다른 제공자의 ID로 대체하지 않는다."
   - "5.0 Pro/Flash 직접 API는 최대 10개 참조와 1K/1.5K/2K 출력을 다룬다. size의 해상도 등급과 WIDTHxHEIGHT는 대안 형식이며 동시에 넣지 않는다. Higgsfield 등 다른 경로에서는 실제 노출 옵션을 확인한다."
   - "정밀 편집은 표시된 원본이나 실제 이미지에서 확인한 영역을 사용한다. Pro/Flash의 <point>/<bbox> 지시는 좌표 형식·정규화 기준을 공식 문서와 원본 크기로 확인한 경우에만 쓴다. 좌표를 추정해 만들지 말고, 영역 표시·자연어 위치를 쓸 수 있으면 우선한다. 표시선을 쓴 경우 결과에서 표시선 제거도 요청한다."
@@ -22,3 +26,4 @@ pitfalls:
   - "Seedream 이미지 요청을 이름이 비슷한 Seedance 영상 가이드로 보내는 것"
   - "Pro/Flash를 Lite·4.x와 같은 다중 출력·스트리밍 모델로 취급하는 것"
   - "좌표·알파 입력·참조 이미지를 확인하지 않고 정밀 편집이나 투명 출력을 보장하는 것"
+  - "5.5의 텍스트→RGBA·다중 턴 기능을 5.0 Pro/Flash에 적용하거나, 5.0의 알파 PNG 입력 제약을 5.5에 옮기는 것"

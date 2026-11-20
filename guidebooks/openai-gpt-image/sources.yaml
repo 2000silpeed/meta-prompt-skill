@@ -1,9 +1,10 @@
 model: openai-gpt-image
+# 2026-11-21 미확인(이번 세션에서 열지 않음, 기존 날짜 유지): cookbook image-gen-models-prompting-guide, guides/image-generation(11/09 기준), guides/tools-image-generation, models 목록의 2.5/2.6 종료 상태(목록은 열었으나 status 미기재).
 sources:
   - url: https://developers.openai.com/api/docs/guides/image-prompting
     covers: [prompt-composition, editing-and-references, runtime-routing]
-    fetched: "2026-11-09"
-    note: "GPT Image 2.6 Flare/Sunburst 선택, complexity, SVG·루프 GIF·markup 편집, API 설정과 이전 모델 상태. 11/09에는 2.6 관련 절만 대조"
+    fetched: "2026-11-21"
+    note: "11/21 재확인: 2.6 complexity(생략 시 high), quality 목록, output_format SVG/GIF, markup 편집, input_fidelity 생략, reasoning.summary 미지원 — 기존 카드와 일치. 2.5·2.6 종료일은 없음. gpt-image-1.5 2026-12-01 종료 공지 확인. 페이지 본문 앞 100K와 뒤 35K 중 뒤쪽은 2.6 관련 키워드 검색 결과만 확인. 이전 11/09: 2.6 관련 절 대조"
   - url: https://developers.openai.com/cookbook/examples/multimodal/image-gen-models-prompting-guide
     covers: [prompt-composition, editing-and-references]
     fetched: "2026-10-27"
@@ -14,8 +15,8 @@ sources:
     note: "Images API, 마스크·markup, 투명 출력, SVG/GIF 한도, 사용자 지정 크기. Codex 내장 도구의 스키마와는 별개. 입력 이미지 최대 개수는 확인하지 못함"
   - url: https://developers.openai.com/api/docs/changelog
     covers: [runtime-routing]
-    fetched: "2026-11-09"
-    note: "2026-11-04 gpt-image-2.6-sunburst / gpt-image-2.6-flare 출시, 2.5·2.6 markup 편집 추가"
+    fetched: "2026-11-21"
+    note: "11/21 재확인: 11/04 gpt-image-2.6-sunburst / gpt-image-2.6-flare 출시, 2.5·2.6 markup 편집 추가. 11/05~11/19 항목 중 이미지 모델 변경 없음(11/16 CSAM 분류기 omni-moderation-csam-latest는 이 가이드 범위 밖)"
   - url: https://developers.openai.com/api/docs/guides/tools-image-generation
     covers: [runtime-routing]
     fetched: "2026-10-27"

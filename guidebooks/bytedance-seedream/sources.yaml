@@ -12,3 +12,21 @@ sources:
     covers: [prompt-composition, editing-and-runtime]
     fetched: "2026-10-27"
     note: "Seedream 5.0 Pro 공식 소개: 디자인 배치, 다중 참조별 역할, 표시 영역·점·스케치 편집. 마케팅 품질 표현을 결과 보장으로 옮기지 않음."
+  - url: https://seed.bytedance.com/blog/more-realistic-images-more-stable-editing-across-100-rounds-introducing-seedream-5-5
+    covers: [prompt-composition, editing-and-runtime]
+    fetched: "2026-11-21"
+    applies_to: "Seedream 5.5"
+    note: "공식 발표일 2026-11-09. 100라운드 편집 데모, 네이티브 RGBA 출력, 실사·소형 문구 개선, Pro 버전 후속 예정을 확인. Dola/Playground 링크는 있으나 API ID·가격·참조 개수·해상도는 본문에 없음 → 확인 불가. 5.0 Pro를 비교 기준으로 씀."
+  - url: https://docs.byteplus.com/en/docs/ModelArk/seedream-5-5
+    covers: [prompt-composition, editing-and-runtime]
+    fetched: "2026-11-21"
+    applies_to: "Seedream 5.5 (dola-seedream-5-5-261028), 5.0 Pro/Flash 비교표"
+    note: "BytePlus 공식 튜토리얼(페이지 갱신 2026-11-19). 브라우저 패널에서 읽음(WebFetch는 빈 셸). 공식 ID dola-seedream-5-5-261028, 텍스트→RGBA 지원, 이미지→RGBA 참조 최대 10장(알파 입력 불필요), 레이어 max_images 2~100(기본 30), rich-text OCR, 해상도 1K/1.5K/2K 또는 WxH, 기본 png, background auto/transparent/opaque, 다중 턴 편집 팁. 프롬프트 길이·언어 상한은 페이지에 없음(확인 불가). 5.0 Pro/Flash 규칙은 이 페이지 비교표와 일치하여 유지."
+  - url: https://docs.byteplus.com/en/docs/ModelArk/1330310?lang=en
+    covers: [editing-and-runtime]
+    fetched: "2026-11-21"
+    note: "모델 목록 페이지는 본문 없이 튜토리얼 링크만 있음. 5.0 Pro/Flash ID 확인은 5.5 튜토리얼 비교표로 대체. 4.x 은퇴 공지는 이 페이지에서 확인되지 않음(확인 불가)."
+  - url: https://seed.bytedance.com/en/blog/beyond-generation-it-understands-design-introducing-seedream-5-0-pro
+    covers: [prompt-composition]
+    fetched: "2026-11-21"
+    note: "재확인: 5.0 Pro 발표 페이지의 편집 방식(점·올가미·상자 선택, 스케치, 색 HEX, 이미지 번호 참조, 레이어 분리)과 기존 카드 규칙이 일치함을 확인. 5.5 관련 Pro 후속 언급은 없음."

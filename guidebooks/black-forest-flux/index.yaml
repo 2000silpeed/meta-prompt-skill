@@ -1,5 +1,5 @@
 model: black-forest-flux
-label: "Black Forest Labs FLUX 이미지 (FLUX 3 Image / FLUX.2 [pro·max] 및 명시 버전별 안내)"
+label: "Black Forest Labs FLUX 이미지 (FLUX 3 Image / FLUX 3 Image Klein / FLUX.2 [pro·max] 및 명시 버전별 안내)"
 output_language: follow-target
 slots:
   required:
@@ -12,7 +12,7 @@ slots:
       default: "명시된 플랫폼 우선; 미지정이면 프롬프트만 작성"
     - id: references
       default: "없음"
-note: "모델/버전을 사용자 지정했으면 우선한다. 지정이 없으면 런타임에서 실제 선택 가능한 모델을 확인하며, FLUX 3와 FLUX.2 전용 기능을 서로 일반화하지 않는다. 공통 제작·시각 검수 규칙은 _shared/image-production을 함께 로드한다."
+note: "모델/버전을 사용자 지정했으면 우선한다. 지정이 없으면 런타임에서 실제 선택 가능한 모델을 확인하며, FLUX 3와 FLUX.2 전용 기능을 서로 일반화하지 않는다. FLUX 3 Image Klein(2026-10-15, open-weights 5.6B)은 FLUX 3 Image와 별도 엔드포인트·스키마를 가지므로(steps·seed·output_format 있음, match_input·grounding 없음) 명시된 경우에만 Klein 규칙을 적용한다. FLUX 3 Max/Action/Video는 영상 계열이라 이 가이드북 범위 밖이다. 공통 제작·시각 검수 규칙은 _shared/image-production을 함께 로드한다."
 cards:
   - id: prompt-composition
     when: "FLUX 모델용 이미지 생성 프롬프트 작성"

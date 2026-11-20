@@ -9,36 +9,44 @@ sources:
     fetched: "2026-09-03"
     note: "V4 라인업 발표 — 레거시 모델 ID 은퇴 일정"
   - url: https://api-docs.deepseek.com/updates/
-    covers: [v4-thinking-and-params]
-    fetched: "2026-10-14"
-    note: "2026-09-10 V4.1-Flash release, legacy ID routing, Pro routing notice"
+    covers: [v4-thinking-and-params, agentic-and-output]
+    fetched: "2026-11-21"
+    note: "11/21 재열람: 2026-10-17 V4.1-Flash-1017 업데이트(ID 유지), 2026-11-13 앱 API 릴리스(웹 검색·URL 읽기·파일 입력·safety check). 이후 은퇴·라우팅 공지 없음. 2026-10-14 이전 항목은 이번 범위 밖"
   - url: https://api-docs.deepseek.com/news/news260910/
     covers: [v4-thinking-and-params]
-    fetched: "2026-10-14"
-    note: "V4.1-Flash 출시와 V4 Flash/Pro ID 라우팅 공지"
+    fetched: "2026-11-21"
+    note: "11/21 재열람: V4.1-Flash 2026-09-10 출시, deepseek-v4-flash 이름 임시 라우팅(종료일 없음), deepseek-v4-pro는 2026-09-14 04:00 UTC부터 V4.1-Flash로 라우팅되며 V4.1-Pro 출시 때까지 유지. thinking 기본값·effort 값은 이 공지에 없음"
+  - url: https://api-docs.deepseek.com/news/news261017/
+    covers: [v4-thinking-and-params]
+    fetched: "2026-11-21"
+    note: "V4.1-Flash-1017 발표 2026/10/17: 모델 ID는 deepseek-flash 유지, 'Now live on API', Harness v0.2.1-rc.1 이상 권장. API 호출 형식·가격 변경 문구는 없음"
+  - url: https://api-docs.deepseek.com/news/news261113/
+    covers: [agentic-and-output]
+    fetched: "2026-11-21"
+    note: "11/13 앱 API 공지: deepseek_web_search(thinking 끔/켬 동작), deepseek_read_url, 파일 입력. safety check 파라미터 이름과 값은 확인 불가. Web Tools·Search & Fetch·Model Content Safety 가이드는 이번에 열지 않음 (미확인)"
   - url: https://api-docs.deepseek.com/quick_start/pricing/
     covers: [v4-thinking-and-params]
-    fetched: "2026-10-14"
-    note: "현재 모델 ID별 버전·컨텍스트·최대 출력·vision·요금 표; release notice의 Pro 설명과 차이가 있음"
+    fetched: "2026-11-21"
+    note: "11/21 재열람: deepseek-flash 버전 문자열 DeepSeek-V4.1-Flash-1017, 1M, 최대 출력 384K, vision ✓, thinking 기본. deepseek-v4-pro 행은 DeepSeek-V4-Pro-0813(vision 미지원, 별도 가격)으로 여전히 공지와 상충. 레거시 이름은 1017로 서비스·Flash 가격 각주"
   - url: https://api-docs.deepseek.com/guides/thinking_mode/
     covers: [v4-thinking-and-params, agentic-and-output]
-    fetched: "2026-10-14"
-    note: "현재 thinking effort와 파라미터 제약, tool 요청에서 reasoning_content 재전송 규칙"
+    fetched: "2026-11-21"
+    note: "11/21 재열람: thinking 기본 활성, 기본 effort high, 매핑(minimal/low→low, medium/high/xhigh→high, max/ultra→max), thinking 모드에서 temperature·penalty 무시, tools 요청 시 reasoning_content 재전송. Anthropic 형식 필드 표기는 요약 결과가 엇갈려 이번에는 카드에 반영하지 않음 (기존 hedge 유지)"
   - url: https://api-docs.deepseek.com/api/create-chat-completion/
     covers: [v4-thinking-and-params, agentic-and-output]
     fetched: "2026-10-14"
-    note: "OpenAI Chat Completions body: model IDs, thinking/reasoning_effort, token ceiling, tool_choice 제약"
+    note: "OpenAI Chat Completions body: model IDs, thinking/reasoning_effort, token ceiling, tool_choice 제약 (11/21 미재열람)"
   - url: https://api-docs.deepseek.com/api/create-response/
     covers: [v4-thinking-and-params]
     fetched: "2026-10-14"
-    note: "Responses API request schema: reasoning.effort none/low/high/max와 모델 ID"
+    note: "Responses API request schema: reasoning.effort none/low/high/max와 모델 ID (11/21 미재열람)"
   - url: https://api-docs.deepseek.com/guides/anthropic_api/
     covers: [v4-thinking-and-params]
     fetched: "2026-10-14"
-    note: "Anthropic wire format 지원 필드; output_config는 effort만 지원"
+    note: "Anthropic wire format 지원 필드; output_config는 effort만 지원 (11/21 미재열람)"
   - url: https://api-docs.deepseek.com/guides/function_calling
     covers: [agentic-and-output]
   - url: https://api-docs.deepseek.com/guides/json_mode
     covers: [agentic-and-output]
     fetched: "2026-10-14"
-    note: "JSON object 모드의 프롬프트 요구사항과 필드 스키마 검증 구분"
+    note: "JSON object 모드의 프롬프트 요구사항과 필드 스키마 검증 구분 (11/21 미재열람)"

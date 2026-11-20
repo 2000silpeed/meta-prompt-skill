@@ -39,3 +39,41 @@ sources:
     covers: [prompt-composition, editing-and-runtime]
     fetched: "2026-10-27"
     note: "공식 문서 인덱스에서 FLUX 3 Image 현행 prompting 페이지와 FLUX.2/FLUX 3 API 페이지 존재 확인"
+  - url: https://docs.bfl.ai/release-notes.md
+    covers: [editing-and-runtime]
+    fetched: "2026-11-21"
+    applies_to: "FLUX 3 Image (2026-10-22 custom sizes·match_input), FLUX 3 Image Klein (2026-10-15)"
+    note: "10/01 이후 공지 2건만 있음. 10/22 width·height·resolution match_input·4MP 참조 한도, 10/15 Klein 가중치 ID·가격·참조 10개. 변경 없는 항목은 공지에 없음으로 확인. 삭제·은퇴 공지 없음."
+  - url: https://docs.bfl.ml/flux_3/flux3_image_klein.md
+    covers: [prompt-composition, editing-and-runtime]
+    fetched: "2026-11-21"
+    applies_to: "FLUX 3 Image Klein"
+    note: "Distilled/Base 설정, 업샘플러 권고, 엔드포인트 POST /v1/flux-3-image-klein. 가격·prompt 길이·aspect 세부는 페이지에 없어 확인 불가."
+  - url: https://docs.bfl.ml/api-reference/utility/generate-an-image-with-flux-3-klein.md
+    covers: [editing-and-runtime]
+    fetched: "2026-11-21"
+    applies_to: "FLUX 3 Image Klein API 스키마"
+    note: "steps(1~16, 기본 16), seed, output_format, width/height 최소 64. grounding·match_input 없음. 릴리스 노트의 '같은 요청 형식' 설명과 충돌하여 레퍼런스 스키마를 우선 기재. 충돌은 공식 문서 간 불일치로 미해결."
+  - url: https://docs.bfl.ml/api-reference/utility/generate-an-image-with-flux-3.md
+    covers: [editing-and-runtime]
+    fetched: "2026-11-21"
+    applies_to: "FLUX 3 Image API (POST /v1/flux-3-image)"
+    note: "width/height 256~6256, resolution enum, aspect_ratio enum, grounding 기본 true, 참조 1~10개. 프롬프트 길이 상한과 참조 파일 크기 상한은 문서에 없어 확인 불가."
+  - url: https://docs.bfl.ml/flux_3/flux3_image_bounding_boxes.md
+    covers: [editing-and-runtime]
+    fetched: "2026-11-21"
+    applies_to: "FLUX 3 Image 바운딩 박스"
+    note: "[top,left,bottom,right] 0~1000 격자, 프롬프트 뒤 JSON 행 배열. 최대 박스 수는 문서에 명시 없음."
+  - url: https://docs.bfl.ml/flux_3/flux3_image_overview.md
+    covers: [prompt-composition, editing-and-runtime]
+    fetched: "2026-11-21"
+    applies_to: "FLUX 3 Image"
+    note: "생성·편집·다중 참조 작성 지침 요약 확인. 모델 ID와 해상도 세부는 페이지에 없어 API 레퍼런스로 대체."
+  - url: https://docs.bfl.ai/guides/prompting_guide_flux2
+    covers: [prompt-composition]
+    fetched: "확인 불가 (2026-11-21 재확인 안 함)"
+    note: "이번 갱신에서 열지 않음. 10/27 대조 결과를 유지하며, FLUX.2 가이드는 FLUX 3 Image 근거로 쓰지 않는다."
+  - url: "확인 불가 (2026-11-21)"
+    covers: [editing-and-runtime]
+    fetched: "확인 불가 (2026-11-21)"
+    note: "Klein 가격 표는 릴리스 노트 수치만 기재했고 독립 확인하지 않았다. 플랫폼 노출 여부와 Klein 생성 품질 A/B는 확인하지 않았다. FLUX 3 Max/Action/Video(영상)와 FLUX-mimic(로보틱스)은 이 가이드북 범위 밖이라 열지 않았다."

@@ -2,7 +2,7 @@ id: grounding-and-specs
 model: google-nano-banana
 topic: "실시간 그라운딩과 모델 변형·스펙 선택"
 verification: partial   # Nano Banana 2.1 공식 문서 대조 2026-10-14; 전체 계열/제품 표면 동등성은 미검증
-last_verified: "2026-10-27"   # 이번 대조는 video-to-image 지원 범위에 한정
+last_verified: "2026-11-21"   # 11/21 재대조: 2.1·3.1 Flash Lite 모델 페이지와 image-generation 페이지(0~200k자)의 ID·해상도·참조 한도·thinking 기본값·grounding 범위 일치, 변경 없음. Lite 참조 개수는 확인 못 함(index의 Lite 오브젝트 14 미검증)
 rules:
   - "실세계 데이터 반영 공식: [Source/Search request] + [Analytical task] + [Visual translation]. 허구 장면 묘사가 아니라 '검색해서 그 데이터를 이렇게 시각화하라'로 지시한다. 예: 'Search for current weather in San Francisco, use this data to modify the scene, visualize as a miniature city-in-a-cup.'"
   - "모델 변형 선택: gemini-nano-banana-2.1(Nano Banana 2.1, 새 기본·1K/2K/4K), gemini-3-pro-image(Nano Banana Pro, 전문 자산·정밀 제어), gemini-3.1-flash-image(Nano Banana 2, 이전 세대·deprecated이나 종료일 미정), gemini-3.1-flash-lite-image(Nano Banana 2 Lite, 빠르고 저렴하며 1K만·다중 참조/멀티턴 순차 편집 비최적화), gemini-2.5-flash-image(레거시)."

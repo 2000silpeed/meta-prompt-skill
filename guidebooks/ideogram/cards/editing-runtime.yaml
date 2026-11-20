@@ -2,14 +2,18 @@ id: editing-runtime
 model: ideogram
 topic: "참조·편집 경로·버전별 API 범위"
 verification: partial
-last_verified: "2026-10-27"
-note: "공식 API 문서만 확인. 현재 세션 연결·계정 권한·실행 결과·이미지 품질은 확인하지 않음."
+last_verified: "2026-11-21"
+note: "공식 API 문서만 확인. 11-21: Ideogram 4.6 generate·precise-edit 레퍼런스를 추가 확인(4.5와 차이 규칙 포함), 4.5 레퍼런스 재대조. 현재 세션 연결·계정 권한·실행 결과·이미지 품질은 확인하지 않음. 4.6 출시일과 changelog는 공식 자료에서 찾지 못해 확인 불가."
 rules:
   - "제품의 버전 이름과 API 경로 식별자를 구별한다: Ideogram 4.0은 v2 경로의 ideogram-4, Ideogram 4.5는 ideogram-4-5다. API 세대 또한 경로에 표시한다. v1 예시의 ideogram-v4와 text_prompt를 v2의 ideogram-4와 prompt에 혼용하지 않으며, 경로 식별자를 임의의 model 요청 필드로 만들지 않는다."
   - "4.5 공식 API는 generate 경로에 source images를 넣어 편집 지시를 처리하고, 별도 precise-edit 경로도 제공한다. precise-edit는 이미지·선택 mask·참조 이미지를 받는다. 실제 제약과 보존 범위는 각 API 사양을 따른다."
   - "4.5 API에서 generate는 최대 5개 images를 받고 첫 이미지가 편집 대상, 나머지가 참조다. mask 사용 시 별도 개수·크기 조건이 있으므로 정확한 제한은 현재 endpoint 문서를 확인한다. 4.5 제품의 Precise Edit와 generate-with-images를 같은 경로라고 부르지 않는다."
   - "4.5 precise-edit는 선택되지 않은 픽셀 보존을 목표로 하지만 이를 일반적인 이미지 편집이나 다른 버전의 보장으로 확장하지 않는다. 전체 이미지 편집의 픽셀 제한과 context_window 동작은 API 문서에서 확인한다."
   - "4.0 API의 v2 generate/remix가 문서화되어 있어도 4.5 전용 precise-edit 기능을 4.0 지원으로 추정하지 않는다. 4.0 structured JSON·Magic Prompt와 4.5 API 기능을 버전별로 기술한다."
+  - "4.5 generate에 mask를 쓰면 mask는 첫 번째 images 원본과 가로·세로가 같아야 하고 흑백 모두 포함해야 한다(검은 영역이 편집 대상, 흰 영역이 보존). 이때 다른 source image는 최대 3장이며 출력 크기는 원본과 같아 size를 지정할 수 없다."
+  - "4.5 precise-edit(POST /v2/image/precise-edit/ideogram-4-5, multipart)는 image(필수)와 prompt(필수)를 받고, reference_images는 최대 4장(mask를 쓰면 3장)으로 편집하지 않는 참조용이다. 선택 필드는 mask·context_window(none/auto/y_min,x_min,y_max,x_max)·quality(very_low/high)·seed·num_images 등이다. 이 endpoint 문서에는 magic_prompt·resolution·rendering_speed 필드가 없으므로 generate의 설정을 옮겨 적지 않는다. 전체 이미지 편집은 출력이 4,194,304px(2048x2048 면적) 이하로 축소되며, context_window로 영역을 지정하면 원본 크기를 유지하고 나머지는 그대로 돌아온다고 공식 문서가 설명한다."
+  - "Ideogram 4.6 API: generate는 POST /v2/image/generate/ideogram-4-6, precise-edit는 POST /v2/image/precise-edit/ideogram-4-6(multipart, Api-Key 헤더). 모델 ID는 ideogram-4-6이다. 4.5와 비교해 달라진 점(공식 레퍼런스 기준): generate의 size에 auto_2k·auto_4k가 추가되고(auto_4k는 very_low에서 불가), 정확한 크기는 총 4096x4096 이하·한 변 8192 이하, very_low는 2048x2048 이하·한 변 4608 이하다. background 값은 transparent/opaque/auto이며 기본값은 페이지에 없다. precise-edit의 quality는 very_low/low/medium/high이고, 4.5 precise-edit 페이지에 기재된 very_low/high보다 넓다. precise-edit는 context_window(none/auto/y_min,x_min,y_max,x_max)를 받고 기본값은 auto(mask가 있으면 마스크 주변 영역, 없으면 none과 같음)다. 전체 편집 출력 상한은 4096x4096(16,777,216px)이며 very_low에서는 2048x2048이다. 참조 이미지는 최대 4장(mask 사용 시 3장)이다. 4.6 레퍼런스에는 4.5와의 차이 설명이 없으므로 그 밖의 차이를 추정하지 않는다."
+  - "4.6 generate의 magic_prompt는 auto(기본)/on/off이고, 자연어 또는 Ideogram 4.0 구조화 JSON 프롬프트를 받는다. 4.6은 4.5 설정을 그대로 가정하지 않고, 실행 직전에 해당 endpoint 페이지를 확인한다."
   - "Ideogram 앱, MCP, API는 별도 실행 경로다. 문서상 제공 경로를 현재 세션의 연결, 사용자 계정 지원, 과금 승인 또는 생성 품질 검증으로 표현하지 않는다. 이미 승인된 실행 범위를 유지하고 새 유료 경로나 추가 호출이 필요할 때만 실행 직전에 확인한다."
   - "지원 필드와 설정은 선택한 endpoint 및 API 세대 문서에서 확인한다. API 파라미터를 앱/MCP에, 또는 한 endpoint의 파라미터를 다른 endpoint에 복사하지 않는다."
 template: |
@@ -20,6 +24,7 @@ template: |
   변경: {바꿀 대상과 보존할 속성}
   설정: {선택 endpoint에서 지원하는 필드만; 프롬프트 본문과 분리}
 pitfalls:
-  - "Ideogram 4.0, Ideogram 4.5, ideogram-4, ideogram-4-5, ideogram-v4를 동의어처럼 쓰는 것"
+  - "Ideogram 4.0, Ideogram 4.5, Ideogram 4.6, ideogram-4, ideogram-4-5, ideogram-4-6, ideogram-v4를 동의어처럼 쓰는 것"
+  - "4.6을 4.5 파라미터 목록(quality very_low/high, precise-edit 출력 상한 4,194,304px)으로 옮기거나, 출시일이 확인되지 않은 4.6을 최신 버전으로 단정하는 것"
   - "공식 API 기능이 현재 계정이나 세션에서 사용 가능하다고 말하는 것"
   - "4.5 precise-edit의 보존 설명을 전 버전의 보장으로 확대하는 것"

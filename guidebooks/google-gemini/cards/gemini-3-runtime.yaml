@@ -1,16 +1,16 @@
 id: gemini-3-runtime  # 기존 카드 경로·참조 호환을 위해 ID 유지
 model: google-gemini
 topic: "Gemini 4 / 3 런타임 — 모델 선택, thinking_level, long decode와 마이그레이션"
-verification: verified   # 2026-11-16 Gemini 4 Carbon·Hydrogen 모델·whats-new·thinking 문서 대조. Argon 고유 사실과 long decode SDK 최소 버전은 10/14 검증, 3.x 규칙은 제한적으로 보존
-last_verified: "2026-11-16"
+verification: partial   # 2026-11-21 Gemini 4 Neon(gemini-4-neon) 모델 페이지와 changelog(11/18 GA) 대조 — Neon 항목만 추가. Hydrogen·Carbon·Argon 규칙은 11/16 검증 유지; Neon의 기본 thinking(high)은 changelog 문구, 가격·선택 기준은 미확인. Argon 고유 사실과 long decode SDK 최소 버전은 10/14 검증, 3.x 규칙은 제한적으로 보존
+last_verified: "2026-11-21"
 rules:
-  - "Gemini 4는 세 모델이며 모두 stable이다. gemini-4-hydrogen은 일상 코딩·에이전트 작업의 권장 출발점이자 Gemini 3.8 Flash 이하에서의 권장 이전 대상이다. gemini-4-carbon은 가장 강한 추론 모델로 근본 원인 디버깅·아키텍처 설계·밀도 높은 멀티모달 종합·과학 증명·보안 감사에 쓰고, 턴당 thinking 토큰과 지연이 더 크다. gemini-4-argon은 Carbon보다 토큰을 덜 쓰면서 고난도 장기 작업 대부분을 맡는 효율형이다."
-  - "세 모델 모두 입력·thinking·출력이 공유하는 컨텍스트는 1,048,576 토큰이고 동기 최대 출력은 65,536이다. max_output_tokens는 thinking과 출력을 합친 상한이므로 최종 답을 담을 여유를 남긴다. Carbon·Argon의 non-streaming REST hop은 32,768에서 끊긴다."
-  - "thinking_level: Hydrogen은 low / medium / high(기본) / xhigh, Carbon과 Argon은 low / medium(기본) / high다. minimal은 Gemini 4 전체에서 오류다. 비용·지연 민감 작업은 low, 대화형 코딩·UI 프로토타이핑·응답성 중요한 툴 호출은 medium, 복잡한 코딩·에이전트 실행은 high로 둔다. 모든 단계로 eval을 돌려 품질 기준을 넘는 가장 낮은 단계를 고른다."
-  - "xhigh는 Hydrogen 전용이며 high로 부족한 어려운 다단계 코딩·에이전트 문제에만 쓴다. 추출 같은 단순 프롬프트에서는 과잉 사고로 max_output_tokens를 소진할 수 있다."
+  - "Gemini 4는 네 모델이며 모두 stable이다. gemini-4-neon은 2026-11-18 GA로 'frontier-level intelligence'를 내세운 소프트웨어 엔지니어링·지식 작업·과학용 모델이다(공식 changelog). aistudio 모델 목록·changelog 기준으로 Neon은 Carbon과 함께 깊은 추론용으로 묶여 있고, 속도는 'Moderate'(Carbon 'Deliberate', Hydrogen 'Fast' 사이)이며, 유료 가격 $3/$15 per 1M은 Carbon 도입가($2/$10)·Hydrogen($1.50/$7.50)보다 높다. 권장 출발 모델은 여전히 gemini-4-hydrogen이다(aistudio latest-model 2026-11-21). gemini-4-hydrogen은 일상 코딩·에이전트 작업의 권장 출발점이자 Gemini 3.8 Flash 이하에서의 권장 이전 대상이다. gemini-4-carbon은 가장 강한 추론 모델로 근본 원인 디버깅·아키텍처 설계·밀도 높은 멀티모달 종합·과학 증명·보안 감사에 쓰고, 턴당 thinking 토큰과 지연이 더 크다. gemini-4-argon은 Carbon보다 토큰을 덜 쓰면서 고난도 장기 작업 대부분을 맡는 효율형이다."
+  - "Gemini 4 네 모델(Neon 포함) 모두 입력·thinking·출력이 공유하는 컨텍스트는 1,048,576 토큰이고 동기 최대 출력은 65,536이다(Neon은 aistudio 모델 페이지 확인; long decode 상한 1,048,576). max_output_tokens는 thinking과 출력을 합친 상한이므로 최종 답을 담을 여유를 남긴다. Carbon·Argon의 non-streaming REST hop은 32,768에서 끊긴다."
+  - "thinking_level: Hydrogen은 low / medium / high(기본) / xhigh, Neon은 low / medium / high / xhigh(기본 high, changelog 문구), Carbon과 Argon은 low / medium(기본) / high다. minimal은 Gemini 4 전체에서 오류다. 비용·지연 민감 작업은 low, 대화형 코딩·UI 프로토타이핑·응답성 중요한 툴 호출은 medium, 복잡한 코딩·에이전트 실행은 high로 둔다. 모든 단계로 eval을 돌려 품질 기준을 넘는 가장 낮은 단계를 고른다."
+  - "xhigh는 Hydrogen과 Neon에서만 지원되며(Carbon·Argon 제외) high로 부족한 어려운 다단계 코딩·에이전트 문제에만 쓴다. 추출 같은 단순 프롬프트에서는 과잉 사고로 max_output_tokens를 소진할 수 있다."
   - "모델을 바꿀 때 기본 thinking_level 차이를 확인한다. Carbon·Argon에서 Hydrogen으로 옮기면 요청 스키마는 그대로지만 기본이 medium에서 high로 바뀐다. Argon에서 Carbon으로 옮길 때는 medium을 유지하고 더 긴 추론 시간과 타임아웃을 허용한다."
   - "Gemini 4 호출에서는 temperature / top_p / top_k를 요청에서 제거한다. 범위 안의 값은 무시되고, Hydrogen은 범위 밖 값에 400을 반환한다. thinking_budget 대신 thinking_level을 쓴다. Gemini 3.x에 관한 기존 API 규칙을 Gemini 4에 그대로 적용하지 않는다."
-  - "Gemini 4에는 explicit context caching이 지원되지 않는다(cachedContents, caches.create, cached_content 제거). 4,096 토큰 이상 프롬프트에는 implicit caching이 기본 적용된다. 멀티턴과 툴 호출 세션은 previous_interaction_id로 서버 상태를 잇고, 클라이언트가 GenerateContent 이력을 관리하면 이전 모델 턴과 thought signature를 변경 없이 돌려보낸다. 병렬 functionCall part 사이에 signature를 복사하지 않는다."
+  - "Gemini 4(Neon 포함)에는 explicit context caching이 지원되지 않는다(cachedContents, caches.create, cached_content 제거). 4,096 토큰 이상 프롬프트에는 implicit caching이 기본 적용된다. 멀티턴과 툴 호출 세션은 previous_interaction_id로 서버 상태를 잇고, 클라이언트가 GenerateContent 이력을 관리하면 이전 모델 턴과 thought signature를 변경 없이 돌려보낸다. 병렬 functionCall part 사이에 signature를 복사하지 않는다."
   - "툴은 function calling으로 선언하고 JSON은 structured outputs를 쓴다. 툴 선언 없이 system prompt로 raw-text JSON 툴 호출을 강제하면 Hydrogen에서 MALFORMED_FUNCTION_CALL이 날 수 있다."
   - "한 세션에서 계획·막힌 지점 해결은 Carbon, 편집·서브에이전트 작업·테스트 실행은 Hydrogen으로 나눌 수 있다. previous_interaction_id로 턴마다 모델을 바꾼다. 사용자가 모델 하나를 지정했으면 이 조합을 임의로 넣지 않는다."
   - "64K를 넘는 단일 응답이 실제로 필요할 때만 long decode를 켠다: background=true와 max_output_tokens>65,536(최대 1,048,576에서 입력 토큰을 뺀 값)을 지정한다. 서버가 64K 단위 hop으로 이어 쓰며 전체가 공유 1M 한도 안에 든다. 긴 다단계 작업은 131,072나 262,144를 검토한다."
@@ -18,14 +18,14 @@ rules:
   - "Gemini 3.x 호환 경로: gemini-3.8-flash는 thinking_level low / medium(기본) / high이고 minimal은 미지원이다. 최저 비용·최고 속도의 대량 분류·라우팅은 gemini-3.5-flash-lite(기본 minimal)를 검토한다. Gemini 3.1 Pro는 preview다. 3.x의 샘플링·thought-signature 제약은 3.x 요청에만 적용한다."
   - "gemini-2.5-pro는 2026-12-01부터 gemini-3.8-flash로, gemini-2.5-flash는 gemini-3.5-flash-lite로 요청이 라우팅된다. 2.5 모델을 지정한 프롬프트·설정은 사용자가 유지하라고 하지 않는 한 이전 대상을 알린다."
   - "이미지·PDF 입력이 많으면 media_resolution 설정으로 토큰과 정확도를 조절한다. high로 올릴 때 컨텍스트 초과 여부를 먼저 확인한다."
-  - "Gemini 4 세 모델은 Google Search·Maps grounding, URL Context, Code Execution, File Search, computer use, function calling, structured outputs를 지원한다. 오디오·이미지 생성과 Live API는 지원하지 않는다."
+  - "Gemini 4 모델은 Google Search·Maps grounding, URL Context, Code Execution, File Search, computer use, function calling, structured outputs를 지원한다(Neon 페이지 기준 동일). 오디오·이미지 생성과 Live API는 지원하지 않는다. Neon의 출력 모달리티는 텍스트다."
   - "FunctionResponse에는 call_id와 name을 반드시 포함한다."
 template: |
   {프롬프트 본문 — 짧고 직접적으로}
 
   # API 권고
-  model: {gemini-4-hydrogen(일상 코딩·에이전트) | gemini-4-carbon(최난도 추론) | gemini-4-argon(효율형 장기 작업)}
-  thinking_level: {Hydrogen: low | medium | high(기본) | xhigh; Carbon·Argon: low | medium(기본) | high}
+  model: {gemini-4-hydrogen(일상 코딩·에이전트) | gemini-4-carbon(최난도 추론) | gemini-4-argon(효율형 장기 작업) | gemini-4-neon(고난도 소프트웨어·지식·과학 작업)}
+  thinking_level: {Hydrogen·Neon: low | medium | high(기본) | xhigh; Carbon·Argon: low | medium(기본) | high}
   max_output_tokens: {일반 작업은 기본 65536; 장문 코딩·증명은 background와 함께 131072 이상 검토}
   background: {65K 초과 long decode가 필요할 때만 true}
   previous_interaction_id: {멀티턴이면 서버 상태로 이어가기}

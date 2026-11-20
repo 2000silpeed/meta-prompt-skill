@@ -2,12 +2,20 @@ model: openai-codex
 sources:
   - url: https://learn.chatgpt.com/docs/learn/best-practices
     covers: [task-prompt-4-elements, agents-md, verification-and-review, workflow-antipatterns]
-    fetched: "2026-10-14"
-    note: "GPT-6.1 Sol 권장과 클라이언트별 effort 확인. 기존 다른 카드의 전체 재검증은 포함하지 않음"
+    fetched: "2026-11-21"
+    note: "11/21 재열람: 'GPT-6.2 Sol 가능하면 기본 시작', 여러 패키지 변경은 GPT-6.2 Astra, effort 가이드(low/medium·high/xhigh), GPT-6 Luna high·GPT-6 Astra low 시작. 페이지에 날짜 없음; 'GPT-6.1 Sol' 언급 없음; 6.2·6 Astra 명칭 혼용. 기존 10/14 열람은 6.1 Sol 권장 기준. 다른 카드 전체 재검증은 포함하지 않음"
+  - url: https://learn.chatgpt.com/docs/whats-new/gpt-62-astra-sol
+    covers: [task-prompt-4-elements]
+    fetched: "2026-11-21"
+    note: "GPT-6.2 Astra·Sol 출시일 'November 17, 2026', 모델 ID gpt-6.2-astra·gpt-6.2-sol, 용도 구분, Ultrafast·데이터 거주 지역, API 프롬프트 캐시 안내. 컨텍스트 창·Codex CLI 최소 버전·effort 목록은 이 페이지에 없음"
+  - url: https://openai.com/index/introducing-gpt-6-2-astra-sol/
+    covers: [task-prompt-4-elements]
+    fetched: "2026-11-21"
+    note: "공식 발표 페이지: 모델 ID·요금(Astra $8/$40, Sol $2/$10 per 1M)·구독 접근. 발표 날짜는 페이지에 없음(whats-new 날짜 사용). 컨텍스트·CLI 버전은 없음"
   - url: https://learn.chatgpt.com/docs/models?surface=cli
     covers: [task-prompt-4-elements]
-    fetched: "2026-11-16"
-    note: "11/16 재확인: 권장 모델은 Astra·6.1 Sol·6.1 Terra·Luna 4종 그대로이고 신규 모델 없음. GPT-6.1 Terra 용도와 Codex CLI 0.159.0+·명시 선택 명령 확인. 기존 태스크 프롬프트 카드 전체 재검증은 포함하지 않음. GPT-5.5 은퇴는 ChatGPT 로그인 경로이며 API는 별도"
+    fetched: "2026-11-21"
+    note: "11/21 재확인: GPT-6.2 Astra(gpt-6.2-astra)·GPT-6.2 Sol(gpt-6.2-sol)이 권장 목록에 추가됨(Sol은 일상 작업, Astra는 복잡한 작업). 기존 GPT-6 Astra·6.1 Sol·6.1 Terra·Luna도 그대로 권장. 6.2의 Codex CLI 최소 버전은 여기서 확인 못 함. 이전 11/16 확인 당시 목록은 6.2가 없었음. GPT-6.1 Terra 용도와 Codex CLI 0.159.0+·명시 선택 명령 확인(11/16). 기존 태스크 프롬프트 카드 전체 재검증은 포함하지 않음. GPT-5.5 은퇴는 ChatGPT 로그인 경로이며 API는 별도"
   - url: https://learn.chatgpt.com/docs/prompting
     covers: [task-prompt-4-elements]
     fetched: "2026-10-14"
@@ -20,5 +28,5 @@ sources:
     note: "references/ 하위에 prompt-blocks, recipes, antipatterns 상세 파일 있음"
   - url: https://learn.chatgpt.com/docs/changelog
     covers: [agents-md, task-prompt-4-elements, workflow-antipatterns]
-    fetched: "2026-11-16"
-    note: "11/16 재확인(10/27~11/13 구간): 신규 모델·은퇴·AGENTS.md 로딩 변경 없음, CLI 0.165.0~0.169.0. 10/14~10/26 구간은 미확인. Codex 체인지로그 — 모델 은퇴/추가, AGENTS.md 로딩 정책 변경을 refresh 시 확인"
+    fetched: "2026-11-21"
+    note: "11/21 재확인: 0~100k자 요약에서 11/20 CLI 0.171.0 항목(GPT-6.2 카탈로그 추가, Sol 기본)과 11/18 CLI 0.170.0 확인 — 요약 도구 결과이며 원문 직접 확인은 못함. 100k~200k자: 11/10~11/17 항목(11/17 GPT-6.2 출시, CLI 0.169.1·0.169.0·0.168.0 등) 확인, 0.166.0·0.171.0은 이 구간에 없음. 은퇴·AGENTS.md 로딩 변경은 보이는 범위에서 없음(200k자 이후 미확인). 11/16 재확인(10/27~11/13 구간): 신규 모델·은퇴·AGENTS.md 로딩 변경 없음, CLI 0.165.0~0.169.0. 10/14~10/26 구간은 미확인. Codex 체인지로그 — 모델 은퇴/추가, AGENTS.md 로딩 정책 변경을 refresh 시 확인"

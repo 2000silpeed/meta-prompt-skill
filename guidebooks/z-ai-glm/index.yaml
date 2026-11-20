@@ -1,5 +1,5 @@
 model: z-ai-glm
-label: "Z.ai GLM / GLM-5.3 · GLM-5.3-Flash"
+label: "Z.ai GLM / GLM-5.3 · GLM-5.3-Flash · GLM-5.3-FlashX"
 output_language: follow-target
 
 slots:
@@ -9,7 +9,7 @@ slots:
   optional:
     - id: model_variant
       default: "glm-5.3"
-      note: "난도 높은 장기 작업은 glm-5.3, 비용 민감한 대량 에이전트 루프·자체 호스팅은 glm-5.3-flash(MIT)"
+      note: "난도 높은 장기 작업은 glm-5.3, 비용 민감한 대량 에이전트 루프·자체 호스팅은 glm-5.3-flash(MIT). FlashX(glm-5.3-flashx)는 공식 페이지에서 'now live'로 안내된 고속 API 변형이며 Coding Plan에서는 쓸 수 없고 라이선스는 확인 못함"
     - id: deployment
       default: "GLM Coding Plan의 코딩 에이전트"
       note: "Coding Plan / 표준 API — 프로토콜별 엔드포인트가 다름"

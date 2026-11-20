@@ -1,5 +1,5 @@
 model: google-gemini
-label: "Google Gemini 4 Hydrogen · Carbon · Argon / 3.x"
+label: "Google Gemini 4 Neon · Hydrogen · Carbon · Argon / 3.x"
 output_language: follow-target
 
 slots:
@@ -9,10 +9,10 @@ slots:
   optional:
     - id: model_variant
       default: "gemini-4-hydrogen"
-      note: "일상 코딩·에이전트의 공식 권장 출발점. 최난도 추론·디버깅·설계·보안 감사는 gemini-4-carbon, 토큰을 아끼는 고난도 장기 작업은 gemini-4-argon. 대량 분류·라우팅은 3.5 Flash-Lite; 명시한 3.x 버전은 유지"
+      note: "일상 코딩·에이전트의 공식 권장 출발점. 최난도 추론·디버깅·설계·보안 감사는 gemini-4-carbon, 토큰을 아끼는 고난도 장기 작업은 gemini-4-argon, 고난도 소프트웨어 엔지니어링·지식 작업은 gemini-4-neon(2026-11-18 GA). 대량 분류·라우팅은 3.5 Flash-Lite; 명시한 3.x 버전은 유지"
     - id: thinking_level
       default: "모델 기본값"
-      note: "Hydrogen은 low/medium/high(기본)/xhigh, Carbon·Argon은 low/medium(기본)/high. Gemini 4는 minimal 미지원; 3.x 모델별 지원은 런타임 카드 확인"
+      note: "Hydrogen·Neon은 low/medium/high(기본)/xhigh, Carbon·Argon은 low/medium(기본)/high. Gemini 4는 minimal 미지원; 3.x 모델별 지원은 런타임 카드 확인"
     - id: input_description
       default: "사용자 요청에서 추론"
       note: "멀티모달 입력(이미지/영상/PDF) 여부가 중요"

@@ -13,16 +13,20 @@ sources:
     fetched: "2026-09-03"
   - url: https://docs.x.ai/developers/models
     covers: [grok-4.6-runtime]
-    fetched: "2026-10-14"
-    note: "공식 모델 목록과 현재 flagship / 모델 선택 권고"
+    fetched: "2026-11-21"
+    note: "11/21 재확인: 텍스트 모델 grok-4.7(500k)·4.6·4.5·4.3·4.20 계열·grok-build-0.1 표시. 'grok-build-0.1'은 릴리스 노트에서 11/19 EOL이라 목록과 충돌(미해결, 카드 미반영). 지원 effort·기본값은 페이지에 없음. grok-voice-*·grok-imagine-* 목록은 이 가이드 범위 밖. 이전 10/14: 공식 모델 목록과 flagship 선택 권고"
+  - url: https://docs.x.ai/release-notes
+    covers: [grok-4.6-runtime, tools-and-search]
+    fetched: "2026-11-21"
+    note: "10/14 이후 항목: grok-build-0.1 EOL 2026-11-19, grok-imagine-image-quality 11/02 retire(범위 밖), grok-voice-3.0·grok-voice-2.0 deprecated(범위 밖), custom moderation guidelines 배열(날짜가 'October'로만 표기돼 정확한 날짜 미확인). 4.7 항목(9월 출시, 500k, effort low/medium/high 기본/xhigh, Fast는 공개 API 아님)과 4.6 출시(8월)는 카드와 일치. 신규 텍스트 LLM 없음"
   - url: https://docs.x.ai/developers/models/grok-4.7
     covers: [grok-4.6-runtime]
-    fetched: "2026-10-14"
-    note: "Grok 4.7 API model ID, context, reasoning levels, default, API availability"
+    fetched: "2026-11-21"
+    note: "11/21 재확인: API ID grok-4.7, 500k, reasoning low/medium/high(기본)/xhigh, 지원 기능 함수 호출·구조화 출력·reasoning. 출시일은 페이지에 없음. 후속 모델 언급 없음"
   - url: https://docs.x.ai/developers/grok-4-7
     covers: [grok-4.6-runtime]
-    fetched: "2026-10-14"
-    note: "Grok 4.7 developer guide, encrypted reasoning, Fast variant availability, migration details"
+    fetched: "2026-11-21"
+    note: "11/21 재확인: Responses에서 reasoning.encrypted_content 항상 반환, 이전 reasoning 항목을 수정 없이 다음 input에 전달, Chat Completions 불변, Fast는 Cursor·Grok Build 전용(공개 API 아님, 2x 단가, 모델 ID 미기재). 4.6 마이그레이션 노트 없음"
   - url: https://docs.x.ai/developers/model-capabilities/text/reasoning
     covers: [grok-4.6-runtime]
     fetched: "2026-10-14"
@@ -35,5 +39,6 @@ sources:
     covers: [tools-and-search]
     fetched: "2026-10-14"
     note: "Current built-in tool categories and Grok 4.7 API examples"
+# 2026-11-21 미확인(이번 세션에서 열지 않음, 기존 날짜 유지): reasoning(model-capabilities/text/reasoning), generate-text, tools/overview, grok-4-6 페이지.
 notes:
   - "xAI는 Anthropic/OpenAI 수준의 별도 프롬프팅 가이드를 발행하지 않는다. 카드는 API 문서에서 확인 가능한 사실 + 일반 원칙으로 구성하고, 문서에 없는 부분은 그렇게 표기한다."

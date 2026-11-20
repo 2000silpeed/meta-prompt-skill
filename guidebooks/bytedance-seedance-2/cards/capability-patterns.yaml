@@ -1,11 +1,11 @@
 id: capability-patterns
 model: bytedance-seedance-2
 topic: "기능별 프롬프트 패턴 — 연장·편집·비트매칭·대사·일관성"
-verification: knowledge-based
+verification: partial   # 2026-11-21 BytePlus 2.5 프롬프트 가이드의 편집·연장 규칙 대조(트리거 문구·duration·ratio). 캐릭터 일관성·비트매칭·대사 규칙은 기존 지식 기반 그대로
 rules:
   - "캐릭터 일관성: 'The man in @Image1 …'처럼 참조 이미지에 앵커링하고, 장면 전환마다 같은 참조를 유지."
-  - "영상 연장: 'Extend @Video1 by {N} seconds' + 시간 분할로 이어질 내용 서술. 생성 길이를 연장 길이에 맞출 것. 앞으로 붙이려면 'Extend backward {N}s'."
-  - "영상 편집(부분 수정): '@Video1의 {요소}를 바꾼다'를 명시하고 유지할 요소는 건드리지 않는다. 플롯 전복도 가능 ('Subvert @Video1's plot — …')."
+  - "영상 연장: 'Extend @Video1 by {N} seconds' + 시간 분할로 이어질 내용 서술. 생성 길이를 연장 길이에 맞출 것. 앞으로 붙이려면 'Extend backward {N}s'. BytePlus 2.5 가이드는 'extend forward / extend backward / continue / continue from / extend the story' 트리거를 든다. 연장 길이는 30초 시리즈 한도 안에서 사용자가 정하고, 여러 영상이 있으면 프롬프트가 대상을 지정한다. 연장 가능 횟수는 공식 문구가 엇갈린다('extend twice' 대 발표문의 다회 연장) — 확정하지 말고 실행 경로에서 확인한다."
+  - "영상 편집(부분 수정): '@Video1의 {요소}를 바꾼다'를 명시하고 유지할 요소는 건드리지 않는다. 플롯 전복도 가능 ('Subvert @Video1's plot — …'). BytePlus 2.5 가이드의 편집 트리거는 'edit video, add, insert, remove, delete, modify, replace, change to'다. API 편집 실행은 duration -1(입력 길이 따라감)과 ratio adaptive를 쓰며 출력이 입력보다 최대 약 0.3초 짧을 수 있다."
   - "음악 비트매칭: 이미지 시퀀스 + 'match the keyframe positions and overall rhythm of @Video1(또는 @Audio1) for beat-synced cuts'."
   - "대사/보이스: 캐릭터별 대사를 따옴표로, 감정·톤 지문을 괄호로. 보이스 톤 참조는 'voice references @Video1'."
   - "원테이크: 'one-take tracking shot, no cuts throughout' + 경로를 순서대로 서술."

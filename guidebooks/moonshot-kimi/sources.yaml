@@ -3,31 +3,32 @@ sources:
   - url: https://platform.kimi.ai/docs/get-your-api-key
     covers: [k3-runtime]
     fetched: "2026-10-27"
-    note: "공식 quickstart: API key 취급, K3.1 Pro/Highspeed 모델 ID, 1M 컨텍스트, API 프로토콜, 기본 호출"
+    note: "공식 quickstart: API key 취급, K3.1 Pro/Highspeed 모델 ID, 1M 컨텍스트, API 프로토콜, 기본 호출 (11/21 미재열람)"
   - url: https://platform.kimi.ai/docs/models
     covers: [k3-runtime]
-    fetched: "2026-10-27"
-    note: "공식 모델 목록 및 이전 세대 모델 상태. K3.1 Pro와 Highspeed ID 확인"
+    fetched: "2026-11-21"
+    note: "11/21 재열람: 활성 모델은 kimi-k3.1-pro(최신, 1M), kimi-k3.1-pro-highspeed, kimi-k3(1M, 'open-source'로 표기). 더 새로운 모델 없음. K3.1 웨이트 공개일은 표에 없음. kimi-k2.7-code·-highspeed·kimi-k2.6은 신규 사용자 deprecated, 2026년 12월 말 은퇴 예정(11/01 이전 등록자 유지); kimi-k2.5·moonshot-v1 계열·kimi-k2 계열 등은 deprecated"
   - url: https://platform.kimi.ai/docs/guide/kimi-k3-1-pro-quickstart
     covers: [k3-runtime, long-horizon-agent]
-    fetched: "2026-10-27"
-    note: "공식 K3.1 Pro 상세: reasoning_effort, 고속 변형, 완전한 assistant 메시지 유지, tool calls, 자동 캐시, 웨이트 공개 예정일"
+    fetched: "2026-11-21"
+    note: "11/21 재열람: K3.1 Pro/Highspeed ID, 1M, reasoning_effort low/high/max(기본 max), 항상 thinking, 완전한 assistant 메시지 유지, tool_choice required 첫 턴, 동적 도구 system 메시지, 자동 캐시(TTL 5m 기본·1h 옵션, 블록 단위). 2026-10-27 기록한 웨이트 공개 예정일(2026-11-04) 문구는 이번 본문에서 찾지 못함 — K3.1 웨이트 공개 상태·날짜는 확인 불가 (페이지에 'open-weight model' 표현은 있으나 날짜 없음)"
   - url: https://platform.kimi.ai/docs/guide/use-reasoning-effort
     covers: [k3-runtime, long-horizon-agent]
     fetched: "2026-10-27"
-    note: "공식 reasoning_effort 값·기본값과 멀티턴에서 reasoning_content/tool_calls 포함 전체 assistant 메시지 보존"
+    note: "공식 reasoning_effort 값·기본값과 멀티턴에서 reasoning_content/tool_calls 포함 전체 assistant 메시지 보존 (11/21 미재열람)"
   - url: https://platform.kimi.ai/docs/guide/engage-in-multi-turn-conversations-using-kimi-api
     covers: [long-horizon-agent]
     fetched: "2026-10-27"
-    note: "상태 비보유 API와 클라이언트 측 messages 히스토리 유지"
+    note: "상태 비보유 API와 클라이언트 측 messages 히스토리 유지 (11/21 미재열람)"
   - url: https://platform.kimi.ai/docs/guide/use-kimi-api-to-complete-tool-calls
     covers: [long-horizon-agent]
     fetched: "2026-10-27"
-    note: "도구 정의·호출·애플리케이션 실행·결과 반환 흐름과 동적 도구"
+    note: "도구 정의·호출·애플리케이션 실행·결과 반환 흐름과 동적 도구 (11/21 미재열람)"
   - url: https://platform.kimi.ai/docs/guide/kimi-k3-tool-calling-best-practice
     covers: [long-horizon-agent]
     fetched: "2026-10-27"
-    note: "큰 도구 목록의 검색 후 주입, tool_choice, reasoning effort 운용"
+    note: "큰 도구 목록의 검색 후 주입, tool_choice, reasoning effort 운용 (11/21 미재열람)"
 notes:
   - "공식 문서에서 확인된 API 사실과 일반 에이전트 운영 권고를 카드에서 구분한다."
-  - "K3.1 오픈 웨이트는 문서상 2026-11-04 공개 예정으로 표시돼 있어 2026-10-27 기준 가이드에서 배포 완료로 단정하지 않는다."
+  - "2026-11-21 재열람에서 K3.1 웨이트 공개 상태·날짜는 확인하지 못했다. 2026-10-27 열람 때의 2026-11-04 예정 문구는 재열람 본문에 없어 '배포 완료' 또는 '공개 취소'로 판단하지 않고 확인 불가로 둔다."
+  - "2026-11-21 기준 더 새로운 Kimi 모델은 공식 모델 목록에서 찾지 못했다. 신규 모델 없음."

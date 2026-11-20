@@ -1,9 +1,11 @@
 id: agentic-and-output
 model: deepseek
 topic: "DeepSeek V4.1 도구 호출·멀티턴·JSON 출력"
-verification: verified   # 2026-10-14 현재 thinking mode 문서에서 reasoning_content replay 동작 재대조
+verification: partial   # 2026-10-14 현재 thinking mode 문서에서 reasoning_content replay 동작 재대조; 2026-11-21 11/13 앱 API 공지로 내장 도구 항목 추가 (JSON·tool_choice 규칙은 재확인 안 함)
+last_verified: "2026-11-21"
 rules:
   - "도구를 쓰지 않는 일반 멀티턴에서는 이전 턴의 reasoning_content를 되돌려 보내지 않는다 — 무시된다."
+  - "2026-11-13 공지 기준 deepseek-flash는 Messages·Responses·Chat Completions에서 deepseek_web_search(thinking 끔: 검색 후 인용 답변, thinking 켬: 여러 단계 검색·읽기), deepseek_read_url(사용자 메시지의 링크를 가져와 답에 사용), 파일 입력(PDF·Office·이미지 텍스트화)을 지원한다. 공개 서비스는 안전 점검(safety check)을 켜야 한다고 공지됐으나 파라미터 이름·값은 공지에서 확인 불가이므로 가이드에서 확인 후 쓴다. (일반 권고) 웹 검색 도구를 쓰면 응답의 인용을 그대로 보존하도록 출력 계약에 적는다."
   - "요청에 tools 필드가 있으면 도구를 실제 호출하지 않은 턴까지 포함해 모든 이전 assistant reasoning_content를 후속 요청에 그대로 돌려보낸다. 빠지면 400이 난다. 하네스가 히스토리를 요약·편집한다면 이 필드를 보존한다."
   - "V4는 한 턴 안에서 추론과 도구 호출을 여러 번 반복한다. 도구 계약(목적·입력·출력·오류)과 중단 조건을 명확히 주면 이 반복이 짧아진다."
   - "Chat Completions thinking mode에서는 tool_choice=required와 특정 함수 강제 선택이 지원되지 않아 400 오류가 난다. 기본 auto를 쓰거나 thinking을 끈다."

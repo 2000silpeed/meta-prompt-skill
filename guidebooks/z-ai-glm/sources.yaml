@@ -2,18 +2,32 @@ model: z-ai-glm
 sources:
   - url: https://docs.z.ai/guides/llm/glm-5.3
     covers: [glm-5.3-availability, agentic-engineering, thinking-and-tools]
-    fetched: "2026-10-27"
-    note: "이번 반영은 구독 이력자의 OpenAI Chat Completion 호환 프로토콜 제한. 다른 카드·가격·Flash 라인업의 기존 검증일은 갱신하지 않음"
+    fetched: "2026-11-21"
+    note: "11/21 재확인: GLM-5.3 1M·128K, thinking.type=enabled만 허용, reasoning_effort 기본 max, 구독 이력자 Chat Completion 제한 유지. 신규 모델·은퇴 없음. 다른 카드 검증일은 갱신하지 않음"
   - url: https://docs.z.ai/guides/overview/pricing
     covers: [glm-5.3-availability]
-    fetched: "2026-09-03"
-    note: "표준 API 등재 모델과 가격 확인용 — GLM-5.3 GA 여부를 여기서 판단"
+    fetched: "2026-11-21"
+    note: "11/21 재확인: GLM-5.3-FlashX $0.37/$1.25, GLM-5.3-FlashX-Legal 동일 가격 등재. 페이지에 FlashX 출시일·모델 ID 없음. GLM-5.2·5.1 등 기존 모델 표기 그대로"
+  - url: https://docs.z.ai/release-notes/new-released
+    covers: [glm-5.3-availability]
+    fetched: "2026-11-21"
+    note: "GLM-5.3-Flash 2026-08-26, GLM-5.3 2026-08-18 릴리스 노트 확인. FlashX·Legal 항목 없음 (FlashX 출시일 확인 불가)"
+  - url: https://docs.z.ai/guides/vlm/glm-5.3-flash
+    covers: [glm-5.3-availability, thinking-and-tools]
+    fetched: "2026-11-21"
+    note: "11/21 재열람: FlashX 'now live'(200 tokens/s 표기), 모델 ID glm-5.3-flashx·glm-5.3-flashx-legal, 1M·128K, Coding Plan은 Flash만 지원하고 FlashX는 미지원, Chat Completion만 안내, Capabilities에 'thinking cannot be disabled', stream·tool_stream·clear_thinking 권고. 출시일 없음"
   - url: https://z.ai/blog/glm-5.3-flash
     covers: [glm-5.3-availability]
-    note: "GLM-5.3-Flash(2026-08-26, MIT 오픈웨이트) 공식 발표"
+    note: "11/21 두 차례 열었으나 본문이 비어 있어 확인 불가. Flash 발표일은 릴리스 노트(2026-08-26)로 대체 확인"
   - url: https://docs.z.ai/guides/capabilities/thinking-mode
     covers: [thinking-and-tools]
+    fetched: "2026-11-21"
+    note: "GLM-5.3·GLM-5.3-Flash는 thinking을 끌 수 없음 명시. thinking.type=disabled는 GLM-5.2·5.1·5·4.7 계열 설명. reasoning_effort는 이 페이지에 없음 (llm/glm-5.3 페이지 기준)"
   - url: https://docs.z.ai/guides/capabilities/function-calling
     covers: [thinking-and-tools]
+    fetched: "2026-11-21"
+    note: "11/21 열람: 기본 tools·tool_choice(auto만)만 있고 reasoning_content 재전송·clear_thinking·tool_stream 문구 없음 (재전송 규칙은 기존 근거 유지)"
   - url: https://docs.z.ai/guides/capabilities/struct-output
     covers: [thinking-and-tools]
+    fetched: "2026-11-21"
+    note: "11/21 열람: 구조화 출력 예시 모델은 glm-5·glm-4.7·glm-4.6 등 'etc.'로만 표기, GLM-5.3 언급 없음. thinking·temperature 문구 없음"

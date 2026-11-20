@@ -1,16 +1,33 @@
 model: alibaba-qwen
 sources:
+  - url: https://help.aliyun.com/en/model-studio/qwen4-max
+    covers: [qwen3.8-lineup-and-thinking, agentic-and-tools]
+    fetched: "2026-11-21"
+    note: "11/21 열람: qwen4-max 'Latest Model', 1M 컨텍스트, 최대 출력 131072(사고 262144), 텍스트·이미지·영상 입력, 기본 thinking·preserve_thinking true, reasoning_effort high 기본(low/high/xhigh), thinking_budget 기본 131072, OpenAI Chat·Responses·Anthropic 호환 지원. 출시일 항목은 비어 있음; 리전 목록은 여러 곳이라 출시 목록과 상충"
+  - url: https://help.aliyun.com/en/model-studio/newly-released-models
+    covers: [qwen3.8-lineup-and-thinking]
+    fetched: "2026-11-21"
+    note: "11/21 열람(앞 100000자): qwen4-max 2026-11-16 (배포 범위 중국 본토 표기), qwen4-max-preview 2026-11-11 (Token Plan 전용 미리보기), qwen3.8-max 2026-08-02, qwen3.8-max-0902 2026-09-02. 은퇴 날짜 항목 없음. 나머지 뒷부분(약 151000자)은 미열람"
+  - url: https://www.alibabacloud.com/en/notice/model_studio_update_notice_for_qwen38max_models_863?_p_lc=1
+    covers: [qwen3.8-lineup-and-thinking]
+    fetched: "2026-11-21"
+    note: "11/21 열람(앞 100000자): 2026-09-05 10:00 UTC+8부터 qwen3.8-max 엔드포인트가 qwen3.8-max-0902로 자동 전환, 가격 불변. 0902 스냅샷 alias는 qwen3.8-max-2026-09-02. 전환 이전에 0902를 지정해 테스트 가능"
+  - url: https://www.alibabacloud.com/press-room/alibaba-unveils-qwen4-max
+    covers: [qwen3.8-lineup-and-thinking]
+    fetched: "2026-11-21"
+    note: "11/21 열람: 발표일 2026-11-16(Hangzhou). QwenCloud Token Plan·API 출시. 플래그십은 오픈웨이트 아님, Qwen4 소형 오픈웨이트 공개 예정은 날짜 없음"
   - url: https://www.alibabacloud.com/help/en/model-studio/deep-thinking
     covers: [qwen3.8-lineup-and-thinking]
     fetched: "2026-09-03"
-    note: "Model Studio 공식 — enable_thinking / thinking_budget / preserve_thinking / 스트리밍 제약"
+    note: "Model Studio 공식 — enable_thinking / thinking_budget / preserve_thinking / 스트리밍 제약 (11/21에는 재열람하지 않음)"
   - url: https://docs.qwencloud.com/developer-guides/text-generation/thinking
     covers: [qwen3.8-lineup-and-thinking, agentic-and-tools]
-    fetched: "2026-09-03"
-    note: "reasoning_effort 값과 thinking_budget 범위, 도구 호출 시 reasoning_content 재전송 규칙"
+    fetched: "2026-11-21"
+    note: "11/21 재열람: qwen4-max 기본값, qwen4-max-preview와 qwen3.8-max의 동시 지정 거부 규칙(qwen4-max 미언급), 도구 호출 시 reasoning_content 재전송 규칙(omitting 시 정확도 저하). 변경 날짜는 페이지에 없음"
   - url: https://www.alibabacloud.com/help/en/model-studio/models
     covers: [qwen3.8-lineup-and-thinking]
-    note: "상용 모델 목록 — refresh 시 신규 스냅샷(예: qwen3.8-max-0902) 확인"
+    fetched: "2026-11-21"
+    note: "11/21 열람: 대표 모델 목록(qwen4-max, qwen3.7-plus, qwen3.8-flash 등)만 나열, qwen3.8-max는 표에 없음 — 부분 목록. 은퇴 목록은 없음. 전체 목록은 newly-released-models 페이지로 대체 확인"
   - url: https://github.com/QwenLM/Qwen3
     covers: [qwen3.8-lineup-and-thinking]
-    note: "오픈웨이트 모델의 /think·/no_think 등 사용 규약"
+    note: "오픈웨이트 모델의 /think·/no_think 등 사용 규약 (11/21 미확인)"

@@ -7,7 +7,7 @@ rules:
   - "무드: 'tense and suspenseful', 'warm and healing', 'epic and grand', 'documentary tone'."
   - "오디오: 'BGM: grand and majestic', 'sound effects: footsteps, crowd noise', 'beat-synced transitions'. 오디오 지시를 생략하지 말 것 — 품질 체감이 크게 달라진다."
 final_checklist:
-  - "총 파일 ≤12, 실사 얼굴 없음"
+  - "참조 수 확인: 2.0은 총 파일 ≤12, 2.5는 이미지 ≤30·영상 ≤10·오디오 ≤10(2.5 Flash는 10·5·5). 실사 얼굴 없음"
   - "모든 @자산에 구체적 역할 지정"
   - "구간별 카메라 지시 충돌 없음"
   - "프롬프트 복잡도가 선택한 생성 길이에 맞음"

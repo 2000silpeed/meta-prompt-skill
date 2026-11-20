@@ -1,13 +1,15 @@
 id: thinking-and-tools
 model: z-ai-glm
 topic: "GLM thinking, 멀티턴 추론 보존, 도구 호출"
-verification: verified   # 2026-09-03 재검증
+verification: partial   # 2026-09-03 재검증; 2026-11-21 thinking 비활성 불가·스트리밍 도구 호출 권고 추가 (함수 호출·구조화 출력 공식 페이지에는 GLM-5.3 항목 없음)
+last_verified: "2026-11-21"
 rules:
   - "GLM-5.3은 thinking이 상시 활성이다. reasoning_effort는 low / high / max이며 기본은 max다. 복잡한 코딩 작업은 max, 지연이 중요한 단순 작업은 low로 내린다."
   - "권고 샘플링은 temperature 1.0이다. 결정성이 필요하면 온도를 낮추는 대신 JSON schema로 출력을 잠근다."
   - "GLM은 도구 호출 사이에 interleaved thinking을 사용한다. 툴 결과를 받은 뒤 다음 행동을 판단할 수 있도록 도구의 목적·입력 스키마·출력 필드·오류 의미를 정확히 정의한다."
   - "Coding Plan에서는 preserved thinking이 기본이다. 표준 API에서 지원 모델을 쓸 때 clear_thinking: false로 켜며, 이전 reasoning_content를 순서와 내용 그대로 재전송한다."
-  - "단순 사실 확인·윤문은 turn-level thinking을 줄이거나 끄고, 복잡한 계획·디버깅·다중 제약 판단은 켜서 지연과 품질을 조절한다."
+  - "GLM-5.3·GLM-5.3-Flash는 thinking을 끌 수 없다(공식 thinking 페이지). GLM-5.3-FlashX도 공식 Flash/FlashX 페이지 Capabilities에서 'thinking cannot be disabled'로 같은 규칙이다.지연·비용 조절은 reasoning_effort(low/high/max)로 한다. thinking.type=disabled는 GLM-5.2·5.1·5·4.7 등 끌 수 있는 모델에만 적용한다."
+  - "Flash·FlashX 공식 페이지는 스트리밍 도구 호출에 stream: true와 tool_stream: true를 함께 쓰라고 권고하고, clear_thinking: false를 권장한다."
   - "sampling을 조정할 때 temperature와 top_p를 동시에 바꾸지 않는다. 구조화 출력은 지원되는 JSON schema 기능으로 강제하고 프롬프트에는 의미·성공 조건을 둔다."
 template: |
   # Task

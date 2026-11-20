@@ -1,18 +1,35 @@
 model: openai-gpt-5
 # refresh 시 이 URL들을 WebFetch로 재확인하고 변경된 카드만 수정한다.
+# 2026-11-21 미확인(이번 세션에서 열지 않음, 기존 날짜 유지): gpt-6.1-terra 외 기존 model 페이지(gpt-6-astra, gpt-6.1-sol, gpt-6-sol, gpt-6-luna, gpt-5.6-sol — 2026-10-12 기준), learn.chatgpt.com/docs/models, cookbook 2종, platform prompt-engineering, codex/prompting, gpt-6-cyber 페이지.
 sources:
   - url: https://developers.openai.com/api/docs/guides/latest-model
     covers: [gpt-6]
-    fetched: "2026-10-28"
-    note: "GPT-6.1 Terra 선택·effort·이전 비교와 GPT-6 툴 호환성 확인. 기존 운영 권장과 GPT-5.x 공통 카드의 전체 재검증은 포함하지 않음"
+    fetched: "2026-11-21"
+    note: "11/21 재확인: GPT-6.2 Astra·Sol 권장 구도, 새 integration medium 시작, none·minimal은 low로 이전, GPT-6.2부터 top-level instructions가 input 뒤에 붙음, developer 메시지 캐시 권고. GPT-6.1 Sol 대체 문구는 없음. 이전 10/28: GPT-6.1 Terra 선택·effort·이전 비교와 툴 호환성"
+  - url: https://developers.openai.com/api/docs/models/gpt-6.2-astra
+    covers: [gpt-6]
+    fetched: "2026-11-21"
+    note: "gpt-6.2-astra ID, 1.05M/922K 입력/128K 출력, 엔드포인트·툴 목록, effort none 거부. 출시일·지원 effort 값·기본값은 페이지에 없음"
+  - url: https://developers.openai.com/api/docs/models/gpt-6.2-sol
+    covers: [gpt-6]
+    fetched: "2026-11-21"
+    note: "gpt-6.2-sol ID, 컨텍스트·출력, 엔드포인트·툴 목록, effort none 거부. 'everyday work' 설명. 출시일·지원 effort 값·기본값·대체 관계는 페이지에 없음"
+  - url: https://developers.openai.com/api/docs/guides/reasoning
+    covers: [gpt-6]
+    fetched: "2026-11-21"
+    note: "effort 값은 모델별로 다르다는 설명, GPT-6.1 Sol none·minimal 미지원·기본 medium, GPT-6.2부터 prefix 편집 시 추론 항목 제거 규칙. 'instructions' 필드 자체의 문서는 없음"
+  - url: https://developers.openai.com/api/docs/models
+    covers: [gpt-6]
+    fetched: "2026-11-21"
+    note: "목록 확인: GPT-6.2 Astra·Sol, GPT-6.1 Terra, GPT-6 Luna 표시. gpt-6-astra·gpt-6.1-sol 항목 없음 — 은퇴·지원 중단 공지는 확인 못함. 'Deprecated models' 하위 페이지는 열지 않음"
   - url: https://developers.openai.com/api/docs/models/gpt-6.1-terra
     covers: [gpt-6]
     fetched: "2026-10-28"
     note: "시각 이해·컴퓨터 사용·글쓰기, none 포함 effort와 medium 기본값, 툴 호출은 Responses API 필수"
   - url: https://developers.openai.com/api/docs/changelog
     covers: [gpt-6]
-    fetched: "2026-11-09"
-    note: "2026-10-26 GPT-6.1 Terra 출시 확인. 11/09 재확인: 10/30 gpt-6-rosalind, 11/05 gpt-6-cyber 출시 항목만 반영; 다른 API 변경 전체를 가이드에 반영한 것은 아님"
+    fetched: "2026-11-21"
+    note: "11/21 재확인: 11/17 gpt-6.2-astra·sol 출시와 Responses 툴 필수, Responses reasoning·instructions 변경, background 창과 Flex 미지원; 11/19 gpt-live-1.1, 11/16 moderation 모델은 이 가이드 범위 밖. 이전 11/09: 11/05 gpt-6-cyber, 10/30 gpt-6-rosalind 반영"
   - url: https://developers.openai.com/api/docs/models/gpt-6-cyber
     covers: [gpt-6]
     fetched: "2026-11-09"

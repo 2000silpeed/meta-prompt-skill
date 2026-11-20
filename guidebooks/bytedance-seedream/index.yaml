@@ -1,5 +1,5 @@
 model: bytedance-seedream
-label: "ByteDance Seedream 5.0 Pro / Flash"
+label: "ByteDance Seedream 5.5 / 5.0 Pro / Flash"
 output_language: follow-target
 slots:
   required:
@@ -8,7 +8,7 @@ slots:
   optional:
     - id: model_variant
       default: "명시 버전 우선; 미지정이면 실제 경로에서 지원하는 Pro/Flash 후보 안내"
-      note: "Pro/Flash와 5.0 Lite·4.5·4.0은 기능이 다르다. 명시된 구버전을 최신 모델로 바꾸지 않는다."
+      note: "Pro/Flash와 5.0 Lite·4.5·4.0은 기능이 다르다. Seedream 5.5(2026-11-09 공식 발표)는 5.0 Pro/Flash와 별개 버전이며 공식 API ID는 dola-seedream-5-5-261028(BytePlus 튜토리얼)이며, Pro 버전은 후속 예정이다. 명시된 구버전을 최신 모델로 바꾸지 않는다."
     - id: execution_route
       default: "사용자가 지정한 플랫폼 우선; 미지정이면 프롬프트만 작성"
     - id: references

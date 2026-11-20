@@ -52,10 +52,10 @@ Claude Code, Gemini CLI 또는 Codex에서 자연어로 부르면 자동 발동�
 ```
 시댄스로 카페 신제품 광고 영상 프롬프트 만들어줘
 나노바나나2.1로 종이 공예 스타일 고양이 이미지 프롬프트 뽑아줘
-이 요청을 GPT-6.1 Sol용 프롬프트로 최적화해줘
+이 요청을 GPT-6.2 Sol용 프롬프트로 최적화해줘
 Claude Opus 5.5로 장시간 리팩터링을 맡길 프롬프트 만들어줘
 Gemini 4 Carbon으로 긴 코드 맥락의 버그를 수정할 프롬프트 만들어줘
-Qwen3.8-Max로 이 저장소의 버그를 수정하고 검증할 프롬프트를 만들어줘
+Qwen4-Max로 이 저장소의 버그를 수정하고 검증할 프롬프트를 만들어줘
 Kimi K3.1 Pro로 도구 호출을 이어가는 코딩 에이전트 프롬프트를 만들어줘
 ```
 
@@ -126,21 +126,21 @@ $meta-prompt를 적용해서 이 요청을 Codex용으로 최적화한 뒤 구�
 
 | ID | 커버리지 | 유형 |
 |---|---|---|
-| `openai-gpt-5` | GPT-6 Astra · GPT-6.1 Sol · GPT-6.1 Terra · GPT-6 Luna / GPT-5.x | 텍스트 LLM |
-| `openai-codex` | Codex CLI/IDE (태스크 프롬프트·AGENTS.md; GPT-6.1 Sol 권장; Terra는 시각 이해·글쓰기·화면 조작, CLI 0.159.0+) | 코딩 에이전트 |
+| `openai-gpt-5` | GPT-6.2 Astra · GPT-6.2 Sol · GPT-6.1 Sol · GPT-6.1 Terra · GPT-6 Luna / GPT-5.x | 텍스트 LLM |
+| `openai-codex` | Codex CLI/IDE (태스크 프롬프트·AGENTS.md; GPT-6.2 Sol 권장, 여러 패키지 변경은 6.2 Astra; Terra는 시각 이해·글쓰기·화면 조작, CLI 0.159.0+) | 코딩 에이전트 |
 | `anthropic-claude` | Claude Opus 5.5 / Sonnet 5.5 / Haiku 5.5 / Fable 5.2 (5.1 유지) | 텍스트 LLM |
-| `z-ai-glm` | GLM-5.3 / GLM-5.3-Flash (MIT 오픈웨이트) | 텍스트 LLM / 코딩 에이전트 |
-| `google-gemini` | Gemini 4 Hydrogen / 4 Carbon / 4 Argon / 3.8 Flash / 3.5 Flash-Lite | 텍스트 LLM |
-| `alibaba-qwen` | Qwen3.8-Max / Flash / 오픈웨이트 | 텍스트 LLM |
+| `z-ai-glm` | GLM-5.3 / GLM-5.3-Flash (MIT 오픈웨이트) / GLM-5.3-FlashX | 텍스트 LLM / 코딩 에이전트 |
+| `google-gemini` | Gemini 4 Neon / 4 Hydrogen / 4 Carbon / 4 Argon / 3.8 Flash / 3.5 Flash-Lite | 텍스트 LLM |
+| `alibaba-qwen` | Qwen4-Max / Qwen3.8-Max / Flash / 오픈웨이트 | 텍스트 LLM |
 | `xai-grok` | Grok 4.7 / 기존 4.6·4.20 계열 | 텍스트 LLM |
-| `deepseek` | DeepSeek V4.1-Flash (`deepseek-flash`; 이전 V4 ID는 호환 경로) | 텍스트 LLM |
+| `deepseek` | DeepSeek V4.1-Flash (`deepseek-flash`, 1017 스냅샷·웹 검색 도구; 이전 V4 ID는 호환 경로) | 텍스트 LLM |
 | `moonshot-kimi` | Kimi K3.1 Pro / Highspeed (이전 별칭 유지, 설정은 버전별 확인) | 텍스트 LLM |
 | `google-nano-banana` | 나노바나나2.1 / Pro / Lite / 이전 2 | 이미지 생성 |
 | `openai-gpt-image` | GPT Image 2.6 Flare·Sunburst (SVG·GIF·markup 편집) / 2.5 / 2 / imagegen 경로 | 이미지 생성·편집 |
-| `black-forest-flux` | FLUX 3 Image / FLUX.2 pro·max (버전별 작성법·참조·설정) | 이미지 생성·편집 |
-| `ideogram` | Ideogram 4.0 / 4.5 (문구·Magic Prompt·JSON·편집 경로) | 이미지 생성·편집 |
-| `bytedance-seedream` | Seedream 5.0 Pro / Flash (참조·영역 편집·출력 제약) | 이미지 생성·편집 |
-| `bytedance-seedance-2` | Seedance 2.5 (30초 원테이크 + 네이티브 오디오) / 2.0 | 영상 생성 |
+| `black-forest-flux` | FLUX 3 Image / 3 Image Klein (오픈웨이트) / FLUX.2 pro·max (버전별 작성법·참조·설정) | 이미지 생성·편집 |
+| `ideogram` | Ideogram 4.0 / 4.5 / 4.6 (문구·Magic Prompt·JSON·편집 경로) | 이미지 생성·편집 |
+| `bytedance-seedream` | Seedream 5.5 (RGBA·레이어 분해) / 5.0 Pro / Flash (참조·영역 편집·출력 제약) | 이미지 생성·편집 |
+| `bytedance-seedance-2` | Seedance 2.5 (30초 원테이크 + 네이티브 오디오) / 2.5 Flash / 2.0 | 영상 생성 |
 | `higgsfield` | Higgsfield 플랫폼 (최신 이미지·영상 모델 선택, 편집 경로) | 미디어 플랫폼 |
 
 한국어 별칭과 흔한 오타도 인식합니다 (예: "시댄스", "나노바나나2", `GML-5.3` → `GLM-5.3`).

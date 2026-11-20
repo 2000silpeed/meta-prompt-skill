@@ -1,10 +1,11 @@
 id: v4-thinking-and-params
 model: deepseek
 topic: "DeepSeek V4.1-Flash 모델 ID와 thinking/non-thinking 전환"
-verification: verified   # 2026-10-14 공식 V4.1 공지·Models & Pricing·thinking mode 대조; Pro 라우팅 자료 상충은 명시
+verification: partial   # 2026-10-14 공식 V4.1 공지·Models & Pricing·thinking mode 대조; 2026-11-21 가격 표(버전 문자열)·1017 공지·레거시 라우팅 재확인, Pro 라우팅 자료 상충은 명시
+last_verified: "2026-11-21"
 rules:
-  - "현재 권장 Flash API ID는 deepseek-flash이며 모델 버전은 DeepSeek-V4.1-Flash다. 공식 Models & Pricing는 1M context, 최대 출력 384K, thinking/non-thinking, tool calls, Responses·Anthropic API, vision 입력을 표시한다."
-  - "V4-Flash와 V4-Flash-Vision-Exp는 2026-09-10 은퇴 공지됐고 deepseek-v4-flash / deepseek-v4-flash-vision-exp는 호환을 위해 임시로 V4.1-Flash로 라우팅된다. 새 호출에는 deepseek-flash를 쓴다."
+  - "현재 권장 Flash API ID는 deepseek-flash이며 가격 표 버전 문자열은 DeepSeek-V4.1-Flash-1017이다(2026-10-17 업데이트, ID는 그대로; 발표는 Harness v0.2.1-rc.1 이상 권장). 공식 Models & Pricing은 1M context, 최대 출력 384K, thinking/non-thinking(기본), vision 입력을 표시한다."
+  - "V4-Flash와 V4-Flash-Vision-Exp는 은퇴했고, deepseek-v4-flash / deepseek-v4-flash-vision-exp 이름은 호환을 위해 허용되지만 요청은 V4.1-Flash-1017로 가고 Flash 가격으로 과금된다(가격 표 각주, 종료일 없음). 새 호출에는 deepseek-flash를 쓴다."
   - "Pro ID에는 공식 문서 사이의 현재 불일치가 있다: 2026-09-10 공지는 9/14부터 deepseek-v4-pro 요청을 V4.1-Flash 가격으로 V4.1-Flash에 라우팅한다고 하지만, 현재 Models & Pricing 표는 같은 ID를 DeepSeek-V4-Pro-0813(별도 가격·vision 미지원)으로 기재한다. Pro가 꼭 필요하면 실행 시 /models 응답과 계정 콘솔로 확인하고 이름만으로 tier를 단정하지 않는다."
   - "레거시 ID deepseek-chat / deepseek-reasoner는 2026-07-24에 은퇴했으므로 새 코드에 쓰지 않는다."
   - "V4 계열은 reasoner 전용 모델이 없는 이중 모드 구조다 — thinking 여부·깊이는 요청 파라미터로 고른다. thinking은 기본 활성, 기본 effort는 high다."

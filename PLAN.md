@@ -160,3 +160,33 @@ Gemini·Claude·Codex의 신모델을 공식 문서로 확인했다.
 검증 범위: Gemini는 런타임·파라미터 카드만 대조했고 구조·구조화 출력·롱 컨텍스트 카드는 이전 검증을
 유지한다. Carbon의 프롬프팅 지침은 외부 개발자 가이드에만 있어 확인하지 못했다. Codex 체인지로그의
 10/14~10/26 구간은 읽지 못했다. Gemini 4 대상 `/meta-prompt eval`은 실행하지 않았다.
+
+## 2026-11-21 모델 갱신
+
+11/16(Gemini) 브랜치를 main에 합친 뒤, 등록된 16개 가이드북 전체에서 마지막 확인 이후의 신모델을 공식 문서로 확인했다.
+조사는 제공사별 서브에이전트가 했고, GPT-6.2(11/17)·Gemini 4 Neon(11/18)·Seedream 5.5(11/09)의 ID와 날짜, Qwen4-Max·GLM-5.3-FlashX·FLUX 3 Image Klein·
+Ideogram 4.6의 존재는 공식 원문에서 다시 확인했다. 나머지 날짜·세부는 서브에이전트가 연 근거(`sources.yaml`)에 따른다.
+
+- **GPT-6**: GPT-6.2 Astra·Sol(`gpt-6.2-astra`/`gpt-6.2-sol`, 2026-11-17) 반영. 툴 호출은 Responses 필수, `reasoning.effort: none` 거부,
+  top-level `instructions`가 `input` 뒤에 붙는 변경, prefix 편집 시 추론 항목 제거, Flex 미지원. 버전 없는 GPT/Sol/Astra는
+  6.2로 해석하도록 `model_variant` 기본값을 `gpt-6.2-sol`로 옮겼다. 6.2의 effort 지원 값 목록은 문서에 없어 미확인.
+- **Codex**: 권장 모델에 GPT-6.2 Sol(기본)·Astra(여러 패키지 변경) 추가. CLI 최소 버전은 미확인.
+- **Gemini**: 4 Neon(`gemini-4-neon`, 2026-11-18 GA) 추가 — thinking low~xhigh(기본 high), explicit caching 미지원. 샘플링 처리는 미확인.
+- **Qwen**: Qwen4-Max(`qwen4-max`, 2026-11-16) 추가, 기본 모델을 qwen4-max·reasoning_effort high로 옮겼다. qwen3.8-max는
+  09/05부터 0902 스냅샷으로 전환. 리전 범위는 문서끼리 상충.
+- **GLM**: GLM-5.3-FlashX·FlashX-Legal 추가(출시일 미기재). 5.3 계열은 thinking을 끌 수 없다는 점을 카드에 반영.
+- **DeepSeek**: deepseek-flash의 V4.1-Flash-1017 스냅샷(10/17)과 11/13 웹 검색·URL 읽기 도구 반영. 신규 ID 없음.
+- **Kimi**: 신모델 없음. K2.x 은퇴 일정과 캐시 TTL 옵션 추가, K3.1 웨이트 공개 상태는 확인 불가로 정정.
+- **FLUX**: FLUX 3 Image Klein(10/15, 5.6B 오픈웨이트) 추가, 10/22 크기 옵션(width/height·match_input)과 바운딩 박스 형식 보강.
+  Klein 요청 형식은 릴리스 노트와 API 레퍼런스가 달라 레퍼런스를 우선하고 실행 전 확인하도록 했다.
+- **Ideogram**: 4.6(`ideogram-4-6`) generate·precise-edit 엔드포인트 추가 — size `auto_2k`/`auto_4k`, 정확한 크기 4096×4096 이하,
+  precise-edit quality 4단계와 출력 상한 16.8MP. 출시일과 공식 공지는 찾지 못해 확인 불가로 남겼다.
+- **Seedream**: 5.5(`dola-seedream-5-5-261028`, 11/09) 추가 — RGBA 출력, 최대 99 레이어 분해, 다회 편집 일관성. 5.5 Pro는 미출시.
+- **Seedance**: 2.5 Flash 추가(Higgsfield 공지·카탈로그 기준, 공급자 ID·출시일 확인 불가)와 BytePlus 2.5 가이드의 참조 상한·편집·연장 규칙.
+- **Higgsfield**: 카탈로그 목록 조회(읽기 전용)와 changelog로 Seedance 2.5 Flash, Kling Image 4.0, Intone, Cinema Studio 4.0,
+  Genjutsu Lite 등 추가. 카탈로그에 없는 Sora 2는 라인업에서 뺐다(단종 여부 미확인).
+- **변경 없음**: Claude(Fable 5.2 이후 신규 없음), GPT Image(2.6 그대로), Grok(4.7 그대로), 나노바나나(신규 없음).
+
+검증 범위: 위 항목과 관련 카드만 대조했고, registry의 `last_verified`는 전체 카드를 재확인한 가이드북이 없어 유지했다.
+각 가이드북의 확인 불가 소스는 `sources.yaml`에 적었다. 가이드북 범위 밖 신모델(GPT-Live, Genie 4, FLUX 3 Video,
+Recraft V4.1 등)은 등록하지 않았다. 생성 품질 A/B와 신모델 대상 `/meta-prompt eval`은 실행하지 않았다.

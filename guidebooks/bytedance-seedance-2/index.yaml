@@ -1,5 +1,5 @@
 model: bytedance-seedance-2
-label: "Seedance 2.x (2.5 / 2.0)"
+label: "Seedance 2.x (2.5 / 2.5 Flash / 2.0)"
 output_language: english-prompt   # 프롬프트는 영어, 해설은 한국어
 
 slots:
@@ -12,7 +12,7 @@ slots:
       note: "보유한 참조 이미지/영상/오디오(2.5는 클레이 렌더·모션·조명 참조 포함) — @ 시스템 설계에 필수"
     - id: model_generation
       default: "2.5"
-      note: "2.5 = 30초 원테이크 + 네이티브 오디오 + 참조 50개. 2.0 = 4~15초, 참조 12개"
+      note: "2.5 = 30초 원테이크 + 네이티브 오디오 + 참조 최대 50개(이미지 30·영상 10·오디오 10). 2.5 Flash = 480p/720p, 참조 10·5·5(BytePlus 공식 가이드). 2.0 = 4~15초, 참조 12개"
     - id: duration
       default: "10초"
       note: "2.5는 최대 30초(연장 가능), 2.0은 4~15초. 10초 이상이면 시간 분할 프롬프트 적용"

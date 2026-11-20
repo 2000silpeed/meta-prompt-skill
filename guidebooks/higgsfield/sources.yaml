@@ -2,26 +2,35 @@ model: higgsfield
 sources:
   - url: https://higgsfield.ai
     covers: [model-routing, image-video-prompt]
-    note: "공식 문서 — refresh 시 모델 라인업·워크플로우 카탈로그 변경 확인"
+    fetched: "2026-11-21"
+    note: "11/21 홈페이지 열람: Seedance 2.5 4K, Cinema Studio 4.0, Genjutsu, Intone 등 라인업과 'GPT-6.2 Astra LIVE on Higgsfield' 표기. 날짜가 있는 공지는 없고 Black Friday 할인만 표시. 모델별 날짜는 changelog 참조. image-video-prompt 카드 검토는 이번 refresh에서 하지 않음"
   - url: https://higgsfield.ai/creator-hub/changelog
     covers: [model-routing]
-    fetched: "2026-11-09"
-    note: "11/09: GPT Image 2.6(11/05), Gemini Omni Flash 1.2(11/05), Kling 4.0 Flash(11/04), Kling 4.0(10월) 공지만 대조 — 페이지 앞부분만 읽었고 뒤쪽 과거 항목은 미확인. 10/14 대조: GPT Image 2.5, Seedream 5.0 Flash, Wan 3.0/Prime, Grok Imagine Video 1.5, FLUX 3 Image, Genjutsu Restyle, Seedance 2.5 Draft Mode 등"
+    fetched: "2026-11-21"
+    note: "11/21: 0~200k자 읽음(200k~241k자 미확인). 일자 표시 공지 — Seedance 2.5 Flash(11/12), Seedream 5.5(11/09), Kling Image 4.0(11/17), Intone(10/30), Cinema Studio 4.0(08/12), FLUX 3 Video Upscaler(08/28·10/15), Grok Imagine Video 1.5(10/01), Kimi K3.1 Pro(10월). 월 단위만 표시된 11월 항목(Seedance 2.5 4K 업데이트, Gemini 4 Neon·Carbon, GPT-6.2 Astra/Sol, Claude Fable 5.2, Inkling 2 Small, Gemini Omni Flash 1.2 등) — 정확한 일자는 미확인이며 뒤쪽 100k자 이후는 미확인. 11/09 이전 항목(11/09 대조 포함): GPT Image 2.6(11/05), Gemini Omni Flash 1.2(11/05), Kling 4.0 Flash(11/04), Kling 4.0(10월). 10/14 대조: GPT Image 2.5, Seedream 5.0 Flash, Wan 3.0/Prime, Grok Imagine Video 1.5, FLUX 3 Image, Genjutsu Restyle, Seedance 2.5 Draft Mode 등"
+  - url: https://ai.byteplus.com/ark/region:ap-southeast-1/docs/seedance-2-5-prompt-guide
+    covers: [model-routing]
+    fetched: "2026-11-21"
+    note: "Seedance 2.5 Flash 참조 상한(10/5/5) 대조 — 공급자 문서이며 Higgsfield 플랫폼 옵션과 별개"
+  - url: local:mcp-models_explore-catalog
+    covers: [model-routing]
+    fetched: "2026-11-21"
+    note: "Higgsfield 연결 MCP models_explore list 읽기 전용 2페이지 전체(has_more false까지): 신규 영상·이미지 항목과 파라미터 확인. generate/execute/upload 호출 없음. 개별 get 호출은 하지 않음 — 파라미터는 list 응답 기준"
   - url: https://open.higgsfield.ai/models/xai/grok-imagine-video/v1.5/reference-to-video/api-reference
     covers: [model-routing]
-    fetched: "2026-10-14"
-    note: "Grok Imagine Video 1.5 공식 API 모델 정보와 참조 영상 변형 확인; 현 MCP는 Grok Video 1.5 표시명으로 검색됨"
+    fetched: "2026-11-21"
+    note: "11/21 재열람: 1~15초(기본 5), 480p(기본)/720p/1080p, 참조 이미지 배열과 첫 프레임, 참조 오디오(audio_url), 참조 영상 입력 없음. 사운드 출력은 페이지에 명시 없음. 10/14 최초 열람"
   - url: https://open.higgsfield.ai/models/higgsfield/genjutsu/restyle/v1.0/api-reference
     covers: [model-routing]
-    fetched: "2026-10-14"
-    note: "Genjutsu Restyle 공식 API 경로: 프리셋 기반 영상 재스타일, 동작·구도·원본 오디오 유지"
+    fetched: "2026-11-21"
+    note: "11/21 재열람: video_url·preset_id 필수, 캐릭터 이미지 0~5장, 원본 4초 이상·200MiB, 30초 초과 잘림, 480p/720p(기본)/1080p, 원본 움직임·구도·오디오 유지. 10/14 최초 열람"
   - url: https://open.higgsfield.ai/models/alibaba/wan-3.0/text-to-video/api-reference
     covers: [model-routing]
-    fetched: "2026-10-14"
-    note: "Wan 3.0 공식 Higgsfield API 모델 정보"
+    fetched: "2026-11-21"
+    note: "11/21 재열람: 2~30초(기본 5), 480p/720p/1080p(기본 1080p), 사운드 기본 켜짐. Prime 차이는 페이지에 없음. 10/14 최초 열람"
   - url: local:/Users/sungwoon/ai-projects/higgsfield_ai_filmmaking_skillset/03-prompt-assembly/SKILL.md
     covers: [six-decisions]
-    note: "로컬 필름메이킹 스킬셋 — Six Decisions 프레임 원본"
+    note: "로컬 필름메이킹 스킬셋 — Six Decisions 프레임 원본. 11/21 확인 불가: 경로가 존재하지 않아 읽지 못함(이 refresh에서 six-decisions 카드는 수정하지 않음)"
   - url: local:claude.ai-higgsfield-mcp-instructions
     covers: [model-routing]
     fetched: "2026-11-09"

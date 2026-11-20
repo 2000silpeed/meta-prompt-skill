@@ -28,3 +28,47 @@ sources:
     covers: [editing-runtime]
     fetched: "2026-10-27"
     note: "v1-to-v2 route and request-field differences; current API overview."
+  - url: https://developer.ideogram.ai/ideogram-api/api-overview
+    covers: [editing-runtime]
+    fetched: "2026-11-21"
+    note: "재확인: 이 페이지에는 changelog 항목이 없다(11-21 기준). 4.6 레퍼런스 페이지는 이 개요에 나오지 않음. 10/27 이후 변경 확인 불가. 현재 경로 목록은 ideogram-4-5(generate·precise-edit·remix), ideogram-4(generate·remix·describe), ideogram-3, ideogram-1, auto(upscale). v1은 계속 동작한다는 안내. 생명주기 페이지 URL은 시도했으나 404였다(확인 불가)."
+  - url: https://developer.ideogram.ai/api-reference/images/generate/ideogram-4-5
+    covers: [prompting, editing-runtime]
+    fetched: "2026-11-21"
+    note: "재확인: images 최대 5장(첫 장 편집 대상), mask 조건, magic_prompt auto(기본)/on/off, size auto·source·WIDTHxHEIGHT, background, quality, 구조화 JSON 입력 가능. 4.5 generate 근거는 이 페이지."
+  - url: https://developer.ideogram.ai/api-reference/images/precise-edit/ideogram-4-5
+    covers: [editing-runtime]
+    fetched: "2026-11-21"
+    note: "재확인: POST /v2/image/precise-edit/ideogram-4-5, image·prompt 필수, reference_images 최대 4(mask 사용 시 3), context_window, quality는 very_low/high만 기재(generate의 medium은 이 페이지에 없음). magic_prompt·resolution·rendering_speed 없음. 입력 50MB·67,108,864px. 전체 편집 출력은 4,194,304px 면적 상한."
+  - url: https://ideogram.ai/news/ideogram-4.0/
+    covers: [editing-runtime]
+    fetched: "확인 불가 (2026-11-21)"
+    note: "검색 결과 제목만 확인하고 열지 않았다. 4.5 출시일 2026-09-30과 open-weight 라이선스 설명은 제3자 기사(digg, mcpservers, gradually 등) 기준이며 공식 근거로 쓰지 않았다. 4.0 후속 업데이트(편집 가능한 텍스트·이동 가능한 레이어)는 출시 확인 못 함. 가격 등급도 제3자 자료만 있어 기재하지 않았다."
+  - url: https://developer.ideogram.ai/api-reference/images/generate/ideogram-4-6
+    covers: [prompting, editing-runtime]
+    fetched: "2026-11-21"
+    note: "Ideogram 4.6 generate 레퍼런스. POST https://api.ideogram.ai/v2/image/generate/ideogram-4-6, 모델 ID ideogram-4-6. magic_prompt auto(기본)/on/off, images 최대 5장(첫 장 편집 대상), mask 시 다른 source 최대 3장, size auto·auto_2k·auto_4k·source·WxH, quality 기본 medium(very_low 외 값은 페이지에 없음), background 기본값은 페이지에 없음. 출시일·changelog 링크 없음. 4.5와의 차이 설명 없음."
+  - url: https://developer.ideogram.ai/api-reference/images/precise-edit/ideogram-4-6
+    covers: [editing-runtime]
+    fetched: "2026-11-21"
+    note: "Ideogram 4.6 precise-edit 레퍼런스. POST https://api.ideogram.ai/v2/image/precise-edit/ideogram-4-6, 모델 ID ideogram-4-6. reference_images 최대 4(mask 시 3), context_window none/auto(기본)/y_min,x_min,y_max,x_max, quality very_low/low/medium/high(기본값 페이지에 없음). 출력 상한 16,777,216px(very_low는 4,194,304px). 출시일·changelog 없음. 4.5 차이 설명 없음."
+  - url: https://developer.ideogram.ai/api-reference
+    covers: [editing-runtime]
+    fetched: "2026-11-21"
+    note: "API 레퍼런스 메인 페이지는 비디오 모델 표(Seedance 2.5, Seedance 2.0, Kling 4.0, Kling v3 Standard, MiniMax H3)만 보였고 4.6 항목·changelog는 없었다. 사이드바는 도구에서 읽히지 않았다. 사용자가 제공한 사이드바 항목(4.6 generate·precise-edit)은 두 레퍼런스 페이지를 직접 열어 확인했다."
+  - url: https://developer.ideogram.ai/llms.txt
+    covers: [editing-runtime]
+    fetched: "2026-11-21"
+    note: "문서 인덱스에 changelog·release notes·model lifecycle 항목이 없었다. v2·v1 llms.txt 링크와 MCP 서버 URL만 확인."
+  - url: https://ideogram.ai/news
+    covers: [editing-runtime]
+    fetched: "확인 불가 (2026-11-21, HTTP 403)"
+    note: "공식 뉴스 페이지가 403으로 열리지 않아 4.6 출시 공지를 확인하지 못했다. 4.6 출시일은 확인 불가."
+  - url: https://developer.ideogram.ai/api-reference/images/generate/ideogram-4-5
+    covers: [prompting, editing-runtime]
+    fetched: "2026-11-21"
+    note: "4.5 레퍼런스 페이지 사이드바·본문에 4.6 항목이나 changelog 링크 없음(11-21 확인)."
+  - url: "확인 불가 (2026-11-21 웹 검색)"
+    covers: [editing-runtime]
+    fetched: "확인 불가 (2026-11-21)"
+    note: "'Ideogram 4.6 release announcement' 검색 결과는 4.0(6/3)·4.5(9/30) 기사뿐이고 4.6 발표를 찾지 못했다. 제3자 자료는 공식 근거로 쓰지 않았다. Higgsfield 카탈로그의 4.6 항목은 이 세션에서 열지 않았다(Higgsfield 카드는 이 범위 밖)."

@@ -15,3 +15,23 @@ sources:
     covers: [grounding-and-specs]
     fetched: "2026-10-14"
     note: "2026-10-06 Nano Banana 2.1 GA 및 gemini-3.1-flash-image deprecated/마이그레이션 공지"
+  - url: https://aistudio.google.com/docs/changelog
+    covers: [grounding-and-specs]
+    fetched: "2026-11-21"
+    note: "ai.google.dev/gemini-api/docs/changelog의 301 이동처. 10/14 이후 이미지 모델 항목 없음(10/26~11/19 항목은 영상 Gemini Omni 1.2 Flash 11/05, 텍스트·분류 모델들). Imagen 종료 공지는 2026-06이며 이 가이드북 범위 밖. 10/06 Nano Banana 2.1 공지는 이전 기록과 동일."
+  - url: https://aistudio.google.com/docs/image-generation
+    covers: [prompt-structure, editing-and-references, text-rendering, grounding-and-specs]
+    fetched: "2026-11-21"
+    note: "ai.google.dev/gemini-api/docs/image-generation의 이동 URL로 확인. 모델 ID 5종, 1K/2K/4K 해상도, 0.5K는 3.1 Flash Image에만, 파노라마 비율, 참조 한도(2.1/3.1 Flash 오브젝트 10·캐릭터 4, Pro 6·5·스타일 3), thinking 기본값, 검색 grounding 범위 확인. 텍스트 렌더링·참조 한도 표·스타일/제품/편집 프롬프트 예시는 0~200,000자 구간에서 확인했고 10/14 이후 날짜 공지는 없었다. 200,000자 이후(전체 241,078자)는 읽지 않아 확인 불가. Lite 참조 개수 14는 이 페이지에서 확인하지 못했다(Lite는 다중 참조 비최적화만 기재)."
+  - url: https://aistudio.google.com/docs/models/gemini-nano-banana-2.1
+    covers: [grounding-and-specs]
+    fetched: "2026-11-21"
+    note: "모델 ID gemini-nano-banana-2.1 (Stable), 최신 업데이트 2026-10. 1K 기본, 0.5K 미기재, thinking minimal/medium(기본)/high, 참조 총 14개(캐릭터 4·오브젝트 10). 종료 공지 없음."
+  - url: https://aistudio.google.com/docs/models/gemini-3.1-flash-lite-image
+    covers: [grounding-and-specs]
+    fetched: "2026-11-21"
+    note: "Lite 모델 ID gemini-3.1-flash-lite-image, 최신 업데이트 2026-06. 1K만 최적화, 2K/4K 미지원, thinking minimal/high, 참조 개수 한도 미기재. 3.1 Flash Image 종료 공지 없음."
+  - url: https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/gemini/3-1-flash-lite-image
+    covers: [grounding-and-specs]
+    fetched: "확인 불가 (2026-11-21 검색 결과만)"
+    note: "검색 결과에서 Lite GA 2026-06-30 날짜를 확인했으나 페이지 본문은 열지 않았다. 출시일 근거는 기존 Lite 항목(2026-06)과 동일."

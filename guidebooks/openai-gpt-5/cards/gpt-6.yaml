@@ -1,15 +1,20 @@
 id: gpt-6
 model: openai-gpt-5
-topic: "GPT-6 Astra / GPT-6.1 Sol / GPT-6.1 Terra / Luna — 선택과 프롬프트 적용"
-verification: partial   # 10/28 Terra와 계열 호환성 확인; 11/09 gpt-6-cyber·gpt-6-rosalind 접근 제한 규칙만 추가 확인; 기존 프롬프트 운영 권장은 이전 검증 유지
-last_verified: "2026-10-28"
+topic: "GPT-6.2 Astra / Sol · GPT-6.1 Sol / Terra · GPT-6 Luna — 선택과 프롬프트 적용"
+verification: partial   # 11/21 GPT-6.2 Astra·Sol 신규: 모델 페이지 2종·changelog(11/17)·reasoning·latest-model 가이드 대조. GPT-6.1 Terra·Luna·Chat Completions 세부와 기존 운영 권장은 이번에 재확인하지 않아 이전 검증 유지 (10/28 Terra, 11/09 Cyber·Rosalind)
+last_verified: "2026-11-21"
 rules:
-  - "최고 역량은 gpt-6-astra, 복잡한 코딩·에이전트 작업의 비용 균형은 gpt-6.1-sol, 시각 이해·정밀한 화면 조작·자연스러운 글쓰기는 gpt-6.1-terra, 반복·대량 작업은 gpt-6-luna를 검토한다. 사용자 지정 gpt-6-sol·gpt-5.6-terra 등 구버전은 유지한다."
-  - "Astra·GPT-6.1 Sol의 API reasoning.effort는 low/medium/high/xhigh/max이며 none·minimal은 지원하지 않는다. GPT-6.1 Terra·기존 GPT-6 Sol·Luna는 none도 지원한다. Sol 계열·GPT-6.1 Terra·Luna의 기본은 medium이다. 프롬프트 문구만으로 실제 설정이 바뀌었다고 보고하지 않는다."
-  - "Astra·GPT-6.1 Sol·GPT-6.1 Terra의 툴 호출은 Responses API가 필요하며 Chat Completions에서는 툴을 사용할 수 없다. 기존 GPT-6 Sol·Luna의 Chat Completions 함수 호출은 reasoning_effort=none일 때만 지원한다."
+  - "최고 역량은 gpt-6.2-astra, 일상 업무·코딩·에이전트 균형은 gpt-6.2-sol, 시각 이해·정밀한 화면 조작·자연스러운 글쓰기는 gpt-6.1-terra, 반복·대량 작업은 gpt-6-luna를 검토한다. 사용자 지정 gpt-6-astra·gpt-6.1-sol·gpt-6-sol·gpt-5.6-terra 등 구버전은 유지한다."
+  - "GPT-6.2 Astra(gpt-6.2-astra)와 GPT-6.2 Sol(gpt-6.2-sol)은 2026-11-17 Responses API 공지에 등장한 신규 모델이다. 컨텍스트 1,050,000 토큰(입력 최대 922,000), 최대 출력 128,000 토큰. Chat Completions·Responses·Batch를 지원하지만 Realtime·Assistants·파인튜닝·이미지·음성 엔드포인트는 지원되지 않는다. 툴 호출은 Responses API가 필요하며 웹·파일 검색, 코드 인터프리터, 컴퓨터 사용, MCP, 툴 검색 등을 쓴다. 최신 구조의 근거는 모델 페이지와 changelog다."
+  - "GPT-6.2 Astra·Sol은 reasoning.effort로 none을 보내면 거부된다. 지원 effort 값 목록과 기본값은 두 모델 페이지에 없어 확인하지 못했다. latest-model 가이드는 새 integration을 medium으로 시작하고, none·minimal을 쓰던 호출은 low로 바꾸라고 한다. 6.1 Sol 기준 목록을 그대로 옮기지 말고 문서에 명시된 값만 쓴다. 'minimal'의 6.2 지원 여부도 문서에 없다."
+  - "GPT-6.2부터 Responses API의 top-level instructions는 input 뒤에 붙는다(latest-model 가이드). 재사용되는 고정 지시는 input 첫 항목의 developer 메시지에 두어야 프롬프트 캐시 대상이 되고, instructions는 이번 요청에만 적용되는 개발자 지침에 쓴다."
+  - "GPT-6.2 이후에는 추론 항목 앞의 대화 기록(prefix)을 삽입하거나 수정하면 그 추론 항목이 제거될 수 있다(reasoning 가이드). 뒤에 항목을 덧붙이거나 항목 전체를 지우는 것만으로는 이 제거가 일어나지 않는다고 문서에 나온다. 과거 턴을 고치는 방식의 멀티턴 프롬프트 구조를 피한다."
+  - "11/17 Responses API 공지: 새 모델(GPT-6.2 Astra·Sol 포함)은 Flex 처리를 지원하지 않는다. 대량·비동기 호출은 background 창(2시간·8시간)을 검토하며, 그 토큰 단가는 Standard보다 낮다. 실행 전에 처리 방식을 확인한다."
+  - "GPT-6 Astra·GPT-6.1 Sol의 API reasoning.effort는 low/medium/high/xhigh/max이며 none·minimal은 지원하지 않는다. GPT-6.1 Terra·기존 GPT-6 Sol·Luna는 none도 지원한다. Sol 계열·GPT-6.1 Terra·Luna의 기본은 medium이다. 프롬프트 문구만으로 실제 설정이 바뀌었다고 보고하지 않는다."
+  - "GPT-6 Astra·GPT-6.1 Sol·GPT-6.1 Terra의 툴 호출은 Responses API가 필요하며 Chat Completions에서는 툴을 사용할 수 없다. 기존 GPT-6 Sol·Luna의 Chat Completions 함수 호출은 reasoning_effort=none일 때만 지원한다."
   - "GPT-6.1 Terra는 이미지 입력·텍스트 출력 경로로 사용한다. 제품 사진·도면·화면 등 판단에 필요한 원본 자료와 기대 결과를 제공한다. 이미지에서 읽은 이름·수치·라벨을 자료와 대조하고 판독이 불명확하면 표시한다. GPT-5.6 Terra에서 이전할 때 같은 reasoning effort로 대표 이미지와 작업 흐름을 비교한다."
   - "gpt-6-cyber(2026-11-05, 취약점 조사·승인된 테스트 환경에서의 재현·수정 검증용, Daybreak Red 접근 승인과 조직·프로젝트 설정 필요)와 gpt-6-rosalind(2026-10-30, 생물학 추론·과학 도구 사용, trusted-access 승인 조직 한정)는 접근이 제한된 특수 목적 모델이다. 사용자가 이 모델과 접근 권한을 명시한 경우에만 타깃으로 삼고, 일반 보안·생명과학 요청을 이 모델로 자동 라우팅하지 않는다. 전용 프롬프팅 가이드는 확인되지 않아 공통 카드를 적용하며, 지원 effort 값은 문서에 없으므로 추정하지 않는다."
-  - "GPT-6 Sol에서 6.1 Sol로 이전할 때 none·minimal은 low부터 평가하고, 기존 툴 호출 경로와 sampling 설정을 확인한다. 추론 활성 상태에서는 temperature/top_p/top_logprobs를 제거한다."
+  - "GPT-6 Sol에서 6.1 Sol로 이전할 때 none·minimal은 low부터 평가하고, 기존 툴 호출 경로와 sampling 설정을 확인한다. GPT-6.1 Sol에서 6.2 Sol로 옮길 때는 instructions 위치와 대화 기록 편집 방식을 먼저 점검하고, 같은 대표 과제로 비교한다. 추론 활성 상태에서는 temperature/top_p/top_logprobs를 제거한다."
   - "속도가 중요하면 GPT-6.1 Sol의 Responses API에서 service_tier: ultrafast를 평가한다. 기본값으로 강제하지 않고 추가 비용과 결과 품질을 비교한다."
   - "목표·제약·완료 기준을 명확히 하고, 결과를 바꾸는 질문만 하도록 지정한다. 승인된 범위는 구현·검증까지 이어가도록 쓴다."
   - "AGENTS.md·스킬의 중복 지시와 충돌을 점검하고, 답변 길이·문체, 위임 조건, 변경 규모에 맞는 검증 범위를 명시한다."
@@ -22,7 +27,9 @@ template: |
 
   API 권고: model={model_variant}, reasoning.effort={supported_effort}
 pitfalls:
-  - "Astra·GPT-6.1 Sol에 none/minimal을 지정하거나 Codex 전용 effort를 API 지원값으로 가정하는 것"
+  - "GPT-6.2 Astra·Sol에 reasoning.effort none을 지정하는 것, 또는 6.1 Sol의 effort 목록을 6.2 지원값으로 가정하는 것"
+  - "재사용 지시를 top-level instructions에만 두어 캐시 대상에서 빠뜨리는 것"
+  - "GPT-6 Astra·GPT-6.1 Sol에 none/minimal을 지정하거나 Codex 전용 effort를 API 지원값으로 가정하는 것"
   - "GPT-6 Sol의 Chat Completions 함수 호출 설정을 GPT-6.1 Sol에 그대로 적용하는 것"
   - "GPT-6.1 Terra가 none을 지원한다는 이유로 Chat Completions 툴 호출도 가능하다고 가정하거나, 구형 GPT-5.6 Terra를 자동 교체하는 것"
   - "GPT-5.6 Sol 전용 카드를 GPT-6 Sol에 적용하는 것"
